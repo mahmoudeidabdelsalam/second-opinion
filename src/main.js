@@ -13,6 +13,9 @@ import vuetify from "./plugins/vuetify";
 // i18n
 import i18n from "./plugins/i18n";
 
+// axios config
+import axios from "./plugins/axios";
+
 import "./assets/style/main.scss";
 
 new Vue({
@@ -20,5 +23,6 @@ new Vue({
   store,
   vuetify,
   i18n,
+  axios,
   render: (h) => h(App),
 }).$mount("#app");
