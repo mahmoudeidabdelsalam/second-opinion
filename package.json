@@ -2,17 +2,18 @@
   "name": "second-opinion",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview --port 4173 --host",
     "test:unit": "vitest --environment jsdom",
     "test:e2e": "start-server-and-test preview http://localhost:4173/ 'cypress open --e2e'",
-    "test:e2e:ci": "start-server-and-test preview http://localhost:4173/ 'cypress run --e2e'",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "dev": "vite --host",
+    "preview": "vite preview --port 4173 --host",
+    "test:e2e:ci": "start-server-and-test preview http://localhost:4173/ 'cypress run --e2e'"
   },
   "dependencies": {
     "vue": "^2.7.7",
-    "vue-router": "^3.5.4"
+    "vue-router": "^3.5.4",
+    "vuetify": "^2.6.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
@@ -27,10 +28,13 @@
     "jsdom": "^20.0.0",
     "prettier": "^2.5.1",
     "sass": "^1.56.1",
+    "sass-loader": "^10.0.0",
     "start-server-and-test": "^1.14.0",
     "terser": "^5.14.2",
     "vite": "^3.0.2",
     "vitest": "^0.18.1",
-    "vue-template-compiler": "^2.7.7"
+    "vue-cli-plugin-vuetify": "~2.5.8",
+    "vue-template-compiler": "^2.7.7",
+    "vuetify-loader": "^1.7.0"
   }
 }
