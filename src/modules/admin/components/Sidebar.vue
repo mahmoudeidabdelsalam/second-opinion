@@ -2,7 +2,7 @@
   <aside class="sidebar white">
     <router-link
       :to="{ name: 'Home' }"
-      class="brand d-flex justify-center align-center pa-5 font-weight-bold primary--text text-h5 text-center"
+      class="brand d-flex justify-center align-center pa-5 font-weight-bold primary--text text-h6 text-center"
     >
       <img src="@/assets/images/logo.webp" alt="Vite Land logo" />
       <span class="mx-2">Second opinion</span>

@@ -39,7 +39,7 @@ export default {
   computed: {
     // map getters
     ...mapGetters({
-      systemDirection: "translations/systemDirection",
+      systemDirection: "translate/systemDirection",
     }),
   },
 };

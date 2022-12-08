@@ -92,9 +92,9 @@ export default {
     // map translate action
     ...mapActions({
       // translate action
-      translateAction: "translations/setSystemLanguage",
+      translateAction: "translate/setSystemLanguage",
       // change direction action
-      changeDirectionAction: "translations/setSystemDirection",
+      changeDirectionAction: "translate/setSystemDirection",
     }),
     // translate method
     translate(lang) {
