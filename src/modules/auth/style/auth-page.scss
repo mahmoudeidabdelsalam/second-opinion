@@ -1,0 +1,32 @@
+.auth-page {
+  background: linear-gradient(90deg, #307abe1f, #3e7ab1);
+  min-height: 100vh;
+
+  .main-box {
+    width: 80%;
+
+    @media (max-width: 575px) {
+      width: 90%;
+    }
+
+    .content {
+      padding: 80px 20px;
+
+      .v-text-field {
+        width: 350px;
+
+        @media (max-width: 575px) {
+          width: 100%;
+        }
+      }
+    }
+
+    .options {
+      width: 350px;
+
+      @media (max-width: 575px) {
+        width: 100%;
+      }
+    }
+  }
+}
