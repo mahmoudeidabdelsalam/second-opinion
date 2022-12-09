@@ -30,7 +30,7 @@
 // import mapGetters from vuex
 import { mapGetters } from "vuex";
 export default {
-  name: "AdminDashboard",
+  name: "Dashboard",
   components: {
     AdminHeader: () => import("../components/Header.vue"),
     Sidebar: () => import("../components/Sidebar.vue"),
@@ -46,5 +46,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../style/admin-dashboard.scss";
+@import "../style/dashboard.scss";
 </style>

@@ -4,13 +4,13 @@ import VueRouter from "vue-router";
 // auth routes
 import authRoutes from "@/modules/auth/auth.routes";
 
-// admin routes
-import adminRoutes from "@/modules/admin/admin.routes";
+// dashboard routes
+import dashboardRoutes from "@/modules/dashboard/dashboard.routes";
 
 Vue.use(VueRouter);
 
 const baseRoutes = [];
-const routes = baseRoutes.concat(authRoutes, adminRoutes);
+const routes = baseRoutes.concat(authRoutes, dashboardRoutes);
 
 const router = new VueRouter({
   mode: "history",
