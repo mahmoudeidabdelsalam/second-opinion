@@ -191,7 +191,7 @@
             {{ item.email }}
           </span>
           <span class="d-block black--text">
-            {{ item.phone }}
+            {{ item.telephone }}
           </span>
         </template>
 
@@ -221,6 +221,8 @@
 <script>
 import { mapGetters } from "vuex";
 
+import axios from "axios";
+
 export default {
   name: "Departments",
 
@@ -245,7 +247,7 @@ export default {
       en_description: "",
       ar_description: "",
       email: "",
-      phone: "",
+      telephone: "",
     },
     defaultItem: {
       en_name: "",
@@ -253,7 +255,7 @@ export default {
       en_description: "",
       ar_description: "",
       email: "",
-      phone: "",
+      telephone: "",
     },
   }),
 
@@ -290,15 +292,19 @@ export default {
     // init data
     initData() {
       setTimeout(() => {
-        this.desserts = [
-          {
-            id: 1,
-            name: "Mohamed Omar",
-            description: "test description",
-            email: "mohamed@gmail.com",
-            phone: "01201456635",
-          },
-        ];
+        axios
+          .get(
+            `https://staging.drhealthclinics.com/api/dashboard/departments`,
+            {
+              headers: {
+                Authorization: `Bearer 39|rc1ZRqvK6Ldwx5vZuLD8ue0VJ1BcwRwA5B4PnCWy`,
+              },
+            }
+          )
+          .then((response) => {
+            this.desserts = response.data.data;
+          });
+
         this.loaded = true;
       }, 0);
     },
@@ -311,7 +317,7 @@ export default {
           en_name: item.name,
           en_description: item.description,
           email: item.email,
-          phone: item.phone,
+          telephone: item.telephone,
         }
       );
       this.dialog = true;

@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 // login module
-import login from "@/modules/auth/login.store";
+import login from "@/modules/auth/store/login.store";
 
 // validation rules module
 import validationRules from "./validationRules.store";

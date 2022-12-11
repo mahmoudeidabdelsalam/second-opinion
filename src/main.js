@@ -6,6 +6,8 @@ import router from "./router";
 
 // vuex
 import store from "./store";
+// subscriber for store
+import "./modules/auth/store/subscriber";
 
 // vuetify
 import vuetify from "./plugins/vuetify";
@@ -16,6 +18,7 @@ import i18n from "./plugins/i18n";
 // axios config
 import axios from "./plugins/axios";
 
+// styles
 import "./assets/style/main.scss";
 
 new Vue({
