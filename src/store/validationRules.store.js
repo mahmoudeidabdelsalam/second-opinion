@@ -52,6 +52,9 @@ const state = () => ({
     (v) => (v && v.length > 2) || "Message must be at least 3 characters",
     (v) => (v && v.length < 255) || "Message must be less than 255 characters",
   ],
+
+  // select rules
+  selectRules: [(v) => !!v || "This field is required"],
 });
 
 // getters
@@ -79,6 +82,9 @@ const getters = {
 
   // message rules
   messageRules: (state) => state.messageRules,
+
+  // select rules
+  selectRules: (state) => state.selectRules,
 };
 
 export default {
