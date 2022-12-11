@@ -16,6 +16,14 @@ const state = () => ({
     (v) => /.+@.+\..+/.test(v) || "Email must be valid",
   ],
 
+  // phone rules
+  phoneRules: [
+    (v) => !!v || "Phone is required",
+    (v) => (v && v.length > 8) || "Phone must be at least 9 characters",
+    (v) => (v && v.length < 20) || "Phone must be less than 20 characters",
+    (v) => /^\d+$/.test(v) || "Phone must be a number",
+  ],
+
   // password rules
   passwordRules: [
     (v) => !!v || "Password is required",
@@ -28,6 +36,14 @@ const state = () => ({
     (v) =>
       (v && v.length > 5) ||
       "Password confirmation must be at least 6 characters",
+  ],
+
+  // description rules
+  descriptionRules: [
+    (v) => !!v || "Description is required",
+    (v) => (v && v.length > 2) || "Description must be at least 3 characters",
+    (v) =>
+      (v && v.length < 255) || "Description must be less than 255 characters",
   ],
 
   // message rules
@@ -49,11 +65,17 @@ const getters = {
   // email rules
   emailRules: (state) => state.emailRules,
 
+  // phone rules
+  phoneRules: (state) => state.phoneRules,
+
   // password rules
   passwordRules: (state) => state.passwordRules,
 
   // confirm password rules
   confirmPasswordRules: (state) => state.confirmPasswordRules,
+
+  // description rules
+  descriptionRules: (state) => state.descriptionRules,
 
   // message rules
   messageRules: (state) => state.messageRules,

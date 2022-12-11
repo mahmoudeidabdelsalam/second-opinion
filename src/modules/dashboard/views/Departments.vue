@@ -37,9 +37,65 @@
                       <v-row>
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.name"
+                            v-model="editedItem.en_name"
                             :rules="nameRules"
-                            label="Name"
+                            label="English name"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.ar_name"
+                            :rules="nameRules"
+                            label="Arabic name"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.en_description"
+                            :rules="descriptionRules"
+                            label="English description"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.ar_description"
+                            :rules="descriptionRules"
+                            label="Arabic description"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.email"
+                            :rules="emailRules"
+                            type="email"
+                            label="Email"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.phone"
+                            :rules="phoneRules"
+                            type="tel"
+                            label="Phone"
                             outlined
                             dense
                           ></v-text-field>
@@ -51,10 +107,12 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close">
+                  <v-btn color="secondary" depressed small @click="close">
                     Cancel
                   </v-btn>
-                  <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
+                  <v-btn color="primary" depressed small @click="save">
+                    Save
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -130,10 +188,10 @@
 
         <template v-slot:[`item.contacts`]="{ item }">
           <span class="d-block black--text">
-            {{ item.contacts.email }}
+            {{ item.email }}
           </span>
           <span class="d-block black--text">
-            {{ item.contacts.phone }}
+            {{ item.phone }}
           </span>
         </template>
 
@@ -182,18 +240,20 @@ export default {
     selected: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
-      contacts: {
-        email: "",
-        phone: "",
-      },
+      en_name: "",
+      ar_name: "",
+      en_description: "",
+      ar_description: "",
+      email: "",
+      phone: "",
     },
     defaultItem: {
-      name: "",
-      contacts: {
-        email: "",
-        phone: "",
-      },
+      en_name: "",
+      ar_name: "",
+      en_description: "",
+      ar_description: "",
+      email: "",
+      phone: "",
     },
   }),
 
@@ -205,6 +265,9 @@ export default {
     ...mapGetters({
       valid: "validationRules/valid",
       nameRules: "validationRules/nameRules",
+      descriptionRules: "validationRules/descriptionRules",
+      emailRules: "validationRules/emailRules",
+      phoneRules: "validationRules/phoneRules",
     }),
   },
 
@@ -212,6 +275,7 @@ export default {
     dialog(val) {
       val || this.close();
     },
+
     dialogDelete(val) {
       val || this.closeDelete();
     },
@@ -230,10 +294,9 @@ export default {
           {
             id: 1,
             name: "Mohamed Omar",
-            contacts: {
-              email: "mohamed@gmail.com",
-              phone: "01201456635",
-            },
+            description: "test description",
+            email: "mohamed@gmail.com",
+            phone: "01201456635",
           },
         ];
         this.loaded = true;
@@ -242,7 +305,15 @@ export default {
 
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.editedItem = Object.assign(
+        {},
+        {
+          en_name: item.name,
+          en_description: item.description,
+          email: item.email,
+          phone: item.phone,
+        }
+      );
       this.dialog = true;
     },
 
@@ -281,7 +352,7 @@ export default {
         this.close();
       } else {
         if (this.$refs.form.validate()) {
-          this.desserts.push(this.editedItem);
+          this.desserts.unshift(this.editedItem);
           this.close();
         }
       }
