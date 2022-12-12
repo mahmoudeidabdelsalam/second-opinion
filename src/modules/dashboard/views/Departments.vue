@@ -132,13 +132,13 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item link @click.prevent="initData">
+                <v-list-item link @click.prevent="initData('normal')">
                   <v-list-item-content>
                     <v-list-item-title>Departments only</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-list-item link @click.prevent="getTrashedData">
+                <v-list-item link @click.prevent="initData('trashed')">
                   <v-list-item-content>
                     <v-list-item-title>Trashed only</v-list-item-title>
                   </v-list-item-content>
@@ -274,7 +274,7 @@ export default {
 
   created() {
     // init data
-    this.initData();
+    this.initData(this.$route.query.trashed || "normal");
   },
 
   methods: {
@@ -284,20 +284,27 @@ export default {
     }),
 
     // init data
-    initData() {
+    initData(dataType) {
       setTimeout(() => {
-        this.getData("dashboard/departments").then((res) => {
-          this.desserts = res;
-        });
+        // check data type
+        if (dataType === "trashed") {
+          this.getData("dashboard/departments?removed=only").then((res) => {
+            this.desserts = res;
+          });
+
+          // update query params
+          this.$router.push({ query: { trashed: dataType } });
+        } else {
+          this.getData("dashboard/departments").then((res) => {
+            this.desserts = res;
+          });
+
+          // update query params
+          this.$router.push({ query: {} });
+        }
 
         this.loaded = true;
       }, 0);
-    },
-
-    getTrashedData() {
-      this.getData("dashboard/departments?removed=only").then((res) => {
-        this.desserts = res;
-      });
     },
 
     editItem(item) {
