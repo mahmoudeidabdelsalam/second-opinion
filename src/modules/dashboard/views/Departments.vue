@@ -132,13 +132,13 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item link>
+                <v-list-item link @click.prevent="initData">
                   <v-list-item-content>
                     <v-list-item-title>Departments only</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-list-item link>
+                <v-list-item link @click.prevent="getTrashedData">
                   <v-list-item-content>
                     <v-list-item-title>Trashed only</v-list-item-title>
                   </v-list-item-content>
@@ -294,17 +294,15 @@ export default {
       }, 0);
     },
 
+    getTrashedData() {
+      this.getData("dashboard/departments?removed=only").then((res) => {
+        this.desserts = res;
+      });
+    },
+
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign(
-        {},
-        {
-          en_name: item.name,
-          en_description: item.description,
-          email: item.email,
-          telephone: item.telephone,
-        }
-      );
+      this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
