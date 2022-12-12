@@ -5,7 +5,7 @@ import axios from "axios";
 import i18n from "./i18n";
 
 // axios config
-axios.defaults.baseURL = "api_url";
+axios.defaults.baseURL = "https://staging.drhealthclinics.com/api/";
 axios.defaults.headers.common["lang"] = i18n.locale;
 
 export default axios;

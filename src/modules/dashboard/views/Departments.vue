@@ -4,7 +4,6 @@
       <v-data-table
         v-model="selected"
         :headers="headers"
-        :items="desserts"
         :single-select="singleSelect"
         item-key="id"
         show-select
@@ -128,32 +127,23 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  Export
+                  Filter
                 </v-btn>
               </template>
               <v-list>
                 <v-list-item link>
-                  <v-list-item-icon>
-                    <v-icon>mdi-tray-arrow-down</v-icon>
-                  </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title>Export to excel</v-list-item-title>
+                    <v-list-item-title>Departments only</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item link>
-                  <v-list-item-icon>
-                    <v-icon>mdi-tray-arrow-down</v-icon>
-                  </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title>Export to pdf</v-list-item-title>
+                    <v-list-item-title>With trashed</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
             </v-menu>
-
-            <!-- import btn -->
-            <v-btn color="primary" dark depressed>Import</v-btn>
 
             <!-- delete item -->
             <v-dialog v-model="dialogDelete" max-width="500px">
@@ -219,9 +209,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
-import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Departments",
@@ -289,21 +277,14 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      getData: "crudOperations/getData",
+    }),
+
     // init data
     initData() {
       setTimeout(() => {
-        axios
-          .get(
-            `https://staging.drhealthclinics.com/api/dashboard/departments`,
-            {
-              headers: {
-                Authorization: `Bearer 39|rc1ZRqvK6Ldwx5vZuLD8ue0VJ1BcwRwA5B4PnCWy`,
-              },
-            }
-          )
-          .then((response) => {
-            this.desserts = response.data.data;
-          });
+        this.desserts = this.getData("dashboard/departments");
 
         this.loaded = true;
       }, 0);
