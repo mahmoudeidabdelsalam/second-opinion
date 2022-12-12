@@ -100,6 +100,15 @@
                             dense
                           ></v-text-field>
                         </v-col>
+
+                        <v-col cols="12" md="6">
+                          <file-pond
+                            ref="pond"
+                            label-idle="Drag & Drop your files or <span class='filepond--label-action'> Browse </span>"
+                            accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
+                            @addfile="onAddFile"
+                          />
+                        </v-col>
                       </v-row>
                     </v-container>
                   </v-form>
@@ -212,8 +221,30 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
+// Import Vue FilePond
+import vueFilePond from "vue-filepond";
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+// Import FilePond plugins
+// Please note that you need to install these plugins separately
+// Import image preview plugin styles
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+// Import image preview and file type validation plugins
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+// Create component
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+);
+
 export default {
   name: "Departments",
+
+  components: {
+    FilePond,
+  },
 
   data: () => ({
     loaded: false,
@@ -237,6 +268,7 @@ export default {
       ar_description: "",
       email: "",
       telephone: "",
+      image: "",
     },
     defaultItem: {
       en_name: "",
@@ -245,6 +277,7 @@ export default {
       ar_description: "",
       email: "",
       telephone: "",
+      image: "",
     },
   }),
 
@@ -308,6 +341,12 @@ export default {
       }, 0);
     },
 
+    // handle image
+    onAddFile(error, file) {
+      console.log("file added", { error, file });
+      this.editedItem.image = file.file;
+    },
+
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -361,6 +400,7 @@ export default {
           data.append("description[ar]", this.editedItem.ar_description);
           data.append("email", this.editedItem.email);
           data.append("telephone", this.editedItem.telephone);
+          data.append("image", this.editedItem.image);
 
           this.addData({
             url: "dashboard/departments",
