@@ -4,9 +4,25 @@ import axios from "axios";
 // actions
 const actions = {
   // getData
-  async getData(_, credentials) {
-    await axios
-      .get(credentials)
+  async getData(_, apiUrl) {
+    return await axios
+      .get(apiUrl)
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
+      });
+  },
+
+  // deleteData
+  async deleteData(_, data) {
+    return await axios
+      .delete(data.url + "/" + data.id)
       .then((response) => {
         // show notification
         this.dispatch("notifications/showNotification", {

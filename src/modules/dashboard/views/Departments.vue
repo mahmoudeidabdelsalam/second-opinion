@@ -4,6 +4,7 @@
       <v-data-table
         v-model="selected"
         :headers="headers"
+        :items="desserts"
         :single-select="singleSelect"
         item-key="id"
         show-select
@@ -139,7 +140,7 @@
 
                 <v-list-item link>
                   <v-list-item-content>
-                    <v-list-item-title>With trashed</v-list-item-title>
+                    <v-list-item-title>Trashed only</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -279,12 +280,15 @@ export default {
   methods: {
     ...mapActions({
       getData: "crudOperations/getData",
+      deleteData: "crudOperations/deleteData",
     }),
 
     // init data
     initData() {
       setTimeout(() => {
-        this.desserts = this.getData("dashboard/departments");
+        this.getData("dashboard/departments").then((res) => {
+          this.desserts = res;
+        });
 
         this.loaded = true;
       }, 0);
@@ -311,8 +315,13 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
-      this.closeDelete();
+      this.deleteData({
+        url: "dashboard/departments",
+        id: this.editedItem.id,
+      }).then(() => {
+        this.desserts.splice(this.editedIndex, 1);
+        this.closeDelete();
+      });
     },
 
     close() {
