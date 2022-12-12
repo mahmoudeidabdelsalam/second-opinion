@@ -92,7 +92,7 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.phone"
+                            v-model="editedItem.telephone"
                             :rules="phoneRules"
                             type="tel"
                             label="Phone"
@@ -280,6 +280,7 @@ export default {
   methods: {
     ...mapActions({
       getData: "crudOperations/getData",
+      addData: "crudOperations/addData",
       deleteData: "crudOperations/deleteData",
     }),
 
@@ -353,7 +354,21 @@ export default {
         this.close();
       } else {
         if (this.$refs.form.validate()) {
-          this.desserts.unshift(this.editedItem);
+          let data = new FormData();
+          data.append("name:en", this.editedItem.en_name);
+          data.append("name:ar", this.editedItem.ar_name);
+          data.append("description[en]", this.editedItem.en_description);
+          data.append("description[ar]", this.editedItem.ar_description);
+          data.append("email", this.editedItem.email);
+          data.append("telephone", this.editedItem.telephone);
+
+          this.addData({
+            url: "dashboard/departments",
+            data: data,
+          }).then((res) => {
+            console.log(res);
+            this.desserts.unshift(res);
+          });
           this.close();
         }
       }
