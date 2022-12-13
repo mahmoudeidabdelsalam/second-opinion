@@ -182,8 +182,15 @@
 
         <template v-slot:[`item.name`]="{ item }">
           <div class="d-flex justify-start align-center">
-            <v-avatar class="mr-4">
-              <img :src="item.logo" :alt="item.name" />
+            <v-avatar class="mr-4" size="50">
+              <v-img
+                cover
+                :lazy-src="item.logo"
+                max-height="50"
+                max-width="50"
+                :src="item.logo"
+                :alt="item.name"
+              ></v-img>
             </v-avatar>
             <span class="d-block black--text font-weight-bold">
               {{ item.name }}
