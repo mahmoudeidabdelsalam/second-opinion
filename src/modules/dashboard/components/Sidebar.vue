@@ -4,8 +4,8 @@
       :to="{ name: 'Home' }"
       class="brand d-flex justify-center align-center pa-5 font-weight-bold primary--text text-h6 text-center"
     >
-      <img src="@/assets/images/logo.webp" alt="Second opinion logo" />
-      <span class="mx-2">Second opinion</span>
+      <img src="@/assets/images/logo.webp" alt="Top Doctors logo" />
+      <span class="mx-2">Top Doctors</span>
     </router-link>
 
     <span class="d-block pa-5 font-weight-bold black--text">Menu</span>

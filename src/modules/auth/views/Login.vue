@@ -8,7 +8,7 @@
               class="font-weight-black text-h4 mb-5"
               :to="{ name: 'Home' }"
             >
-              Second opinion
+              Top Doctors
             </router-link>
 
             <p class="font-weight-regular text--secondary text-center mb-4">
@@ -20,7 +20,7 @@
                 v-model="form.email"
                 :rules="emailRules"
                 type="email"
-                label="E-mail"
+                label="Email"
                 outlined
                 dense
               ></v-text-field>
@@ -75,8 +75,8 @@ export default {
   data: () => ({
     // login form data
     form: {
-      email: "",
-      password: "",
+      email: "admin@gmail.com",
+      password: "password",
     },
   }),
   computed: {

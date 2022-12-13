@@ -1,5 +1,5 @@
 {
-  "name": "second-opinion",
+  "name": "top-doctors",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host",
