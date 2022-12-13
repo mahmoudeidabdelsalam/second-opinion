@@ -44,7 +44,7 @@ const actions = {
   // updateData
   async updateData(_, data) {
     return await axios
-      .put(data.url, data.data)
+      .post(data.url, data.data)
       .then((response) => {
         // show notification
         this.dispatch("notifications/showNotification", {

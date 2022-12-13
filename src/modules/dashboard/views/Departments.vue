@@ -208,7 +208,7 @@
         </template>
 
         <template v-slot:[`item.services`]="{ item }">
-          <v-btn class="primary--text" icon link :to="{ name: item.id }">
+          <v-btn class="primary--text" icon link :to="{ name: 'Departments' }">
             <v-icon small>mdi-launch</v-icon>
           </v-btn>
         </template>
@@ -274,6 +274,7 @@ export default {
     selected: [],
     editedIndex: -1,
     editedItem: {
+      id: "",
       en_name: "",
       ar_name: "",
       en_description: "",
@@ -283,6 +284,7 @@ export default {
       image: "",
     },
     defaultItem: {
+      id: "",
       en_name: "",
       ar_name: "",
       en_description: "",
@@ -326,6 +328,7 @@ export default {
     ...mapActions({
       getData: "crudOperations/getData",
       addData: "crudOperations/addData",
+      updateData: "crudOperations/updateData",
       deleteData: "crudOperations/deleteData",
     }),
 
@@ -364,13 +367,14 @@ export default {
       this.editedItem = Object.assign(
         {},
         {
+          id: item.id,
           en_name: item.name,
           ar_name: item.name,
           en_description: item.description,
           ar_description: item.description,
           email: item.email,
           telephone: item.telephone,
-          image: item.image,
+          image: item.logo,
         }
       );
       this.dialog = true;
@@ -412,7 +416,7 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        let data = new URLSearchParams();
+        let data = new FormData();
         data.append("name:en", this.editedItem.en_name);
         data.append("name:ar", this.editedItem.ar_name);
         data.append("description[en]", this.editedItem.en_description);
@@ -420,12 +424,12 @@ export default {
         data.append("email", this.editedItem.email);
         data.append("telephone", this.editedItem.telephone);
         data.append("image", this.editedItem.image);
+        data.append("_method", "PUT");
 
         this.updateData({
-          url: "dashboard/departments",
+          url: `dashboard/departments/${this.editedItem.id}`,
           data: data,
         }).then((res) => {
-          console.log(res);
           Object.assign(this.desserts[this.editedIndex], res);
         });
 
