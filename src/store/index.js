@@ -4,6 +4,9 @@ import Vuex from "vuex";
 // login module
 import login from "@/modules/auth/store/login.store";
 
+// user module
+import user from "@/modules/auth/store/user.store";
+
 // validation rules module
 import validationRules from "./validationRules.store";
 
@@ -21,6 +24,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     login,
+    user,
     validationRules,
     translate,
     crudOperations,

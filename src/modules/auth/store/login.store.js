@@ -7,22 +7,25 @@ import router from "@/router";
 const actions = {
   // login
   async login({ dispatch }, credentials) {
-    let response = await axios.post("login", credentials).catch((error) => {
-      // show error notification
-      this.dispatch("notifications/showNotification", {
-        message: error.response.data.message,
-        color: "red",
+    await axios
+      .post("auth/login", credentials)
+      .then((response) => {
+        // attempt to login and set token
+        dispatch("attemptLogin", response.data.data.token);
+
+        // show notification
+        this.dispatch("notifications/showNotification", {
+          message: response.data.message,
+          color: "green",
+        });
+      })
+      .catch((error) => {
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
       });
-    });
-
-    // attempt to login and set token
-    dispatch("attemptLogin", response.data.data.token);
-
-    // show notification
-    this.dispatch("notifications/showNotification", {
-      message: response.data.message,
-      color: "green",
-    });
   },
 
   // attempt to login
@@ -96,6 +99,7 @@ const actions = {
 const mutations = {
   // set token in user module
   SET_TOKEN(_, token) {
+    console.log(token);
     this.state.user.token = token;
   },
 
