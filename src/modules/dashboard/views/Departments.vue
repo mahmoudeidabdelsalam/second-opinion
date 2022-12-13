@@ -181,9 +181,14 @@
         </template>
 
         <template v-slot:[`item.name`]="{ item }">
-          <span class="d-block black--text font-weight-bold">
-            {{ item.name }}
-          </span>
+          <div class="d-flex justify-start align-center">
+            <v-avatar class="mr-4">
+              <img :src="item.logo" :alt="item.name" />
+            </v-avatar>
+            <span class="d-block black--text font-weight-bold">
+              {{ item.name }}
+            </span>
+          </div>
         </template>
 
         <template v-slot:[`item.contacts`]="{ item }">
@@ -251,7 +256,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "Name", value: "name" },
+      { text: "Department", value: "name" },
       { text: "Contacts", value: "contacts" },
       { text: "Services", value: "services", sortable: false },
       { text: "Actions", value: "actions", sortable: false },
@@ -349,7 +354,18 @@ export default {
 
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.editedItem = Object.assign(
+        {},
+        {
+          en_name: item.name,
+          ar_name: item.name,
+          en_description: item.description,
+          ar_description: item.description,
+          email: item.email,
+          telephone: item.telephone,
+          image: item.image,
+        }
+      );
       this.dialog = true;
     },
 
@@ -375,7 +391,7 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
-      // reset validation
+      // reset form validation
       this.$refs.form.resetValidation();
     },
 
@@ -389,7 +405,23 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        let data = new URLSearchParams();
+        data.append("name:en", this.editedItem.en_name);
+        data.append("name:ar", this.editedItem.ar_name);
+        data.append("description[en]", this.editedItem.en_description);
+        data.append("description[ar]", this.editedItem.ar_description);
+        data.append("email", this.editedItem.email);
+        data.append("telephone", this.editedItem.telephone);
+        data.append("image", this.editedItem.image);
+
+        this.updateData({
+          url: "dashboard/departments",
+          data: data,
+        }).then((res) => {
+          console.log(res);
+          Object.assign(this.desserts[this.editedIndex], res);
+        });
+
         this.close();
       } else {
         if (this.$refs.form.validate()) {
@@ -409,6 +441,7 @@ export default {
             console.log(res);
             this.desserts.unshift(res);
           });
+
           this.close();
         }
       }

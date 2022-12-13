@@ -40,7 +40,6 @@ const state = () => ({
 
   // description rules
   descriptionRules: [
-    (v) => !!v || "Description is required",
     (v) => (v && v.length > 2) || "Description must be at least 3 characters",
     (v) =>
       (v && v.length < 255) || "Description must be less than 255 characters",
