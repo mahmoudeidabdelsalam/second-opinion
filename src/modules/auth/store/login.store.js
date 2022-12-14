@@ -40,7 +40,7 @@ const actions = {
 
     try {
       // try to fetch user
-      let response = await axios.get("profile");
+      let response = await axios.get("auth/profile");
       // set user
       commit("SET_USER", response.data.data);
 
@@ -83,7 +83,7 @@ const actions = {
 
     try {
       // try to fetch user
-      let response = await axios.get("profile");
+      let response = await axios.get("auth/profile");
       // set user
       commit("SET_USER", response.data.data);
     } catch (e) {

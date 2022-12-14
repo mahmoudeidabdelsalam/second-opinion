@@ -21,11 +21,13 @@ import axios from "./plugins/axios";
 // styles
 import "./assets/style/main.scss";
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  i18n,
-  axios,
-  render: (h) => h(App),
-}).$mount("#app");
+store.dispatch("login/checkIsLogin", localStorage.getItem("token")).then(() => {
+  new Vue({
+    router,
+    store,
+    vuetify,
+    i18n,
+    axios,
+    render: (h) => h(App),
+  }).$mount("#app");
+});
