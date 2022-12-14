@@ -87,7 +87,7 @@
 // import mapActions from vuex
 import { mapActions } from "vuex";
 export default {
-  name: "AdminHeader",
+  name: "DashboardHeader",
   methods: {
     // map translate action
     ...mapActions({

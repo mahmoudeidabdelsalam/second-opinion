@@ -1,5 +1,5 @@
 <template>
-  <v-app class="admin-dashboard secondary_bg">
+  <v-app class="dashboard secondary_bg">
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -17,7 +17,7 @@
 
       <v-spacer />
 
-      <admin-header />
+      <dashboard-header />
     </v-app-bar>
 
     <v-main class="pa-4">
@@ -32,7 +32,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Dashboard",
   components: {
-    AdminHeader: () => import("../components/Header.vue"),
+    DashboardHeader: () => import("../components/Header.vue"),
     Sidebar: () => import("../components/Sidebar.vue"),
   },
   data: () => ({ drawer: null }),

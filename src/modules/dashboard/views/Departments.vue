@@ -374,7 +374,6 @@ export default {
           ar_description: item.description,
           email: item.email,
           telephone: item.telephone,
-          image: item.logo,
         }
       );
       this.dialog = true;
@@ -414,7 +413,7 @@ export default {
       });
     },
 
-    save() {
+    async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
         data.append("name:en", this.editedItem.en_name);
@@ -423,17 +422,18 @@ export default {
         data.append("description[ar]", this.editedItem.ar_description);
         data.append("email", this.editedItem.email);
         data.append("telephone", this.editedItem.telephone);
-        data.append("image", this.editedItem.image);
+        this.editedItem.image
+          ? data.append("image", this.editedItem.image)
+          : "";
         data.append("_method", "PUT");
 
-        this.updateData({
+        await this.updateData({
           url: `dashboard/departments/${this.editedItem.id}`,
           data: data,
         }).then((res) => {
           Object.assign(this.desserts[this.editedIndex], res);
+          this.close();
         });
-
-        this.close();
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
