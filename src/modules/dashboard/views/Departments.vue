@@ -328,6 +328,7 @@ export default {
     ...mapActions({
       getData: "crudOperations/getData",
       addData: "crudOperations/addData",
+      bindData: "crudOperations/bindData",
       updateData: "crudOperations/updateData",
       deleteData: "crudOperations/deleteData",
     }),
@@ -374,6 +375,23 @@ export default {
 
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
+
+      // get single item data from show api
+      this.getData(`dashboard/departments/${item.id}`).then((res) => {
+        this.editedItem = Object.assign(
+          {},
+          {
+            id: res.id,
+            en_name: res.en.name,
+            ar_name: res.ar.name,
+            en_description: res.en.description,
+            ar_description: res.ar.description,
+            email: res.email,
+            telephone: res.telephone,
+          }
+        );
+      });
+
       this.editedItem = Object.assign(
         {},
         {
