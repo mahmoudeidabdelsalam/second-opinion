@@ -207,7 +207,7 @@
           </span>
         </template>
 
-        <template v-slot:[`item.services`]="{ item }">
+        <template v-slot:[`item.services`]="{}">
           <v-btn class="primary--text" icon link :to="{ name: 'Departments' }">
             <v-icon small>mdi-launch</v-icon>
           </v-btn>
@@ -342,14 +342,24 @@ export default {
           });
 
           // update query params
-          this.$router.push({ query: { trashed: dataType } });
+          this.$router
+            .push({
+              name: "Departments",
+              query: { trashed: dataType },
+            })
+            .catch(() => {});
         } else {
           this.getData("dashboard/departments").then((res) => {
             this.desserts = res;
           });
 
           // update query params
-          this.$router.push({ query: {} });
+          this.$router
+            .push({
+              name: "Departments",
+              query: {},
+            })
+            .catch(() => {});
         }
 
         this.loaded = true;
