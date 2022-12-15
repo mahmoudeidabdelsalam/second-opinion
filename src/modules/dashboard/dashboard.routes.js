@@ -22,11 +22,18 @@ let routes = [
       },
 
       // employees
-      // {
-      //   path: "employees",
-      //   name: "Employees",
-      //   component: () => import("@/modules/dashboard/views/Employees.vue"),
-      // },
+      {
+        path: "employees",
+        name: "Employees",
+        component: () => import("@/modules/dashboard/views/Employees.vue"),
+      },
+
+      // doctors
+      {
+        path: "doctors",
+        name: "Doctors",
+        component: () => import("@/modules/dashboard/views/Doctors.vue"),
+      },
     ],
   },
 ];
