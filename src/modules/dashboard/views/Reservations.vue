@@ -177,18 +177,66 @@
         </template>
 
         <template v-slot:[`item.patient`]="{ item }">
-          <span class="d-block black--text">
+          <span
+            class="d-block black--text"
+            v-if="item.patient && item.patient.full_name"
+          >
             {{ item.patient.full_name }}
           </span>
-          <span class="d-block black--text">
+          <span
+            class="d-block black--text"
+            v-if="item.patient && item.patient.email"
+          >
             {{ item.patient.email }}
           </span>
-          <span class="d-block black--text">
+          <span
+            class="d-block black--text"
+            v-if="item.patient && item.patient.phone_number"
+          >
             {{ item.patient.phone_number }}
           </span>
-          <span class="d-block black--text">
+          <span
+            class="d-block black--text"
+            v-if="item.patient && item.patient.gender"
+          >
             {{ item.patient.gender }}
           </span>
+        </template>
+
+        <template v-slot:[`item.doctor`]="{ item }">
+          <div class="d-flex justify-start align-center">
+            <v-avatar class="mr-4" size="50">
+              <v-img
+                cover
+                :lazy-src="item.doctor.profile"
+                max-height="50"
+                max-width="50"
+                :src="item.doctor.profile"
+                :alt="item.doctor.full_name"
+                v-if="item.doctor && item.doctor.profile"
+              ></v-img>
+            </v-avatar>
+            <div>
+              <span
+                class="d-block black--text font-weight-bold"
+                v-if="item.doctor && item.doctor.full_name"
+              >
+                {{ item.doctor.full_name }}
+              </span>
+              <span
+                class="d-block black--text"
+                v-if="item.doctor && item.doctor.email"
+              >
+                {{ item.doctor.email }}
+              </span>
+              <span
+                class="d-block black--text"
+                v-if="item.doctor && item.doctor.work_phone"
+              >
+                {{ item.doctor.work_phone }}
+              </span>
+            </div>
+          </div>
         </template>
 
         <template v-slot:[`item.time`]="{ item }">
@@ -235,6 +283,7 @@ export default {
     headers: [
       { text: "Reservation", value: "name", width: "200" },
       { text: "Patient", value: "patient" },
+      { text: "Doctor", value: "doctor" },
       { text: "Time", value: "time" },
       { text: "Type", value: "type" },
       { text: "Status", value: "status" },
