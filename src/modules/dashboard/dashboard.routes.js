@@ -48,6 +48,13 @@ let routes = [
         name: "Patients",
         component: () => import("@/modules/dashboard/views/Patients.vue"),
       },
+
+      // reservations
+      {
+        path: "reservations",
+        name: "Reservations",
+        component: () => import("@/modules/dashboard/views/Reservations.vue"),
+      },
     ],
   },
 ];

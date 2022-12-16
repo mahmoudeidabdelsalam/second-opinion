@@ -76,6 +76,19 @@
           <v-list-item-title>Patients</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item
+        link
+        :to="{ name: 'Reservations' }"
+        active-class="primary--text"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-timetable</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Reservations</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </aside>
 </template>
