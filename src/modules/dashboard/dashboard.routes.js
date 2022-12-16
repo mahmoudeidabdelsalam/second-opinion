@@ -41,6 +41,13 @@ let routes = [
         name: "Roles",
         component: () => import("@/modules/dashboard/views/Roles.vue"),
       },
+
+      // patients
+      {
+        path: "patients",
+        name: "Patients",
+        component: () => import("@/modules/dashboard/views/Patients.vue"),
+      },
     ],
   },
 ];

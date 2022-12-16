@@ -67,6 +67,15 @@
           <v-list-item-title>Roles</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item link :to="{ name: 'Patients' }" active-class="primary--text">
+        <v-list-item-icon>
+          <v-icon>mdi-account-group</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Patients</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </aside>
 </template>
