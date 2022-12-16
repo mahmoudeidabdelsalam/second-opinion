@@ -54,6 +54,19 @@ const state = () => ({
 
   // select rules
   selectRules: [(v) => !!v || "This field is required"],
+
+  // number rules
+  numberRules: [
+    (v) => !!v || "Field is required",
+    (v) => /^\d+$/.test(v) || "Field must be a number",
+  ],
+
+  // nationalIdRules rules
+  nationalIdRules: [
+    (v) => !!v || "National ID is required",
+    (v) => (v && v.length == 13) || "National ID must be 13 characters",
+    (v) => /^\d+$/.test(v) || "National ID must be a number",
+  ],
 });
 
 // getters
@@ -84,6 +97,12 @@ const getters = {
 
   // select rules
   selectRules: (state) => state.selectRules,
+
+  // number rules
+  numberRules: (state) => state.numberRules,
+
+  // national id rules
+  nationalIdRules: (state) => state.nationalIdRules,
 };
 
 export default {

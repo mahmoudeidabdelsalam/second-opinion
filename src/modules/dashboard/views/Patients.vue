@@ -37,9 +37,9 @@
                       <v-row>
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.en_name"
+                            v-model="editedItem.first_name"
                             :rules="nameRules"
-                            label="English name"
+                            label="First name"
                             outlined
                             dense
                           ></v-text-field>
@@ -47,26 +47,86 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.ar_name"
+                            v-model="editedItem.last_name"
                             :rules="nameRules"
-                            label="Arabic name"
+                            label="Last name"
                             outlined
                             dense
                           ></v-text-field>
                         </v-col>
 
-                        <v-col
-                          cols="12"
-                          sm="6"
-                          md="4"
-                          v-for="permission in permissions"
-                          :key="permission.id"
-                        >
-                          <v-checkbox
-                            v-model="editedItem.permissions"
-                            :label="permission.name"
-                            :value="permission.id"
-                          ></v-checkbox>
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.email"
+                            :rules="emailRules"
+                            type="email"
+                            label="Email"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.phone_number"
+                            :rules="phoneRules"
+                            type="tel"
+                            label="Phone number"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.national_id"
+                            :rules="nationalIdRules"
+                            type="number"
+                            label="National ID"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-select
+                            v-model="editedItem.gender"
+                            :items="genders"
+                            :rules="selectRules"
+                            label="Gender"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-menu
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="editedItem.birthday"
+                                label="Birthday"
+                                append-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                clearable
+                                required
+                                outlined
+                                dense
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="editedItem.birthday"
+                              @input="menu = false"
+                            ></v-date-picker>
+                          </v-menu>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -166,8 +226,11 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
-    // permissions
-    permissions: [],
+    // genders
+    genders: [
+      { text: "Male", value: "m" },
+      { text: "Female", value: "f" },
+    ],
     // selected rows
     singleSelect: false,
     selected: [],
@@ -176,12 +239,24 @@ export default {
       id: "",
       first_name: "",
       last_name: "",
+      email: "",
+      phone_number: "",
+      national_id: "",
+      gender: "",
+      birthday: "",
     },
     defaultItem: {
       id: "",
       first_name: "",
       last_name: "",
+      email: "",
+      phone_number: "",
+      national_id: "",
+      gender: "",
+      birthday: "",
     },
+    // date picker
+    menu: false,
   }),
 
   computed: {
@@ -192,9 +267,11 @@ export default {
     ...mapGetters({
       valid: "validationRules/valid",
       nameRules: "validationRules/nameRules",
-      descriptionRules: "validationRules/descriptionRules",
       emailRules: "validationRules/emailRules",
       phoneRules: "validationRules/phoneRules",
+      selectRules: "validationRules/selectRules",
+      numberRules: "validationRules/numberRules",
+      nationalIdRules: "validationRules/nationalIdRules",
     }),
   },
 
