@@ -34,6 +34,13 @@ let routes = [
         name: "Doctors",
         component: () => import("@/modules/dashboard/views/Doctors.vue"),
       },
+
+      // roles
+      {
+        path: "roles",
+        name: "Roles",
+        component: () => import("@/modules/dashboard/views/Roles.vue"),
+      },
     ],
   },
 ];
