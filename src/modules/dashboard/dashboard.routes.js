@@ -21,6 +21,13 @@ let routes = [
         component: () => import("@/modules/dashboard/views/Departments.vue"),
       },
 
+      // services
+      {
+        path: "services",
+        name: "Services",
+        component: () => import("@/modules/dashboard/views/Services.vue"),
+      },
+
       // employees
       // {
       //   path: "employees",
