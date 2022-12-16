@@ -19,7 +19,7 @@
               Roles
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="800px">
+            <v-dialog v-model="dialog" max-width="800px" scrollable>
               <template v-slot:activator="{ on, attrs }">
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
@@ -55,59 +55,18 @@
                           ></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.en_description"
-                            :rules="descriptionRules"
-                            label="English description"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.ar_description"
-                            :rules="descriptionRules"
-                            label="Arabic description"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.email"
-                            :rules="emailRules"
-                            type="email"
-                            label="Email"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.telephone"
-                            :rules="phoneRules"
-                            type="tel"
-                            label="Phone"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <file-pond
-                            ref="pond"
-                            label-idle="Drag & Drop your files or <span class='filepond--label-action'> Browse </span>"
-                            accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
-                            @addfile="onAddFile"
-                          />
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                          v-for="permission in permissions"
+                          :key="permission.id"
+                        >
+                          <v-checkbox
+                            v-model="editedItem.permissions"
+                            :label="permission.name"
+                            :value="permission.id"
+                          ></v-checkbox>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -152,21 +111,9 @@
         </template>
 
         <template v-slot:[`item.name`]="{ item }">
-          <div class="d-flex justify-start align-center">
-            <v-avatar class="mr-4" size="50">
-              <v-img
-                cover
-                :lazy-src="item.logo"
-                max-height="50"
-                max-width="50"
-                :src="item.logo"
-                :alt="item.name"
-              ></v-img>
-            </v-avatar>
-            <span class="d-block black--text font-weight-bold">
-              {{ item.name }}
-            </span>
-          </div>
+          <span class="d-block black--text font-weight-bold">
+            {{ item.name }}
+          </span>
         </template>
 
         <template v-slot:[`item.actions`]="{ item }">
@@ -190,30 +137,8 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-// Import Vue FilePond
-import vueFilePond from "vue-filepond";
-// Import FilePond styles
-import "filepond/dist/filepond.min.css";
-// Import FilePond plugins
-// Please note that you need to install these plugins separately
-// Import image preview plugin styles
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
-// Import image preview and file type validation plugins
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-
-// Create component
-const FilePond = vueFilePond(
-  FilePondPluginFileValidateType,
-  FilePondPluginImagePreview
-);
-
 export default {
   name: "Roles",
-
-  components: {
-    FilePond,
-  },
 
   data: () => ({
     loaded: false,
@@ -225,6 +150,8 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
+    // permissions
+    permissions: [],
     // selected rows
     singleSelect: false,
     selected: [],
@@ -233,21 +160,13 @@ export default {
       id: "",
       en_name: "",
       ar_name: "",
-      en_description: "",
-      ar_description: "",
-      email: "",
-      telephone: "",
-      image: "",
+      permissions: [],
     },
     defaultItem: {
       id: "",
       en_name: "",
       ar_name: "",
-      en_description: "",
-      ar_description: "",
-      email: "",
-      telephone: "",
-      image: "",
+      permissions: [],
     },
   }),
 
@@ -277,34 +196,32 @@ export default {
 
   created() {
     // init data
-    this.initData(this.$route.query.trashed || "normal");
+    this.initData();
   },
 
   methods: {
     ...mapActions({
       getData: "crudOperations/getData",
       addData: "crudOperations/addData",
-      bindData: "crudOperations/bindData",
       updateData: "crudOperations/updateData",
       deleteData: "crudOperations/deleteData",
-      restoreData: "crudOperations/restoreData",
     }),
 
     // init data
     initData() {
       setTimeout(() => {
-        this.getData("dashboard/roles?removed=only").then((res) => {
+        // get roles
+        this.getData("dashboard/roles").then((res) => {
           this.desserts = res;
         });
 
         this.loaded = true;
-      }, 0);
-    },
 
-    // handle image
-    onAddFile(error, file) {
-      console.log("file added", { error, file });
-      this.editedItem.image = file.file;
+        // get roles
+        this.getData("dashboard/permissions").then((res) => {
+          this.permissions = res;
+        });
+      }, 0);
     },
 
     editItem(item) {
@@ -316,28 +233,13 @@ export default {
           {},
           {
             id: res.id,
-            en_name: res.en.name,
-            ar_name: res.ar.name,
-            en_description: res.en.description,
-            ar_description: res.ar.description,
-            email: res.email,
-            telephone: res.telephone,
+            en_name: res.en.display_name,
+            ar_name: res.ar.display_name,
+            permissions: res.permissions.map((item) => item.id),
           }
         );
       });
 
-      this.editedItem = Object.assign(
-        {},
-        {
-          id: item.id,
-          en_name: item.name,
-          ar_name: item.name,
-          en_description: item.description,
-          ar_description: item.description,
-          email: item.email,
-          telephone: item.telephone,
-        }
-      );
       this.dialog = true;
     },
 
@@ -354,22 +256,6 @@ export default {
       }).then(() => {
         this.desserts.splice(this.editedIndex, 1);
         this.closeDelete();
-      });
-    },
-
-    restoreItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogRestore = true;
-    },
-
-    restoreItemConfirm() {
-      this.restoreData({
-        url: "dashboard/trashed-roles",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeRestore();
       });
     },
 
@@ -391,26 +277,14 @@ export default {
       });
     },
 
-    closeRestore() {
-      this.dialogRestore = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
         data.append("name:en", this.editedItem.en_name);
         data.append("name:ar", this.editedItem.ar_name);
-        data.append("description[en]", this.editedItem.en_description);
-        data.append("description[ar]", this.editedItem.ar_description);
-        data.append("email", this.editedItem.email);
-        data.append("telephone", this.editedItem.telephone);
-        this.editedItem.image
-          ? data.append("image", this.editedItem.image)
-          : "";
+        for (let i = 0; i < this.editedItem.permissions.length; i++) {
+          data.append("permissions[]", this.editedItem.permissions[i]);
+        }
         data.append("_method", "PUT");
 
         await this.updateData({
@@ -425,11 +299,9 @@ export default {
           let data = new FormData();
           data.append("name:en", this.editedItem.en_name);
           data.append("name:ar", this.editedItem.ar_name);
-          data.append("description[en]", this.editedItem.en_description);
-          data.append("description[ar]", this.editedItem.ar_description);
-          data.append("email", this.editedItem.email);
-          data.append("telephone", this.editedItem.telephone);
-          data.append("image", this.editedItem.image);
+          for (let i = 0; i < this.editedItem.permissions.length; i++) {
+            data.append("permissions[]", this.editedItem.permissions[i]);
+          }
 
           this.addData({
             url: "dashboard/roles",

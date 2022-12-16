@@ -378,7 +378,6 @@ export default {
     ...mapActions({
       getData: "crudOperations/getData",
       addData: "crudOperations/addData",
-      bindData: "crudOperations/bindData",
       updateData: "crudOperations/updateData",
       deleteData: "crudOperations/deleteData",
       restoreData: "crudOperations/restoreData",
@@ -443,18 +442,6 @@ export default {
         );
       });
 
-      this.editedItem = Object.assign(
-        {},
-        {
-          id: item.id,
-          en_name: item.name,
-          ar_name: item.name,
-          en_description: item.description,
-          ar_description: item.description,
-          email: item.email,
-          telephone: item.telephone,
-        }
-      );
       this.dialog = true;
     },
 

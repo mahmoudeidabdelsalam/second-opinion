@@ -41,22 +41,6 @@ const actions = {
       });
   },
 
-  // bindData
-  async bindData(_, apiUrl) {
-    return await axios
-      .get(apiUrl)
-      .then((response) => {
-        return response.data.data;
-      })
-      .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
-      });
-  },
-
   // updateData
   async updateData(_, data) {
     return await axios
