@@ -98,6 +98,19 @@
           <v-list-item-title>Reservations</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item
+        link
+        :to="{ name: 'DoctorsExperiences' }"
+        active-class="primary--text"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-expand-all</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Doctors experiences</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </aside>
 </template>

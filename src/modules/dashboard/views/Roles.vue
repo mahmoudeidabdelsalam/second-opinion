@@ -144,7 +144,6 @@ export default {
     loaded: false,
     dialog: false,
     dialogDelete: false,
-    dialogRestore: false,
     headers: [
       { text: "Role", value: "name" },
       { text: "Actions", value: "actions", sortable: false },
@@ -217,7 +216,7 @@ export default {
 
         this.loaded = true;
 
-        // get roles
+        // get permissions
         this.getData("dashboard/permissions").then((res) => {
           this.permissions = res;
         });
