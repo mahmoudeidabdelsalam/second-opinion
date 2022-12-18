@@ -395,9 +395,15 @@ export default {
           {},
           {
             id: res.id,
-            hospital_en: res.en.display_name,
-            hospital_ar: res.ar.display_name,
-            permissions: res.permissions.map((item) => item.id),
+            hospital_en: res.en.hospital,
+            hospital_ar: res.ar.hospital,
+            title_en: res.en.title,
+            title_ar: res.ar.title,
+            description_en: res.en.description,
+            description_ar: res.ar.description,
+            from: res.from,
+            to: res.to,
+            doctor_id: res.doctor.id,
           }
         );
       });
