@@ -70,6 +70,13 @@ let routes = [
         component: () =>
           import("@/modules/dashboard/views/DoctorsExperiences.vue"),
       },
+      // doctors educations
+      {
+        path: "doctors-educations",
+        name: "DoctorsEducations",
+        component: () =>
+          import("@/modules/dashboard/views/DoctorsEducations.vue"),
+      },
     ],
   },
 ];

@@ -11,12 +11,12 @@
         multi-sort
         sort-by="id"
         sort-desc
-        no-data-text="No doctors experiences."
+        no-data-text="No doctors educations."
       >
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title class="black--text font-weight-medium">
-              Doctors experiences
+              Doctors educations
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="800px" scrollable>
@@ -48,9 +48,9 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.hospital_en"
+                            v-model="editedItem.institute_en"
                             :rules="nameRules"
-                            label="English hospital name"
+                            label="English institute name"
                             outlined
                             dense
                           ></v-text-field>
@@ -58,9 +58,9 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.hospital_ar"
+                            v-model="editedItem.institute_ar"
                             :rules="nameRules"
-                            label="Arabic hospital name"
+                            label="Arabic institute name"
                             outlined
                             dense
                           ></v-text-field>
@@ -68,9 +68,9 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.title_en"
+                            v-model="editedItem.degree_en"
                             :rules="nameRules"
-                            label="English title"
+                            label="English degree"
                             outlined
                             dense
                           ></v-text-field>
@@ -78,36 +78,12 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.title_ar"
+                            v-model="editedItem.degree_ar"
                             :rules="nameRules"
-                            label="Arabic title"
+                            label="Arabic degree"
                             outlined
                             dense
                           ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.description_en"
-                            :rules="descriptionRules"
-                            label="English experience description"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.description_ar"
-                            :rules="descriptionRules"
-                            label="Arabic experience description"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -121,7 +97,7 @@
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
-                                v-model="editedItem.from"
+                                v-model="editedItem.date_of_start"
                                 label="From"
                                 append-icon="mdi-calendar"
                                 readonly
@@ -134,7 +110,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.from"
+                              v-model="editedItem.date_of_start"
                               @input="menuFrom = false"
                             ></v-date-picker>
                           </v-menu>
@@ -151,7 +127,7 @@
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
-                                v-model="editedItem.to"
+                                v-model="editedItem.date_of_end"
                                 label="To"
                                 append-icon="mdi-calendar"
                                 readonly
@@ -164,7 +140,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.to"
+                              v-model="editedItem.date_of_end"
                               @input="menuTo = false"
                             ></v-date-picker>
                           </v-menu>
@@ -190,7 +166,7 @@
             <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to delete this doctors experiences?
+                  Are you sure you want to delete this doctors educations?
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -228,7 +204,7 @@
                 {{ item.doctor.full_name }}
               </span>
               <span class="d-block black--text font-weight-bold">
-                {{ item.doctor.title }}
+                {{ item.doctor.degree }}
               </span>
               <span class="d-block black--text font-weight-bold">
                 {{ item.doctor.email }}
@@ -240,14 +216,16 @@
           </div>
         </template>
 
-        <template v-slot:[`item.experience`]="{ item }">
-          <span class="d-block black--text"> Title: {{ item.title }} </span>
-          <span class="d-block black--text"> At: {{ item.hospital }} </span>
+        <template v-slot:[`item.education`]="{ item }">
+          <span class="d-block black--text"> Degree: {{ item.degree }} </span>
+          <span class="d-block black--text"> At: {{ item.institute }} </span>
         </template>
 
         <template v-slot:[`item.time`]="{ item }">
-          <span class="d-block black--text"> From: {{ item.from }} </span>
-          <span class="d-block black--text"> To: {{ item.to }} </span>
+          <span class="d-block black--text">
+            From: {{ item.date_of_start }}
+          </span>
+          <span class="d-block black--text"> To: {{ item.date_of_end }} </span>
         </template>
 
         <template v-slot:[`item.actions`]="{ item }">
@@ -272,7 +250,7 @@
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "DoctorsExperiences",
+  name: "DoctorsEducations",
 
   data: () => ({
     loaded: false,
@@ -280,7 +258,7 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "Doctor", value: "doctor" },
-      { text: "Experience", value: "experience" },
+      { text: "Education", value: "education" },
       { text: "Time", value: "time" },
       { text: "Actions", value: "actions", sortable: false },
     ],
@@ -293,26 +271,22 @@ export default {
     editedIndex: -1,
     editedItem: {
       id: "",
-      hospital_en: "",
-      hospital_ar: "",
-      title_en: "",
-      title_ar: "",
-      description_en: "",
-      description_ar: "",
-      from: "",
-      to: "",
+      institute_en: "",
+      institute_ar: "",
+      degree_en: "",
+      degree_ar: "",
+      date_of_start: "",
+      date_of_end: "",
       doctor_id: "",
     },
     defaultItem: {
       id: "",
-      hospital_en: "",
-      hospital_ar: "",
-      title_en: "",
-      title_ar: "",
-      description_en: "",
-      description_ar: "",
-      from: "",
-      to: "",
+      institute_en: "",
+      institute_ar: "",
+      degree_en: "",
+      degree_ar: "",
+      date_of_start: "",
+      date_of_end: "",
       doctor_id: "",
     },
     // date picker
@@ -323,8 +297,8 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1
-        ? "New doctors experiences"
-        : "Edit doctors experiences";
+        ? "New doctors educations"
+        : "Edit doctors educations";
     },
 
     ...mapGetters({
@@ -363,8 +337,8 @@ export default {
     // init data
     initData() {
       setTimeout(() => {
-        // get doctors experiences
-        this.getData("dashboard/doctors-experiences").then((res) => {
+        // get doctors educations
+        this.getData("dashboard/doctors-educations").then((res) => {
           this.desserts = res;
         });
 
@@ -386,19 +360,17 @@ export default {
       this.editedIndex = this.desserts.indexOf(item);
 
       // get single item data from show api
-      this.getData(`dashboard/doctors-experiences/${item.id}`).then((res) => {
+      this.getData(`dashboard/doctors-educations/${item.id}`).then((res) => {
         this.editedItem = Object.assign(
           {},
           {
             id: res.id,
-            hospital_en: res.en.hospital,
-            hospital_ar: res.ar.hospital,
-            title_en: res.en.title,
-            title_ar: res.ar.title,
-            description_en: res.en.description,
-            description_ar: res.ar.description,
-            from: res.from,
-            to: res.to,
+            institute_en: res.en.institute,
+            institute_ar: res.ar.institute,
+            degree_en: res.en.degree,
+            degree_ar: res.ar.degree,
+            date_of_start: res.date_of_start,
+            date_of_end: res.date_of_end,
             doctor_id: res.doctor.id,
           }
         );
@@ -415,7 +387,7 @@ export default {
 
     deleteItemConfirm() {
       this.deleteData({
-        url: "dashboard/doctors-experiences",
+        url: "dashboard/doctors-educations",
         id: this.editedItem.id,
       }).then(() => {
         this.desserts.splice(this.editedIndex, 1);
@@ -444,19 +416,17 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("hospital:en", this.editedItem.hospital_en);
-        data.append("hospital:ar", this.editedItem.hospital_ar);
-        data.append("title:en", this.editedItem.title_en);
-        data.append("title:ar", this.editedItem.title_ar);
-        data.append("description:en", this.editedItem.description_en);
-        data.append("description:ar", this.editedItem.description_ar);
-        data.append("from", this.editedItem.from);
-        data.append("to", this.editedItem.to);
+        data.append("institute:en", this.editedItem.institute_en);
+        data.append("institute:ar", this.editedItem.institute_ar);
+        data.append("degree:en", this.editedItem.degree_en);
+        data.append("degree:ar", this.editedItem.degree_ar);
+        data.append("date_of_start", this.editedItem.date_of_start);
+        data.append("date_of_end", this.editedItem.date_of_end);
         data.append("doctor_id", this.editedItem.doctor_id);
         data.append("_method", "PUT");
 
         await this.updateData({
-          url: `dashboard/doctors-experiences/${this.editedItem.id}`,
+          url: `dashboard/doctors-educations/${this.editedItem.id}`,
           data: data,
         }).then((res) => {
           Object.assign(this.desserts[this.editedIndex], res);
@@ -465,18 +435,16 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("hospital:en", this.editedItem.hospital_en);
-          data.append("hospital:ar", this.editedItem.hospital_ar);
-          data.append("title:en", this.editedItem.title_en);
-          data.append("title:ar", this.editedItem.title_ar);
-          data.append("description:en", this.editedItem.description_en);
-          data.append("description:ar", this.editedItem.description_ar);
-          data.append("from", this.editedItem.from);
-          data.append("to", this.editedItem.to);
+          data.append("institute:en", this.editedItem.institute_en);
+          data.append("institute:ar", this.editedItem.institute_ar);
+          data.append("degree:en", this.editedItem.degree_en);
+          data.append("degree:ar", this.editedItem.degree_ar);
+          data.append("date_of_start", this.editedItem.date_of_start);
+          data.append("date_of_end", this.editedItem.date_of_end);
           data.append("doctor_id", this.editedItem.doctor_id);
 
           this.addData({
-            url: "dashboard/doctors-experiences",
+            url: "dashboard/doctors-educations",
             data: data,
           }).then((res) => {
             console.log(res);
