@@ -321,7 +321,6 @@ export default {
             id: res.id,
             en_name: res.en.display_name,
             ar_name: res.ar.display_name,
-            permissions: res.permissions.map((item) => item.id),
           }
         );
       });
@@ -366,11 +365,13 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("name:en", this.editedItem.en_name);
-        data.append("name:ar", this.editedItem.ar_name);
-        for (let i = 0; i < this.editedItem.permissions.length; i++) {
-          data.append("permissions[]", this.editedItem.permissions[i]);
-        }
+        data.append("first_name", this.editedItem.first_name);
+        data.append("last_name", this.editedItem.last_name);
+        data.append("email", this.editedItem.email);
+        data.append("phone_number", this.editedItem.phone_number);
+        data.append("birthday", this.editedItem.birthday);
+        data.append("gender", this.editedItem.gender);
+        data.append("national_id", this.editedItem.national_id);
         data.append("_method", "PUT");
 
         await this.updateData({
@@ -383,11 +384,13 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("name:en", this.editedItem.en_name);
-          data.append("name:ar", this.editedItem.ar_name);
-          for (let i = 0; i < this.editedItem.permissions.length; i++) {
-            data.append("permissions[]", this.editedItem.permissions[i]);
-          }
+          data.append("first_name", this.editedItem.first_name);
+          data.append("last_name", this.editedItem.last_name);
+          data.append("email", this.editedItem.email);
+          data.append("phone_number", this.editedItem.phone_number);
+          data.append("birthday", this.editedItem.birthday);
+          data.append("gender", this.editedItem.gender);
+          data.append("national_id", this.editedItem.national_id);
 
           this.addData({
             url: "dashboard/patients",

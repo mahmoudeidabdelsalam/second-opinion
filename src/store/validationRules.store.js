@@ -19,7 +19,7 @@ const state = () => ({
   // phone rules
   phoneRules: [
     (v) => !!v || "Phone is required",
-    (v) => (v && v.length > 8) || "Phone must be at least 9 characters",
+    (v) => (v && v.length > 9) || "Phone must be at least 10 characters",
     (v) => (v && v.length < 20) || "Phone must be less than 20 characters",
     (v) => /^\d+$/.test(v) || "Phone must be a number",
   ],
