@@ -469,7 +469,7 @@ export default {
 
     restoreItemConfirm() {
       this.restoreData({
-        url: "dashboard/trashed-departments",
+        url: "dashboard/departments",
         id: this.editedItem.id,
       }).then(() => {
         this.desserts.splice(this.editedIndex, 1);

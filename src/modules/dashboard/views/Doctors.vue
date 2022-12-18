@@ -177,6 +177,34 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+
+            <!-- restore item -->
+            <v-dialog v-model="dialogRestore" max-width="500px">
+              <v-card>
+                <v-card-title class="text-h6">
+                  Are you sure you want to restore this doctor?
+                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="secondary"
+                    depressed
+                    small
+                    @click="closeRestore"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    color="error"
+                    depressed
+                    small
+                    @click="restoreItemConfirm"
+                  >
+                    Restore
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-toolbar>
         </template>
 
@@ -200,7 +228,7 @@
 
         <template v-slot:[`item.department`]="{ item }">
           <div class="d-flex justify-start align-center">
-            <v-avatar class="mr-4" size="50">
+            <v-avatar class="mr-4" size="50" v-if="item.department">
               <v-img
                 cover
                 :lazy-src="item.department.logo"
@@ -210,7 +238,10 @@
                 :alt="item.department.name"
               ></v-img>
             </v-avatar>
-            <span class="d-block black--text font-weight-bold">
+            <span
+              class="d-block black--text font-weight-bold"
+              v-if="item.department"
+            >
               {{ item.department.name }}
             </span>
           </div>
@@ -226,15 +257,30 @@
         </template>
 
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
+          <v-btn
+            class="primary--text primary_bg"
+            icon
+            @click="editItem(item)"
+            v-if="!isTrashed"
+          >
             <v-icon small color="success">mdi-pencil</v-icon>
           </v-btn>
           <v-btn
             class="primary--text primary_bg mx-2"
             icon
             @click="deleteItem(item)"
+            v-if="!isTrashed"
           >
             <v-icon small color="error">mdi-trash-can</v-icon>
+          </v-btn>
+
+          <v-btn
+            class="primary--text primary_bg mx-2"
+            icon
+            @click="restoreItem(item)"
+            v-if="isTrashed"
+          >
+            <v-icon small color="error">mdi-restore</v-icon>
           </v-btn>
         </template>
       </v-data-table>
@@ -274,6 +320,7 @@ export default {
     loaded: false,
     dialog: false,
     dialogDelete: false,
+    dialogRestore: false,
     headers: [
       { text: "Doctor", value: "name" },
       { text: "Department", value: "department" },
@@ -320,6 +367,11 @@ export default {
       emailRules: "validationRules/emailRules",
       phoneRules: "validationRules/phoneRules",
     }),
+
+    // route qquery for trashed
+    isTrashed() {
+      return this.$route.query.trashed;
+    },
   },
 
   watch: {
@@ -341,9 +393,9 @@ export default {
     ...mapActions({
       getData: "crudOperations/getData",
       addData: "crudOperations/addData",
-      bindData: "crudOperations/bindData",
       updateData: "crudOperations/updateData",
       deleteData: "crudOperations/deleteData",
+      restoreData: "crudOperations/restoreData",
     }),
 
     // init data
@@ -436,6 +488,22 @@ export default {
       });
     },
 
+    restoreItem(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogRestore = true;
+    },
+
+    restoreItemConfirm() {
+      this.restoreData({
+        url: "dashboard/doctors",
+        id: this.editedItem.id,
+      }).then(() => {
+        this.desserts.splice(this.editedIndex, 1);
+        this.closeRestore();
+      });
+    },
+
     close() {
       this.dialog = false;
       this.$nextTick(() => {
@@ -448,6 +516,14 @@ export default {
 
     closeDelete() {
       this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeRestore() {
+      this.dialogRestore = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;

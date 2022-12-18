@@ -86,7 +86,7 @@ const actions = {
   // restoreData
   async restoreData(_, data) {
     return await axios
-      .get(data.url + "/" + data.id)
+      .put(data.url + "/" + data.id + "/restore")
       .then((response) => {
         // show notification
         this.dispatch("notifications/showNotification", {
