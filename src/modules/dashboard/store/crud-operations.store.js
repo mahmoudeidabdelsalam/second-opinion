@@ -122,6 +122,28 @@ const actions = {
         });
       });
   },
+
+  // checkAvailableDates
+  async checkAvailableDates(_, data) {
+    return await axios
+      .post(data.url, data.data)
+      .then((response) => {
+        // show notification
+        this.dispatch("notifications/showNotification", {
+          message: response.data.message,
+          color: "green",
+        });
+
+        return response.data.data;
+      })
+      .catch((error) => {
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
+      });
+  },
 };
 
 // mutations
