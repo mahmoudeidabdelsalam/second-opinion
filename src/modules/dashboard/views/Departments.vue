@@ -508,8 +508,8 @@ export default {
         let data = new FormData();
         data.append("name:en", this.editedItem.en_name);
         data.append("name:ar", this.editedItem.ar_name);
-        data.append("description[en]", this.editedItem.en_description);
-        data.append("description[ar]", this.editedItem.ar_description);
+        data.append("description:en", this.editedItem.en_description);
+        data.append("description:ar", this.editedItem.ar_description);
         data.append("email", this.editedItem.email);
         data.append("telephone", this.editedItem.telephone);
         this.editedItem.image
@@ -529,8 +529,8 @@ export default {
           let data = new FormData();
           data.append("name:en", this.editedItem.en_name);
           data.append("name:ar", this.editedItem.ar_name);
-          data.append("description[en]", this.editedItem.en_description);
-          data.append("description[ar]", this.editedItem.ar_description);
+          data.append("description:en", this.editedItem.en_description);
+          data.append("description:ar", this.editedItem.ar_description);
           data.append("email", this.editedItem.email);
           data.append("telephone", this.editedItem.telephone);
           data.append("image", this.editedItem.image);

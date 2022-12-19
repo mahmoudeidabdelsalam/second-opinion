@@ -102,6 +102,26 @@ const actions = {
         });
       });
   },
+
+  // updateStatus
+  async updateStatus(_, data) {
+    return await axios
+      .put(data.url + "/" + data.id + "/update-status", data.data)
+      .then((response) => {
+        // show notification
+        this.dispatch("notifications/showNotification", {
+          message: response.data.message,
+          color: "green",
+        });
+      })
+      .catch((error) => {
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
+      });
+  },
 };
 
 // mutations

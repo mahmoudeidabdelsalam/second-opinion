@@ -1,11 +1,7 @@
 <template>
   <aside class="sidebar white">
-    <router-link
-      :to="{ name: 'Home' }"
-      class="brand d-flex justify-center align-center pa-5 font-weight-bold primary--text text-h6 text-center"
-    >
-      <img src="@/assets/images/logo.webp" alt="Top Doctors logo" />
-      <span class="mx-2">Top Doctors</span>
+    <router-link :to="{ name: 'Home' }" class="brand d-block pa-5 text-center">
+      <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
     </router-link>
 
     <span class="d-block pa-5 font-weight-bold black--text">Menu</span>

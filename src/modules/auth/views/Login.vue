@@ -8,7 +8,7 @@
               class="font-weight-black text-h4 mb-5"
               :to="{ name: 'Home' }"
             >
-              Top Doctors
+              Second opinion
             </router-link>
 
             <p class="font-weight-regular text--secondary text-center mb-4">

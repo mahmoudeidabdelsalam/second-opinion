@@ -3,6 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       app
+      temporary
       class="secondary_bg"
       :right="systemDirection === 'rtl'"
     >
@@ -11,7 +12,13 @@
     </v-navigation-drawer>
 
     <v-app-bar app color="secondary_bg" elevation="2" elevate-on-scroll>
-      <v-btn icon @click="drawer = !drawer" color="black" aria-label="drawer">
+      <v-btn
+        icon
+        @click="drawer = !drawer"
+        color="black"
+        aria-label="drawer"
+        class="d-md-none d-inline"
+      >
         <v-icon> mdi-apps </v-icon>
       </v-btn>
 
@@ -31,11 +38,14 @@
 import { mapGetters } from "vuex";
 export default {
   name: "Public",
+
   components: {
     PublicHeader: () => import("../components/Header.vue"),
     Sidebar: () => import("../components/Sidebar.vue"),
   },
+
   data: () => ({ drawer: null }),
+
   computed: {
     // map getters
     ...mapGetters({

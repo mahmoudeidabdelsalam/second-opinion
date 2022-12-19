@@ -251,6 +251,16 @@
           </span>
         </template>
 
+        <template v-slot:[`item.status`]="{ item }">
+          <v-select
+            :items="status"
+            :value="item.status"
+            outlined
+            dense
+            @change="changeStatus(item, $event)"
+          ></v-select>
+        </template>
+
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
             <v-icon small color="success">mdi-pencil</v-icon>
@@ -286,7 +296,7 @@ export default {
       { text: "Doctor", value: "doctor" },
       { text: "Time", value: "time" },
       { text: "Type", value: "type" },
-      { text: "Status", value: "status" },
+      { text: "Status", value: "status", width: "200", align: "center" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
@@ -294,6 +304,15 @@ export default {
     genders: [
       { text: "Male", value: "m" },
       { text: "Female", value: "f" },
+    ],
+    // sttaus
+    status: [
+      { text: "Pending", value: 0 },
+      { text: "Confirmed", value: 1 },
+      { text: "Cancelled", value: 2 },
+      { text: "Completed", value: 3 },
+      { text: "Expired", value: 4 },
+      { text: "Refunded", value: 5 },
     ],
     // selected rows
     singleSelect: false,
@@ -360,6 +379,7 @@ export default {
       addData: "crudOperations/addData",
       updateData: "crudOperations/updateData",
       deleteData: "crudOperations/deleteData",
+      updateStatus: "crudOperations/updateStatus",
     }),
 
     // init data
@@ -424,6 +444,24 @@ export default {
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
+      });
+    },
+
+    // change item status
+    changeStatus(item, event) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+
+      let data = new FormData();
+      data.append("status", event);
+
+      this.updateStatus({
+        url: "dashboard/reservations",
+        id: this.editedItem.id,
+        data: data,
+      }).then(() => {
+        this.desserts.splice(this.editedIndex, 1);
+        this.closeRestore();
       });
     },
 
