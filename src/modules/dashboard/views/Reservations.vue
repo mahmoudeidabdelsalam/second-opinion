@@ -454,6 +454,7 @@ export default {
 
       let data = new FormData();
       data.append("status", event);
+      data.append("_method", "PUT");
 
       this.updateStatus({
         url: "dashboard/reservations",

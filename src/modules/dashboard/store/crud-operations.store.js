@@ -106,7 +106,7 @@ const actions = {
   // updateStatus
   async updateStatus(_, data) {
     return await axios
-      .put(data.url + "/" + data.id + "/update-status", data.data)
+      .post(data.url + "/" + data.id + "/update-status", data.data)
       .then((response) => {
         // show notification
         this.dispatch("notifications/showNotification", {
