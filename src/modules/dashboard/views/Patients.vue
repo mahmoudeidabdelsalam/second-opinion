@@ -186,7 +186,9 @@
         </template>
 
         <template v-slot:[`item.info`]="{ item }">
-          <span class="d-block black--text"> Gender: {{ item.gender }} </span>
+          <span class="d-block black--text">
+            Gender: {{ item.gender.text }}
+          </span>
           <span class="d-block black--text"> Age: {{ item.age }} </span>
         </template>
 
@@ -319,8 +321,13 @@ export default {
           {},
           {
             id: res.id,
-            en_name: res.en.display_name,
-            ar_name: res.ar.display_name,
+            first_name: res.first_name,
+            last_name: res.last_name,
+            email: res.email,
+            phone_number: res.phone_number,
+            national_id: res.national_id,
+            gender: res.gender.value,
+            birthday: res.birthday,
           }
         );
       });
