@@ -2,7 +2,7 @@
   <div class="auth-page d-flex justify-center align-center">
     <div class="main-box rounded-lg elevation-24">
       <v-row>
-        <v-col class="pa-5" cols="12" md="6">
+        <v-col cols="12" md="6">
           <div class="content d-flex flex-column align-center white rounded-lg">
             <router-link
               class="font-weight-black text-h4 mb-5"
@@ -61,6 +61,12 @@
                 Forget password?
               </v-btn>
             </div>
+          </div>
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <div class="image">
+            <img src="@/assets/images/doctor.webp" alt="Login image" />
           </div>
         </v-col>
       </v-row>

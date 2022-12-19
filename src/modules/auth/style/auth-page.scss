@@ -11,6 +11,7 @@
 
     .content {
       padding: 80px 20px;
+      height: 100%;
 
       .v-text-field {
         width: 350px;
@@ -26,6 +27,16 @@
 
       @media (max-width: 575px) {
         width: 100%;
+      }
+    }
+
+    .image {
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
       }
     }
   }
