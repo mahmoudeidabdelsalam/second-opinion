@@ -89,7 +89,6 @@
                           <v-autocomplete
                             v-model="editedItem.patient_id"
                             :items="patients"
-                            :rules="selectRules"
                             label="Patient"
                             outlined
                             dense
@@ -100,7 +99,6 @@
                           <v-autocomplete
                             v-model="editedItem.reservation_time_start"
                             :items="availableTimes"
-                            :rules="selectRules"
                             label="Time"
                             outlined
                             dense
