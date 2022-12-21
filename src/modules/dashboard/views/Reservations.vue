@@ -93,6 +93,7 @@
                           <v-autocomplete
                             v-model="editedItem.patient_id"
                             :items="patients"
+                            :rules="selectRules"
                             label="Patient"
                             outlined
                             dense
@@ -107,6 +108,7 @@
                           <v-autocomplete
                             v-model="editedItem.reservation_time_start"
                             :items="availableTimes"
+                            :rules="selectRules"
                             label="Time"
                             outlined
                             dense
@@ -121,6 +123,7 @@
                           <v-autocomplete
                             v-model="editedItem.type"
                             :items="reservationTypes"
+                            :rules="selectRules"
                             label="Reservation type"
                             outlined
                             dense
@@ -141,7 +144,7 @@
                     depressed
                     small
                     @click="save"
-                    v-if="availableTimes"
+                    v-if="showInpust && availableTimes"
                   >
                     Save
                   </v-btn>
@@ -495,19 +498,17 @@ export default {
 
     // get available dates
     getAvailableDates() {
-      if (this.$refs.form.validate()) {
-        let data = new FormData();
-        data.append("doctor_id", this.editedItem.doctor_id);
-        data.append("reservation_day", this.editedItem.reservation_day);
+      let data = new FormData();
+      data.append("doctor_id", this.editedItem.doctor_id);
+      data.append("reservation_day", this.editedItem.reservation_day);
 
-        this.addData({
-          url: "dashboard/reservations/get-available-dates",
-          data: data,
-        }).then((res) => {
-          this.availableTimes = res;
-          this.showInpust = true;
-        });
-      }
+      this.addData({
+        url: "dashboard/reservations/get-available-dates",
+        data: data,
+      }).then((res) => {
+        this.availableTimes = res;
+        this.showInpust = true;
+      });
     },
 
     async save() {
@@ -542,9 +543,9 @@ export default {
           }).then((res) => {
             console.log(res);
             this.desserts.unshift(res);
-          });
 
-          this.close();
+            this.close();
+          });
         }
       }
     },
