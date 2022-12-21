@@ -7,8 +7,6 @@
         :items="desserts"
         :single-select="singleSelect"
         item-key="id"
-        show-select
-        multi-sort
         sort-by="id"
         sort-desc
         no-data-text="No doctors."
@@ -156,7 +154,7 @@
             </v-menu>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this doctor?
@@ -179,7 +177,7 @@
             </v-dialog>
 
             <!-- restore item -->
-            <v-dialog v-model="dialogRestore" max-width="500px">
+            <v-dialog v-model="dialogRestore" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to restore this doctor?
@@ -322,10 +320,10 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Doctor", value: "name" },
-      { text: "Department", value: "department" },
-      { text: "Contacts", value: "contacts" },
-      { text: "Session price", value: "session_price" },
+      { text: "Doctor", value: "name", sortable: false },
+      { text: "Department", value: "department", sortable: false },
+      { text: "Contacts", value: "contacts", sortable: false },
+      { text: "Session price", value: "session_price", sortable: false },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],

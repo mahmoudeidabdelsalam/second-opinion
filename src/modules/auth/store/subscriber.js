@@ -53,5 +53,16 @@ store.subscribeAction((action) => {
         axios.defaults.headers.common["Authorization"] = null;
       }
       break;
+
+    // logout
+    case "logout/logout":
+      if (action) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.token}`;
+      } else {
+        axios.defaults.headers.common["Authorization"] = null;
+      }
+      break;
   }
 });

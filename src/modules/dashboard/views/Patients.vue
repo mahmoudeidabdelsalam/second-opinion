@@ -7,8 +7,6 @@
         :items="desserts"
         :single-select="singleSelect"
         item-key="id"
-        show-select
-        multi-sort
         sort-by="id"
         sort-desc
         no-data-text="No patients."
@@ -146,7 +144,7 @@
             </v-dialog>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this patient?
@@ -222,9 +220,9 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Patient", value: "name" },
-      { text: "Contacts", value: "contacts" },
-      { text: "Info", value: "info" },
+      { text: "Patient", value: "name", sortable: false },
+      { text: "Contacts", value: "contacts", sortable: false },
+      { text: "Info", value: "info", sortable: false },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],

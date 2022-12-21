@@ -163,7 +163,7 @@
             </v-dialog>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this doctors educations?

@@ -76,13 +76,14 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "Login",
   data: () => ({
     // login form data
     form: {
-      email: "admin@gmail.com",
-      password: "password",
+      email: "",
+      password: "",
     },
   }),
   computed: {
