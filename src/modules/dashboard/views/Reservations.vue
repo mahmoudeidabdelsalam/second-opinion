@@ -123,7 +123,6 @@
                           <v-autocomplete
                             v-model="editedItem.type"
                             :items="reservationTypes"
-                            :rules="selectRules"
                             label="Reservation type"
                             outlined
                             dense
