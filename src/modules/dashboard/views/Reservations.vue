@@ -85,7 +85,11 @@
                           </v-btn>
                         </v-col>
 
-                        <v-col cols="12" md="6" v-if="showInpust">
+                        <v-col
+                          cols="12"
+                          md="6"
+                          v-if="showInpust && availableTimes"
+                        >
                           <v-autocomplete
                             v-model="editedItem.patient_id"
                             :items="patients"
@@ -95,7 +99,11 @@
                           ></v-autocomplete>
                         </v-col>
 
-                        <v-col cols="12" md="6" v-if="showInpust">
+                        <v-col
+                          cols="12"
+                          md="6"
+                          v-if="showInpust && availableTimes"
+                        >
                           <v-autocomplete
                             v-model="editedItem.reservation_time_start"
                             :items="availableTimes"
@@ -105,7 +113,11 @@
                           ></v-autocomplete>
                         </v-col>
 
-                        <v-col cols="12" md="6" v-if="showInpust">
+                        <v-col
+                          cols="12"
+                          md="6"
+                          v-if="showInpust && availableTimes"
+                        >
                           <v-autocomplete
                             v-model="editedItem.type"
                             :items="reservationTypes"
@@ -124,7 +136,13 @@
                   <v-btn color="secondary" depressed small @click="close">
                     Cancel
                   </v-btn>
-                  <v-btn color="primary" depressed small @click="save">
+                  <v-btn
+                    color="primary"
+                    depressed
+                    small
+                    @click="save"
+                    v-if="availableTimes"
+                  >
                     Save
                   </v-btn>
                 </v-card-actions>
