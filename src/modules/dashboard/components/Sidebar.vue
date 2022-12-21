@@ -95,7 +95,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item
+      <!-- <v-list-item
         link
         :to="{ name: 'DoctorsExperiences' }"
         active-class="primary--text"
@@ -106,9 +106,9 @@
         <v-list-item-content>
           <v-list-item-title>Doctors experiences</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
-      <v-list-item
+      <!-- <v-list-item
         link
         :to="{ name: 'DoctorsEducations' }"
         active-class="primary--text"
@@ -119,7 +119,7 @@
         <v-list-item-content>
           <v-list-item-title>Doctors educations</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
     </v-list>
   </aside>
 </template>

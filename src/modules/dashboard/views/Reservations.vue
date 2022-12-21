@@ -297,7 +297,6 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Reservation", value: "name", width: "200" },
       { text: "Patient", value: "patient" },
       { text: "Doctor", value: "doctor" },
       { text: "Time", value: "time" },
