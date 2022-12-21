@@ -49,7 +49,7 @@ const actions = {
       // redirect user depending on his role
       switch (response.data.data.role.value) {
         case 1: // super admin
-          router.push({ name: "Departments" });
+          router.push({ name: "DashboardOverview" });
           break;
       }
       // } else {
