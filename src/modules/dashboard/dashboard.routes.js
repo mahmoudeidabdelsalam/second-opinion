@@ -77,6 +77,13 @@ let routes = [
         component: () =>
           import("@/modules/dashboard/views/DoctorsEducations.vue"),
       },
+
+      // invoices
+      {
+        path: "invoices",
+        name: "Invoices",
+        component: () => import("@/modules/dashboard/views/Invoices.vue"),
+      },
     ],
   },
 ];
