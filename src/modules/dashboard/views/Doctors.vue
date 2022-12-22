@@ -56,7 +56,7 @@
                         <v-col cols="12" md="6">
                           <v-text-field
                             v-model="editedItem.title_en"
-                            :rules="stringRules"
+                            :rules="nameRules"
                             label="English title"
                             outlined
                             dense
@@ -66,7 +66,7 @@
                         <v-col cols="12" md="6">
                           <v-text-field
                             v-model="editedItem.title_ar"
-                            :rules="stringRules"
+                            :rules="nameRules"
                             label="Arabic title"
                             outlined
                             dense
@@ -421,7 +421,6 @@ export default {
       phoneRules: "validationRules/phoneRules",
       numberRules: "validationRules/numberRules",
       selectRules: "validationRules/selectRules",
-      stringRules: "validationRules/stringRules",
     }),
 
     // route qquery for trashed
