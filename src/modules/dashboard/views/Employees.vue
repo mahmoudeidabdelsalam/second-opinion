@@ -35,41 +35,20 @@
                       <v-row>
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.full_name_en"
+                            v-model="editedItem.full_name"
                             :rules="nameRules"
-                            label="English name"
+                            label="Name"
                             outlined
                             dense
                           ></v-text-field>
                         </v-col>
 
                         <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.full_name_ar"
-                            :rules="nameRules"
-                            label="Arabic name"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12">
                           <v-text-field
                             v-model="editedItem.email"
                             :rules="emailRules"
                             type="email"
                             label="Email"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.personal_phone"
-                            :rules="phoneRules"
-                            type="tel"
-                            label="personal phone"
                             outlined
                             dense
                           ></v-text-field>
@@ -117,36 +96,6 @@
                             outlined
                             dense
                           ></v-select>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-menu
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="auto"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="editedItem.birthday"
-                                label="Birthday"
-                                append-icon="mdi-calendar"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                                clearable
-                                required
-                                outlined
-                                dense
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
-                              v-model="editedItem.birthday"
-                              @input="menu = false"
-                            ></v-date-picker>
-                          </v-menu>
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -374,29 +323,23 @@ export default {
     editedIndex: -1,
     editedItem: {
       id: "",
-      full_name_en: "",
-      full_name_ar: "",
+      full_name: "",
       email: "",
-      personal_phone: "",
       phone_number: "",
       active: "",
       national_id: "",
       gender: "",
       image: "",
-      birthday: "",
     },
     defaultItem: {
       id: "",
-      full_name_en: "",
-      full_name_ar: "",
+      full_name: "",
       email: "",
-      personal_phone: "",
       phone_number: "",
       active: "",
       national_id: "",
       gender: "",
       image: "",
-      birthday: "",
     },
     // date picker
     menu: false,
@@ -496,7 +439,7 @@ export default {
           {},
           {
             id: res.id,
-            full_name_en: res.en.full_name,
+            full_name: res.en.full_name,
             full_name_ar: res.ar.full_name,
             email: res.email,
             personal_phone: res.personal_phone,
@@ -573,7 +516,7 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("full_name:en", this.editedItem.full_name_en);
+        data.append("full_name:en", this.editedItem.full_name);
         data.append("full_name:ar", this.editedItem.full_name_ar);
         data.append("email", this.editedItem.email);
         data.append("personal_phone", this.editedItem.personal_phone);
@@ -597,7 +540,7 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("full_name:en", this.editedItem.full_name_en);
+          data.append("full_name:en", this.editedItem.full_name);
           data.append("full_name:ar", this.editedItem.full_name_ar);
           data.append("email", this.editedItem.email);
           data.append("personal_phone", this.editedItem.personal_phone);
