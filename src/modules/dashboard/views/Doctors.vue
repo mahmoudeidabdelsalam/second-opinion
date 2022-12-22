@@ -74,6 +74,30 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.description_en"
+                            :rules="descriptionRules"
+                            label="English description"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.description_ar"
+                            :rules="descriptionRules"
+                            label="Arabic description"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
                           <v-text-field
                             v-model="editedItem.email"
                             :rules="emailRules"
@@ -382,6 +406,8 @@ export default {
       id: "",
       full_name_en: "",
       full_name_ar: "",
+      description_en: "",
+      description_ar: "",
       title_en: "",
       title_ar: "",
       email: "",
@@ -396,6 +422,8 @@ export default {
       id: "",
       full_name_en: "",
       full_name_ar: "",
+      description_en: "",
+      description_ar: "",
       title_en: "",
       title_ar: "",
       email: "",
@@ -514,6 +542,8 @@ export default {
             id: res.id,
             full_name_en: res.en.full_name,
             full_name_ar: res.ar.full_name,
+            title_en: res.en.title,
+            title_ar: res.ar.title,
             email: res.email,
             phone_number: res.phone_number,
             gender: res.gender,
@@ -590,6 +620,8 @@ export default {
         let data = new FormData();
         data.append("full_name:en", this.editedItem.full_name_en);
         data.append("full_name:ar", this.editedItem.full_name_ar);
+        data.append("description:en", this.editedItem.description_en);
+        data.append("description:ar", this.editedItem.description_ar);
         data.append("title:en", this.editedItem.title_en);
         data.append("title:ar", this.editedItem.title_ar);
         data.append("email", this.editedItem.email);
@@ -615,6 +647,8 @@ export default {
           let data = new FormData();
           data.append("full_name:en", this.editedItem.full_name_en);
           data.append("full_name:ar", this.editedItem.full_name_ar);
+          data.append("description:en", this.editedItem.description_en);
+          data.append("description:ar", this.editedItem.description_ar);
           data.append("title:en", this.editedItem.title_en);
           data.append("title:ar", this.editedItem.title_ar);
           data.append("email", this.editedItem.email);
