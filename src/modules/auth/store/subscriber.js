@@ -43,6 +43,17 @@ store.subscribeAction((action) => {
       }
       break;
 
+    // updateData
+    case "crudOperations/updateData":
+      if (action.payload) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.token}`;
+      } else {
+        axios.defaults.headers.common["Authorization"] = null;
+      }
+      break;
+
     // deleteData
     case "crudOperations/deleteData":
       if (action.payload) {

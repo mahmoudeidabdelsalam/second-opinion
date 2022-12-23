@@ -22,6 +22,9 @@ import crudOperations from "@/modules/dashboard/store/crud-operations.store";
 // notifications module
 import notifications from "@/modules/notifications/store/notifications.store";
 
+// errorsHandler module
+import errorsHandler from "./errorsHandler.store";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -33,5 +36,6 @@ export default new Vuex.Store({
     translate,
     crudOperations,
     notifications,
+    errorsHandler,
   },
 });

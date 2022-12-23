@@ -11,11 +11,8 @@ const actions = {
         return response.data.data;
       })
       .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
+        // handle errors
+        this.dispatch("errorsHandler/handleError", error);
       });
   },
 
@@ -33,11 +30,8 @@ const actions = {
         return response.data.data;
       })
       .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
+        // handle errors
+        this.dispatch("errorsHandler/handleError", error);
       });
   },
 
@@ -55,11 +49,8 @@ const actions = {
         return response.data.data;
       })
       .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
+        // handle errors
+        this.dispatch("errorsHandler/handleError", error);
       });
   },
 
@@ -75,11 +66,8 @@ const actions = {
         });
       })
       .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
+        // handle errors
+        this.dispatch("errorsHandler/handleError", error);
       });
   },
 
@@ -95,11 +83,8 @@ const actions = {
         });
       })
       .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
+        // handle errors
+        this.dispatch("errorsHandler/handleError", error);
       });
   },
 
@@ -115,11 +100,8 @@ const actions = {
         });
       })
       .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
+        // handle errors
+        this.dispatch("errorsHandler/handleError", error);
       });
   },
 
@@ -137,11 +119,8 @@ const actions = {
         return response.data.data;
       })
       .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
+        // handle errors
+        this.dispatch("errorsHandler/handleError", error);
       });
   },
 };
