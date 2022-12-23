@@ -1,43 +1,16 @@
 .auth-page {
-  background: linear-gradient(90deg, #e6eff7, #3e7ab1);
-  min-height: 100vh;
+  background-color: #f5f5f5;
 
-  .main-box {
-    width: 80%;
+  .form-side {
+    max-width: 600px;
+    height: 100%;
 
-    @media (max-width: 575px) {
-      width: 90%;
+    form {
+      width: 100%;
     }
+  }
 
-    .content {
-      padding: 80px 20px;
-      height: 100%;
-
-      .v-text-field {
-        width: 350px;
-
-        @media (max-width: 575px) {
-          width: 100%;
-        }
-      }
-    }
-
-    .options {
-      width: 350px;
-
-      @media (max-width: 575px) {
-        width: 100%;
-      }
-    }
-
-    .image {
-      height: 100%;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 10px;
-      }
-    }
+  .image-side {
+    background: linear-gradient(90deg, #f5f5f5 30%, #3e7ab1 30%);
   }
 }

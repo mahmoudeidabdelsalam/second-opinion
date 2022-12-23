@@ -84,10 +84,11 @@
 </template>
 
 <script>
-// import mapActions from vuex
 import { mapActions } from "vuex";
+
 export default {
   name: "DashboardHeader",
+
   methods: {
     // map translate action
     ...mapActions({
@@ -96,6 +97,7 @@ export default {
       // change direction action
       changeDirectionAction: "translate/setSystemDirection",
     }),
+
     // translate method
     translate(lang) {
       // call translate action

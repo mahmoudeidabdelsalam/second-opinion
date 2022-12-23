@@ -1,6 +1,6 @@
 <template>
   <aside class="sidebar white">
-    <router-link :to="{ name: 'Home' }" class="brand d-block text-center">
+    <router-link :to="{ name: 'Home' }" class="brand d-block pa-5 text-center">
       <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
     </router-link>
 

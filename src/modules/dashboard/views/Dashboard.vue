@@ -27,15 +27,18 @@
 </template>
 
 <script>
-// import mapGetters from vuex
 import { mapGetters } from "vuex";
+
 export default {
   name: "Dashboard",
+
   components: {
     DashboardHeader: () => import("../components/Header.vue"),
     Sidebar: () => import("../components/Sidebar.vue"),
   },
+
   data: () => ({ drawer: null }),
+
   computed: {
     // map getters
     ...mapGetters({

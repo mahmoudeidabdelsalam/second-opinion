@@ -6,7 +6,7 @@
           <div
             class="form-side d-flex flex-column justify-center align-start mx-auto pa-5"
           >
-            <h1 class="mb-7">Login</h1>
+            <h1 class="mb-7">Create new account</h1>
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
@@ -25,7 +25,7 @@
                 label="Password"
                 outlined
                 dense
-                @keydown.enter="login"
+                @keydown.enter="register"
               ></v-text-field>
 
               <v-btn
@@ -33,9 +33,9 @@
                 color="primary"
                 block
                 :disabled="!valid"
-                @click="login"
+                @click="register"
               >
-                Login
+                Register
               </v-btn>
             </v-form>
 
@@ -45,9 +45,9 @@
                 color="primary"
                 text
                 link
-                :to="{ name: 'Register' }"
+                :to="{ name: 'Login' }"
               >
-                Register
+                Login
               </v-btn>
             </div>
           </div>
@@ -69,10 +69,10 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "Login",
+  name: "Register",
 
   data: () => ({
-    // login form data
+    // register form data
     form: {
       email: "",
       password: "",
@@ -89,15 +89,15 @@ export default {
 
   methods: {
     ...mapActions({
-      // login action
-      loginAction: "login/login",
+      // register action
+      registerAction: "register/register",
     }),
 
-    // login method
-    login() {
+    // register method
+    register() {
       // validate form
       if (this.$refs.form.validate()) {
-        this.loginAction(this.form);
+        this.registerAction(this.form);
       }
     },
   },

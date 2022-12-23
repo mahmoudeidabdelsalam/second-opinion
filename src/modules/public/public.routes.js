@@ -3,8 +3,8 @@ let routes = [
   // public
   {
     path: "/",
-    name: "Public",
-    component: () => import("@/modules/public/views/Public.vue"),
+    name: "PublicLayout",
+    component: () => import("@/modules/public/layout/PublicLayout.vue"),
     children: [
       // home
       {

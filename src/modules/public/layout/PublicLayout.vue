@@ -27,17 +27,17 @@
       <public-header />
     </v-app-bar>
 
-    <v-main class="pa-4">
+    <v-main class="pa-0">
       <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-// import mapGetters from vuex
 import { mapGetters } from "vuex";
+
 export default {
-  name: "Public",
+  name: "PublicLayout",
 
   components: {
     PublicHeader: () => import("../components/Header.vue"),
