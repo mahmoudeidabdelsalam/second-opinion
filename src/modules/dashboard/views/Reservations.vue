@@ -182,7 +182,7 @@
 
         <template v-slot:[`item.patient`]="{ item }">
           <span
-            class="d-block black--text"
+            class="d-block black--text font-weight-bold"
             v-if="item.patient && item.patient.full_name"
           >
             {{ item.patient.full_name }}
