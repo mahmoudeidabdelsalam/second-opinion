@@ -3,7 +3,6 @@
     <v-navigation-drawer
       v-model="drawer"
       app
-      temporary
       class="secondary_bg"
       :right="systemDirection === 'rtl'"
     >
@@ -12,13 +11,7 @@
     </v-navigation-drawer>
 
     <v-app-bar app color="secondary_bg" elevation="2" elevate-on-scroll>
-      <v-btn
-        icon
-        @click="drawer = !drawer"
-        color="black"
-        aria-label="drawer"
-        class="d-md-none d-inline"
-      >
+      <v-btn icon @click="drawer = !drawer" color="black" aria-label="drawer">
         <v-icon> mdi-apps </v-icon>
       </v-btn>
 
