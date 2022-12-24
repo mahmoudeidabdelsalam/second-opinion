@@ -10,10 +10,18 @@ import dashboardRoutes from "@/modules/dashboard/dashboard.routes";
 // public routes
 import publicRoutes from "@/modules/public/public.routes";
 
+// client routes
+import clientRoutes from "@/modules/client/client.routes";
+
 Vue.use(VueRouter);
 
 const baseRoutes = [];
-const routes = baseRoutes.concat(authRoutes, dashboardRoutes, publicRoutes);
+const routes = baseRoutes.concat(
+  authRoutes,
+  dashboardRoutes,
+  publicRoutes,
+  clientRoutes
+);
 
 const router = new VueRouter({
   mode: "history",
