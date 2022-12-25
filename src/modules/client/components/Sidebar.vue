@@ -1,132 +1,110 @@
 <template>
-  <aside class="sidebar white">
-    <router-link :to="{ name: 'Home' }" class="brand d-block pa-5 text-center">
-      <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
-    </router-link>
-
-    <span class="d-block pa-5 font-weight-bold black--text">Menu</span>
-
+  <aside class="sidebar primary">
     <v-list>
-      <v-list-item
-        link
-        :to="{ name: 'DashboardOverview' }"
-        active-class="primary--text"
-      >
+      <v-list-item link to="/" active-class="white active" class="white--text">
         <v-list-item-icon>
-          <v-icon>mdi-view-dashboard</v-icon>
+          <v-icon color="white">mdi-home</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Dashboard</v-list-item-title>
+          <v-list-item-title>Home</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-list-item
         link
-        :to="{ name: 'Departments' }"
-        active-class="primary--text"
+        :to="{ name: 'ClientNotifications' }"
+        active-class="white active"
+        class="white--text"
       >
         <v-list-item-icon>
-          <v-icon>mdi-handshake</v-icon>
+          <v-icon color="white">mdi-bell-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Departments</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item link :to="{ name: 'Services' }" active-class="primary--text">
-        <v-list-item-icon>
-          <v-icon>mdi-playlist-check</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Services</v-list-item-title>
+          <v-list-item-title>Notifications</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-list-item
         link
-        :to="{ name: 'Employees' }"
-        active-class="primary--text"
+        :to="{ name: 'ClientAppointments' }"
+        active-class="white active"
+        class="white--text"
       >
         <v-list-item-icon>
-          <v-icon>mdi-account-multiple</v-icon>
+          <v-icon color="white">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Employees</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item link :to="{ name: 'Doctors' }" active-class="primary--text">
-        <v-list-item-icon>
-          <v-icon>mdi-doctor</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Doctors</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item link :to="{ name: 'Roles' }" active-class="primary--text">
-        <v-list-item-icon>
-          <v-icon>mdi-shield</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Roles</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item link :to="{ name: 'Patients' }" active-class="primary--text">
-        <v-list-item-icon>
-          <v-icon>mdi-account-group</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Patients</v-list-item-title>
+          <v-list-item-title>Appointments</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-list-item
         link
-        :to="{ name: 'Reservations' }"
-        active-class="primary--text"
+        :to="{ name: 'ClientMedicalReports' }"
+        active-class="white active"
+        class="white--text"
       >
         <v-list-item-icon>
-          <v-icon>mdi-timetable</v-icon>
+          <v-icon color="white">mdi-file-document</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Reservations</v-list-item-title>
+          <v-list-item-title>Medical reports</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
-      <!-- <v-list-item
+      <v-list-item
         link
-        :to="{ name: 'DoctorsExperiences' }"
-        active-class="primary--text"
+        :to="{ name: 'ClientPaymentMethods' }"
+        active-class="white active"
+        class="white--text"
       >
         <v-list-item-icon>
-          <v-icon>mdi-expand-all</v-icon>
+          <v-icon color="white">mdi-credit-card-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Doctors experiences</v-list-item-title>
+          <v-list-item-title>Payment</v-list-item-title>
         </v-list-item-content>
-      </v-list-item> -->
+      </v-list-item>
 
-      <!-- <v-list-item
+      <v-list-item
         link
-        :to="{ name: 'DoctorsEducations' }"
-        active-class="primary--text"
+        :to="{ name: 'ClientSettings' }"
+        active-class="white active"
+        class="white--text"
       >
         <v-list-item-icon>
-          <v-icon>mdi-school</v-icon>
+          <v-icon color="white">mdi-cog</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Doctors educations</v-list-item-title>
+          <v-list-item-title>Settings</v-list-item-title>
         </v-list-item-content>
-      </v-list-item> -->
+      </v-list-item>
 
-      <v-list-item link :to="{ name: 'Invoices' }" active-class="primary--text">
+      <v-list-item
+        link
+        :to="{ name: 'ClientHelp' }"
+        active-class="white active"
+        class="white--text"
+      >
         <v-list-item-icon>
-          <v-icon>mdi-receipt</v-icon>
+          <v-icon color="white">mdi-help-circle-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Invoices</v-list-item-title>
+          <v-list-item-title>Help</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        link
+        :to="{ name: 'ClientAboutSite' }"
+        active-class="white active"
+        class="white--text"
+      >
+        <v-list-item-icon>
+          <v-icon color="white">mdi-information-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>About second opinion</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>

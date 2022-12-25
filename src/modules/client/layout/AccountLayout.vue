@@ -1,5 +1,5 @@
 <template>
-  <v-app class="client secondary_bg">
+  <v-app class="client">
     <v-navigation-drawer
       v-model="drawer"
       app

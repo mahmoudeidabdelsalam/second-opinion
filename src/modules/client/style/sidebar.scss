@@ -2,11 +2,16 @@
 .sidebar {
   min-height: 100vh;
 
-  .brand {
-    img {
-      width: 120px;
-      height: auto;
-      object-fit: cover;
+  .active {
+    background-color: #fff !important;
+    border-radius: 2000px 0 0 2000px;
+
+    .v-icon {
+      color: #3e7ab1 !important;
+    }
+
+    .v-list-item__title {
+      color: #3e7ab1 !important;
     }
   }
 }
