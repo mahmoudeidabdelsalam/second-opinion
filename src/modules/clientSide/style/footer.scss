@@ -1,0 +1,56 @@
+@import "../../../assets/style/variables";
+
+footer {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  box-shadow: 0px 0px 3px #000;
+  white-space: nowrap;
+  ul {
+    li {
+      a {
+        color: $main_primary_color;
+        &:hover {
+          color: $main_primary_color_hover;
+        }
+      }
+    }
+  }
+  @media (min-width: 730px) {
+    .showinmobile {
+      display: none;
+    }
+  }
+  @media (max-width: 729px) {
+    .hideinmobile {
+      display: none;
+    }
+  } 
+  @media (max-width: 340px) {
+    .centercol {
+      margin: 0 auto;
+      min-width: 150px;
+    }
+  }
+  .footerlogo {
+    @media (max-width: 340px) {
+      text-align: center;
+    }
+    img {
+      width: 120px;
+    }
+  }
+  .appicons {
+    @extend %appa_style;
+  }
+  .copyright {
+    height: 28px;
+    background-color: $main_primary_color;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      color: white;
+    }
+  }
+}

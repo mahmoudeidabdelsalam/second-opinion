@@ -1,0 +1,26 @@
+@import "../../../assets/style/variables";
+
+.blog {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  .postimg {
+    float: right;
+    width: 50%;
+    @media (max-width: 600px) {
+      width: 100%;
+      float: none;
+    }
+  }
+  .postinfo {
+    @extend %ViewsAndLikes;
+  }
+  .blogContactBtns {
+    @extend %common_btn;
+  }
+  .post {
+    @extend %posts_blog;
+  }
+  h1 , h3 {
+    color: $main_primary_color;
+  }
+}

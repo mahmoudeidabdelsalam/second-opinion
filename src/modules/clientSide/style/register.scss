@@ -1,0 +1,43 @@
+@import "../../../assets/style/variables";
+
+.register, .signin {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  position: relative;
+  h2 {
+    font-weight: 600;
+  }
+  form {
+    .maininpts {
+      @extend %input_style;
+    }
+    .checkboxs {
+      label {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      div {
+        &:first-child {
+        height: 30px;
+        }
+      }
+    }
+  }
+  .imgcolumn {
+    background-image: url(../../../assets/images/BG.png);
+    position: absolute;
+    height: 100%;
+    width: 30%;
+    border: 1px solid $main_primary_color;
+    left: 0;
+    top: 0;
+    img {
+      max-height: 90%;
+      position: absolute;
+      right: -7rem;
+      bottom: 0;
+    }
+  }
+}

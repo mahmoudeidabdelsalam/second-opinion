@@ -11,8 +11,11 @@ const actions = {
         return response.data.data;
       })
       .catch((error) => {
-        // handle errors
-        this.dispatch("errorsHandler/handleError", error);
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
       });
   },
 
@@ -30,8 +33,11 @@ const actions = {
         return response.data.data;
       })
       .catch((error) => {
-        // handle errors
-        this.dispatch("errorsHandler/handleError", error);
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
       });
   },
 
@@ -49,8 +55,11 @@ const actions = {
         return response.data.data;
       })
       .catch((error) => {
-        // handle errors
-        this.dispatch("errorsHandler/handleError", error);
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
       });
   },
 
@@ -66,8 +75,11 @@ const actions = {
         });
       })
       .catch((error) => {
-        // handle errors
-        this.dispatch("errorsHandler/handleError", error);
+        // show error notification
+        this.dispatch("notifications/showNotification", {
+          message: error.response.data.message,
+          color: "red",
+        });
       });
   },
 
@@ -83,44 +95,11 @@ const actions = {
         });
       })
       .catch((error) => {
-        // handle errors
-        this.dispatch("errorsHandler/handleError", error);
-      });
-  },
-
-  // updateStatus
-  async updateStatus(_, data) {
-    return await axios
-      .post(data.url + "/" + data.id + "/update-status", data.data)
-      .then((response) => {
-        // show notification
+        // show error notification
         this.dispatch("notifications/showNotification", {
-          message: response.data.message,
-          color: "green",
+          message: error.response.data.message,
+          color: "red",
         });
-      })
-      .catch((error) => {
-        // handle errors
-        this.dispatch("errorsHandler/handleError", error);
-      });
-  },
-
-  // checkAvailableDates
-  async checkAvailableDates(_, data) {
-    return await axios
-      .post(data.url, data.data)
-      .then((response) => {
-        // show notification
-        this.dispatch("notifications/showNotification", {
-          message: response.data.message,
-          color: "green",
-        });
-
-        return response.data.data;
-      })
-      .catch((error) => {
-        // handle errors
-        this.dispatch("errorsHandler/handleError", error);
       });
   },
 };

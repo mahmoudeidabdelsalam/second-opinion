@@ -7,6 +7,8 @@
         :items="desserts"
         :single-select="singleSelect"
         item-key="id"
+        show-select
+        multi-sort
         sort-by="id"
         sort-desc
         no-data-text="No roles."
@@ -84,7 +86,7 @@
             </v-dialog>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this role?
@@ -142,6 +144,7 @@ export default {
     loaded: false,
     dialog: false,
     dialogDelete: false,
+    dialogRestore: false,
     headers: [
       { text: "Role", value: "name" },
       { text: "Actions", value: "actions", sortable: false },
@@ -214,7 +217,7 @@ export default {
 
         this.loaded = true;
 
-        // get permissions
+        // get roles
         this.getData("dashboard/permissions").then((res) => {
           this.permissions = res;
         });

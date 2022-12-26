@@ -7,6 +7,8 @@
         :items="desserts"
         :single-select="singleSelect"
         item-key="id"
+        show-select
+        multi-sort
         sort-by="id"
         sort-desc
         no-data-text="No reservations."
@@ -34,14 +36,67 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" md="6">
-                          <v-autocomplete
-                            v-model="editedItem.doctor_id"
-                            :items="doctors"
-                            :rules="selectRules"
-                            label="Doctor"
+                          <v-text-field
+                            v-model="editedItem.first_name"
+                            :rules="nameRules"
+                            label="First name"
                             outlined
                             dense
-                          ></v-autocomplete>
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.last_name"
+                            :rules="nameRules"
+                            label="Last name"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.email"
+                            :rules="emailRules"
+                            type="email"
+                            label="Email"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.phone_number"
+                            :rules="phoneRules"
+                            type="tel"
+                            label="Phone number"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.national_id"
+                            :rules="nationalIdRules"
+                            type="number"
+                            label="National ID"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-select
+                            v-model="editedItem.gender"
+                            :items="genders"
+                            :rules="selectRules"
+                            label="Gender"
+                            outlined
+                            dense
+                          ></v-select>
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -55,8 +110,8 @@
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
-                                v-model="editedItem.reservation_day"
-                                label="Reservation day"
+                                v-model="editedItem.birthday"
+                                label="Birthday"
                                 append-icon="mdi-calendar"
                                 readonly
                                 v-bind="attrs"
@@ -68,63 +123,10 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.reservation_day"
+                              v-model="editedItem.birthday"
                               @input="menu = false"
                             ></v-date-picker>
                           </v-menu>
-                        </v-col>
-
-                        <v-col cols="12">
-                          <v-btn
-                            class="capitalize mb-5"
-                            @click="getAvailableDates"
-                          >
-                            Check available dates
-                          </v-btn>
-                        </v-col>
-
-                        <v-col
-                          cols="12"
-                          md="6"
-                          v-if="showInpust && availableTimes"
-                        >
-                          <v-autocomplete
-                            v-model="editedItem.patient_id"
-                            :items="patients"
-                            :rules="selectRules"
-                            label="Patient"
-                            outlined
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
-
-                        <v-col
-                          cols="12"
-                          md="6"
-                          v-if="showInpust && availableTimes"
-                        >
-                          <v-autocomplete
-                            v-model="editedItem.reservation_time_start"
-                            :items="availableTimes"
-                            :rules="selectRules"
-                            label="Time"
-                            outlined
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
-
-                        <v-col
-                          cols="12"
-                          md="6"
-                          v-if="showInpust && availableTimes"
-                        >
-                          <v-autocomplete
-                            v-model="editedItem.type"
-                            :items="reservationTypes"
-                            label="Reservation type"
-                            outlined
-                            dense
-                          ></v-autocomplete>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -136,13 +138,7 @@
                   <v-btn color="secondary" depressed small @click="close">
                     Cancel
                   </v-btn>
-                  <v-btn
-                    color="primary"
-                    depressed
-                    small
-                    @click="save"
-                    v-if="showInpust && availableTimes"
-                  >
+                  <v-btn color="primary" depressed small @click="save">
                     Save
                   </v-btn>
                 </v-card-actions>
@@ -150,7 +146,7 @@
             </v-dialog>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this reservation?
@@ -182,7 +178,7 @@
 
         <template v-slot:[`item.patient`]="{ item }">
           <span
-            class="d-block black--text font-weight-bold"
+            class="d-block black--text"
             v-if="item.patient && item.patient.full_name"
           >
             {{ item.patient.full_name }}
@@ -255,20 +251,10 @@
           </span>
         </template>
 
-        <template v-slot:[`item.status`]="{ item }">
-          <v-select
-            :items="status"
-            :value="item.status"
-            outlined
-            dense
-            @change="changeStatus(item, $event)"
-          ></v-select>
-        </template>
-
         <template v-slot:[`item.actions`]="{ item }">
-          <!-- <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
+          <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
             <v-icon small color="success">mdi-pencil</v-icon>
-          </v-btn> -->
+          </v-btn>
 
           <v-btn
             class="primary--text primary_bg mx-2"
@@ -295,46 +281,19 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Patient", value: "patient", sortable: false },
-      { text: "Doctor", value: "doctor", sortable: false },
-      { text: "Time", value: "time", sortable: false },
-      { text: "Type", value: "type.text" },
-      {
-        text: "Status",
-        value: "status",
-        width: "200",
-        align: "center",
-        sortable: false,
-      },
+      { text: "Reservation", value: "name", width: "200" },
+      { text: "Patient", value: "patient" },
+      { text: "Doctor", value: "doctor" },
+      { text: "Time", value: "time" },
+      { text: "Type", value: "type" },
+      { text: "Status", value: "status" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
-    // doctors
-    doctors: [],
-    // patients
-    patients: [],
-    // available times
-    availableTimes: [],
     // genders
     genders: [
       { text: "Male", value: "m" },
       { text: "Female", value: "f" },
-    ],
-    // status
-    status: [
-      { text: "Pending", value: 0 },
-      { text: "Confirmed", value: 1 },
-      { text: "Cancelled", value: 2 },
-      { text: "Completed", value: 3 },
-      { text: "Expired", value: 4 },
-      { text: "Refunded", value: 5 },
-    ],
-    // reservationTypes
-    reservationTypes: [
-      { text: "Visit", value: 0 },
-      { text: "Call", value: 1 },
-      { text: "Video", value: 2 },
-      { text: "Home nurse", value: 3 },
     ],
     // selected rows
     singleSelect: false,
@@ -342,24 +301,26 @@ export default {
     editedIndex: -1,
     editedItem: {
       id: "",
-      doctor_id: "",
-      patient_id: "",
-      reservation_day: "",
-      reservation_time_start: "",
-      type: "",
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_number: "",
+      national_id: "",
+      gender: "",
+      birthday: "",
     },
     defaultItem: {
       id: "",
-      doctor_id: "",
-      patient_id: "",
-      reservation_day: "",
-      reservation_time_start: "",
-      type: "",
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_number: "",
+      national_id: "",
+      gender: "",
+      birthday: "",
     },
     // date picker
     menu: false,
-
-    showInpust: false,
   }),
 
   computed: {
@@ -369,7 +330,12 @@ export default {
 
     ...mapGetters({
       valid: "validationRules/valid",
+      nameRules: "validationRules/nameRules",
+      emailRules: "validationRules/emailRules",
+      phoneRules: "validationRules/phoneRules",
       selectRules: "validationRules/selectRules",
+      numberRules: "validationRules/numberRules",
+      nationalIdRules: "validationRules/nationalIdRules",
     }),
   },
 
@@ -394,8 +360,6 @@ export default {
       addData: "crudOperations/addData",
       updateData: "crudOperations/updateData",
       deleteData: "crudOperations/deleteData",
-      updateStatus: "crudOperations/updateStatus",
-      checkAvailableDates: "crudOperations/checkAvailableDates",
     }),
 
     // init data
@@ -407,26 +371,6 @@ export default {
         });
 
         this.loaded = true;
-
-        // get doctors
-        this.getData("dashboard/doctors").then((res) => {
-          this.doctors = res.map((item) => {
-            return {
-              text: item.full_name,
-              value: item.id,
-            };
-          });
-        });
-
-        // get patients
-        this.getData("dashboard/patients").then((res) => {
-          this.patients = res.map((item) => {
-            return {
-              text: item.full_name,
-              value: item.id,
-            };
-          });
-        });
       }, 0);
     },
 
@@ -439,6 +383,9 @@ export default {
           {},
           {
             id: res.id,
+            en_name: res.en.display_name,
+            ar_name: res.ar.display_name,
+            permissions: res.permissions.map((item) => item.id),
           }
         );
       });
@@ -480,39 +427,6 @@ export default {
       });
     },
 
-    // change item status
-    changeStatus(item, event) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-
-      let data = new FormData();
-      data.append("status", event);
-      data.append("_method", "PUT");
-
-      this.updateStatus({
-        url: "dashboard/reservations",
-        id: this.editedItem.id,
-        data: data,
-      }).then((res) => {
-        Object.assign(this.desserts[this.editedIndex], res);
-      });
-    },
-
-    // get available dates
-    getAvailableDates() {
-      let data = new FormData();
-      data.append("doctor_id", this.editedItem.doctor_id);
-      data.append("reservation_day", this.editedItem.reservation_day);
-
-      this.addData({
-        url: "dashboard/reservations/get-available-dates",
-        data: data,
-      }).then((res) => {
-        this.availableTimes = res;
-        this.showInpust = true;
-      });
-    },
-
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
@@ -530,14 +444,8 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("doctor_id", this.editedItem.doctor_id);
-          data.append("reservation_day", this.editedItem.reservation_day);
-          data.append("patient_id", this.editedItem.patient_id);
-          data.append(
-            "reservation_time_start",
-            this.editedItem.reservation_time_start
-          );
-          data.append("type", this.editedItem.type);
+          data.append("name:en", this.editedItem.en_name);
+          data.append("name:ar", this.editedItem.ar_name);
 
           this.addData({
             url: "dashboard/reservations",
@@ -545,9 +453,9 @@ export default {
           }).then((res) => {
             console.log(res);
             this.desserts.unshift(res);
-
-            this.close();
           });
+
+          this.close();
         }
       }
     },

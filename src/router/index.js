@@ -4,24 +4,16 @@ import VueRouter from "vue-router";
 // auth routes
 import authRoutes from "@/modules/auth/auth.routes";
 
+// ClientSide routes
+import clientSide from "@/modules/clientSide/clientSide.routes";
+
 // dashboard routes
 import dashboardRoutes from "@/modules/dashboard/dashboard.routes";
-
-// public routes
-import publicRoutes from "@/modules/public/public.routes";
-
-// client routes
-import clientRoutes from "@/modules/client/client.routes";
 
 Vue.use(VueRouter);
 
 const baseRoutes = [];
-const routes = baseRoutes.concat(
-  authRoutes,
-  dashboardRoutes,
-  publicRoutes,
-  clientRoutes
-);
+const routes = baseRoutes.concat(authRoutes, dashboardRoutes, clientSide);
 
 const router = new VueRouter({
   mode: "history",

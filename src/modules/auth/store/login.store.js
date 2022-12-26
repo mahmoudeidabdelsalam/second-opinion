@@ -45,20 +45,24 @@ const actions = {
       commit("SET_USER", response.data.data);
 
       // check if user is verified before redirecting
-      // if (response.data.data.verified) {
-      // redirect user depending on his role
-      switch (response.data.data.role.value) {
-        case 1: // super admin
-          router.push({ name: "DashboardOverview" });
-          break;
+      if (response.data.data.verified) {
+        // redirect user depending on his role
+        switch (response.data.data.role) {
+          case 1: // super admin
+            router.push({ name: "Overview" });
+            break;
+
+          case 2: // regular client
+            router.push({ name: "Overview" });
+            break;
+        }
+      } else {
+        // redirect to verification page
+        router.push({
+          name: "Verify",
+          query: { email: response.data.data.email },
+        });
       }
-      // } else {
-      //   // redirect to verification page
-      //   router.push({
-      //     name: "Verify",
-      //     query: { email: response.data.data.email },
-      //   });
-      // }
     } catch (e) {
       // remove token
       commit("SET_TOKEN", null);

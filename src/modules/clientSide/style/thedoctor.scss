@@ -1,0 +1,62 @@
+@import "../../../assets/style/variables";
+
+.thedoctor {
+  font-family: 'Cairo', sans-serif;
+  background-color: $main_background;
+  color: white;
+  direction: rtl;
+  .headdoctor {
+    background-color: $secondary_primary_color;
+    img {
+      background-color: $main_background;
+      width: 140px;
+      max-width: 100%;
+    }
+    .content {
+      line-height: 2.8rem;
+      button {
+        background-color: #ffffff2a;
+        color: white;
+        box-shadow: none;
+        width: 8.5rem;
+      }
+    }
+  }
+  .aboutdoctor, .certificates, .prices {
+    background-color: white;
+    color: $text_secondary_color;
+    box-shadow: 0px 0px 15px rgb(224, 224, 224);
+  }
+  .aboutdoctor {
+    i {
+      @extend %icon_style;
+      border: 1px solid $secondary_primary_color;
+    }
+  }
+  .connectdoctor {
+    h3 {
+      color: $text_secondary_color;
+    }
+  }
+  .certificates {
+    i {
+      @extend %icon_style;
+    }
+    ul {
+      list-style-type:disc;
+      list-style-position: inside;
+      line-height: 2rem;
+    }
+  }
+  .prices {
+    i {
+      @extend %icon_style;
+      border: 1px solid $secondary_primary_color;
+    }
+    div {
+      span:first-child {
+        color: $main_primary_color;
+      }
+    }
+  }
+}

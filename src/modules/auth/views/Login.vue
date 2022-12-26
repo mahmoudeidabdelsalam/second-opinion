@@ -1,19 +1,26 @@
 <template>
-  <div class="auth-page">
-    <v-container fluid>
+  <div class="auth-page d-flex justify-center align-center">
+    <div class="main-box rounded-lg elevation-24">
       <v-row>
-        <v-col cols="12" md="6" class="pa-0">
-          <div
-            class="form-side d-flex flex-column justify-center align-start mx-auto pa-5"
-          >
-            <h1 class="mb-7">Login</h1>
+        <v-col class="pa-5" cols="12" md="6">
+          <div class="content d-flex flex-column align-center white rounded-lg">
+            <router-link
+              class="font-weight-black text-h4 mb-5"
+              :to="{ name: 'Home' }"
+            >
+              Top Doctors
+            </router-link>
+
+            <p class="font-weight-regular text--secondary text-center mb-4">
+              Please enter your email and password to login.
+            </p>
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
                 type="email"
-                label="Email or phone number"
+                label="Email"
                 outlined
                 dense
               ></v-text-field>
@@ -49,36 +56,29 @@
               >
                 Register
               </v-btn>
-            </div>
-          </div>
-        </v-col>
 
-        <v-col cols="12" md="6" class="pa-0 hidden-sm-and-down">
-          <div class="image-side">
-            <div class="image">
-              <img src="@/assets/images/women-doctor.webp" alt="women doctor" />
+              <v-btn class="text-capitalize" color="primary" text link to="/">
+                Forget password?
+              </v-btn>
             </div>
           </div>
         </v-col>
       </v-row>
-    </v-container>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
 export default {
   name: "Login",
-
   data: () => ({
     // login form data
     form: {
-      email: "",
-      password: "",
+      email: "admin@gmail.com",
+      password: "password",
     },
   }),
-
   computed: {
     ...mapGetters({
       valid: "validationRules/valid",
@@ -86,13 +86,11 @@ export default {
       passwordRules: "validationRules/passwordRules",
     }),
   },
-
   methods: {
     ...mapActions({
       // login action
       loginAction: "login/login",
     }),
-
     // login method
     login() {
       // validate form

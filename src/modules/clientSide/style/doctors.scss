@@ -1,0 +1,59 @@
+@import "../../../assets/style/variables";
+
+.doctors {
+  font-family: 'Cairo', sans-serif;
+  background-color: $main_background;
+  color: white;
+  direction: rtl;
+  .headdoctors {
+    background-image: url(../../../assets/images/doctors.png);
+    height: 180px;
+    p {
+      font-size: 1.5rem;
+      @media (max-width: 270px) {
+        font-size: 1.2rem;
+      }
+    }
+  }
+  .doctorbox {
+    background-color: $secondary_primary_color;
+    img {
+      background-color: $main_background;
+      width: 140px;
+      max-width: 100%;
+    }
+    .content {
+      line-height: 2.8rem;
+      a {
+        color: white;
+        font-size: 1.5rem;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      > div {
+        span:first-child {
+          line-height: 1.7rem;
+          font-size: 0.9rem;
+        }
+        button {
+          white-space: nowrap;
+          background-color: white;
+          color: $main_primary_color;
+          width: 150px;
+          font-weight: bold;
+          transition: 0.3s;
+          &:hover {
+            box-shadow: 1px 1px 5px #00386d;
+          }
+        }
+      }
+      button {
+        background-color: #ffffff2a;
+        color: white;
+        box-shadow: none;
+        width: 8.5rem;
+      }
+    }
+  }
+}

@@ -7,6 +7,8 @@
         :items="desserts"
         :single-select="singleSelect"
         item-key="id"
+        show-select
+        multi-sort
         sort-by="id"
         sort-desc
         no-data-text="No doctors."
@@ -35,7 +37,7 @@
                       <v-row>
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.full_name_en"
+                            v-model="editedItem.en_name"
                             :rules="nameRules"
                             label="English name"
                             outlined
@@ -45,7 +47,7 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.full_name_ar"
+                            v-model="editedItem.ar_name"
                             :rules="nameRules"
                             label="Arabic name"
                             outlined
@@ -54,28 +56,8 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.title_en"
-                            :rules="nameRules"
-                            label="English title"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.title_ar"
-                            :rules="nameRules"
-                            label="Arabic title"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
                           <v-textarea
-                            v-model="editedItem.description_en"
+                            v-model="editedItem.en_description"
                             :rules="descriptionRules"
                             label="English description"
                             outlined
@@ -87,7 +69,7 @@
 
                         <v-col cols="12" md="6">
                           <v-textarea
-                            v-model="editedItem.description_ar"
+                            v-model="editedItem.ar_description"
                             :rules="descriptionRules"
                             label="Arabic description"
                             outlined
@@ -117,50 +99,6 @@
                             outlined
                             dense
                           ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-select
-                            v-model="editedItem.gender"
-                            :items="genders"
-                            :rules="selectRules"
-                            label="Gender"
-                            outlined
-                            dense
-                          ></v-select>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.session_price"
-                            :rules="numberRules"
-                            type="number"
-                            label="Session price"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.session_duration"
-                            :rules="numberRules"
-                            type="number"
-                            label="Session duration (in minutes)"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-select
-                            v-model="editedItem.department_id"
-                            :items="departments"
-                            :rules="selectRules"
-                            label="Department"
-                            outlined
-                            dense
-                          ></v-select>
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -218,7 +156,7 @@
             </v-menu>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this doctor?
@@ -241,7 +179,7 @@
             </v-dialog>
 
             <!-- restore item -->
-            <v-dialog v-model="dialogRestore" max-width="600px">
+            <v-dialog v-model="dialogRestore" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to restore this doctor?
@@ -384,54 +322,35 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Doctor", value: "name", sortable: false },
-      { text: "Department", value: "department", sortable: false },
-      { text: "Contacts", value: "contacts", sortable: false },
-      { text: "Session price", value: "session_price", sortable: false },
+      { text: "Doctor", value: "name" },
+      { text: "Department", value: "department" },
+      { text: "Contacts", value: "contacts" },
+      { text: "Session price", value: "session_price" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
-    // departments
-    departments: [],
-    // genders
-    genders: [
-      { text: "Male", value: "m" },
-      { text: "Female", value: "f" },
-    ],
     // selected rows
     singleSelect: false,
     selected: [],
     editedIndex: -1,
     editedItem: {
       id: "",
-      full_name_en: "",
-      full_name_ar: "",
-      description_en: "",
-      description_ar: "",
-      title_en: "",
-      title_ar: "",
+      en_name: "",
+      ar_name: "",
+      en_description: "",
+      ar_description: "",
       email: "",
       phone_number: "",
-      gender: "",
-      session_price: "",
-      session_duration: "",
-      department_id: "",
       image: "",
     },
     defaultItem: {
       id: "",
-      full_name_en: "",
-      full_name_ar: "",
-      description_en: "",
-      description_ar: "",
-      title_en: "",
-      title_ar: "",
+      en_name: "",
+      ar_name: "",
+      en_description: "",
+      ar_description: "",
       email: "",
       phone_number: "",
-      gender: "",
-      session_price: "",
-      session_duration: "",
-      department_id: "",
       image: "",
     },
   }),
@@ -447,8 +366,6 @@ export default {
       descriptionRules: "validationRules/descriptionRules",
       emailRules: "validationRules/emailRules",
       phoneRules: "validationRules/phoneRules",
-      numberRules: "validationRules/numberRules",
-      selectRules: "validationRules/selectRules",
     }),
 
     // route qquery for trashed
@@ -512,16 +429,6 @@ export default {
         }
 
         this.loaded = true;
-
-        // get departments
-        this.getData("dashboard/departments").then((res) => {
-          this.departments = res.map((item) => {
-            return {
-              text: item.name,
-              value: item.id,
-            };
-          });
-        });
       }, 0);
     },
 
@@ -540,20 +447,28 @@ export default {
           {},
           {
             id: res.id,
-            full_name_en: res.en.full_name,
-            full_name_ar: res.ar.full_name,
-            title_en: res.en.title,
-            title_ar: res.ar.title,
+            en_name: res.en.name,
+            ar_name: res.ar.name,
+            en_description: res.en.description,
+            ar_description: res.ar.description,
             email: res.email,
             phone_number: res.phone_number,
-            gender: res.gender,
-            session_price: res.session_price,
-            session_duration: res.session_duration,
-            department_id: res.department.id,
           }
         );
       });
 
+      this.editedItem = Object.assign(
+        {},
+        {
+          id: item.id,
+          en_name: item.name,
+          ar_name: item.name,
+          en_description: item.description,
+          ar_description: item.description,
+          email: item.email,
+          phone_number: item.phone_number,
+        }
+      );
       this.dialog = true;
     },
 
@@ -618,18 +533,12 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("full_name:en", this.editedItem.full_name_en);
-        data.append("full_name:ar", this.editedItem.full_name_ar);
-        data.append("description:en", this.editedItem.description_en);
-        data.append("description:ar", this.editedItem.description_ar);
-        data.append("title:en", this.editedItem.title_en);
-        data.append("title:ar", this.editedItem.title_ar);
+        data.append("name:en", this.editedItem.en_name);
+        data.append("name:ar", this.editedItem.ar_name);
+        data.append("description[en]", this.editedItem.en_description);
+        data.append("description[ar]", this.editedItem.ar_description);
         data.append("email", this.editedItem.email);
         data.append("phone_number", this.editedItem.phone_number);
-        data.append("gender", this.editedItem.gender);
-        data.append("session_price", this.editedItem.session_price);
-        data.append("session_duration", this.editedItem.session_duration);
-        data.append("department_id", this.editedItem.department_id);
         this.editedItem.image
           ? data.append("image", this.editedItem.image)
           : "";
@@ -645,18 +554,12 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("full_name:en", this.editedItem.full_name_en);
-          data.append("full_name:ar", this.editedItem.full_name_ar);
-          data.append("description:en", this.editedItem.description_en);
-          data.append("description:ar", this.editedItem.description_ar);
-          data.append("title:en", this.editedItem.title_en);
-          data.append("title:ar", this.editedItem.title_ar);
+          data.append("name:en", this.editedItem.en_name);
+          data.append("name:ar", this.editedItem.ar_name);
+          data.append("description[en]", this.editedItem.en_description);
+          data.append("description[ar]", this.editedItem.ar_description);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
-          data.append("gender", this.editedItem.gender);
-          data.append("session_price", this.editedItem.session_price);
-          data.append("session_duration", this.editedItem.session_duration);
-          data.append("department_id", this.editedItem.department_id);
           data.append("image", this.editedItem.image);
 
           this.addData({
@@ -665,9 +568,9 @@ export default {
           }).then((res) => {
             console.log(res);
             this.desserts.unshift(res);
-
-            this.close();
           });
+
+          this.close();
         }
       }
     },

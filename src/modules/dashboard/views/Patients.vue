@@ -7,6 +7,8 @@
         :items="desserts"
         :single-select="singleSelect"
         item-key="id"
+        show-select
+        multi-sort
         sort-by="id"
         sort-desc
         no-data-text="No patients."
@@ -144,7 +146,7 @@
             </v-dialog>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this patient?
@@ -184,9 +186,7 @@
         </template>
 
         <template v-slot:[`item.info`]="{ item }">
-          <span class="d-block black--text">
-            Gender: {{ item.gender.text }}
-          </span>
+          <span class="d-block black--text"> Gender: {{ item.gender }} </span>
           <span class="d-block black--text"> Age: {{ item.age }} </span>
         </template>
 
@@ -220,9 +220,9 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Patient", value: "name", sortable: false },
-      { text: "Contacts", value: "contacts", sortable: false },
-      { text: "Info", value: "info", sortable: false },
+      { text: "Patient", value: "name" },
+      { text: "Contacts", value: "contacts" },
+      { text: "Info", value: "info" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
@@ -319,13 +319,9 @@ export default {
           {},
           {
             id: res.id,
-            first_name: res.first_name,
-            last_name: res.last_name,
-            email: res.email,
-            phone_number: res.phone_number,
-            national_id: res.national_id,
-            gender: res.gender.value,
-            birthday: res.birthday,
+            en_name: res.en.display_name,
+            ar_name: res.ar.display_name,
+            permissions: res.permissions.map((item) => item.id),
           }
         );
       });
@@ -370,13 +366,11 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("first_name", this.editedItem.first_name);
-        data.append("last_name", this.editedItem.last_name);
-        data.append("email", this.editedItem.email);
-        data.append("phone_number", this.editedItem.phone_number);
-        data.append("birthday", this.editedItem.birthday);
-        data.append("gender", this.editedItem.gender);
-        data.append("national_id", this.editedItem.national_id);
+        data.append("name:en", this.editedItem.en_name);
+        data.append("name:ar", this.editedItem.ar_name);
+        for (let i = 0; i < this.editedItem.permissions.length; i++) {
+          data.append("permissions[]", this.editedItem.permissions[i]);
+        }
         data.append("_method", "PUT");
 
         await this.updateData({
@@ -389,13 +383,11 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("first_name", this.editedItem.first_name);
-          data.append("last_name", this.editedItem.last_name);
-          data.append("email", this.editedItem.email);
-          data.append("phone_number", this.editedItem.phone_number);
-          data.append("birthday", this.editedItem.birthday);
-          data.append("gender", this.editedItem.gender);
-          data.append("national_id", this.editedItem.national_id);
+          data.append("name:en", this.editedItem.en_name);
+          data.append("name:ar", this.editedItem.ar_name);
+          for (let i = 0; i < this.editedItem.permissions.length; i++) {
+            data.append("permissions[]", this.editedItem.permissions[i]);
+          }
 
           this.addData({
             url: "dashboard/patients",

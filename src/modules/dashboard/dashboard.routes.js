@@ -29,11 +29,11 @@ let routes = [
       },
 
       // employees
-      {
-        path: "employees",
-        name: "Employees",
-        component: () => import("@/modules/dashboard/views/Employees.vue"),
-      },
+      // {
+      //   path: "employees",
+      //   name: "Employees",
+      //   component: () => import("@/modules/dashboard/views/Employees.vue"),
+      // },
 
       // doctors
       {
@@ -61,28 +61,6 @@ let routes = [
         path: "reservations",
         name: "Reservations",
         component: () => import("@/modules/dashboard/views/Reservations.vue"),
-      },
-
-      // doctors experiences
-      {
-        path: "doctors-experiences",
-        name: "DoctorsExperiences",
-        component: () =>
-          import("@/modules/dashboard/views/DoctorsExperiences.vue"),
-      },
-      // doctors educations
-      {
-        path: "doctors-educations",
-        name: "DoctorsEducations",
-        component: () =>
-          import("@/modules/dashboard/views/DoctorsEducations.vue"),
-      },
-
-      // invoices
-      {
-        path: "invoices",
-        name: "Invoices",
-        component: () => import("@/modules/dashboard/views/Invoices.vue"),
       },
     ],
   },

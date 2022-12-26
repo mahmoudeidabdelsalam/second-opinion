@@ -7,6 +7,8 @@
         :items="desserts"
         :single-select="singleSelect"
         item-key="id"
+        show-select
+        multi-sort
         sort-by="id"
         sort-desc
         no-data-text="No departments."
@@ -154,7 +156,7 @@
             </v-menu>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to delete this department?
@@ -177,7 +179,7 @@
             </v-dialog>
 
             <!-- restore item -->
-            <v-dialog v-model="dialogRestore" max-width="600px">
+            <v-dialog v-model="dialogRestore" max-width="500px">
               <v-card>
                 <v-card-title class="text-h6">
                   Are you sure you want to restore this department?
@@ -307,7 +309,7 @@ export default {
     dialogRestore: false,
     headers: [
       { text: "Department", value: "name" },
-      { text: "Contacts", value: "contacts", sortable: false },
+      { text: "Contacts", value: "contacts" },
       { text: "Services", value: "services", sortable: false },
       { text: "Actions", value: "actions", sortable: false },
     ],
@@ -506,8 +508,8 @@ export default {
         let data = new FormData();
         data.append("name:en", this.editedItem.en_name);
         data.append("name:ar", this.editedItem.ar_name);
-        data.append("description:en", this.editedItem.en_description);
-        data.append("description:ar", this.editedItem.ar_description);
+        data.append("description[en]", this.editedItem.en_description);
+        data.append("description[ar]", this.editedItem.ar_description);
         data.append("email", this.editedItem.email);
         data.append("telephone", this.editedItem.telephone);
         this.editedItem.image
@@ -527,8 +529,8 @@ export default {
           let data = new FormData();
           data.append("name:en", this.editedItem.en_name);
           data.append("name:ar", this.editedItem.ar_name);
-          data.append("description:en", this.editedItem.en_description);
-          data.append("description:ar", this.editedItem.ar_description);
+          data.append("description[en]", this.editedItem.en_description);
+          data.append("description[ar]", this.editedItem.ar_description);
           data.append("email", this.editedItem.email);
           data.append("telephone", this.editedItem.telephone);
           data.append("image", this.editedItem.image);

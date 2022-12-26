@@ -1,0 +1,110 @@
+$main_background: #f2f7fd;
+$main_primary_color: #1d62a3;
+$main_primary_color_hover: #13487a;
+$secondary_primary_color: #307ABE;
+$text_secondary_color: rgba(0, 0, 0, 0.6);
+
+// common Button /header
+%common_btn {
+  background-color: $main_primary_color;
+  color: white;
+}
+// mdi_icons /thedoctor
+%icon_style {
+  color: $secondary_primary_color;
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+}
+// input_style /Register /Signin /LandingSearch
+%input_style {
+  border: 1px solid #D1D1D1;
+  border-radius: 5px;
+  &:focus {
+    outline: 1px solid $main_primary_color;
+  }
+}
+// App_icons_style /Footer /LandingApps
+%appa_style {
+  > div {
+    direction: ltr;
+    width: 9rem;
+    height: 2.7rem;
+    border: 1px solid #bebebe;
+    outline: 1px solid #8f8f8f;
+    background-color: white;
+    color: rgb(53, 53, 53);
+    @media (max-width: 340px) {
+      margin: 7px auto;
+    }
+    .iconholder {
+      width: 1.4rem;
+      img {
+        max-width: 100%;
+      }
+    }
+    span:first-child {
+      font-size: 0.7rem;
+      letter-spacing: -0.02rem;
+      white-space: nowrap;
+    }
+    span:last-child {
+      font-size: 1.1rem;
+      line-height: 0.7rem;
+      white-space: nowrap;
+    }
+  }
+}
+// blog Views and Likes /Landing_blog /Blog
+%ViewsAndLikes {
+  div:first-child i {
+    color: tomato;
+  }
+  div:last-child i {
+    color: $secondary_primary_color;
+  }
+}
+// blog Posts /Landing_blog /blog
+%posts_blog {
+  overflow: hidden;
+  transition: 0.3s;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.192);
+    transform: scale(1.01);
+  }
+  @media (min-width: 960px){
+    img {
+      width: 180px;
+      height: auto;
+    }
+  }
+  @media (max-width: 960px){
+    img {
+      width: 220px;
+      height: auto;
+    }
+  }
+  @media (max-width: 600px){
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  @media (max-width: 200px){
+    img {
+      display: none;
+    }
+    .postcontent {
+      text-align: center;
+    }
+  }
+  .postcontent {
+    .postdate {
+      color: #159EEC;
+    }
+    .icons {
+      @extend %ViewsAndLikes;
+    }
+  }
+}

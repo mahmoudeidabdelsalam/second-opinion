@@ -1,0 +1,114 @@
+@import "../../../assets/style/variables";
+
+.landing {
+  font-family: 'Cairo', sans-serif;
+  background-color: $main_background;
+  direction: rtl;
+  .landinghome {
+    height: calc(100vh - 50px);
+  }
+  .landingsearch {
+    .tab {
+      background-color: white;
+    }
+    .v-tab::before {
+      display: none;
+    }
+    .tabsbody {
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.103);
+      .maininput {
+        background-color: $main_background;
+        width: 70%;
+        &:focus {
+          outline: 1px solid #00000011;
+        }
+        &::placeholder {
+          font-size: 1rem;
+        }
+      }
+      .searchbtn {
+        @extend %common_btn;
+      }
+      @media (max-width: 400px) {
+        .xscolumn {
+          flex-direction: column;
+          .maininput {
+            width: 100%;
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+    .btnsbox {
+      .manybtns {
+        @extend %common_btn;
+      }
+      @media (max-width: 370px){
+        .xswidth {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .landingdoctors {
+    h1 {
+      color: $main_primary_color;
+    }
+    .dr-content {
+      span:first-child {
+        color: $main_primary_color;
+      }
+      span:last-child {
+        color: $text_secondary_color;
+      }
+    }
+    .glide__slide.glide__slide--active {
+      display: flex;
+      align-items: flex-start;
+    }
+  }
+  .Landingapps {
+    background-color: $main_primary_color;
+    .appstext {
+      color: white;
+      p {
+        font-size: 3rem;
+      }
+      > span {
+        line-height: 2.8rem;
+        font-size: 1.2rem;
+      }
+      .appdownload {
+        @extend %appa_style;
+        > div {
+          border: none;
+          outline: none;
+        }
+      }
+    }
+  }
+  .landingblog {
+    h1 {
+      color: $main_primary_color;
+    }
+    .post {
+      @extend %posts_blog;
+    }
+  }
+  .landingblog .blogContactBtns, .landingcontact .blogContactBtns {
+    @extend %common_btn;
+  }
+  @media (max-width: 300px){
+    .blogContactBtns {
+      width: 100%;
+    }
+  }
+  .landingcontact {
+    h1 {
+      color: $main_primary_color;
+    }
+    .bgcolor {
+      background-color: $secondary_primary_color;
+    }
+  }
+}
