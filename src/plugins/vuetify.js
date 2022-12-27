@@ -10,6 +10,7 @@ export default new Vuetify({
       light: {
         primary: "#3E7AB1",
         primary_bg: "#e6eff7",
+        primary_dark: "#235787",
         black: "#1c295d",
         secondary: "#697591",
         secondary_bg: "#e6eff7",
@@ -21,6 +22,10 @@ export default new Vuetify({
         success_bg: "#e9f7f2",
         warning: "#f97f26",
         warning_bg: "#fef6eb",
+        grey: "#8e8f8f",
+        grey_dark: "#606161",
+        red: "#ac4a4a",
+        red_dark: "#8A0000",
       },
     },
   },

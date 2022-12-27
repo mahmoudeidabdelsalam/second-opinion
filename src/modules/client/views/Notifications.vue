@@ -7,7 +7,7 @@
     <div class="content pa-5 elevation-3 rounded-lg">
       <div
         class="notification pa-5 rounded-lg secondary_bg mb-5"
-        v-for="notification in 5"
+        v-for="notification in 3"
         :key="notification"
       >
         <span class="d-block font-weight-bold mb-2 primary--text text-h6">
