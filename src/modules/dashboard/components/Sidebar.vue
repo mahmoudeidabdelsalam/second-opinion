@@ -64,6 +64,19 @@
         </v-list-item-content>
       </v-list-item>
 
+      <v-list-item
+        link
+        :to="{ name: 'Assistants' }"
+        active-class="primary--text"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-clipboard-account</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Assistants</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-list-item link :to="{ name: 'Roles' }" active-class="primary--text">
         <v-list-item-icon>
           <v-icon>mdi-shield</v-icon>
