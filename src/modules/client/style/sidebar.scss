@@ -6,6 +6,7 @@
     background-color: #fff !important;
     border-radius: 2000px 0 0 2000px;
     position: relative;
+    transition: none !important;
 
     &::before {
       content: "";
@@ -18,6 +19,7 @@
       border-radius: 50%;
       box-shadow: 10px 10px 0 #fff;
       opacity: 1;
+      transition: none !important;
     }
 
     &::after {
@@ -31,6 +33,7 @@
       border-radius: 50%;
       box-shadow: 10px -10px 0 #fff;
       opacity: 1;
+      transition: none !important;
     }
 
     .v-icon {

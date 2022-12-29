@@ -1,5 +1,5 @@
 <template>
-  <v-app class="public secondary_bg">
+  <v-app class="public">
     <v-navigation-drawer
       v-model="drawer"
       app
