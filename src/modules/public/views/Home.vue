@@ -2,6 +2,7 @@
   <main class="home">
     <h1 class="mb-5">Home page</h1>
     <v-btn class="primary" link :to="{ name: 'Login' }">Login</v-btn>
+    <mobile-apps />
     <contact-form />
   </main>
 </template>
@@ -11,6 +12,7 @@ export default {
   name: "Home",
 
   components: {
+    MobileApps: () => import("../components/home/MobileApps.vue"),
     ContactForm: () => import("../components/home/ContactForm.vue"),
   },
 };

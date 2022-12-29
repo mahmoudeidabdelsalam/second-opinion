@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="mb-16">
     <v-container fluid>
       <h1 class="primary--text text-center mb-10">Contact us</h1>
 
@@ -10,7 +10,7 @@
         style="max-width: 1000px; margin: 0 auto"
       >
         <v-row>
-          <v-col cols="11">
+          <v-col cols="10">
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
@@ -71,7 +71,7 @@
             </v-row>
           </v-col>
 
-          <v-col cols="1">
+          <v-col cols="2">
             <div class="social-media d-flex flex-column align-center">
               <v-btn color="white" class="primary mb-5" link icon large>
                 <v-icon>mdi-facebook</v-icon>
