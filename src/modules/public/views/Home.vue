@@ -1,6 +1,5 @@
 <template>
   <main class="home">
-    <h1 class="mb-5">Home page</h1>
     <v-btn class="primary mb-16" link :to="{ name: 'Login' }">Login</v-btn>
     <search-for-doctor />
     <doctors />

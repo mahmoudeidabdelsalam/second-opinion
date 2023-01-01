@@ -106,6 +106,7 @@ export default {
     ...mapGetters({
       valid: "validationRules/valid",
       nameRules: "validationRules/nameRules",
+      selectRules: "validationRules/selectRules",
     }),
   },
 };

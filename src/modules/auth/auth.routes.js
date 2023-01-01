@@ -14,8 +14,12 @@ let routes = [
         name: "Login",
         component: () => import("@/modules/auth/views/Login.vue"),
         beforeEnter: (to, from, next) => {
-          // if user is authenticated, redirect to DashboardOverview page
-          store.getters["user/authenticated"]
+          // if user is authenticated, redirect to user depending on role
+          store.getters["user/authenticated"] &&
+          store.getters["user/userData"].role.value == 4
+            ? next({ name: "Home" })
+            : store.getters["user/authenticated"] &&
+              store.getters["user/userData"].role.value != 4
             ? next({ name: "DashboardOverview" })
             : next();
         },
@@ -27,8 +31,12 @@ let routes = [
         name: "Register",
         component: () => import("@/modules/auth/views/Register.vue"),
         beforeEnter: (to, from, next) => {
-          // if user is authenticated, redirect to DashboardOverview page
-          store.getters["user/authenticated"]
+          // if user is authenticated, redirect to user depending on role
+          store.getters["user/authenticated"] &&
+          store.getters["user/userData"].role.value == 4
+            ? next({ name: "Home" })
+            : store.getters["user/authenticated"] &&
+              store.getters["user/userData"].role.value != 4
             ? next({ name: "DashboardOverview" })
             : next();
         },
