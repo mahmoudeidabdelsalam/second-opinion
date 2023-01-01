@@ -4,6 +4,8 @@
       <h1 class="primary--text text-center mb-10">Doctors</h1>
 
       <carousel
+        class="mx-auto"
+        style="max-width: 1400px"
         :nav="false"
         :autoplay="true"
         :dots="false"
@@ -21,8 +23,6 @@
             items: 3,
           },
         }"
-        style="max-width: 1400px"
-        class="mx-auto"
       >
         <div
           class="pa-5 ma-5 rounded-lg elevation-3"
