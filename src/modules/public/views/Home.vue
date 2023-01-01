@@ -2,6 +2,7 @@
   <main class="home">
     <h1 class="mb-5">Home page</h1>
     <v-btn class="primary mb-16" link :to="{ name: 'Login' }">Login</v-btn>
+    <search-for-doctor />
     <doctors />
     <mobile-apps />
     <blog />
@@ -14,6 +15,7 @@ export default {
   name: "Home",
 
   components: {
+    SearchForDoctor: () => import("../components/home/SearchForDoctor.vue"),
     Doctors: () => import("../components/home/Doctors.vue"),
     MobileApps: () => import("../components/home/MobileApps.vue"),
     Blog: () => import("../components/home/Blog.vue"),

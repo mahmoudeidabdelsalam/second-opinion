@@ -7,7 +7,8 @@
         ref="form"
         :v-model="valid"
         lazy-validation
-        style="max-width: 1000px; margin: 0 auto"
+        class="mx-auto"
+        style="max-width: 1000px"
       >
         <v-row>
           <v-col cols="10">
