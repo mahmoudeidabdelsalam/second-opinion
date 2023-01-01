@@ -115,7 +115,4 @@ export default {
 .v-tabs-slider {
   color: transparent !important;
 }
-
-.active-tab {
-}
 </style>

@@ -233,11 +233,11 @@
           </span>
         </template>
 
-        <template v-slot:[`item.services`]="{}">
+        <!-- <template v-slot:[`item.services`]="{}">
           <v-btn class="primary--text" icon link :to="{ name: 'Departments' }">
             <v-icon small>mdi-launch</v-icon>
           </v-btn>
-        </template>
+        </template> -->
 
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn
@@ -308,7 +308,7 @@ export default {
     headers: [
       { text: "Department", value: "name" },
       { text: "Contacts", value: "contacts", sortable: false },
-      { text: "Services", value: "services", sortable: false },
+      // { text: "Services", value: "services", sortable: false },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],

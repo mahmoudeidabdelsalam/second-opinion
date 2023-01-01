@@ -33,14 +33,14 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link :to="{ name: 'Services' }" active-class="primary--text">
+      <!-- <v-list-item link :to="{ name: 'Services' }" active-class="primary--text">
         <v-list-item-icon>
           <v-icon>mdi-playlist-check</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>Services</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <v-list-item
         link
