@@ -30,6 +30,8 @@
     <v-main class="pa-0">
       <router-view />
     </v-main>
+
+    <public-footer />
   </v-app>
 </template>
 
@@ -42,6 +44,7 @@ export default {
   components: {
     PublicHeader: () => import("../components/Header.vue"),
     Sidebar: () => import("../components/Sidebar.vue"),
+    PublicFooter: () => import("../components/Footer.vue"),
   },
 
   data: () => ({ drawer: null }),
