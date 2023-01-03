@@ -6,11 +6,19 @@
 
     <div class="links">
       <v-tabs>
-        <v-tab link :to="{ name: 'Home' }">Home</v-tab>
-        <v-tab link :to="{ name: 'PublicAbout' }">About us</v-tab>
-        <v-tab link :to="{ name: 'PublicServices' }">Services</v-tab>
-        <v-tab link :to="{ name: 'PublicDoctors' }">Doctors</v-tab>
-        <v-tab link :to="{ name: 'PublicBlog' }">Blog</v-tab>
+        <v-tab class="font-weight-bold" link :to="{ name: 'Home' }">Home</v-tab>
+        <v-tab class="font-weight-bold" link :to="{ name: 'PublicAbout' }">
+          About us
+        </v-tab>
+        <v-tab class="font-weight-bold" link :to="{ name: 'PublicServices' }">
+          Services
+        </v-tab>
+        <v-tab class="font-weight-bold" link :to="{ name: 'PublicDoctors' }">
+          Doctors
+        </v-tab>
+        <v-tab class="font-weight-bold" link :to="{ name: 'PublicBlog' }">
+          Blog
+        </v-tab>
       </v-tabs>
     </div>
 
