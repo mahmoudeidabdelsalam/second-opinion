@@ -11,7 +11,7 @@
       <sidebar />
     </v-navigation-drawer>
 
-    <v-app-bar app color="secondary_bg" elevation="2" elevate-on-scroll>
+    <v-app-bar app color="white" elevation="2" elevate-on-scroll>
       <v-btn
         icon
         @click="drawer = !drawer"
@@ -21,8 +21,6 @@
       >
         <v-icon> mdi-apps </v-icon>
       </v-btn>
-
-      <v-spacer />
 
       <public-header />
     </v-app-bar>
