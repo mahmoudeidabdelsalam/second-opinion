@@ -17,7 +17,7 @@
           </div>
         </v-col>
 
-        <v-col cols="6" lg="2" md="6" sm="6">
+        <v-col cols="6" lg="3" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               Helpful Links
@@ -37,21 +37,10 @@
           </div>
         </v-col>
 
-        <v-col cols="6" lg="2" md="6" sm="6">
-          <div class="regular-column column">
-            <span class="column-title d-block primary--text mb-6"
-              >Services</span
-            >
-            <router-link :to="{ name: 'OurWork' }" class="link d-block">
-              Our Work
-            </router-link>
-          </div>
-        </v-col>
-
-        <v-col cols="12" lg="3" md="6">
+        <v-col cols="12" lg="4" md="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
-              Social Media
+              Contact Us
             </span>
             <a
               href="mailto:info@second-opinion.com"
