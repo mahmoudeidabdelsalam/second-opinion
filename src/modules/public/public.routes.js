@@ -40,6 +40,13 @@ let routes = [
         name: "PublicBlog",
         component: () => import("@/modules/public/views/Blog.vue"),
       },
+
+      // doctor profile
+      {
+        path: "doctor/:id",
+        name: "PublicDoctorsProfile",
+        component: () => import("@/modules/public/views/DoctorProfile.vue"),
+      },
     ],
   },
 ];
