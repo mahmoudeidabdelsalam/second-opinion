@@ -1,6 +1,7 @@
 <template>
   <main class="home">
     <v-btn class="primary mb-16" link :to="{ name: 'Login' }">Login</v-btn>
+    <doctors-carusel />
     <search-for-doctor />
     <doctors />
     <mobile-apps />
@@ -14,6 +15,7 @@ export default {
   name: "Home",
 
   components: {
+    DoctorsCarusel: () => import("../components/home/DoctorsCarusel.vue"),
     SearchForDoctor: () => import("../components/home/SearchForDoctor.vue"),
     Doctors: () => import("../components/home/Doctors.vue"),
     MobileApps: () => import("../components/home/MobileApps.vue"),
