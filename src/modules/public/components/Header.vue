@@ -22,7 +22,7 @@
       </v-tabs>
     </div>
 
-    <div class="">
+    <div>
       <!-- translations -->
       <v-menu offset-y open-on-hover min-width="150">
         <template v-slot:activator="{ on, attrs }">
