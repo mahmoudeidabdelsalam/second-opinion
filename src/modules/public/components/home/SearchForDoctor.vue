@@ -1,6 +1,6 @@
 <template>
-  <section class="mb-16 mx-auto" style="max-width: 1000px">
-    <v-container>
+  <section class="mb-16 mx-auto">
+    <v-container style="max-width: 1400px">
       <v-tabs
         v-model="tabs"
         class="rounded-lg rounded-bl-0 rounded-br-0 elevation-3"

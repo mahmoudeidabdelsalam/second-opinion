@@ -1,13 +1,13 @@
 <template>
   <section class="mb-16" style="background-color: #2f79bd">
-    <v-container fluid>
+    <v-container style="max-width: 1400px">
       <v-row>
         <v-col cols="12" md="6">
           <div
-            class="text-content d-flex flex-column justify-center mx-auto"
-            style="height: 100%; max-width: 600px"
+            class="text-content d-flex flex-column justify-center"
+            style="height: 100%"
           >
-            <span class="d-block mb-5 white--text font-weight-black text-h5">
+            <span class="d-block mb-5 white--text font-weight-black text-h4">
               Download mobile app
             </span>
             <p class="white--text body-1 mb-7">
@@ -30,8 +30,8 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="6">
-          <div class="image mx-auto" style="max-width: 600px">
+        <v-col cols="12" md="6" class="pa-0" style="margin-bottom: -7px">
+          <div class="image">
             <img
               src="@/assets/images/mobile-apps.webp"
               alt="Mobile Apps"

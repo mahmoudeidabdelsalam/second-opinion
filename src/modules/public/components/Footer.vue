@@ -1,6 +1,6 @@
 <template>
   <v-footer class="footer">
-    <v-container>
+    <v-container style="max-width: 1400px">
       <v-row>
         <v-col cols="12" lg="4" md="6">
           <div class="main-column column">

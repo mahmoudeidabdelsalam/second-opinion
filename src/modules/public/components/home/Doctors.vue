@@ -25,7 +25,7 @@
         }"
       >
         <div
-          class="pa-5 ma-5 rounded-lg elevation-3"
+          class="pa-5 ma-5 rounded-lg elevation-3 white"
           v-for="item in 5"
           :key="item"
         >

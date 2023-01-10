@@ -1,15 +1,9 @@
 <template>
-  <section class="mb-16">
-    <v-container fluid>
+  <section class="pb-16">
+    <v-container style="max-width: 1400px">
       <h1 class="primary--text text-center mb-10">Contact us</h1>
 
-      <v-form
-        ref="form"
-        :v-model="valid"
-        lazy-validation
-        class="mx-auto"
-        style="max-width: 1000px"
-      >
+      <v-form ref="form" :v-model="valid" lazy-validation>
         <v-row>
           <v-col cols="10">
             <v-row>

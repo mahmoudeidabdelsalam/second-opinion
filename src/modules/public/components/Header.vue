@@ -104,7 +104,7 @@ export default {
 <style lang="scss" scoped>
 .brand {
   img {
-    width: 70px;
+    width: 80px;
     height: auto;
     object-fit: cover;
   }

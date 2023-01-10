@@ -1,15 +1,15 @@
 <template>
   <section class="blog mb-16">
-    <v-container fluid>
+    <v-container style="max-width: 1400px">
       <h1 class="primary--text text-center mb-10">
         Better information .. For better health
       </h1>
 
-      <div class="articles mx-auto" style="max-width: 1200px">
+      <div class="articles mx-auto">
         <v-row>
           <v-col cols="12" md="6" v-for="article in 4" :key="article">
             <div
-              class="article rounded-lg d-flex justify-start align-start pa-0 elevation-2"
+              class="article rounded-lg d-flex justify-start align-start pa-0 elevation-2 white"
             >
               <v-avatar class="rounded-lg" size="150">
                 <v-img

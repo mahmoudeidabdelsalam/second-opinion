@@ -1,6 +1,6 @@
 <template>
-  <section class="doctors-carusel mb-16">
-    <v-container fluid>
+  <section class="doctors-carusel mb-16 pt-10">
+    <v-container style="max-width: 1400px">
       <carousel-3d
         :perspective="35"
         :space="460"

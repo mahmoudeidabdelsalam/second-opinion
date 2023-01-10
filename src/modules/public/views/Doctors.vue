@@ -1,15 +1,15 @@
 <template>
   <main class="doctors">
     <div class="bg mb-5 d-flex align-center">
-      <div class="container">
+      <v-container style="max-width: 1400px">
         <span class="white--text text-h5 font-weight-bold">
           Book the best doctors in the Kingdom
         </span>
-      </div>
+      </v-container>
     </div>
 
     <div class="list mx-auto">
-      <div class="container">
+      <v-container style="max-width: 1400px">
         <v-row>
           <v-col cols="12" md="6" v-for="doctor in 4" :key="doctor">
             <div
@@ -47,7 +47,7 @@
             </div>
           </v-col>
         </v-row>
-      </div>
+      </v-container>
     </div>
   </main>
 </template>

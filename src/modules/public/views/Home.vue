@@ -1,6 +1,5 @@
 <template>
-  <main class="home">
-    <v-btn class="primary mb-16" link :to="{ name: 'Login' }">Login</v-btn>
+  <main class="home" style="background-color: #f8fbff">
     <doctors-carusel />
     <search-for-doctor />
     <doctors />

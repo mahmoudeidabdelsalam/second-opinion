@@ -1,6 +1,6 @@
 <template>
-  <main class="doctor-profile">
-    <div class="container">
+  <main class="doctor-profile pt-10">
+    <v-container style="max-width: 1400px">
       <div
         class="doctor-card primary pa-5 mb-5 rounded-lg d-flex flex-column flex-md-row justify-start align-start"
       >
@@ -43,7 +43,7 @@
       </div>
 
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="8">
           <div class="about-doctor white rounded-lg elevation-3 pa-5 mb-5">
             <div class="head mb-3 d-flex justify-start align-center">
               <v-icon color="primary">mdi-information-outline</v-icon>
@@ -92,7 +92,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="4">
           <div class="px-5">
             <div class="head mb-3">
               <span class="mx-2 font-weight-bold secondary--text text-h6">
@@ -124,7 +124,7 @@
           </div>
         </v-col>
       </v-row>
-    </div>
+    </v-container>
   </main>
 </template>
 
