@@ -29,8 +29,8 @@
               ></v-text-field>
 
               <v-btn
-                class="mb-3"
-                color="primary"
+                class="mb-3 white--text"
+                color="#008AD0"
                 block
                 :disabled="!valid"
                 @click="register"

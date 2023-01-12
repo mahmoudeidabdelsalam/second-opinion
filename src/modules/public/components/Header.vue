@@ -6,7 +6,9 @@
 
     <div class="links">
       <v-tabs>
-        <v-tab class="font-weight-bold" link :to="{ name: 'Home' }">Home</v-tab>
+        <v-tabs-slider></v-tabs-slider>
+
+        <v-tab class="font-weight-bold" link to="/">Home</v-tab>
         <v-tab class="font-weight-bold" link :to="{ name: 'PublicAbout' }">
           About us
         </v-tab>
@@ -46,7 +48,7 @@
       </v-menu>
 
       <!-- profile -->
-      <v-menu offset-y open-on-hover>
+      <v-menu offset-y open-on-hover v-if="authenticated">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon color="black" aria-label="user" v-bind="attrs" v-on="on">
             <v-icon>mdi-account-circle-outline</v-icon>
@@ -63,15 +65,31 @@
           </v-list-item>
         </v-list>
       </v-menu>
+
+      <v-btn
+        depressed
+        link
+        :to="{ name: 'Login' }"
+        class="primary rounded-lg text-capitalize px-6 mx-2"
+        v-if="!authenticated"
+      >
+        Login {{ authenticated }}
+      </v-btn>
     </div>
   </nav>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "DashboardHeader",
+
+  computed: {
+    ...mapGetters({
+      authenticated: "user/authenticated",
+    }),
+  },
 
   methods: {
     // map translate action
@@ -102,6 +120,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-tabs-slider {
+  color: transparent !important;
+}
+
 .brand {
   img {
     width: 80px;

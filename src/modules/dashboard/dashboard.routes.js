@@ -41,6 +41,12 @@ let routes = [
         name: "Doctors",
         component: () => import("@/modules/dashboard/views/Doctors.vue"),
       },
+      // doctor profile
+      {
+        path: "doctor/:id",
+        name: "DoctorProfile",
+        component: () => import("@/modules/dashboard/views/DoctorProfile.vue"),
+      },
 
       // assistants
       {

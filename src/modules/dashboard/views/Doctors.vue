@@ -10,6 +10,7 @@
         sort-by="id"
         sort-desc
         no-data-text="No doctors."
+        @dblclick:row="goToDoctorProfile($event)"
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -633,6 +634,15 @@ export default {
           });
         }
       }
+    },
+
+    goToDoctorProfile(item) {
+      this.$router.push({
+        name: "doctor-profile",
+        params: {
+          id: item.id,
+        },
+      });
     },
   },
 };

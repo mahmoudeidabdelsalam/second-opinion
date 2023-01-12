@@ -20,12 +20,6 @@
           </v-toolbar>
         </template>
 
-        <template v-slot:[`item.invoice_number`]="{ item }">
-          <span class="d-block black--text font-weight-bold">
-            {{ item.invoice_number }}
-          </span>
-        </template>
-
         <template v-slot:[`item.patient`]="{ item }">
           <span class="d-block black--text font-weight-bold">
             {{ item.patient.full_name }}
@@ -79,7 +73,6 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "Invoice", value: "invoice_number" },
       { text: "Patient", value: "patient", sortable: false },
       { text: "Invoice type", value: "invoice_type" },
       { text: "Status", value: "status" },
