@@ -1,10 +1,53 @@
 <template>
-  <v-card flat> Doctor cost </v-card>
+  <v-card flat>
+    <span class="d-block text-h6 font-weight-bold mb-5">Doctor cost</span>
+
+    <v-form ref="form" :v-model="valid" lazy-validation>
+      <v-row>
+        <v-col cols="12">
+          <v-text-field
+            v-model="form.session_price"
+            :rules="numberRules"
+            label="Session price"
+            type="number"
+            outlined
+            class="rounded-lg"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="12">
+          <v-text-field
+            v-model="form.session_duration"
+            :rules="numberRules"
+            label="Session duration (in minutes)"
+            type="number"
+            outlined
+            class="rounded-lg"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="12">
+          <v-btn color="primary" class="text-capitalize rounded-lg">
+            Save
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </v-card>
 </template>
 
 <script>
 export default {
   name: "Cost",
+
+  data: () => ({
+    valid: true,
+    form: {
+      session_price: null,
+      session_duration: null,
+    },
+    numberRules: [(v) => !!v || "This field is required"],
+  }),
 };
 </script>
 

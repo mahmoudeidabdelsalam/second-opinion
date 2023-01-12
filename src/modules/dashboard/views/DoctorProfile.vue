@@ -109,7 +109,7 @@
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
             >
-              Doctor details
+              Details
             </v-tab>
 
             <v-tab
