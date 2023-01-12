@@ -30,7 +30,7 @@
 
               <v-btn
                 class="mb-3 white--text"
-                color="#008AD0"
+                color="primary"
                 block
                 :disabled="!valid"
                 @click="register"

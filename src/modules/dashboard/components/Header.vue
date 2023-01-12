@@ -23,7 +23,7 @@
     </v-menu>
 
     <!-- notifications -->
-    <v-menu offset-y open-on-hover min-width="300">
+    <!-- <v-menu offset-y open-on-hover min-width="300">
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon color="black" aria-label="bell" v-bind="attrs" v-on="on">
           <span class="notification-dot info"></span>
@@ -51,7 +51,7 @@
           </v-list-item>
         </template>
       </v-list>
-    </v-menu>
+    </v-menu> -->
 
     <!-- profile -->
     <v-menu offset-y open-on-hover>

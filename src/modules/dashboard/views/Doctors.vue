@@ -10,7 +10,7 @@
         sort-by="id"
         sort-desc
         no-data-text="No doctors."
-        @dblclick:row="goToDoctorProfile($event)"
+        @dblclick:row="goToDoctorProfile"
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -636,12 +636,12 @@ export default {
       }
     },
 
-    goToDoctorProfile(item) {
+    goToDoctorProfile(event, { item }) {
+      console.log(event);
+      console.log(item.id);
       this.$router.push({
-        name: "doctor-profile",
-        params: {
-          id: item.id,
-        },
+        name: "DoctorProfile",
+        params: { id: item.id },
       });
     },
   },
