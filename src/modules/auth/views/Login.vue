@@ -28,6 +28,12 @@
                 @keydown.enter="login"
               ></v-text-field>
 
+              <!-- remember me -->
+              <v-checkbox
+                v-model="form.rememberMe"
+                label="Remember me"
+              ></v-checkbox>
+
               <v-btn
                 class="mb-3 white--text"
                 color="primary"

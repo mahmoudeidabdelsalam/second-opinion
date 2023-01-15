@@ -35,66 +35,12 @@
                       <v-row>
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.full_name_en"
+                            v-model="editedItem.full_name"
                             :rules="nameRules"
-                            label="English name"
+                            label="Full name"
                             outlined
                             dense
                           ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.full_name_ar"
-                            :rules="nameRules"
-                            label="Arabic name"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.title_en"
-                            :rules="nameRules"
-                            label="English title"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.title_ar"
-                            :rules="nameRules"
-                            label="Arabic title"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.description_en"
-                            :rules="descriptionRules"
-                            label="English description"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.description_ar"
-                            :rules="descriptionRules"
-                            label="Arabic description"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -106,6 +52,19 @@
                             outlined
                             dense
                           ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-autocomplete
+                            v-model="editedItem.doctors_id"
+                            :items="doctors"
+                            :rules="selectRules"
+                            label="Doctor"
+                            multiple
+                            small-chips
+                            outlined
+                            dense
+                          ></v-autocomplete>
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -132,21 +91,10 @@
 
                         <v-col cols="12" md="6">
                           <v-text-field
-                            v-model="editedItem.session_price"
-                            :rules="numberRules"
+                            v-model="editedItem.national_id"
+                            :rules="nationalIdRules"
                             type="number"
-                            label="Session price"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.session_duration"
-                            :rules="numberRules"
-                            type="number"
-                            label="Session duration (in minutes)"
+                            label="National ID"
                             outlined
                             dense
                           ></v-text-field>
@@ -316,6 +264,8 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
+    // doctors
+    doctors: [],
     // genders
     genders: [
       { text: "Male", value: "m" },
@@ -327,33 +277,21 @@ export default {
     editedIndex: -1,
     editedItem: {
       id: "",
-      full_name_en: "",
-      full_name_ar: "",
-      description_en: "",
-      description_ar: "",
-      title_en: "",
-      title_ar: "",
+      full_name: "",
       email: "",
+      doctors_id: "",
       phone_number: "",
       gender: "",
-      session_price: "",
-      session_duration: "",
-      image: "",
+      national_id: "",
     },
     defaultItem: {
       id: "",
-      full_name_en: "",
-      full_name_ar: "",
-      description_en: "",
-      description_ar: "",
-      title_en: "",
-      title_ar: "",
+      full_name: "",
       email: "",
+      doctors_id: "",
       phone_number: "",
       gender: "",
-      session_price: "",
-      session_duration: "",
-      image: "",
+      national_id: "",
     },
   }),
 
@@ -370,6 +308,7 @@ export default {
       phoneRules: "validationRules/phoneRules",
       numberRules: "validationRules/numberRules",
       selectRules: "validationRules/selectRules",
+      nationalIdRules: "validationRules/nationalIdRules",
     }),
 
     // route qquery for trashed
@@ -433,6 +372,16 @@ export default {
         }
 
         this.loaded = true;
+
+        // get doctors
+        this.getData("dashboard/doctors").then((res) => {
+          this.doctors = res.map((item) => {
+            return {
+              text: item.full_name,
+              value: item.id,
+            };
+          });
+        });
       }, 0);
     },
 
@@ -522,20 +471,12 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("full_name:en", this.editedItem.full_name_en);
-        data.append("full_name:ar", this.editedItem.full_name_ar);
-        data.append("description:en", this.editedItem.description_en);
-        data.append("description:ar", this.editedItem.description_ar);
-        data.append("title:en", this.editedItem.title_en);
-        data.append("title:ar", this.editedItem.title_ar);
+        data.append("full_name", this.editedItem.full_name);
         data.append("email", this.editedItem.email);
         data.append("phone_number", this.editedItem.phone_number);
+        data.append("doctors_id[]", this.editedItem.doctors_id);
         data.append("gender", this.editedItem.gender);
-        data.append("session_price", this.editedItem.session_price);
-        data.append("session_duration", this.editedItem.session_duration);
-        this.editedItem.image
-          ? data.append("image", this.editedItem.image)
-          : "";
+        data.append("national_id", this.editedItem.national_id);
         data.append("_method", "PUT");
 
         await this.updateData({
@@ -548,18 +489,12 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("full_name:en", this.editedItem.full_name_en);
-          data.append("full_name:ar", this.editedItem.full_name_ar);
-          data.append("description:en", this.editedItem.description_en);
-          data.append("description:ar", this.editedItem.description_ar);
-          data.append("title:en", this.editedItem.title_en);
-          data.append("title:ar", this.editedItem.title_ar);
+          data.append("full_name", this.editedItem.full_name);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
+          data.append("doctors_id[]", this.editedItem.doctors_id);
           data.append("gender", this.editedItem.gender);
-          data.append("session_price", this.editedItem.session_price);
-          data.append("session_duration", this.editedItem.session_duration);
-          data.append("image", this.editedItem.image);
+          data.append("national_id", this.editedItem.national_id);
 
           this.addData({
             url: "dashboard/assistants",

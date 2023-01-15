@@ -28,6 +28,13 @@
                 @keydown.enter="register"
               ></v-text-field>
 
+              <!-- accept terms and conditions -->
+              <v-checkbox
+                v-model="form.acceptTerms"
+                :rules="[(v) => !!v || '']"
+                label="I agree to the terms and conditions"
+              ></v-checkbox>
+
               <v-btn
                 class="mb-3 white--text"
                 color="primary"
