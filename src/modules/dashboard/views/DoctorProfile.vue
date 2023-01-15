@@ -11,7 +11,8 @@
             <div class="doctor-card">
               <v-avatar size="70" class="d-block mx-auto mb-3" rounded="circle">
                 <img
-                  src="https://dr-space-storage.nyc3.digitaloceanspaces.com/doctors/1226/c3njy2bKqZNOChjWRYEc7P7UrWawIp7nGTeZ3THH.jpg"
+                  :src="doctor.profile"
+                  :lazy-src="doctor.profile"
                   alt="doctor"
                   style="object-fit: cover"
                 />
@@ -19,12 +20,17 @@
               <span
                 class="doctor-name d-block text-center font-weight-bold mb-1"
               >
-                Aml Mahmoud
+                {{ doctor.full_name }}
               </span>
               <span
-                class="d-block text-center font-weight-bold secondary--text mb-5"
+                class="d-block text-center font-weight-bold secondary--text mb-1"
               >
-                Pediatrics Specialty
+                {{ doctor.title }}
+              </span>
+              <span
+                class="d-block text-center font-weight-bold body-2 secondary--text mb-5"
+              >
+                {{ doctor.department.name }}
               </span>
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
@@ -36,12 +42,12 @@
                   <span
                     class="session-price d-block font-weight-bold secondary--text mb-2"
                   >
-                    Session price: 100 SAR
+                    Session price: {{ doctor.session_price }} SAR
                   </span>
                   <span
                     class="session-price d-block font-weight-bold secondary--text"
                   >
-                    Session duration: 30 minutes
+                    Session duration: {{ doctor.session_duration }} minutes
                   </span>
                 </div>
               </div>
@@ -53,11 +59,8 @@
                   </span>
                 </div>
                 <div class="body pa-3">
-                  <p
-                    class="session-price d-block body-1 font-weight-regular secondary--text"
-                  >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam, quod.
+                  <p class="body-1 font-weight-regular secondary--text">
+                    {{ doctor.description }}
                   </p>
                 </div>
               </div>
@@ -65,16 +68,26 @@
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
                   <span class="font-weight-bold white--text">
-                    Medical Specialties
+                    Doctor education
                   </span>
                 </div>
                 <div class="body pa-3">
-                  <span class="d-block font-weight-bold secondary--text mb-2">
-                    Pediatrics
+                  <p class="body-1 font-weight-regular secondary--text">
+                    {{ doctor.educations }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="details-part session rounded-lg mb-5 overflow-hidden">
+                <div class="head secondary pa-3">
+                  <span class="font-weight-bold white--text">
+                    Doctor experiences
                   </span>
-                  <span class="d-block font-weight-bold secondary--text mb-2">
-                    Kidney Diseases
-                  </span>
+                </div>
+                <div class="body pa-3">
+                  <p class="body-1 font-weight-regular secondary--text">
+                    {{ doctor.experiences }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -160,11 +173,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "DoctorProfile",
 
   data: () => ({
     tabs: null,
+    // doctor data
+    doctor: [],
   }),
 
   components: {
@@ -176,6 +193,25 @@ export default {
       import("../components/doctor-profile/DoctorDetails.vue"),
     DoctorCost: () => import("../components/doctor-profile/Cost.vue"),
     DoctorPatients: () => import("../components/doctor-profile/Patients.vue"),
+  },
+
+  created() {
+    // init data
+    this.initData();
+  },
+
+  methods: {
+    ...mapActions({
+      getData: "crudOperations/getData",
+    }),
+
+    // init data
+    initData() {
+      // get doctor data
+      this.getData(`dashboard/doctors/${this.$route.params.id}`).then((res) => {
+        this.doctor = res;
+      });
+    },
   },
 };
 </script>
