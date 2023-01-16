@@ -99,7 +99,6 @@ const actions = {
 const mutations = {
   // set token in user module
   SET_TOKEN(_, token) {
-    console.log(token);
     this.state.user.token = token;
   },
 

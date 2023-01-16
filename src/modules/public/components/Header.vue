@@ -48,7 +48,7 @@
       </v-menu>
 
       <!-- profile -->
-      <v-menu offset-y open-on-hover v-if="authenticated">
+      <!-- <v-menu offset-y open-on-hover v-if="authenticated">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon color="black" aria-label="user" v-bind="attrs" v-on="on">
             <v-icon>mdi-account-circle-outline</v-icon>
@@ -64,7 +64,31 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-menu>
+      </v-menu> -->
+
+      <v-btn
+        depressed
+        link
+        :to="{
+          name:
+            authenticated.role.value == 4
+              ? 'ClientNotifications'
+              : 'DashboardOverview',
+        }"
+        class="primary rounded-lg text-capitalize px-6 mx-2"
+        v-if="authenticated"
+      >
+        {{ authenticated.role.value == 4 ? "Profile" : "Dashboard" }}
+      </v-btn>
+
+      <v-btn
+        depressed
+        @click="logout"
+        class="primary rounded-lg text-capitalize px-6 mx-2"
+        v-if="authenticated"
+      >
+        Logout
+      </v-btn>
 
       <v-btn
         depressed
@@ -73,7 +97,7 @@
         class="primary rounded-lg text-capitalize px-6 mx-2"
         v-if="!authenticated"
       >
-        Login {{ authenticated }}
+        Login
       </v-btn>
     </div>
   </nav>

@@ -1,5 +1,13 @@
 <template>
   <aside class="sidebar primary">
+    <router-link
+      :to="{ name: 'Home' }"
+      class="brand d-block pa-5 text-center white"
+      style="height: 100px"
+    >
+      <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
+    </router-link>
+
     <v-list>
       <v-list-item link to="/" active-class="white active" class="white--text">
         <v-list-item-icon>
