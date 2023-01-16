@@ -12,7 +12,7 @@
           class="font-weight-bold"
           active-class="primary--text active-tab"
         >
-          Doctor
+          {{ $t("message") }}
         </v-tab>
 
         <v-tab
@@ -45,10 +45,10 @@
                 <v-col cols="12" md="2">
                   <v-btn
                     color="primary"
-                    class="text-capitalize rounded-lg py-7"
+                    class="text-capitalize rounded-lg py-7 font-weight-bold"
                     block
                   >
-                    Search
+                    بحث
                   </v-btn>
                 </v-col>
               </v-row>
@@ -76,7 +76,7 @@
                     class="text-capitalize rounded-lg py-7"
                     block
                   >
-                    Search
+                    بحث
                   </v-btn>
                 </v-col>
               </v-row>

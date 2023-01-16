@@ -8,9 +8,7 @@
       <v-tabs>
         <v-tabs-slider></v-tabs-slider>
 
-        <v-tab class="font-weight-bold" link to="/">
-          {{ $t("message") }}
-        </v-tab>
+        <v-tab class="font-weight-bold" link to="/">Home</v-tab>
         <v-tab class="font-weight-bold" link :to="{ name: 'PublicAbout' }">
           About us
         </v-tab>
@@ -122,8 +120,6 @@ export default {
     ...mapActions({
       // translate action
       translateAction: "translate/setSystemLanguage",
-      // change direction action
-      changeDirectionAction: "translate/setSystemDirection",
       // logout
       logoutAction: "logout/logout",
     }),
@@ -132,8 +128,6 @@ export default {
     translate(lang) {
       // call translate action
       this.translateAction(lang);
-      // call change direction action
-      this.changeDirectionAction(lang === "ar" ? "rtl" : "ltr");
     },
 
     // logout method

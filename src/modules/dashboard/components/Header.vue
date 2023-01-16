@@ -94,8 +94,6 @@ export default {
     ...mapActions({
       // translate action
       translateAction: "translate/setSystemLanguage",
-      // change direction action
-      changeDirectionAction: "translate/setSystemDirection",
       // logout
       logoutAction: "logout/logout",
     }),
@@ -104,8 +102,6 @@ export default {
     translate(lang) {
       // call translate action
       this.translateAction(lang);
-      // call change direction action
-      this.changeDirectionAction(lang === "ar" ? "rtl" : "ltr");
     },
 
     // logout method

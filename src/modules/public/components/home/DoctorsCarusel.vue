@@ -24,12 +24,12 @@
             <span
               class="d-block text-center primary--text mb-1 text-h6 font-weight-bold"
             >
-              Dr. Khaled Akram Mohammed
+              الطبيب/ خالد محمد القرشي
             </span>
             <span
               class="d-block text-center secondary--text mb-2 body-2 font-weight-bold"
             >
-              Consultant Orthopedic - Spine Surgerys
+              استشاري عظام - جراحة العمود الفقري
             </span>
           </div>
         </slide>

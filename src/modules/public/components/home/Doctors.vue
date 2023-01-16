@@ -7,7 +7,6 @@
         class="mx-auto"
         style="max-width: 1400px"
         :nav="false"
-        :autoplay="true"
         :dots="false"
         :responsive="{
           0: {
