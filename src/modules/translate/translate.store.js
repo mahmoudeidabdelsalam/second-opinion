@@ -5,8 +5,8 @@ import vuetify from "@/plugins/vuetify";
 
 // state
 const state = () => ({
-  systemLanguage: "en",
-  systemDirection: "ltr",
+  systemLanguage: "",
+  systemDirection: "",
 });
 
 // getters

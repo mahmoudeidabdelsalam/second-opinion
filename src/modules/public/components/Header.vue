@@ -8,7 +8,9 @@
       <v-tabs>
         <v-tabs-slider></v-tabs-slider>
 
-        <v-tab class="font-weight-bold" link to="/">Home</v-tab>
+        <v-tab class="font-weight-bold" link to="/">
+          {{ $t("message") }}
+        </v-tab>
         <v-tab class="font-weight-bold" link :to="{ name: 'PublicAbout' }">
           About us
         </v-tab>

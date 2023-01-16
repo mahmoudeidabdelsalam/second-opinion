@@ -6,7 +6,7 @@
           <div class="main-column column">
             <span class="brand d-block primary--text mb-8">Second Opinion</span>
             <span class="commercial-number primary--text d-block mb-4">
-              Commercial Registration Number: 1010234567
+              Commercial Registration Number: 1010829627
             </span>
             <div class="payment-methods mb-8">
               <img src="@/assets/images/mada.svg" alt="Mada" />
