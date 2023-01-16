@@ -8,28 +8,30 @@
         :height="350"
         :autoplay="true"
         :autoplay-timeout="3000"
+        v-if="doctors.length"
       >
         <slide
-          v-for="(slide, index) in 6"
-          :key="slide"
+          v-for="(doctor, index) in doctors"
+          :key="doctor.id"
           :index="index"
           class="rounded-lg white"
         >
           <div>
             <img
-              src="https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg"
-              alt="Doctor"
+              :src="doctor.profile"
+              :lazy-src="doctor.profile"
+              :alt="doctor.full_name"
               class="rounded-lg"
             />
             <span
               class="d-block text-center primary--text mb-1 text-h6 font-weight-bold"
             >
-              الطبيب/ خالد محمد القرشي
+              {{ doctor.full_name }}
             </span>
             <span
               class="d-block text-center secondary--text mb-2 body-2 font-weight-bold"
             >
-              استشاري عظام - جراحة العمود الفقري
+              {{ doctor.department.name }}
             </span>
           </div>
         </slide>
@@ -39,6 +41,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { Carousel3d, Slide } from "vue-carousel-3d";
 
 export default {
@@ -48,10 +51,41 @@ export default {
     Carousel3d,
     Slide,
   },
+
+  data: () => ({
+    doctors: [],
+  }),
+
+  created() {
+    // init data
+    this.initData();
+  },
+
+  methods: {
+    ...mapActions({
+      getData: "crudOperations/getData",
+    }),
+
+    // init data
+    initData() {
+      // get doctors
+      this.getData("patient/doctors").then((res) => {
+        this.doctors = res;
+        console.log(this.doctors);
+      });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.carousel-3d-slide {
+  img {
+    width: 100%;
+    max-height: 270px;
+    object-fit: contain;
+  }
+}
 .carousel-3d-container figure {
   margin: 0;
 }

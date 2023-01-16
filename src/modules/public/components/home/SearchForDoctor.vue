@@ -73,7 +73,7 @@
                 <v-col cols="12" md="2">
                   <v-btn
                     color="primary"
-                    class="text-capitalize rounded-lg py-7"
+                    class="text-capitalize rounded-lg py-7 font-weight-bold"
                     block
                   >
                     بحث
