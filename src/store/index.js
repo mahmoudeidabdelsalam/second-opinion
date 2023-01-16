@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+// register module
+import register from "@/modules/auth/store/register.store";
+
 // login module
 import login from "@/modules/auth/store/login.store";
 
@@ -29,6 +32,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
+    register,
     login,
     logout,
     user,

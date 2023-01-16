@@ -59,9 +59,9 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="6" class="pa-0 hidden-sm-and-down">
+        <v-col cols="12" md="6" class="primary pa-0 hidden-sm-and-down">
           <div class="image-side">
-            <div class="image">
+            <div class="image mx-auto">
               <img src="@/assets/images/women-doctor.webp" alt="women doctor" />
             </div>
           </div>

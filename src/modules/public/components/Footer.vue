@@ -22,7 +22,10 @@
             <span class="column-title d-block primary--text mb-6">
               Helpful Links
             </span>
-            <router-link :to="{ name: 'Terms' }" class="link d-block mb-6">
+            <router-link
+              :to="{ name: 'PublicTermsAndConditions' }"
+              class="link d-block mb-6"
+            >
               Terms & Conditions
             </router-link>
             <router-link :to="{ name: 'Login' }" class="link d-block mb-6">

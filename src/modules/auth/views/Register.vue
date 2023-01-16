@@ -10,10 +10,27 @@
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
+                v-model="form.name"
+                :rules="nameRules"
+                label="Your name"
+                outlined
+                dense
+              ></v-text-field>
+
+              <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
                 type="email"
-                label="Email or phone number"
+                label="Email"
+                outlined
+                dense
+              ></v-text-field>
+
+              <v-text-field
+                v-model="form.phone"
+                :rules="phoneRules"
+                type="tel"
+                label="Phone number"
                 outlined
                 dense
               ></v-text-field>
@@ -23,6 +40,16 @@
                 :rules="passwordRules"
                 type="password"
                 label="Password"
+                outlined
+                dense
+                @keydown.enter="register"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="form.confirmPassword"
+                :rules="confirmPasswordRules"
+                type="password"
+                label="Confirm password"
                 outlined
                 dense
                 @keydown.enter="register"
@@ -60,9 +87,9 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="6" class="pa-0 hidden-sm-and-down">
+        <v-col cols="12" md="6" class="primary pa-0 hidden-sm-and-down">
           <div class="image-side">
-            <div class="image">
+            <div class="image mx-auto">
               <img src="@/assets/images/women-doctor.webp" alt="women doctor" />
             </div>
           </div>
@@ -81,16 +108,22 @@ export default {
   data: () => ({
     // register form data
     form: {
+      name: "",
       email: "",
+      phone: "",
       password: "",
+      confirmPassword: "",
     },
   }),
 
   computed: {
     ...mapGetters({
       valid: "validationRules/valid",
+      nameRules: "validationRules/nameRules",
       emailRules: "validationRules/emailRules",
+      phoneRules: "validationRules/phoneRules",
       passwordRules: "validationRules/passwordRules",
+      confirmPasswordRules: "validationRules/confirmPasswordRules",
     }),
   },
 

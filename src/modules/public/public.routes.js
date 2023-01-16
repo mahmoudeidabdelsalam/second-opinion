@@ -47,6 +47,14 @@ let routes = [
         name: "PublicDoctorsProfile",
         component: () => import("@/modules/public/views/DoctorProfile.vue"),
       },
+
+      // terms and conditions
+      {
+        path: "terms-and-conditions",
+        name: "PublicTermsAndConditions",
+        component: () =>
+          import("@/modules/public/views/TermsAndConditions.vue"),
+      },
     ],
   },
 ];
