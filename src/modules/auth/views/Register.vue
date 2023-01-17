@@ -6,13 +6,13 @@
           <div
             class="form-side d-flex flex-column justify-center align-start mx-auto pa-5"
           >
-            <h1 class="mb-7">Create new account</h1>
+            <h1 class="mb-7">انشاء حساب</h1>
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
                 v-model="form.name"
                 :rules="nameRules"
-                label="Your name"
+                label="الاسم"
                 outlined
                 dense
               ></v-text-field>
@@ -21,16 +21,16 @@
                 v-model="form.email"
                 :rules="emailRules"
                 type="email"
-                label="Email"
+                label="البريد الإلكتروني"
                 outlined
                 dense
               ></v-text-field>
 
               <v-text-field
-                v-model="form.phone"
+                v-model="form.phone_number"
                 :rules="phoneRules"
                 type="tel"
-                label="Phone number"
+                label="رقم الهاتف"
                 outlined
                 dense
               ></v-text-field>
@@ -39,17 +39,20 @@
                 v-model="form.password"
                 :rules="passwordRules"
                 type="password"
-                label="Password"
+                label="كلمة المرور"
                 outlined
                 dense
                 @keydown.enter="register"
               ></v-text-field>
 
               <v-text-field
-                v-model="form.confirmPassword"
-                :rules="confirmPasswordRules"
+                v-model="form.password_confirmation"
+                :rules="[
+                  ...confirmPasswordRules,
+                  (v) => v === form.password || 'كلمة المرور غير متطابقة',
+                ]"
                 type="password"
-                label="Confirm password"
+                label="تأكيد كلمة المرور"
                 outlined
                 dense
                 @keydown.enter="register"
@@ -59,7 +62,7 @@
               <v-checkbox
                 v-model="form.acceptTerms"
                 :rules="[(v) => !!v || '']"
-                label="I agree to the terms and conditions"
+                label="أوافق على الشروط والأحكام"
               ></v-checkbox>
 
               <v-btn
@@ -69,7 +72,7 @@
                 :disabled="!valid"
                 @click="register"
               >
-                Register
+                انشاء حساب
               </v-btn>
             </v-form>
 
@@ -81,7 +84,7 @@
                 link
                 :to="{ name: 'Login' }"
               >
-                Login
+                تسجيل الدخول
               </v-btn>
             </div>
           </div>
@@ -110,9 +113,9 @@ export default {
     form: {
       name: "",
       email: "",
-      phone: "",
+      phone_number: "",
       password: "",
-      confirmPassword: "",
+      password_confirmation: "",
     },
   }),
 

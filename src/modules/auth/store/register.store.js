@@ -12,6 +12,7 @@ const actions = {
       .then((response) => {
         // attempt to register and set token
         dispatch("attemptRegister", response.data.data.token);
+        alert(response.data.data.token);
 
         // show notification
         this.dispatch("notifications/showNotification", {

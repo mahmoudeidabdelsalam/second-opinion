@@ -5,67 +5,65 @@ const state = () => ({
 
   // name rules
   nameRules: [
-    (v) => !!v || "Name is required",
-    (v) => (v && v.length > 2) || "Name must be at least 3 characters",
-    (v) => (v && v.length < 255) || "Name must be less than 255 characters",
+    (v) => !!v || "حقل الاسم مطلوب",
+    (v) => (v && v.length > 2) || "الاسم يجب ان يكون اكثر من 3 حروف",
+    (v) => (v && v.length < 255) || "الاسم يجب ان يكون اقل من 255 حرف",
   ],
 
   // email rules
   emailRules: [
-    (v) => !!v || "Email is required",
-    (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+    (v) => !!v || "حقل البريد الالكتروني مطلوب",
+    (v) => /.+@.+\..+/.test(v) || "البريد الالكتروني غير صحيح",
   ],
 
   // phone rules
   phoneRules: [
-    (v) => !!v || "Phone is required",
-    (v) => (v && v.length > 9) || "Phone must be at least 10 characters",
-    (v) => (v && v.length < 20) || "Phone must be less than 20 characters",
-    (v) => /^\d+$/.test(v) || "Phone must be a number",
+    (v) => !!v || "حقل الهاتف مطلوب",
+    (v) => (v && v.length == 12) || "الهاتف يجب ان يكون 12 رقم",
+    (v) => /^\d+$/.test(v) || "الهاتف يجب ان يكون ارقام فقط",
+    (v) => /^9665/.test(v) || "الهاتف يجب ان يبدأ ب 9665",
   ],
 
   // password rules
   passwordRules: [
-    (v) => !!v || "Password is required",
-    (v) => (v && v.length > 5) || "Password must be at least 6 characters",
+    (v) => !!v || "حقل كلمة المرور مطلوب",
+    (v) => (v && v.length > 7) || "كلمة المرور يجب ان تكون اكثر من 8 حروف",
   ],
 
   // confirm password rules
   confirmPasswordRules: [
-    (v) => !!v || "Password confirmation is required",
+    (v) => !!v || "حقل تأكيد كلمة المرور مطلوب",
     (v) =>
-      (v && v.length > 5) ||
-      "Password confirmation must be at least 6 characters",
+      (v && v.length > 7) || "تأكيد كلمة المرور يجب ان تكون اكثر من 8 حروف",
   ],
 
   // description rules
   descriptionRules: [
-    (v) => (v && v.length > 2) || "Description must be at least 3 characters",
-    (v) =>
-      (v && v.length < 255) || "Description must be less than 255 characters",
+    (v) => (v && v.length > 2) || "الوصف يجب ان يكون اكثر من 3 حروف",
+    (v) => (v && v.length < 255) || "الوصف يجب ان يكون اقل من 255 حرف",
   ],
 
   // message rules
   messageRules: [
-    (v) => !!v || "Message is required",
-    (v) => (v && v.length > 2) || "Message must be at least 3 characters",
-    (v) => (v && v.length < 255) || "Message must be less than 255 characters",
+    (v) => !!v || "حقل الرسالة مطلوب",
+    (v) => (v && v.length > 2) || "الرسالة يجب ان تكون اكثر من 3 حروف",
+    (v) => (v && v.length < 255) || "الرسالة يجب ان تكون اقل من 255 حرف",
   ],
 
   // select rules
-  selectRules: [(v) => !!v || "This field is required"],
+  selectRules: [(v) => !!v || "برجاء اختيار القيمة"],
 
   // number rules
   numberRules: [
-    (v) => !!v || "Field is required",
-    (v) => /^\d+$/.test(v) || "Field must be a number",
+    (v) => !!v || "الحقل مطلوب",
+    (v) => /^\d+$/.test(v) || "الرقم يجب ان يكون ارقام فقط",
   ],
 
   // nationalIdRules rules
   nationalIdRules: [
-    (v) => !!v || "National ID is required",
-    (v) => (v && v.length == 13) || "National ID must be 13 characters",
-    (v) => /^\d+$/.test(v) || "National ID must be a number",
+    (v) => !!v || "حقل الرقم القومي مطلوب",
+    (v) => (v && v.length == 13) || "الرقم القومي يجب ان يكون 13 رقم",
+    (v) => /^\d+$/.test(v) || "الرقم القومي يجب ان يكون ارقام فقط",
   ],
 });
 

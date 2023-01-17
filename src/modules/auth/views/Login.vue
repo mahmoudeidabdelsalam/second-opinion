@@ -6,14 +6,14 @@
           <div
             class="form-side d-flex flex-column justify-center align-start mx-auto pa-5"
           >
-            <h1 class="mb-7">Login</h1>
+            <h1 class="mb-7">تسجيل الدخول</h1>
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
                 type="email"
-                label="Email or phone number"
+                label="البريد الإلكتروني"
                 outlined
                 dense
               ></v-text-field>
@@ -22,17 +22,14 @@
                 v-model="form.password"
                 :rules="passwordRules"
                 type="password"
-                label="Password"
+                label="كلمة المرور"
                 outlined
                 dense
                 @keydown.enter="login"
               ></v-text-field>
 
               <!-- remember me -->
-              <v-checkbox
-                v-model="form.rememberMe"
-                label="Remember me"
-              ></v-checkbox>
+              <v-checkbox v-model="form.rememberMe" label="تذكرني"></v-checkbox>
 
               <v-btn
                 class="mb-3 white--text"
@@ -41,7 +38,7 @@
                 :disabled="!valid"
                 @click="login"
               >
-                Login
+                تسجيل الدخول
               </v-btn>
             </v-form>
 
@@ -53,7 +50,7 @@
                 link
                 :to="{ name: 'Register' }"
               >
-                Register
+                إنشاء حساب جديد
               </v-btn>
             </div>
           </div>
