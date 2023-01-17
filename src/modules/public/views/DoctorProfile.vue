@@ -133,38 +133,36 @@
                 </template>
                 <v-date-picker
                   v-model="reservation_day"
-                  @input="getAvailablTimes"
+                  @change="getAvailablTimes"
                 ></v-date-picker>
               </v-menu>
 
-              <!-- radio buttons -->
-              <v-radio-group v-model="column" column>
-                <v-radio label="Option 1" value="radio-1"></v-radio>
-                <v-radio label="Option 2" value="radio-2"></v-radio>
-              </v-radio-group>
-              <hr />
-              <v-radio-group v-model="row" row>
-                <v-radio label="Option 1" value="radio-1"></v-radio>
-                <v-radio label="Option 2" value="radio-2"></v-radio>
-              </v-radio-group>
+              <!-- loading -->
+              <v-progress-linear
+                v-if="loading_resutls"
+                indeterminate
+                color="primary"
+                class="mb-5"
+              ></v-progress-linear>
 
               <v-radio-group
                 v-model="reservation_time"
                 row
-                class="mt-5"
-                required
-                outlined
-                dense
+                v-if="available_times.length"
+                class="font-weight-bold"
               >
                 <v-radio
                   v-for="item in available_times"
                   :key="item"
                   :label="item"
                   :value="item"
+                  class="mb-2"
                 ></v-radio>
               </v-radio-group>
 
-              <v-btn color="primary" depressed>احجز موعد</v-btn>
+              <v-btn color="primary" depressed @click="bookVideoAppointment">
+                احجز موعد
+              </v-btn>
             </v-form>
 
             <v-btn
@@ -208,7 +206,13 @@ export default {
     // reservation day
     reservation_day: null,
     // availabl times
-    availabl_times: null,
+    available_times: [],
+    // reservation time
+    reservation_time: null,
+    // row radio group
+    rowRadio: null,
+    // loading results
+    loading_resutls: false,
   }),
 
   created() {
@@ -234,9 +238,10 @@ export default {
       });
     },
 
-    // get availabl times
+    // get available times
     getAvailablTimes() {
       if (this.$refs.form.validate()) {
+        this.loading_resutls = true;
         let data = new FormData();
         data.append("doctor_id", this.$route.params.id);
         data.append("reservation_day", this.reservation_day);
@@ -245,7 +250,50 @@ export default {
           url: "patient/reservations/get-available-dates",
           data: data,
         }).then((res) => {
-          this.availabl_times = res;
+          this.available_times = res;
+          this.loading_resutls = false;
+        });
+      }
+    },
+
+    bookVideoAppointment() {
+      if (this.reservation_time) {
+        let data = new FormData();
+        data.append("doctor_id", this.$route.params.id);
+        data.append("reservation_day", this.reservation_day);
+        data.append("reservation_time_start", this.reservation_time);
+        data.append("type", 1);
+
+        this.addData({
+          url: "patient/reservations",
+          data: data,
+        }).then(() => {
+          // reset form
+          this.$refs.form.reset();
+          // hide date picker
+          this.showDatePicker = false;
+          // empty available times
+          this.available_times = [];
+        });
+      }
+    },
+
+    askReport() {
+      if (this.$refs.form.validate()) {
+        let data = new FormData();
+        data.append("doctor_id", this.$route.params.id);
+        data.append("reservation_day", this.reservation_day);
+        data.append("reservation_time_start", this.reservation_time);
+        data.append("type", 1);
+
+        this.addData({
+          url: "patient/reservations",
+          data: data,
+        }).then(() => {
+          // reset form
+          this.$refs.form.reset();
+          // hide date picker
+          this.showDatePicker = false;
         });
       }
     },
