@@ -5,7 +5,7 @@
         :perspective="35"
         :space="460"
         :display="3"
-        :height="350"
+        :height="370"
         :autoplay="true"
         :autoplay-timeout="3000"
         v-if="doctors.length"
@@ -16,7 +16,7 @@
           :index="index"
           class="rounded-lg white"
         >
-          <div>
+          <div class="text-center">
             <img
               :src="doctor.profile"
               :lazy-src="doctor.profile"
@@ -29,10 +29,17 @@
               {{ doctor.full_name }}
             </span>
             <span
-              class="d-block text-center secondary--text mb-2 body-2 font-weight-bold"
+              class="d-block text-center secondary--text mb-4 body-2 font-weight-bold"
             >
               {{ doctor.department.name }}
             </span>
+            <v-btn
+              class="primary mx-auto rounded-lg mb-2 text-capitalize"
+              link
+              :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
+            >
+              <span class="px-2">احجز الان</span>
+            </v-btn>
           </div>
         </slide>
       </carousel-3d>

@@ -1,7 +1,7 @@
 <template>
   <section class="mb-16">
     <v-container>
-      <h1 class="primary--text text-center mb-10">Doctors</h1>
+      <h1 class="primary--text text-center mb-10">الاطباء</h1>
 
       <carousel
         class="mx-auto"
@@ -49,7 +49,7 @@
             :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
           >
             <v-icon>mdi-video</v-icon>
-            <span class="px-2">Audio/Video Consultation</span>
+            <span class="px-2">استشارة صوتية/مرئية</span>
           </v-btn>
           <v-btn
             class="primary rounded-lg mb-2 text-capitalize"
@@ -58,7 +58,7 @@
             :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
           >
             <v-icon>mdi-file-multiple</v-icon>
-            <span class="px-2">Request a Medical Report</span>
+            <span class="px-2">طلب تقرير طبي</span>
           </v-btn>
           <v-btn
             class="primary rounded-lg text-capitalize"
@@ -67,7 +67,7 @@
             :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
           >
             <v-icon>mdi-doctor</v-icon>
-            <span class="px-2">View Doctor's Page</span>
+            <span class="px-2">مشاهدة صفحة الطبيب</span>
           </v-btn>
         </div>
       </carousel>

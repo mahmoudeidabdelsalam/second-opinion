@@ -1,7 +1,7 @@
 <template>
   <section class="pb-16">
     <v-container style="max-width: 1400px">
-      <h1 class="primary--text text-center mb-10">Contact us</h1>
+      <h1 class="primary--text text-center mb-10">تواصل معنا</h1>
 
       <v-form ref="form" :v-model="valid" lazy-validation>
         <v-row>
@@ -11,7 +11,7 @@
                 <v-text-field
                   v-model="form.first_name"
                   :rules="nameRules"
-                  label="First name"
+                  label="الاسم الاول"
                   outlined
                   dense
                   class="rounded-lg"
@@ -22,7 +22,7 @@
                 <v-text-field
                   v-model="form.last_name"
                   :rules="nameRules"
-                  label="Last name"
+                  label="الاسم الاخير"
                   outlined
                   dense
                   class="rounded-lg"
@@ -33,7 +33,7 @@
                 <v-text-field
                   v-model="form.email"
                   :rules="emailRules"
-                  label="Email"
+                  label="البريد الالكتروني"
                   type="email"
                   outlined
                   dense
@@ -45,7 +45,7 @@
                 <v-textarea
                   v-model="form.message"
                   :rules="messageRules"
-                  label="Message"
+                  label="الرسالة"
                   outlined
                   dense
                   auto-grow
@@ -60,7 +60,7 @@
                   class="text-capitalize px-16"
                   @click="sendMessage"
                 >
-                  Send
+                  ارسال
                 </v-btn>
               </v-col>
             </v-row>

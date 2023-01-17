@@ -6,7 +6,7 @@
           <div class="main-column column">
             <span class="brand d-block primary--text mb-8">Second Opinion</span>
             <span class="commercial-number primary--text d-block mb-4">
-              Commercial Registration Number: 1010829627
+              رقم السجل التجاري: 1010829627
             </span>
             <div class="payment-methods mb-8">
               <img src="@/assets/images/mada.svg" alt="Mada" />
@@ -20,22 +20,22 @@
         <v-col cols="6" lg="3" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
-              Helpful Links
+              روابط مساعدة
             </span>
             <router-link
               :to="{ name: 'PublicTermsAndConditions' }"
               class="link d-block mb-6"
             >
-              Terms & Conditions
+              الشروط والأحكام
             </router-link>
             <router-link :to="{ name: 'Login' }" class="link d-block mb-6">
-              Login
+              تسجيل الدخول
             </router-link>
             <router-link :to="{ name: 'Register' }" class="link d-block mb-6">
-              Register
+              التسجيل
             </router-link>
             <router-link :to="{ name: 'ContactUs' }" class="link d-block">
-              Contact Us
+              تواصل معنا
             </router-link>
           </div>
         </v-col>
@@ -43,7 +43,7 @@
         <v-col cols="12" lg="4" md="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
-              Contact Us
+              تواصل معنا
             </span>
             <a
               href="mailto:info@second-opinion.com"
@@ -61,7 +61,7 @@
             </a>
             <span class="company-address d-flex align-center mb-4">
               <v-icon class="mx-2">mdi-map-marker</v-icon>
-              3004, Imam Saud Bin Faisal Road, Al Sahafa District, 6130
+              3004، طريق الامام سعود بن فيصل، حى الصحافة، 6130
             </span>
             <div class="social-links mb-5">
               <a href="#" target="_blank" class="box">
@@ -80,7 +80,7 @@
     </v-container>
     <div class="copy-right primary text-center pa-5 mt-2">
       <span class="white--text font-weight-regular body-2">
-        All rights reserved to <strong>Second Opinion</strong> &#169; 2023
+        جميع الحقوق محفوظة لشركة <strong>Second Opinion</strong> &#169; 2023
       </span>
     </div>
   </v-footer>

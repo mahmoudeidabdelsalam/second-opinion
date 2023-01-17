@@ -34,13 +34,16 @@
                   {{ doctor.department.name }}
                 </span>
                 <p class="white--text body-2">
-                  لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج
-                  أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار
-                  ماجنا أليكيوا .
+                  {{ doctor.description }}
                 </p>
                 <v-btn
                   class="white rounded-lg text-capitalize primary--text font-weight-bold"
                   depressed
+                  link
+                  :to="{
+                    name: 'PublicDoctorsProfile',
+                    params: { id: doctor.id },
+                  }"
                 >
                   طلب استشارة
                 </v-btn>
