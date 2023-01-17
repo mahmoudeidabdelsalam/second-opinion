@@ -12,7 +12,7 @@
           class="font-weight-bold"
           active-class="primary--text active-tab"
         >
-          {{ $t("message") }}
+          الطبيب
         </v-tab>
 
         <v-tab
@@ -20,7 +20,7 @@
           class="font-weight-bold"
           active-class="primary--text active-tab"
         >
-          Specialization
+          التخصص
         </v-tab>
       </v-tabs>
 
@@ -33,13 +33,20 @@
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-row>
                 <v-col cols="12" md="10">
-                  <v-text-field
-                    v-model="search.doctor_name"
-                    :rules="nameRules"
+                  <v-autocomplete
+                    v-model="doctor_name"
+                    :items="
+                      doctors.map((item) => {
+                        return {
+                          text: item.full_name,
+                          value: item.full_name,
+                        };
+                      })
+                    "
                     label="Search for doctor"
                     outlined
                     class="rounded-lg"
-                  ></v-text-field>
+                  ></v-autocomplete>
                 </v-col>
 
                 <v-col cols="12" md="2">
@@ -47,6 +54,7 @@
                     color="primary"
                     class="text-capitalize rounded-lg py-7 font-weight-bold"
                     block
+                    @click="doctorSearch"
                   >
                     بحث
                   </v-btn>
@@ -62,8 +70,8 @@
               <v-row>
                 <v-col cols="12" md="10">
                   <v-autocomplete
-                    v-model="search.specialization"
-                    :rules="selectRules"
+                    v-model="department_id"
+                    :items="departments"
                     label="Search for specialization"
                     outlined
                     class="rounded-lg"
@@ -75,6 +83,7 @@
                     color="primary"
                     class="text-capitalize rounded-lg py-7 font-weight-bold"
                     block
+                    @click="departmentSearch"
                   >
                     بحث
                   </v-btn>
@@ -89,25 +98,83 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "SearchForDoctor",
 
   data: () => ({
     tabs: null,
-    search: {
-      doctor_name: "",
-      specialization: "",
-    },
+
+    // form
+    doctor_name: "",
+    department_id: "",
+
+    // departments
+    departments: [],
   }),
+
+  props: {
+    doctors: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  created() {
+    // init data
+    this.initData();
+  },
 
   computed: {
     ...mapGetters({
       valid: "validationRules/valid",
-      nameRules: "validationRules/nameRules",
-      selectRules: "validationRules/selectRules",
     }),
+  },
+
+  methods: {
+    ...mapActions({
+      getData: "crudOperations/getData",
+    }),
+
+    // init data
+    initData() {
+      // get departments
+      this.getData("patient/departments").then((res) => {
+        this.departments = res.map((item) => {
+          return {
+            text: item.name,
+            value: item.id,
+          };
+        });
+      });
+    },
+
+    // doctor search
+    doctorSearch() {
+      // if not empty
+      if (this.doctor_name) {
+        this.$router.push({
+          name: "PublicDoctors",
+          query: {
+            doctor_name: this.doctor_name,
+          },
+        });
+      }
+    },
+
+    // department search
+    departmentSearch() {
+      // if not empty
+      if (this.department_id) {
+        this.$router.push({
+          name: "PublicDoctors",
+          query: {
+            department_id: this.department_id,
+          },
+        });
+      }
+    },
   },
 };
 </script>

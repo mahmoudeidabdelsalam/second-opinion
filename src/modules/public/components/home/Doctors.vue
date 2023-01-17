@@ -22,38 +22,63 @@
             items: 3,
           },
         }"
+        v-if="doctors.length"
       >
         <div
           class="pa-5 ma-5 rounded-lg elevation-3 white"
-          v-for="item in 5"
-          :key="item"
+          v-for="doctor in doctors"
+          :key="doctor.id"
         >
           <img
-            src="https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg"
+            :src="doctor.profile"
+            :lazy-src="doctor.profile"
             class="rounded-lg mb-5"
           />
           <h1 class="text-center primary--text mb-2">
-            Dr. Khaled Akram Mohammed
+            {{ doctor.full_name }}
           </h1>
           <span
             class="d-block text-center font-weight-bold text--secondary mb-3"
           >
-            Specialty/ Internal Medicine
+            {{ doctor.title }}
           </span>
-          <v-btn class="primary rounded-lg mb-2 text-capitalize" block>
+          <v-btn
+            class="primary rounded-lg mb-2 text-capitalize"
+            block
+            link
+            :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
+          >
             <v-icon>mdi-video</v-icon>
             <span class="px-2">Audio/Video Consultation</span>
           </v-btn>
-          <v-btn class="primary rounded-lg mb-2 text-capitalize" block>
+          <v-btn
+            class="primary rounded-lg mb-2 text-capitalize"
+            block
+            link
+            :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
+          >
             <v-icon>mdi-file-multiple</v-icon>
             <span class="px-2">Request a Medical Report</span>
           </v-btn>
-          <v-btn class="primary rounded-lg text-capitalize" block>
+          <v-btn
+            class="primary rounded-lg text-capitalize"
+            block
+            link
+            :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
+          >
             <v-icon>mdi-doctor</v-icon>
             <span class="px-2">View Doctor's Page</span>
           </v-btn>
         </div>
       </carousel>
+
+      <!-- waiting for data -->
+      <v-skeleton-loader
+        v-else
+        class="mx-auto"
+        max-width="300"
+        type="card"
+      ></v-skeleton-loader>
     </v-container>
   </section>
 </template>
@@ -65,6 +90,13 @@ export default {
   name: "Doctors",
 
   components: { carousel },
+
+  props: {
+    doctors: {
+      type: Array,
+      default: () => [],
+    },
+  },
 };
 </script>
 

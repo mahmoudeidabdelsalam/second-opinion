@@ -3,48 +3,60 @@
     <div class="bg mb-5 d-flex align-center">
       <v-container style="max-width: 1400px">
         <span class="white--text text-h5 font-weight-bold">
-          Book the best doctors in the Kingdom
+          احجز مع أفضل الأطباء في المملكة
         </span>
       </v-container>
     </div>
 
     <div class="list mx-auto">
       <v-container style="max-width: 1400px">
-        <v-row>
-          <v-col cols="12" md="6" v-for="doctor in 4" :key="doctor">
+        <v-row v-if="doctors.length">
+          <v-col cols="12" md="6" v-for="doctor in doctors" :key="doctor.id">
             <div
               class="doctor primary pa-5 rounded-lg d-flex justify-start align-start"
             >
               <v-avatar class="rounded-lg" size="150">
                 <v-img
+                  :src="doctor.profile"
+                  :lazy-src="doctor.profile"
                   cover
-                  lazy-src="https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg"
                   max-height="150"
                   max-width="150"
-                  src="https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg"
                   alt="article"
                 ></v-img>
               </v-avatar>
 
               <div class="doctor-info mx-4">
                 <span class="d-block mb-2 white--text font-weight-bold text-h6">
-                  Dr. Khaled Ibrahim
+                  {{ doctor.full_name }}
                 </span>
                 <span class="d-block mb-2 white--text">
-                  Specialty/ Internal Medicine
+                  {{ doctor.department.name }}
                 </span>
                 <p class="white--text body-2">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero
-                  repellendus incidunt ea sapiente error.
+                  لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج
+                  أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار
+                  ماجنا أليكيوا .
                 </p>
                 <v-btn
                   class="white rounded-lg text-capitalize primary--text font-weight-bold"
                   depressed
                 >
-                  Request a Consultation
+                  طلب استشارة
                 </v-btn>
               </div>
             </div>
+          </v-col>
+        </v-row>
+
+        <!-- waiting for data -->
+        <v-row v-else>
+          <v-col cols="12" md="6">
+            <v-skeleton-loader
+              class="mx-auto"
+              max-width="300"
+              type="card"
+            ></v-skeleton-loader>
           </v-col>
         </v-row>
       </v-container>
@@ -53,8 +65,49 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Doctors",
+
+  data: () => ({
+    // doctors
+    doctors: [],
+  }),
+
+  created() {
+    // init data
+    this.initData();
+  },
+
+  watch: {
+    $route() {
+      // init data
+      this.initData();
+    },
+  },
+
+  methods: {
+    ...mapActions({
+      getData: "crudOperations/getData",
+    }),
+
+    // init data
+    initData() {
+      // get doctors
+      this.getData(
+        `patient/${
+          this.$route.query.doctor_name
+            ? `doctors?search=${this.$route.query.doctor_name}`
+            : this.$route.query.department_id
+            ? `doctors?department_id=${this.$route.query.department_id}`
+            : `doctors`
+        }`
+      ).then((res) => {
+        this.doctors = res;
+      });
+    },
+  },
 };
 </script>
 

@@ -7,15 +7,15 @@
             class="text-content d-flex flex-column justify-center"
             style="height: 100%"
           >
-            <span class="d-block mb-5 white--text font-weight-black text-h4">
-              Download mobile app
+            <span class="d-block mb-10 white--text font-weight-black text-h4">
+              حمّل التطبيق
             </span>
-            <p class="white--text body-1 mb-7">
-              For a better experience
+            <p class="white--text body-1 mb-10">
+              لتجربة افضل
               <br />
-              and to benefit from all services,
+              و للاستفادة من جميع الخدمات
               <br />
-              Download your app now
+              حمّل التطبيق الآن
             </p>
             <div class="stores buttons">
               <v-btn class="white text-capitalize font-weight-bold py-6">

@@ -36,12 +36,19 @@
           </div>
         </slide>
       </carousel-3d>
+
+      <!-- waiting for data -->
+      <v-skeleton-loader
+        v-else
+        class="mx-auto"
+        max-width="300"
+        type="card"
+      ></v-skeleton-loader>
     </v-container>
   </section>
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import { Carousel3d, Slide } from "vue-carousel-3d";
 
 export default {
@@ -52,27 +59,10 @@ export default {
     Slide,
   },
 
-  data: () => ({
-    doctors: [],
-  }),
-
-  created() {
-    // init data
-    this.initData();
-  },
-
-  methods: {
-    ...mapActions({
-      getData: "crudOperations/getData",
-    }),
-
-    // init data
-    initData() {
-      // get doctors
-      this.getData("patient/doctors").then((res) => {
-        this.doctors = res;
-        console.log(this.doctors);
-      });
+  props: {
+    doctors: {
+      type: Array,
+      default: () => [],
     },
   },
 };
