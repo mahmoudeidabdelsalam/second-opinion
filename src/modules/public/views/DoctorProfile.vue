@@ -16,18 +16,23 @@
         </v-avatar>
 
         <div class="doctor-info mx-0 mx-md-4">
-          <span class="d-block mb-2 white--text font-weight-bold text-h6">
+          <span class="d-block mb-2 white--text font-weight-bold">
             {{ doctor.title }}
           </span>
-          <span class="d-block mb-3 white--text font-weight-bold text-h6">
+          <span class="d-block mb-5 white--text font-weight-bold text-h6">
             {{ doctor.full_name }}
           </span>
           <div class="tags d-flex justify-start align-start flex-wrap">
-            <span
-              class="pa-2 px-3 mx-1 mb-1 primary_bg primary--text rounded-lg text-capitalize"
+            <v-btn
+              link
+              :to="{
+                name: 'PublicDoctors',
+                query: { department_id: doctor.department.id },
+              }"
+              class="primary_bg primary--text"
             >
               {{ doctor.department.name }}
-            </span>
+            </v-btn>
           </div>
         </div>
       </div>
