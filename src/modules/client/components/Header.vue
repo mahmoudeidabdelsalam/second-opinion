@@ -4,25 +4,43 @@
       <v-tabs>
         <v-tabs-slider></v-tabs-slider>
 
-        <v-tab class="font-weight-bold" link to="/">Home</v-tab>
-        <v-tab class="font-weight-bold" link :to="{ name: 'PublicAbout' }">
-          About us
+        <v-tab class="font-weight-bold primary--text" link to="/">
+          الرئيسية
         </v-tab>
-        <v-tab class="font-weight-bold" link :to="{ name: 'PublicServices' }">
-          Services
+        <v-tab
+          class="font-weight-bold primary--text"
+          link
+          :to="{ name: 'PublicAbout' }"
+        >
+          من نحن؟
         </v-tab>
-        <v-tab class="font-weight-bold" link :to="{ name: 'PublicDoctors' }">
-          Doctors
+        <v-tab
+          class="font-weight-bold primary--text"
+          link
+          :to="{ name: 'PublicServices' }"
+        >
+          خدماتنا
         </v-tab>
-        <v-tab class="font-weight-bold" link :to="{ name: 'PublicBlog' }">
-          Blog
+        <v-tab
+          class="font-weight-bold primary--text"
+          link
+          :to="{ name: 'PublicDoctors' }"
+        >
+          اطبائنا
+        </v-tab>
+        <v-tab
+          class="font-weight-bold primary--text"
+          link
+          :to="{ name: 'PublicBlog' }"
+        >
+          المدونة
         </v-tab>
       </v-tabs>
     </div>
 
     <div>
       <!-- translations -->
-      <v-menu offset-y open-on-hover min-width="150">
+      <!-- <v-menu offset-y open-on-hover min-width="150">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon color="black" aria-label="bell" v-bind="attrs" v-on="on">
             <v-icon>mdi-translate</v-icon>
@@ -41,7 +59,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-menu>
+      </v-menu> -->
 
       <!-- profile -->
       <!-- <v-menu offset-y open-on-hover v-if="authenticated">
@@ -74,7 +92,7 @@
         class="primary rounded-lg text-capitalize px-6 mx-2"
         v-if="authenticated"
       >
-        {{ authenticated.role.value == 4 ? "Profile" : "Dashboard" }}
+        {{ authenticated.role.value == 4 ? "الحساب" : "لوحة التحكم" }}
       </v-btn>
 
       <v-btn
@@ -83,7 +101,7 @@
         class="primary rounded-lg text-capitalize px-6 mx-2"
         v-if="authenticated"
       >
-        Logout
+        تسجيل الخروج
       </v-btn>
 
       <v-btn
@@ -93,7 +111,7 @@
         class="primary rounded-lg text-capitalize px-6 mx-2"
         v-if="!authenticated"
       >
-        Login
+        تسجيل الدخول
       </v-btn>
     </div>
   </nav>

@@ -1,7 +1,7 @@
 <template>
   <main class="notifications pa-5">
     <span class="d-block font-weight-bold mb-5 primary--text text-h5">
-      Notifications
+      الاشعارات
     </span>
 
     <div class="content pa-5 elevation-3 rounded-lg">
@@ -11,13 +11,15 @@
         :key="notification"
       >
         <span class="d-block font-weight-bold mb-2 primary--text text-h6">
-          You have an appointment in 15 minutes
+          لديك موعد بعد 15 دقيقة
         </span>
         <p class="secondary--text mb-5">
-          Reminder of the consultation appointment on Saturday, November 12,
-          2022, stay for 15 minutes
+          تذكير بموعد الإستشارة يوم السبت الموافق 12 نوفمبر 2022، بقى على موعدك
+          15 دقيقة
         </p>
-        <span class="secondary--text body-2">November 6, 2021, 10:43 am</span>
+        <span class="secondary--text body-2">
+          6 نوفمبر 2021, 10:43 صباحاً
+        </span>
       </div>
     </div>
   </main>

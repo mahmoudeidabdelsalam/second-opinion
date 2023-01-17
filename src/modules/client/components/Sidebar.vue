@@ -14,7 +14,9 @@
           <v-icon color="white">mdi-home</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Home</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الرئيسية
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -28,7 +30,9 @@
           <v-icon color="white">mdi-bell-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Notifications</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الاشعارات
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -42,7 +46,9 @@
           <v-icon color="white">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Appointments</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            حجوزاتى
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -56,7 +62,9 @@
           <v-icon color="white">mdi-file-document</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Medical reports</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الاستشارات المكتوبة
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -70,7 +78,7 @@
           <v-icon color="white">mdi-credit-card-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Payment</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">الدفع</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -84,7 +92,9 @@
           <v-icon color="white">mdi-cog</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Settings</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الاعدادات
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -98,7 +108,9 @@
           <v-icon color="white">mdi-help-circle-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Help</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            المساعدة
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -112,7 +124,9 @@
           <v-icon color="white">mdi-information-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>About second opinion</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            عن الموقع
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
