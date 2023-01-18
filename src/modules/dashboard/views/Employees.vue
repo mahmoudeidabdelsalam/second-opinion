@@ -9,12 +9,16 @@
         item-key="id"
         sort-by="id"
         sort-desc
-        no-data-text="No Employees."
+        no-data-text="لا توجد بيانات حتى الان"
+        :footer-props="{
+          'items-per-page-all-text': 'الكل',
+          'items-per-page-text': 'عدد الصفوف في الصفحة',
+        }"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
-              Employees
+            <v-toolbar-title class="black--text font-weight-bold">
+              الموظفين
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="800px">
@@ -22,7 +26,7 @@
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
                   <v-icon left>mdi-plus</v-icon>
-                  New
+                  جديد
                 </v-btn>
               </template>
               <v-card>
@@ -37,7 +41,7 @@
                           <v-text-field
                             v-model="editedItem.full_name"
                             :rules="nameRules"
-                            label="Name"
+                            label="الاسم"
                             outlined
                             dense
                           ></v-text-field>
@@ -48,7 +52,7 @@
                             v-model="editedItem.email"
                             :rules="emailRules"
                             type="email"
-                            label="Email"
+                            label="البريد الالكتروني"
                             outlined
                             dense
                           ></v-text-field>
@@ -59,7 +63,7 @@
                             v-model="editedItem.phone_number"
                             :rules="phoneRules"
                             type="tel"
-                            label="Phone number"
+                            label="رقم الهاتف"
                             outlined
                             dense
                           ></v-text-field>
@@ -70,7 +74,7 @@
                             v-model="editedItem.national_id"
                             :rules="nationalIdRules"
                             type="number"
-                            label="National ID"
+                            label="الرقم القومي"
                             outlined
                             dense
                           ></v-text-field>
@@ -81,7 +85,7 @@
                             v-model="editedItem.active"
                             :items="status"
                             :rules="selectRules"
-                            label="Status"
+                            label="الحالة"
                             outlined
                             dense
                           ></v-select>
@@ -92,7 +96,7 @@
                             v-model="editedItem.gender"
                             :items="genders"
                             :rules="selectRules"
-                            label="Gender"
+                            label="النوع"
                             outlined
                             dense
                           ></v-select>
@@ -105,10 +109,10 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="close">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn color="primary" depressed small @click="save">
-                    Save
+                    حفظ
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -125,19 +129,19 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  Filter
+                  تصفية
                 </v-btn>
               </template>
               <v-list>
                 <v-list-item link @click.prevent="initData('normal')">
                   <v-list-item-content>
-                    <v-list-item-title>Employees only</v-list-item-title>
+                    <v-list-item-title>الموظفين</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item link @click.prevent="initData('trashed')">
                   <v-list-item-content>
-                    <v-list-item-title>Trashed only</v-list-item-title>
+                    <v-list-item-title> الموظفين المحذوفين </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -147,12 +151,12 @@
             <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to delete this Employee?
+                  هل انت متاكد من حذف هذا الموظف؟
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="closeDelete">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="error"
@@ -160,7 +164,7 @@
                     small
                     @click="deleteItemConfirm"
                   >
-                    Delete
+                    حذف
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -170,7 +174,7 @@
             <v-dialog v-model="dialogRestore" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to restore this employee?
+                  هل انت متاكد من استعادة هذا الموظف؟
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -180,7 +184,7 @@
                     small
                     @click="closeRestore"
                   >
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="error"
@@ -188,7 +192,7 @@
                     small
                     @click="restoreItemConfirm"
                   >
-                    Restore
+                    استعادة
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -197,32 +201,8 @@
         </template>
 
         <template v-slot:[`item.name`]="{ item }">
-          <div class="d-flex justify-start align-center">
-            <v-avatar class="mr-4" size="50">
-              <v-img
-                cover
-                :lazy-src="item.profile"
-                max-height="50"
-                max-width="50"
-                :src="item.profile"
-                :alt="item.full_name"
-              ></v-img>
-            </v-avatar>
-            <span class="d-block black--text font-weight-bold">
-              {{ item.full_name }}
-            </span>
-          </div>
-        </template>
-
-        <template v-slot:[`item.contacts`]="{ item }">
-          <span class="d-block black--text">
-            {{ item.email }}
-          </span>
-          <span class="d-block black--text">
-            {{ item.personal_phone }}
-          </span>
-          <span class="d-block black--text">
-            {{ item.gender }}
+          <span class="d-block black--text font-weight-bold">
+            {{ item.full_name }}
           </span>
         </template>
 
@@ -271,20 +251,21 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Employee", value: "name", sortable: false },
-      { text: "Contacts", value: "contacts", sortable: false },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "الموظفين", value: "name" },
+      { text: "البريد الالكترونى", value: "email" },
+      { text: "رقم الهاتف", value: "phone_number" },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
     desserts: [],
     // genders
     genders: [
-      { text: "Male", value: "m" },
-      { text: "Female", value: "f" },
+      { text: "ذكر", value: "m" },
+      { text: "انثى", value: "f" },
     ],
     // sttaus
     status: [
-      { text: "Active", value: "1" },
-      { text: "Lazy", value: "0" },
+      { text: "نشط", value: "1" },
+      { text: "خامل", value: "0" },
     ],
     // selected rows
     singleSelect: false,
@@ -316,7 +297,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Employee" : "Edit Employee";
+      return this.editedIndex === -1 ? "موظف جديد" : "تعديل الموظف";
     },
 
     ...mapGetters({

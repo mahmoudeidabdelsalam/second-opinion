@@ -9,12 +9,16 @@
         item-key="id"
         sort-by="id"
         sort-desc
-        no-data-text="No invoices."
+        no-data-text="لا توجد بيانات حتى الان"
+        :footer-props="{
+          'items-per-page-all-text': 'الكل',
+          'items-per-page-text': 'عدد الصفوف في الصفحة',
+        }"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
-              Invoices
+            <v-toolbar-title class="black--text font-weight-bold">
+              الفواتير
             </v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
@@ -73,14 +77,14 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "Patient", value: "patient", sortable: false },
-      { text: "Invoice type", value: "invoice_type" },
-      { text: "Status", value: "status" },
-      { text: "Paid status", value: "is_paid" },
-      { text: "Paid at", value: "invoice_paid_at" },
-      { text: "Sub total", value: "sub_total" },
-      { text: "Total", value: "total" },
-      // { text: "Actions", value: "actions", sortable: false },
+      { text: "المرضى", value: "patient", sortable: false },
+      { text: "نوع الخدمة", value: "invoice_type" },
+      { text: "حالة الخدمة", value: "status" },
+      { text: "حالة الدفع", value: "is_paid" },
+      { text: "دُفع فى", value: "invoice_paid_at" },
+      { text: "الاجمالى الفرعى", value: "sub_total" },
+      { text: "الاجمالى النهائى", value: "total" },
+      // { text: "الاجراءات", value: "actions", sortable: false },
     ],
     desserts: [],
     // selected rows

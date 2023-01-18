@@ -9,12 +9,16 @@
         item-key="id"
         sort-by="id"
         sort-desc
-        no-data-text="No reservations."
+        no-data-text="لا توجد بيانات حتى الان"
+        :footer-props="{
+          'items-per-page-all-text': 'الكل',
+          'items-per-page-text': 'عدد الصفوف في الصفحة',
+        }"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
-              Reservations
+            <v-toolbar-title class="black--text font-weight-bold">
+              الحجوزات
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="800px" scrollable>
@@ -22,7 +26,7 @@
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
                   <v-icon left>mdi-plus</v-icon>
-                  New
+                  جديد
                 </v-btn>
               </template>
               <v-card>
@@ -38,7 +42,7 @@
                             v-model="editedItem.doctor_id"
                             :items="doctors"
                             :rules="selectRules"
-                            label="Doctor"
+                            label="الطبيب"
                             outlined
                             dense
                           ></v-autocomplete>
@@ -56,7 +60,7 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 v-model="editedItem.reservation_day"
-                                label="Reservation day"
+                                label="تاريح الحجز"
                                 append-icon="mdi-calendar"
                                 readonly
                                 v-bind="attrs"
@@ -76,10 +80,11 @@
 
                         <v-col cols="12">
                           <v-btn
-                            class="capitalize mb-5"
+                            depressed
+                            class="capitalize mb-5 primary_bg primary--text"
                             @click="getAvailableDates"
                           >
-                            Check available dates
+                            معرفة الاوقات المتاحة
                           </v-btn>
                         </v-col>
 
@@ -92,7 +97,7 @@
                             v-model="editedItem.patient_id"
                             :items="patients"
                             :rules="selectRules"
-                            label="Patient"
+                            label="المريض"
                             outlined
                             dense
                           ></v-autocomplete>
@@ -107,7 +112,7 @@
                             v-model="editedItem.reservation_time_start"
                             :items="availableTimes"
                             :rules="selectRules"
-                            label="Time"
+                            label="التوقيت"
                             outlined
                             dense
                           ></v-autocomplete>
@@ -121,7 +126,7 @@
                           <v-autocomplete
                             v-model="editedItem.type"
                             :items="reservationTypes"
-                            label="Reservation type"
+                            label="نوع الحجز"
                             outlined
                             dense
                           ></v-autocomplete>
@@ -134,7 +139,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="close">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="primary"
@@ -153,12 +158,12 @@
             <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to delete this reservation?
+                  هل انت متاكد من حذف الحجز ؟
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="closeDelete">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="error"
@@ -166,7 +171,7 @@
                     small
                     @click="deleteItemConfirm"
                   >
-                    Delete
+                    حذف
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -209,7 +214,7 @@
 
         <template v-slot:[`item.doctor`]="{ item }">
           <div class="d-flex justify-start align-center">
-            <v-avatar class="mr-4" size="50">
+            <v-avatar size="50">
               <v-img
                 cover
                 :lazy-src="item.doctor.profile"
@@ -220,7 +225,7 @@
                 v-if="item.doctor && item.doctor.profile"
               ></v-img>
             </v-avatar>
-            <div>
+            <div class="px-4">
               <span
                 class="d-block black--text font-weight-bold"
                 v-if="item.doctor && item.doctor.full_name"
@@ -245,13 +250,13 @@
 
         <template v-slot:[`item.time`]="{ item }">
           <span class="d-block black--text">
-            Day: {{ item.reservation_day }}
+            اليوم: {{ item.reservation_day }}
           </span>
           <span class="d-block black--text">
-            Start in: {{ item.reservation_time_start }}
+            يبدا فى: {{ item.reservation_time_start }}
           </span>
           <span class="d-block black--text">
-            End in: {{ item.reservation_time_end }}
+            ينتهى فى: {{ item.reservation_time_end }}
           </span>
         </template>
 
@@ -295,18 +300,18 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Patient", value: "patient", sortable: false },
-      { text: "Doctor", value: "doctor", sortable: false },
-      { text: "Time", value: "time", sortable: false },
-      { text: "Type", value: "type.text" },
+      { text: "المرضى", value: "patient", sortable: false },
+      { text: "الاطباء", value: "doctor", sortable: false },
+      { text: "تاريخ الحجز", value: "time", sortable: false },
+      { text: "نوع الحجز", value: "type.text" },
       {
-        text: "Status",
+        text: "الحالة",
         value: "status",
         width: "200",
         align: "center",
         sortable: false,
       },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
     desserts: [],
     // doctors
@@ -317,24 +322,24 @@ export default {
     availableTimes: [],
     // genders
     genders: [
-      { text: "Male", value: "m" },
-      { text: "Female", value: "f" },
+      { text: "ذكر", value: "m" },
+      { text: "انثى", value: "f" },
     ],
     // status
     status: [
-      { text: "Pending", value: 0 },
-      { text: "Confirmed", value: 1 },
-      { text: "Cancelled", value: 2 },
-      { text: "Completed", value: 3 },
-      { text: "Expired", value: 4 },
-      { text: "Refunded", value: 5 },
+      { text: "فى الانتظار", value: 0 },
+      { text: "مؤكدة", value: 1 },
+      { text: "ملغية", value: 2 },
+      { text: "منتهية", value: 3 },
+      { text: "منتهية الصلاحية", value: 4 },
+      { text: "استعادة الاموال", value: 5 },
     ],
     // reservationTypes
     reservationTypes: [
-      { text: "Visit", value: 0 },
-      { text: "Call", value: 1 },
-      { text: "Video", value: 2 },
-      { text: "Home nurse", value: 3 },
+      { text: "زيارة", value: 0 },
+      { text: "مكالمة صوتية", value: 1 },
+      { text: "مكالمة مرئية", value: 2 },
+      { text: "زيارة منزلية", value: 3 },
     ],
     // selected rows
     singleSelect: false,
@@ -422,7 +427,7 @@ export default {
         this.getData("dashboard/patients").then((res) => {
           this.patients = res.map((item) => {
             return {
-              text: item.full_name,
+              text: item.name,
               value: item.id,
             };
           });

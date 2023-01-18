@@ -65,6 +65,33 @@ const state = () => ({
     (v) => (v && v.length == 13) || "الرقم القومي يجب ان يكون 13 رقم",
     (v) => /^\d+$/.test(v) || "الرقم القومي يجب ان يكون ارقام فقط",
   ],
+
+  // phoneOrEmailRules rules
+  phoneOrEmailRules: [
+    (v) => !!v || "حقل الهاتف او البريد الالكتروني مطلوب",
+    // if it's email then check email rules
+    (v) => {
+      if (v.includes("@")) {
+        return /.+@.+\..+/.test(v) || "البريد الالكتروني غير صحيح";
+      } else {
+        return (
+          (v && v.length == 12) ||
+          "الهاتف يجب ان يكون 12 رقم" ||
+          (v && /^\d+$/.test(v)) ||
+          "الهاتف يجب ان يكون ارقام فقط" ||
+          (v && /^9665/.test(v)) ||
+          "الهاتف يجب ان يبدأ ب 9665"
+        );
+      }
+    },
+
+    // if it's phone then check phone rules must start with 9665
+    (v) => {
+      if (!v.includes("@")) {
+        return /^9665/.test(v) || "الهاتف يجب ان يبدأ ب 9665";
+      }
+    },
+  ],
 });
 
 // getters
@@ -101,6 +128,9 @@ const getters = {
 
   // national id rules
   nationalIdRules: (state) => state.nationalIdRules,
+
+  // phone or email rules
+  phoneOrEmailRules: (state) => state.phoneOrEmailRules,
 };
 
 export default {

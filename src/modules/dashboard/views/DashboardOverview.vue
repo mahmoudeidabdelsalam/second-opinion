@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Dashboard Overview</h1>
+    <h1>صفحة النظرة العامه و احصائيات النظام</h1>
   </section>
 </template>
 

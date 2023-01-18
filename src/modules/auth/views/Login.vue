@@ -75,6 +75,7 @@
                     <v-form ref="form" :v-model="valid" lazy-validation>
                       <v-text-field
                         v-model="forget.username"
+                        :rules="phoneOrEmailRules"
                         label="ادخل رقم الهاتف او البريد الالكتروني"
                         outlined
                         dense
@@ -176,7 +177,7 @@ export default {
       valid: "validationRules/valid",
       emailRules: "validationRules/emailRules",
       passwordRules: "validationRules/passwordRules",
-      phoneRules: "validationRules/phoneRules",
+      phoneOrEmailRules: "validationRules/phoneOrEmailRules",
     }),
   },
 
@@ -185,7 +186,7 @@ export default {
       const l = this.loader;
       this[l] = !this[l];
 
-      setTimeout(() => (this[l] = false), 3000);
+      setTimeout(() => (this[l] = false), 2000);
 
       this.loader = null;
     },

@@ -33,13 +33,42 @@
           </v-col>
         </v-row>
       </div>
+      {{ articles }}
     </v-container>
   </section>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Blog",
+
+  data: () => ({
+    // articles
+    articles: [],
+  }),
+
+  created() {
+    // init data
+    this.initData();
+  },
+
+  methods: {
+    ...mapActions({
+      getData: "crudOperations/getData",
+    }),
+
+    // init data
+    initData() {
+      // get articles
+      this.getData(
+        `https://blog.secondopinion.sa/wp-json/wp/api/posts?page=1&per_page=4`
+      ).then((res) => {
+        this.articles = res;
+      });
+    },
+  },
 };
 </script>
 

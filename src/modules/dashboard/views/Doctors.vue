@@ -9,13 +9,17 @@
         item-key="id"
         sort-by="id"
         sort-desc
-        no-data-text="No doctors."
+        no-data-text="لا توجد بيانات حتى الان"
+        :footer-props="{
+          'items-per-page-all-text': 'الكل',
+          'items-per-page-text': 'عدد الصفوف في الصفحة',
+        }"
         @dblclick:row="goToDoctorProfile"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
-              Doctors
+            <v-toolbar-title class="black--text font-weight-bold">
+              الاطباء
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="800px">
@@ -23,7 +27,7 @@
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
                   <v-icon left>mdi-plus</v-icon>
-                  New
+                  جديد
                 </v-btn>
               </template>
               <v-card>
@@ -38,7 +42,7 @@
                           <v-text-field
                             v-model="editedItem.full_name_en"
                             :rules="nameRules"
-                            label="English name"
+                            label="الاسم باللغة الانجليزية"
                             outlined
                             dense
                           ></v-text-field>
@@ -48,7 +52,7 @@
                           <v-text-field
                             v-model="editedItem.full_name_ar"
                             :rules="nameRules"
-                            label="Arabic name"
+                            label="الاسم باللغة العربية"
                             outlined
                             dense
                           ></v-text-field>
@@ -58,7 +62,7 @@
                           <v-text-field
                             v-model="editedItem.title_en"
                             :rules="nameRules"
-                            label="English title"
+                            label="اللقب باللغة الانجليزية"
                             outlined
                             dense
                           ></v-text-field>
@@ -68,7 +72,7 @@
                           <v-text-field
                             v-model="editedItem.title_ar"
                             :rules="nameRules"
-                            label="Arabic title"
+                            label="اللقب باللغة العربية"
                             outlined
                             dense
                           ></v-text-field>
@@ -78,7 +82,7 @@
                           <v-textarea
                             v-model="editedItem.description_en"
                             :rules="descriptionRules"
-                            label="English description"
+                            label=" الوصف باللغة الانجليزية"
                             outlined
                             dense
                             auto-grow
@@ -90,7 +94,7 @@
                           <v-textarea
                             v-model="editedItem.description_ar"
                             :rules="descriptionRules"
-                            label="Arabic description"
+                            label=" الوصف باللغة العربية"
                             outlined
                             dense
                             auto-grow
@@ -103,7 +107,7 @@
                             v-model="editedItem.email"
                             :rules="emailRules"
                             type="email"
-                            label="Email"
+                            label="البريد الالكتروني"
                             outlined
                             dense
                           ></v-text-field>
@@ -114,7 +118,7 @@
                             v-model="editedItem.phone_number"
                             :rules="phoneRules"
                             type="tel"
-                            label="Phone"
+                            label="رقم الهاتف"
                             outlined
                             dense
                           ></v-text-field>
@@ -125,7 +129,7 @@
                             v-model="editedItem.gender"
                             :items="genders"
                             :rules="selectRules"
-                            label="Gender"
+                            label="النوع"
                             outlined
                             dense
                           ></v-select>
@@ -136,7 +140,7 @@
                             v-model="editedItem.session_price"
                             :rules="numberRules"
                             type="number"
-                            label="Session price"
+                            label="سعر الحجز"
                             outlined
                             dense
                           ></v-text-field>
@@ -147,7 +151,7 @@
                             v-model="editedItem.session_duration"
                             :rules="numberRules"
                             type="number"
-                            label="Session duration (in minutes)"
+                            label="مدة الحجز (بالدقائق)"
                             outlined
                             dense
                           ></v-text-field>
@@ -158,7 +162,7 @@
                             v-model="editedItem.department_id"
                             :items="departments"
                             :rules="selectRules"
-                            label="Department"
+                            label="القسم"
                             outlined
                             dense
                           ></v-select>
@@ -171,10 +175,10 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="close">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn color="primary" depressed small @click="save">
-                    Save
+                    حفظ
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -191,19 +195,19 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  Filter
+                  تصفية
                 </v-btn>
               </template>
               <v-list>
                 <v-list-item link @click.prevent="initData('normal')">
                   <v-list-item-content>
-                    <v-list-item-title>Doctors only</v-list-item-title>
+                    <v-list-item-title>الاطباء</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item link @click.prevent="initData('trashed')">
                   <v-list-item-content>
-                    <v-list-item-title>Trashed only</v-list-item-title>
+                    <v-list-item-title> الاطباء المحذوفين </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -213,12 +217,12 @@
             <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to delete this doctor?
+                  هل انت متاكد من حذف هذا الطبيب؟
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="closeDelete">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="error"
@@ -226,7 +230,7 @@
                     small
                     @click="deleteItemConfirm"
                   >
-                    Delete
+                    حذف
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -236,7 +240,7 @@
             <v-dialog v-model="dialogRestore" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to restore this doctor?
+                  هل انت متاكد من استعادة هذا الطبيب؟
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -246,7 +250,7 @@
                     small
                     @click="closeRestore"
                   >
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="error"
@@ -254,7 +258,7 @@
                     small
                     @click="restoreItemConfirm"
                   >
-                    Restore
+                    استعادة
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -264,7 +268,7 @@
 
         <template v-slot:[`item.name`]="{ item }">
           <div class="d-flex justify-start align-center">
-            <v-avatar class="mr-4" size="50">
+            <v-avatar size="50">
               <v-img
                 cover
                 :lazy-src="item.profile"
@@ -274,7 +278,7 @@
                 :alt="item.name"
               ></v-img>
             </v-avatar>
-            <span class="d-block black--text font-weight-bold">
+            <span class="d-block black--text font-weight-bold mx-4">
               {{ item.full_name }}
             </span>
           </div>
@@ -282,7 +286,7 @@
 
         <template v-slot:[`item.department`]="{ item }">
           <div class="d-flex justify-start align-center">
-            <v-avatar class="mr-4" size="50" v-if="item.department">
+            <v-avatar size="50" v-if="item.department">
               <v-img
                 cover
                 :lazy-src="item.department.logo"
@@ -293,7 +297,7 @@
               ></v-img>
             </v-avatar>
             <span
-              class="d-block black--text font-weight-bold"
+              class="d-block black--text font-weight-bold mx-4"
               v-if="item.department"
             >
               {{ item.department.name }}
@@ -354,19 +358,19 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Doctor", value: "name", sortable: false },
-      { text: "Department", value: "department", sortable: false },
-      { text: "Contacts", value: "contacts", sortable: false },
-      { text: "Session price", value: "session_price", sortable: false },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "الاطباء", value: "name", sortable: false },
+      { text: "الاقسام", value: "department", sortable: false },
+      { text: "التواصل", value: "contacts", sortable: false },
+      { text: "سعر الحجز", value: "session_price" },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
     desserts: [],
     // departments
     departments: [],
     // genders
     genders: [
-      { text: "Male", value: "m" },
-      { text: "Female", value: "f" },
+      { text: "ذكر", value: "m" },
+      { text: "انثى", value: "f" },
     ],
     // selected rows
     singleSelect: false,
@@ -408,7 +412,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Doctor" : "Edit Doctor";
+      return this.editedIndex === -1 ? "طبيب جديد" : "تعديل الطبيب";
     },
 
     ...mapGetters({

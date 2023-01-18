@@ -4,7 +4,7 @@
       <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
     </router-link>
 
-    <span class="d-block pa-5 font-weight-bold black--text">Menu</span>
+    <span class="d-block pa-5 font-weight-bold black--text">القائمة</span>
 
     <v-list>
       <v-list-item
@@ -16,7 +16,9 @@
           <v-icon>mdi-view-dashboard</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Dashboard</v-list-item-title>
+          <v-list-item-title class="font-weight-bold"
+            >لوحة التحكم</v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
 
@@ -29,7 +31,9 @@
           <v-icon>mdi-handshake</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Departments</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الاقسام
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -38,7 +42,9 @@
           <v-icon>mdi-playlist-check</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Services</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الخدمات
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item> -->
 
@@ -51,7 +57,9 @@
           <v-icon>mdi-account-multiple</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Employees</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الموظفين
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -60,7 +68,9 @@
           <v-icon>mdi-doctor</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Doctors</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الاطباء
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -73,7 +83,9 @@
           <v-icon>mdi-clipboard-account</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Assistants</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            المساعدين
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -82,7 +94,9 @@
           <v-icon>mdi-shield</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Roles</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الصلاحيات
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -91,7 +105,9 @@
           <v-icon>mdi-account-group</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Patients</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            المرضى
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -104,7 +120,9 @@
           <v-icon>mdi-timetable</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Reservations</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الحجوزات
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -117,7 +135,9 @@
           <v-icon>mdi-expand-all</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Doctors experiences</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            خبرة الاطباء
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item> -->
 
@@ -130,7 +150,9 @@
           <v-icon>mdi-school</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Doctors educations</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            شهادات الاطباء
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item> -->
 
@@ -139,7 +161,9 @@
           <v-icon>mdi-receipt</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Invoices</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            الفواتير
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>

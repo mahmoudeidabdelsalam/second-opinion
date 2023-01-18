@@ -13,7 +13,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
+            <v-toolbar-title class="black--text font-weight-bold">
               Reservations
             </v-toolbar-title>
             <v-spacer></v-spacer>

@@ -9,12 +9,16 @@
         item-key="id"
         sort-by="id"
         sort-desc
-        no-data-text="No roles."
+        no-data-text="لا توجد بيانات حتى الان"
+        :footer-props="{
+          'items-per-page-all-text': 'الكل',
+          'items-per-page-text': 'عدد الصفوف في الصفحة',
+        }"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
-              Roles
+            <v-toolbar-title class="black--text font-weight-bold">
+              الصلاحيات
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="800px" scrollable>
@@ -22,7 +26,7 @@
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
                   <v-icon left>mdi-plus</v-icon>
-                  New
+                  جديد
                 </v-btn>
               </template>
               <v-card>
@@ -37,7 +41,7 @@
                           <v-text-field
                             v-model="editedItem.en_name"
                             :rules="nameRules"
-                            label="English name"
+                            label="الاسم باللغة الانجليزية"
                             outlined
                             dense
                           ></v-text-field>
@@ -47,7 +51,7 @@
                           <v-text-field
                             v-model="editedItem.ar_name"
                             :rules="nameRules"
-                            label="Arabic name"
+                            label="الاسم باللغة العربية"
                             outlined
                             dense
                           ></v-text-field>
@@ -74,10 +78,10 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="close">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn color="primary" depressed small @click="save">
-                    Save
+                    حفظ
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -87,12 +91,12 @@
             <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to delete this role?
+                  هل انت متاكد من حذف هذة الصلاحية ؟
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="closeDelete">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="error"
@@ -100,7 +104,7 @@
                     small
                     @click="deleteItemConfirm"
                   >
-                    Delete
+                    حذف
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -143,8 +147,8 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "Role", value: "name" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "الصلاحيات", value: "name" },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
     desserts: [],
     // permissions
@@ -169,7 +173,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Role" : "Edit Role";
+      return this.editedIndex === -1 ? "صلاحية جديدة" : "تعديل الصلاحية";
     },
 
     ...mapGetters({

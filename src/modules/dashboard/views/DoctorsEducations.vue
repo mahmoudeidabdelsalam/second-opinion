@@ -15,7 +15,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
+            <v-toolbar-title class="black--text font-weight-bold">
               Doctors educations
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -24,7 +24,7 @@
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
                   <v-icon left>mdi-plus</v-icon>
-                  New
+                  جديد
                 </v-btn>
               </template>
               <v-card>

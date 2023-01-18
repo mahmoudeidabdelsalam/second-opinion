@@ -5,7 +5,7 @@
         <v-col cols="12" md="3">
           <div class="doctor">
             <span class="d-block text-h6 font-weight-bold mb-5">
-              Doctor details
+              بيانات الطبيب
             </span>
 
             <div class="doctor-card">
@@ -32,31 +32,10 @@
               >
                 {{ doctor.department.name }}
               </span>
-              <div class="details-part session rounded-lg mb-5 overflow-hidden">
-                <div class="head secondary pa-3">
-                  <span class="font-weight-bold white--text">
-                    Session details
-                  </span>
-                </div>
-                <div class="body pa-3">
-                  <span
-                    class="session-price d-block font-weight-bold secondary--text mb-2"
-                  >
-                    Session price: {{ doctor.session_price }} SAR
-                  </span>
-                  <span
-                    class="session-price d-block font-weight-bold secondary--text"
-                  >
-                    Session duration: {{ doctor.session_duration }} minutes
-                  </span>
-                </div>
-              </div>
 
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
-                  <span class="font-weight-bold white--text">
-                    About the doctor
-                  </span>
+                  <span class="font-weight-bold white--text"> عن الطبيب </span>
                 </div>
                 <div class="body pa-3">
                   <p class="body-1 font-weight-regular secondary--text">
@@ -68,7 +47,27 @@
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
                   <span class="font-weight-bold white--text">
-                    Doctor education
+                    تفاصيل الجلسة
+                  </span>
+                </div>
+                <div class="body pa-3">
+                  <span
+                    class="session-price d-block font-weight-bold secondary--text mb-2"
+                  >
+                    سعر الحجز: {{ doctor.session_price }} ريال
+                  </span>
+                  <span
+                    class="session-price d-block font-weight-bold secondary--text"
+                  >
+                    مدة الحجز: {{ doctor.session_duration }} دقيقة
+                  </span>
+                </div>
+              </div>
+
+              <div class="details-part session rounded-lg mb-5 overflow-hidden">
+                <div class="head secondary pa-3">
+                  <span class="font-weight-bold white--text">
+                    الشهادات العلمية
                   </span>
                 </div>
                 <div class="body pa-3">
@@ -81,7 +80,7 @@
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
                   <span class="font-weight-bold white--text">
-                    Doctor experiences
+                    الخبرة العملية
                   </span>
                 </div>
                 <div class="body pa-3">
@@ -106,7 +105,7 @@
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
             >
-              Reservations
+              الحجوزات
             </v-tab>
 
             <v-tab
@@ -114,7 +113,7 @@
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
             >
-              Appointments
+              الموايعات
             </v-tab>
 
             <v-tab
@@ -122,7 +121,7 @@
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
             >
-              Details
+              التفاصيل
             </v-tab>
 
             <v-tab
@@ -130,7 +129,7 @@
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
             >
-              Cost
+              التكلفة
             </v-tab>
 
             <v-tab
@@ -138,7 +137,7 @@
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
             >
-              Patients
+              المرضى
             </v-tab>
           </v-tabs>
 

@@ -9,12 +9,16 @@
         item-key="id"
         sort-by="id"
         sort-desc
-        no-data-text="No patients."
+        no-data-text="لا توجد بيانات حتى الان"
+        :footer-props="{
+          'items-per-page-all-text': 'الكل',
+          'items-per-page-text': 'عدد الصفوف في الصفحة',
+        }"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-medium">
-              Patients
+            <v-toolbar-title class="black--text font-weight-bold">
+              المرضى
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="800px" scrollable>
@@ -22,7 +26,7 @@
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
                   <v-icon left>mdi-plus</v-icon>
-                  New
+                  جديد
                 </v-btn>
               </template>
               <v-card>
@@ -37,7 +41,7 @@
                           <v-text-field
                             v-model="editedItem.first_name"
                             :rules="nameRules"
-                            label="First name"
+                            label="الاسم الاول"
                             outlined
                             dense
                           ></v-text-field>
@@ -47,7 +51,7 @@
                           <v-text-field
                             v-model="editedItem.last_name"
                             :rules="nameRules"
-                            label="Last name"
+                            label="الاسم الاخير"
                             outlined
                             dense
                           ></v-text-field>
@@ -58,7 +62,7 @@
                             v-model="editedItem.email"
                             :rules="emailRules"
                             type="email"
-                            label="Email"
+                            label="البريد الالكتروني"
                             outlined
                             dense
                           ></v-text-field>
@@ -69,7 +73,7 @@
                             v-model="editedItem.phone_number"
                             :rules="phoneRules"
                             type="tel"
-                            label="Phone number"
+                            label="رقم الهاتف"
                             outlined
                             dense
                           ></v-text-field>
@@ -80,7 +84,7 @@
                             v-model="editedItem.national_id"
                             :rules="nationalIdRules"
                             type="number"
-                            label="National ID"
+                            label="الرقم القومي"
                             outlined
                             dense
                           ></v-text-field>
@@ -91,7 +95,7 @@
                             v-model="editedItem.gender"
                             :items="genders"
                             :rules="selectRules"
-                            label="Gender"
+                            label="النوع"
                             outlined
                             dense
                           ></v-select>
@@ -109,7 +113,7 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 v-model="editedItem.birthday"
-                                label="Birthday"
+                                label="تاريخ الميلاد"
                                 append-icon="mdi-calendar"
                                 readonly
                                 v-bind="attrs"
@@ -134,10 +138,10 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="close">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn color="primary" depressed small @click="save">
-                    Save
+                    حفظ
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -147,12 +151,12 @@
             <v-dialog v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
-                  Are you sure you want to delete this patient?
+                  هل انت متاكد من حذف المريض؟
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="secondary" depressed small @click="closeDelete">
-                    Cancel
+                    الغاء
                   </v-btn>
                   <v-btn
                     color="error"
@@ -160,7 +164,7 @@
                     small
                     @click="deleteItemConfirm"
                   >
-                    Delete
+                    حذف
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -170,7 +174,7 @@
 
         <template v-slot:[`item.name`]="{ item }">
           <span class="d-block black--text font-weight-bold">
-            {{ item.full_name }}
+            {{ item.name }}
           </span>
         </template>
 
@@ -185,9 +189,9 @@
 
         <template v-slot:[`item.info`]="{ item }">
           <span class="d-block black--text">
-            Gender: {{ item.gender.text }}
+            النوع: {{ item.gender.text }}
           </span>
-          <span class="d-block black--text"> Age: {{ item.age }} </span>
+          <span class="d-block black--text"> العمر: {{ item.age }} </span>
         </template>
 
         <template v-slot:[`item.actions`]="{ item }">
@@ -220,16 +224,16 @@ export default {
     dialogDelete: false,
     dialogRestore: false,
     headers: [
-      { text: "Patient", value: "name", sortable: false },
-      { text: "Contacts", value: "contacts", sortable: false },
-      { text: "Info", value: "info", sortable: false },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "المرضى", value: "name", sortable: false },
+      { text: "التواصل", value: "contacts", sortable: false },
+      { text: "النوع و العمر", value: "info", sortable: false },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
     desserts: [],
     // genders
     genders: [
-      { text: "Male", value: "m" },
-      { text: "Female", value: "f" },
+      { text: "ذكر", value: "m" },
+      { text: "انثى", value: "f" },
     ],
     // selected rows
     singleSelect: false,
@@ -261,7 +265,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Patient" : "Edit Patient";
+      return this.editedIndex === -1 ? "مريض جديد" : "تعديل المريض";
     },
 
     ...mapGetters({
