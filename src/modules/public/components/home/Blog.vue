@@ -5,35 +5,34 @@
 
       <div class="articles mx-auto">
         <v-row>
-          <v-col cols="12" md="6" v-for="article in 4" :key="article">
+          <v-col cols="12" md="6" v-for="article in articles" :key="article.id">
             <div
               class="article rounded-lg d-flex justify-start align-start pa-0 elevation-2 white"
             >
               <v-avatar class="rounded-lg" size="150">
                 <v-img
+                  :src="article.image"
+                  :lazy-src="article.image"
                   cover
-                  lazy-src="https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg"
                   max-height="150"
                   max-width="150"
-                  src="https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg"
                   alt="article"
                 ></v-img>
               </v-avatar>
               <div class="article-info pa-3">
                 <span class="d-block mb-2 primary--text">
-                  Monday 05, September 2022
+                  {{ article.time }}
                 </span>
                 <span
                   class="d-block mb-2 font-weight-bold body-2 secondary--text"
                 >
-                  Lorem Ipsum Dollar Set Amit ,Detector Adaiba Skinging Elite
+                  {{ article.title }}
                 </span>
               </div>
             </div>
           </v-col>
         </v-row>
       </div>
-      {{ articles }}
     </v-container>
   </section>
 </template>
