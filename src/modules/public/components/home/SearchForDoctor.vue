@@ -43,7 +43,7 @@
                         };
                       })
                     "
-                    label="Search for doctor"
+                    label="بحث بالطبيب"
                     outlined
                     class="rounded-lg"
                   ></v-autocomplete>
@@ -72,7 +72,7 @@
                   <v-autocomplete
                     v-model="department_id"
                     :items="departments"
-                    label="Search for specialization"
+                    label="بحث بالتخصص"
                     outlined
                     class="rounded-lg"
                   ></v-autocomplete>

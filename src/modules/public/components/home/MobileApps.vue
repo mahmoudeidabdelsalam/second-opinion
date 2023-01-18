@@ -30,7 +30,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="6" class="pa-0" style="margin-bottom: -7px">
+        <v-col cols="12" md="6" class="pa-0" style="margin-bottom: -6px">
           <div class="image">
             <img
               src="@/assets/images/mobile-apps.webp"
