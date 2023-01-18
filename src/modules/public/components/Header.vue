@@ -35,7 +35,7 @@
         <v-tab
           class="font-weight-bold primary--text"
           link
-          :to="{ name: 'PublicBlog' }"
+          href="https://blog.secondopinion.sa"
         >
           المدونة
         </v-tab>

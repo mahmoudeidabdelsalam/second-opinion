@@ -7,6 +7,9 @@ import register from "@/modules/auth/store/register.store";
 // login module
 import login from "@/modules/auth/store/login.store";
 
+// forget module
+import forget from "@/modules/auth/store/forget.store";
+
 // logout module
 import logout from "@/modules/auth/store/logout.store";
 
@@ -34,6 +37,7 @@ export default new Vuex.Store({
   modules: {
     register,
     login,
+    forget,
     logout,
     user,
     validationRules,
