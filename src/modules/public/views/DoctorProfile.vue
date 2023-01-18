@@ -171,8 +171,9 @@
             </v-form>
 
             <v-btn
-              class="head primary white--text pa-7 mb-3 d-flex justify-start align-center rounded-lg"
+              class="head primary white--text pa-7 mb-5 d-flex justify-start align-center rounded-lg"
               block
+              @click.prevent="showReportForm = !showReportForm"
             >
               <v-icon class="white pa-1 rounded-lg" color="primary">
                 mdi-file-multiple
@@ -181,6 +182,49 @@
                 طلب استشارة مكتوبة
               </span>
             </v-btn>
+
+            <v-form
+              ref="form"
+              :v-model="valid"
+              lazy-validation
+              class="mb-10"
+              v-if="showReportForm"
+            >
+              <v-textarea
+                v-model="notes"
+                label="اكتب ملاحظاتك ..."
+                outlined
+                dense
+                auto-grow
+                rows="4"
+              ></v-textarea>
+
+              <v-file-input
+                v-model="report_files"
+                label="ارفق ملفات"
+                placeholder="اختر الملفات"
+                prepend-icon="mdi-paperclip"
+                outlined
+                :show-size="1000"
+              >
+                <template v-slot:selection="{ text }">
+                  <v-chip color="primary" dark label small>
+                    {{ text }}
+                  </v-chip>
+                </template>
+              </v-file-input>
+
+              <file-pond
+                ref="pond"
+                label-idle="ارفق صور الاشعة"
+                accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
+                @addfile="onAddFile"
+              />
+
+              <v-btn class="mt-3" color="primary" depressed @click="askReport">
+                ادفع لتاكيد الحجز
+              </v-btn>
+            </v-form>
           </div>
         </v-col>
       </v-row>
@@ -196,8 +240,30 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
+// Import Vue FilePond
+import vueFilePond from "vue-filepond";
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+// Import FilePond plugins
+// Please note that you need to install these plugins separately
+// Import image preview plugin styles
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+// Import image preview and file type validation plugins
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+// Create component
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+);
+
 export default {
   name: "DoctorProfile",
+
+  components: {
+    FilePond,
+  },
 
   data: () => ({
     // fotm validation
@@ -216,6 +282,17 @@ export default {
     reservation_time: null,
     // row radio group
     rowRadio: null,
+
+    // show reportForm
+    showReportForm: false,
+
+    // notes
+    notes: "",
+    // file
+    report_files: [],
+    // image
+    image: "",
+
     // loading results
     loading_resutls: false,
   }),
@@ -301,6 +378,12 @@ export default {
           this.showDatePicker = false;
         });
       }
+    },
+
+    // handle image
+    onAddFile(error, file) {
+      console.log("file added", { error, file });
+      this.image = file.file;
     },
   },
 };
