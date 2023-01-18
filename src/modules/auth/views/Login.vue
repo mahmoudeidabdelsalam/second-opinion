@@ -2,7 +2,7 @@
   <div class="auth-page">
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="6" class="pa-0">
+        <v-col cols="12" md="6">
           <div
             class="form-side d-flex flex-column justify-center align-start mx-auto pa-5"
           >
