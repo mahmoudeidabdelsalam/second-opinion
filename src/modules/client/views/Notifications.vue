@@ -6,19 +6,26 @@
 
     <div class="content pa-5 elevation-3 rounded-lg">
       <div
-        class="notification pa-5 rounded-lg secondary_bg mb-5"
-        v-for="notification in 3"
-        :key="notification"
+        class="notification pa-5 rounded-lg white mb-5"
+        v-for="notification in notifications"
+        :key="notification.id"
       >
         <span class="d-block font-weight-bold mb-2 primary--text text-h6">
-          لديك موعد بعد 15 دقيقة
+          {{ notification.title }}
         </span>
         <p class="secondary--text mb-5">
-          تذكير بموعد الإستشارة يوم السبت الموافق 12 نوفمبر 2022، بقى على موعدك
-          15 دقيقة
+          {{ notification.body }}
         </p>
         <span class="secondary--text body-2">
-          6 نوفمبر 2021, 10:43 صباحاً
+          {{
+            notification.created_at.day +
+            " " +
+            notification.created_at.month +
+            " " +
+            notification.created_at.year +
+            ", " +
+            notification.created_at.time
+          }}
         </span>
       </div>
     </div>
@@ -26,8 +33,34 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-  name: "notifications.scss",
+  name: "Notifications",
+
+  data: () => ({
+    // notifications
+    notifications: [],
+  }),
+
+  created() {
+    // init data
+    this.initData();
+  },
+
+  methods: {
+    ...mapActions({
+      getData: "crudOperations/getData",
+    }),
+
+    // init data
+    initData() {
+      // get notifications
+      this.getData(`notifications`).then((res) => {
+        this.notifications = res;
+      });
+    },
+  },
 };
 </script>
 
