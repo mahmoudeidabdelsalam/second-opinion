@@ -69,7 +69,8 @@
                 class="mb-3 white--text"
                 color="primary"
                 block
-                :disabled="!valid"
+                :loading="loading"
+                :disabled="loading"
                 @click="register"
               >
                 انشاء حساب
@@ -109,6 +110,9 @@ export default {
   name: "Register",
 
   data: () => ({
+    // button loader
+    loader: null,
+    loading: false,
     // register form data
     form: {
       name: "",
@@ -130,6 +134,17 @@ export default {
     }),
   },
 
+  watch: {
+    loader() {
+      const l = this.loader;
+      this[l] = !this[l];
+
+      setTimeout(() => (this[l] = false), 2000);
+
+      this.loader = null;
+    },
+  },
+
   methods: {
     ...mapActions({
       // register action
@@ -140,6 +155,7 @@ export default {
     register() {
       // validate form
       if (this.$refs.form.validate()) {
+        this.loader = "loading";
         this.registerAction(this.form);
       }
     },

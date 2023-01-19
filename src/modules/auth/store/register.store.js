@@ -12,7 +12,6 @@ const actions = {
       .then((response) => {
         // attempt to register and set token
         dispatch("attemptRegister", response.data.data.token);
-        alert(response.data.data.token);
 
         // show notification
         this.dispatch("notifications/showNotification", {
@@ -49,7 +48,7 @@ const actions = {
       // if (response.data.data.verified) {
       // redirect user depending on his role
       switch (response.data.data.role.value) {
-        case 4: // super admin
+        case 4: // patient
           router.push({ name: "Home" });
           break;
 

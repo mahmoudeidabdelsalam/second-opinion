@@ -10,16 +10,15 @@
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
-                v-model="form.email"
-                :rules="emailRules"
-                type="email"
-                label="البريد الإلكتروني"
+                v-model="loginForm.email"
+                :rules="phoneOrEmailRules"
+                label="ادخل رقم الهاتف او البريد الالكتروني"
                 outlined
                 dense
               ></v-text-field>
 
               <v-text-field
-                v-model="form.password"
+                v-model="loginForm.password"
                 :rules="passwordRules"
                 type="password"
                 label="كلمة المرور"
@@ -29,13 +28,17 @@
               ></v-text-field>
 
               <!-- remember me -->
-              <v-checkbox v-model="form.rememberMe" label="تذكرني"></v-checkbox>
+              <v-checkbox
+                v-model="loginForm.rememberMe"
+                label="تذكرني"
+              ></v-checkbox>
 
               <v-btn
                 class="mb-3 white--text"
                 color="primary"
                 block
-                :disabled="!valid"
+                :loading="loginLoading"
+                :disabled="loginLoading"
                 @click="login"
               >
                 تسجيل الدخول
@@ -60,33 +63,42 @@
                 class="text-capitalize"
                 color="primary"
                 text
-                @click.stop="forgetPasswordDialog = true"
+                @click.stop="openForgetPasswordModal"
               >
                 نسيت كلمة المرور؟
               </v-btn>
               <!-- forgot password dialog -->
-              <v-dialog v-model="forgetPasswordDialog" max-width="400">
+              <v-dialog
+                v-model="forgetPasswordModal"
+                persistent
+                max-width="400"
+              >
                 <v-card>
-                  <v-card-title class="text-h6 mb-5">
-                    هل نسيت كلمة المرور؟
-                  </v-card-title>
+                  <v-toolbar class="mb-5" elevation="0">
+                    <v-toolbar-title>هل نسيت كلمة المرور؟</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click.stop="closeForgetPasswordModal">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-toolbar>
 
                   <v-card-text>
                     <v-form ref="form" :v-model="valid" lazy-validation>
                       <v-text-field
-                        v-model="forget.username"
+                        v-model="forgetPasswordForm.username"
                         :rules="phoneOrEmailRules"
                         label="ادخل رقم الهاتف او البريد الالكتروني"
                         outlined
                         dense
+                        autofocus
                       ></v-text-field>
 
                       <v-btn
                         class="mt-3 white--text"
                         color="primary"
                         block
-                        :loading="loading"
-                        :disabled="loading"
+                        :loading="forgetLoading"
+                        :disabled="forgetLoading"
                         @click="forgetPassword"
                       >
                         استرداد الحساب
@@ -97,9 +109,15 @@
               </v-dialog>
 
               <!-- otp dialog -->
-              <v-dialog v-model="otpDialog" max-width="400">
+              <v-dialog v-model="checkOtpModal" persistent max-width="400">
                 <v-card>
-                  <v-card-title class="text-h6"> التحقق من OTP </v-card-title>
+                  <v-toolbar class="mb-5" elevation="0">
+                    <v-toolbar-title>التحقق من OTP</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click.stop="closeCheckOtpModal">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-toolbar>
 
                   <v-card-text>
                     <span class="d-block body-2 mb-7">
@@ -108,8 +126,8 @@
                     <v-form ref="form" :v-model="valid" lazy-validation>
                       <v-otp-input
                         length="4"
-                        v-model="otp_form.code"
-                        autofocus
+                        v-model="checkOtpForm.code"
+                        :rules="otpRules"
                         style="direction: ltr"
                       ></v-otp-input>
 
@@ -117,11 +135,65 @@
                         class="mt-3 white--text"
                         color="primary"
                         block
-                        :loading="loading"
-                        :disabled="loading"
+                        :loading="checkOtpLoading"
+                        :disabled="checkOtpLoading"
                         @click="checkOtp"
                       >
                         تحقق
+                      </v-btn>
+                    </v-form>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+
+              <!-- reset password dialog -->
+              <v-dialog v-model="resetPasswordModal" persistent max-width="400">
+                <v-card>
+                  <v-toolbar class="mb-5" elevation="0">
+                    <v-toolbar-title>انشاء كلمة المرور</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click.stop="closeResetPasswordModal">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-toolbar>
+
+                  <v-card-text>
+                    <span class="d-block body-2 mb-7">
+                      كلمة السر يجب ان تحتوي على ٨ احرف، ارقام ورموز.
+                    </span>
+
+                    <v-form ref="form" :v-model="valid" lazy-validation>
+                      <v-text-field
+                        v-model="resetPasswordForm.password"
+                        :rules="passwordRules"
+                        label="ادخل كلمة المرور الجديدة"
+                        outlined
+                        dense
+                        autofocus
+                      ></v-text-field>
+
+                      <v-text-field
+                        v-model="resetPasswordForm.password_confirmation"
+                        :rules="[
+                          ...confirmPasswordRules,
+                          (v) =>
+                            v === resetPasswordForm.password ||
+                            'كلمة المرور غير متطابقة',
+                        ]"
+                        label="تأكيد كلمة المرور"
+                        outlined
+                        dense
+                      ></v-text-field>
+
+                      <v-btn
+                        class="mt-3 white--text"
+                        color="primary"
+                        block
+                        :loading="resetPasswordLoading"
+                        :disabled="resetPasswordLoading"
+                        @click="resetPassword"
+                      >
+                        تغيير كلمة المرور
                       </v-btn>
                     </v-form>
                   </v-card-text>
@@ -150,34 +222,47 @@ export default {
   name: "Login",
 
   data: () => ({
-    // button loader
+    // buttons loader
     loader: null,
-    loading: false,
+    loginLoading: false,
+    forgetLoading: false,
+    checkOtpLoading: false,
+    resetPasswordLoading: false,
+
     // login form data
-    form: {
+    loginForm: {
       email: "",
       password: "",
     },
-    // forget password dialog
-    forgetPasswordDialog: false,
+
     // forget password form data
-    forget: {
+    forgetPasswordForm: {
       username: "",
     },
-    // otp dialog
-    otpDialog: false,
+
     // otp code
-    otp_form: {
+    checkOtpForm: {
       code: "",
+    },
+
+    // reset password form data
+    resetPasswordForm: {
+      password: "",
+      password_confirmation: "",
     },
   }),
 
   computed: {
     ...mapGetters({
       valid: "validationRules/valid",
-      emailRules: "validationRules/emailRules",
-      passwordRules: "validationRules/passwordRules",
       phoneOrEmailRules: "validationRules/phoneOrEmailRules",
+      passwordRules: "validationRules/passwordRules",
+      confirmPasswordRules: "validationRules/confirmPasswordRules",
+      otpRules: "validationRules/otpRules",
+
+      forgetPasswordModal: "forget/forgetPasswordModal",
+      checkOtpModal: "forget/checkOtpModal",
+      resetPasswordModal: "forget/resetPasswordModal",
     }),
   },
 
@@ -196,44 +281,101 @@ export default {
     ...mapActions({
       // login action
       loginAction: "login/login",
+
+      // open forget password modal action
+      openForgetPasswordModalAction: "forget/openForgetPasswordModal",
       // forget password action
       forgetPasswordAction: "forget/forgetPassword",
+      // close forget password modal action
+      closeForgetPasswordModalAction: "forget/closeForgetPasswordModal",
+
+      // open check otp modal action
+      openCheckOtpModalAction: "forget/openCheckOtpModal",
       // check otp action
       checkOtpAction: "forget/checkOtp",
+      // close check otp modal action
+      closeCheckOtpModalAction: "forget/closeCheckOtpModal",
+
+      // open reset password modal action
+      openResetPasswordModalAction: "forget/openResetPasswordModal",
+      // reset password action
+      resetPasswordAction: "forget/resetPassword",
+      // close reset password modal action
+      closeResetPasswordModalAction: "forget/closeResetPasswordModal",
     }),
 
     // login method
     login() {
       // validate form
       if (this.$refs.form.validate()) {
-        this.loginAction(this.form);
+        this.loader = "loginLoading";
+        this.loginAction(this.loginForm);
       }
+    },
+
+    // open forget password modal
+    openForgetPasswordModal() {
+      this.openForgetPasswordModalAction();
+    },
+
+    // close forget password modal
+    closeForgetPasswordModal() {
+      this.closeForgetPasswordModalAction();
+      // reset form
+      this.$refs.form.reset();
     },
 
     // forget password method
     forgetPassword() {
       // validate form
       if (this.$refs.form.validate()) {
-        this.loader = "loading";
-        this.forgetPasswordAction(this.forget).then(() => {
-          this.forgetPasswordDialog = false;
-          this.otpDialog = true;
-        });
+        this.loader = "forgetLoading";
+        this.forgetPasswordAction(this.forgetPasswordForm);
       }
+    },
+
+    // open check otp modal
+    openCheckOtpModal() {
+      this.openCheckOtpModalAction();
+    },
+
+    // close check otp modal
+    closeCheckOtpModal() {
+      this.closeCheckOtpModalAction();
+      // reset form
+      this.$refs.form.reset();
     },
 
     // check otp method
     checkOtp() {
       // validate form
       if (this.$refs.form.validate()) {
-        this.loader = "loading";
+        this.loader = "checkOtpLoading";
         this.checkOtpAction({
-          code: this.otp_form.code,
-          username: this.forget.username,
-        }).then((res) => {
-          alert(res);
-          this.otpDialog = false;
+          username: this.forgetPasswordForm.username,
+          code: this.checkOtpForm.code,
         });
+      }
+    },
+
+    // open reset password modal
+    openResetPasswordModal() {
+      this.openResetPasswordModalAction();
+    },
+
+    // close reset password modal
+    closeResetPasswordModal() {
+      this.closeResetPasswordModalAction();
+      // reset form
+      this.$refs.form.reset();
+    },
+
+    // reset password method
+    resetPassword() {
+      // validate form
+      if (this.$refs.form.validate()) {
+        this.loader = "resetPasswordLoading";
+        this.resetPasswordAction(this.resetPasswordForm);
       }
     },
   },

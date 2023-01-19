@@ -92,6 +92,13 @@ const state = () => ({
       }
     },
   ],
+
+  // otpRules rules
+  otpRules: [
+    (v) => !!v || "حقل الرمز مطلوب",
+    (v) => (v && v.length == 4) || "الرمز يجب ان يكون 4 ارقام",
+    (v) => /^\d+$/.test(v) || "الرمز يجب ان يكون ارقام فقط",
+  ],
 });
 
 // getters
@@ -131,6 +138,9 @@ const getters = {
 
   // phone or email rules
   phoneOrEmailRules: (state) => state.phoneOrEmailRules,
+
+  // otp rules
+  otpRules: (state) => state.otpRules,
 };
 
 export default {

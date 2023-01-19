@@ -48,7 +48,7 @@ const actions = {
       // if (response.data.data.verified) {
       // redirect user depending on his role
       switch (response.data.data.role.value) {
-        case 4: // super admin
+        case 4: // patient
           router.push({ name: "Home" });
           break;
 

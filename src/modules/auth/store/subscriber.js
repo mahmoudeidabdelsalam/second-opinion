@@ -27,6 +27,18 @@ store.subscribe((mutation) => {
         localStorage.removeItem("token");
       }
       break;
+
+    case "forget/SET_TOKEN":
+      if (mutation.payload) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${mutation.payload}`;
+        localStorage.setItem("token", mutation.payload);
+      } else {
+        axios.defaults.headers.common["Authorization"] = null;
+        localStorage.removeItem("token");
+      }
+      break;
   }
 });
 
@@ -80,6 +92,17 @@ store.subscribeAction((action) => {
     // logout
     case "logout/logout":
       if (action) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.token}`;
+      } else {
+        axios.defaults.headers.common["Authorization"] = null;
+      }
+      break;
+
+    // resetPassword
+    case "forget/resetPassword":
+      if (action.payload) {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${localStorage.token}`;

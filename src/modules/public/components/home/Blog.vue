@@ -6,7 +6,8 @@
       <div class="articles mx-auto">
         <v-row>
           <v-col cols="12" md="6" v-for="article in articles" :key="article.id">
-            <div
+            <a
+              :href="article.link"
               class="article rounded-lg d-flex justify-start align-start pa-0 elevation-2 white"
             >
               <v-avatar class="rounded-lg" size="150">
@@ -29,7 +30,7 @@
                   {{ article.title }}
                 </span>
               </div>
-            </div>
+            </a>
           </v-col>
         </v-row>
       </div>
