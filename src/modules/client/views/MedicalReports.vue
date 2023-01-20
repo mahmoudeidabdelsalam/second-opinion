@@ -5,51 +5,45 @@
     </span>
 
     <div class="content pa-5 elevation-3 rounded-lg">
-      <div class="upcoming mb-5">
+      <div class="sents mb-10">
         <span class="d-block font-weight-bold mb-5 primary--text text-h6">
           التقارير المرسلة
         </span>
-
-        <v-row v-if="expired.length">
-          <v-col
-            cols="12"
-            md="6"
-            v-for="appointment in expired"
-            :key="appointment.id"
-          >
-            <div class="appointment rounded-lg overflow-hidden">
+        <v-row v-if="!waitingForData && sents.length > 0">
+          <v-col cols="12" md="6" v-for="report in sents" :key="report.id">
+            <div class="report rounded-lg overflow-hidden">
               <div
                 class="head primary_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
               >
                 <div class="m mb-2">
                   <v-icon color="white"> mdi-calendar </v-icon>
-                  <span class="white--text">
-                    <!-- {{
-                      appointment.reservation_date.day.label +
-                      " الموافق " +
-                      appointment.reservation_date.day.value +
-                      " / " +
-                      appointment.reservation_date.month +
-                      " - الساعة: " +
-                      appointment.reservation_date.time
-                    }} -->
-                    الاثنين الموافق 13/ 10 - الساعة: 01:30 مساءًا
-                  </span>
+                  <span class="white--text"> تقرير او استشارة مكتوبة </span>
                 </div>
-                <v-icon color="white" v-if="appointment.type.value == 1">
-                  mdi-video
-                </v-icon>
+                <v-icon color="white">mdi-file-multiple</v-icon>
               </div>
-              <div class="body primary pa-5">
-                <span class="d-block mb-2 font-weight-bold white--text">
-                  تم طلب تقرير طبي عن حالة مرضية
-                </span>
-                <span
-                  class="d-block mb-5 font-weight-regular body-2 white--text"
+              <div class="body primary py-5 px-3">
+                <div class="doctor mb-5 d-flex justify-start align-center">
+                  <div class="doctor-info px-2">
+                    <span class="d-block mb-2 font-weight-bold white--text">
+                      تم طلب تقرير طبى عن حالة مرضية
+                    </span>
+                    <span
+                      class="d-block mb-2 font-weight-regular body-2 white--text"
+                    >
+                      {{ report.doctor.name }}
+                    </span>
+                    <span
+                      class="d-block mb-2 font-weight-regular body-2 white--text"
+                    >
+                      {{ report.doctor.title }}
+                    </span>
+                  </div>
+                </div>
+                <v-btn
+                  block
+                  depressed
+                  class="white primary--text font-weight-bold"
                 >
-                  د/ ندى أحمد - تخصص باطنة
-                </span>
-                <v-btn class="white primary--text font-weight-bold" depressed>
                   مشاهدة الملفات المرفقة
                 </v-btn>
               </div>
@@ -59,70 +53,36 @@
 
         <!-- waiting for data -->
         <v-skeleton-loader
-          v-else
+          v-if="waitingForData && sents.length == 0"
           max-width="300"
           type="card"
         ></v-skeleton-loader>
-      </div>
 
-      <div class="expired mb-5">
-        <span class="d-block font-weight-bold mb-5 primary--text text-h6">
-          التقارير المستلمة
-        </span>
-
-        <v-row v-if="expired.length">
-          <v-col
-            cols="12"
-            md="6"
-            v-for="appointment in expired"
-            :key="appointment.id"
+        <!-- no data -->
+        <div
+          v-if="!waitingForData && sents.length == 0"
+          class="d-flex flex-column align-center justify-center"
+        >
+          <v-avatar class="mb-5" size="120">
+            <v-img
+              :src="require('@/assets/images/envelope-no-data.webp')"
+              :lazy-src="require('@/assets/images/envelope-no-data.webp')"
+              cover
+            ></v-img>
+          </v-avatar>
+          <span class="d-block mb-5 font-weight-bold primary--text">
+            ليس لديك تقارير حتى الان
+          </span>
+          <v-btn
+            class="px-10"
+            color="primary"
+            depressed
+            link
+            :to="{ name: 'PublicDoctors' }"
           >
-            <div class="appointment rounded-lg overflow-hidden">
-              <div
-                class="head grey_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
-              >
-                <div class="m mb-2">
-                  <v-icon color="white"> mdi-calendar </v-icon>
-                  <span class="white--text">
-                    <!-- {{
-                      appointment.reservation_date.day.label +
-                      " الموافق " +
-                      appointment.reservation_date.day.value +
-                      " / " +
-                      appointment.reservation_date.month +
-                      " - الساعة: " +
-                      appointment.reservation_date.time
-                    }} -->
-                    الاثنين الموافق 13/ 10 - الساعة: 01:30 مساءًا
-                  </span>
-                </div>
-                <v-icon color="white" v-if="appointment.type.value == 1">
-                  mdi-video
-                </v-icon>
-              </div>
-              <div class="body grey pa-5">
-                <span class="d-block mb-2 font-weight-bold white--text">
-                  تم طلب تقرير طبي عن حالة مرضية
-                </span>
-                <span
-                  class="d-block mb-5 font-weight-regular body-2 white--text"
-                >
-                  د/ ندى أحمد - تخصص باطنة
-                </span>
-                <v-btn class="white primary--text font-weight-bold" depressed>
-                  مشاهدة التقرير
-                </v-btn>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-
-        <!-- waiting for data -->
-        <v-skeleton-loader
-          v-else
-          max-width="300"
-          type="card"
-        ></v-skeleton-loader>
+            ابحث عن طبيب
+          </v-btn>
+        </div>
       </div>
     </div>
   </main>
@@ -135,13 +95,12 @@ export default {
   name: "MedicalReports",
 
   data: () => ({
-    // appointments
-    // upcoming
-    upcoming: [],
-    // expired
-    expired: [],
-    // canceled
-    canceled: [],
+    // waiting for data
+    waitingForData: false,
+
+    // medical reports
+    // sents
+    sents: [],
   }),
 
   created() {
@@ -156,14 +115,13 @@ export default {
 
     // init data
     initData() {
-      // get appointments
-      this.getData(`patient/reservations`).then((res) => {
-        // upcoming
-        this.upcoming = res.filter((item) => item.status.value == 0);
-        // expired
-        this.expired = res.filter((item) => item.status.value == 3);
-        // canceled
-        this.canceled = res.filter((item) => item.status.value == 2);
+      this.waitingForData = true;
+      // get reports
+      this.getData(`patient/reservations?type=2`).then((res) => {
+        // sents
+        this.sents = res.filter((item) => item.status.value == 0);
+
+        this.waitingForData = false;
       });
     },
   },

@@ -5,11 +5,11 @@
     </span>
 
     <div class="content pa-5 elevation-3 rounded-lg">
-      <div class="upcoming mb-5">
+      <div class="upcoming mb-10">
         <span class="d-block font-weight-bold mb-5 primary--text text-h6">
           المواعيد القادمة
         </span>
-        <v-row v-if="upcoming.length">
+        <v-row v-if="!waitingForData && upcoming.length > 0">
           <v-col
             cols="12"
             md="6"
@@ -21,10 +21,7 @@
                 class="head primary_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
               >
                 <div class="m mb-2">
-                  <v-icon color="white" v-if="appointment.type.value == 1">
-                    mdi-calendar
-                  </v-icon>
-                  <span class="white--text" v-else>استشارة مكتوبة</span>
+                  <v-icon color="white"> mdi-calendar </v-icon>
                   <span class="white--text" v-if="appointment.reservation_date">
                     {{
                       appointment.reservation_date.day.label +
@@ -37,9 +34,7 @@
                     }}
                   </span>
                 </div>
-                <v-icon color="white" v-if="appointment.type.value == 1">
-                  mdi-video
-                </v-icon>
+                <v-icon color="white"> mdi-video </v-icon>
               </div>
               <div class="body primary py-5 px-3">
                 <div class="doctor d-flex justify-start align-center">
@@ -71,18 +66,44 @@
 
         <!-- waiting for data -->
         <v-skeleton-loader
-          v-else
+          v-if="waitingForData && upcoming.length == 0"
           max-width="300"
           type="card"
         ></v-skeleton-loader>
+
+        <!-- no data -->
+        <div
+          v-if="!waitingForData && upcoming.length == 0"
+          class="d-flex flex-column align-center justify-center"
+        >
+          <v-avatar class="mb-5" size="120">
+            <v-img
+              :src="require('@/assets/images/pen-no-data.webp')"
+              :lazy-src="require('@/assets/images/pen-no-data.webp')"
+              cover
+            ></v-img>
+          </v-avatar>
+          <span class="d-block mb-5 font-weight-bold primary--text">
+            ليس لديك مواعيد حتى الان
+          </span>
+          <v-btn
+            class="px-10"
+            color="primary"
+            depressed
+            link
+            :to="{ name: 'PublicDoctors' }"
+          >
+            ابحث عن طبيب
+          </v-btn>
+        </div>
       </div>
 
-      <div class="expired mb-5">
+      <div class="expired mb-10">
         <span class="d-block font-weight-bold mb-5 primary--text text-h6">
           المواعيد المنتهية
         </span>
 
-        <v-row v-if="expired.length">
+        <v-row v-if="!waitingForData && expired.length > 0">
           <v-col
             cols="12"
             md="6"
@@ -94,10 +115,7 @@
                 class="head grey_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
               >
                 <div class="m mb-2">
-                  <v-icon color="white" v-if="appointment.type.value == 1">
-                    mdi-calendar
-                  </v-icon>
-                  <span class="white--text" v-else>استشارة مكتوبة</span>
+                  <v-icon color="white"> mdi-calendar </v-icon>
                   <span class="white--text" v-if="appointment.reservation_date">
                     {{
                       appointment.reservation_date.day.label +
@@ -110,9 +128,7 @@
                     }}
                   </span>
                 </div>
-                <v-icon color="white" v-if="appointment.type.value == 1">
-                  mdi-video
-                </v-icon>
+                <v-icon color="white"> mdi-video </v-icon>
               </div>
               <div class="body grey py-5 px-3">
                 <div class="doctor d-flex justify-start align-center">
@@ -144,16 +160,25 @@
 
         <!-- waiting for data -->
         <v-skeleton-loader
-          v-if="waitingForData"
+          v-if="waitingForData && expired.length == 0"
           max-width="300"
           type="card"
         ></v-skeleton-loader>
 
         <!-- no data -->
-        <div v-else class="d-flex flex-column align-center justify-center">
-          <v-icon class="mb-5" size="100"> mdi-calendar-remove </v-icon>
+        <div
+          v-if="!waitingForData && expired.length == 0"
+          class="d-flex flex-column align-center justify-center"
+        >
+          <v-avatar class="mb-5" size="120">
+            <v-img
+              :src="require('@/assets/images/pen-no-data.webp')"
+              :lazy-src="require('@/assets/images/pen-no-data.webp')"
+              cover
+            ></v-img>
+          </v-avatar>
           <span class="d-block font-weight-bold primary--text">
-            ليس لديك مواعيد ملغية
+            ليس لديك مواعيد منتهية
           </span>
         </div>
       </div>
@@ -163,7 +188,7 @@
           المواعيد الملغية
         </span>
 
-        <v-row v-if="canceled.length">
+        <v-row v-if="!waitingForData && canceled.length > 0">
           <v-col
             cols="12"
             md="6"
@@ -175,10 +200,7 @@
                 class="head red_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
               >
                 <div class="m mb-2">
-                  <v-icon color="white" v-if="appointment.type.value == 1">
-                    mdi-calendar
-                  </v-icon>
-                  <span class="white--text" v-else>استشارة مكتوبة</span>
+                  <v-icon color="white"> mdi-calendar </v-icon>
                   <span class="white--text" v-if="appointment.reservation_date">
                     {{
                       appointment.reservation_date.day.label +
@@ -191,9 +213,7 @@
                     }}
                   </span>
                 </div>
-                <v-icon color="white" v-if="appointment.type.value == 1">
-                  mdi-video
-                </v-icon>
+                <v-icon color="white"> mdi-video </v-icon>
               </div>
               <div class="body red py-5 px-3">
                 <div class="doctor d-flex justify-start align-center">
@@ -225,14 +245,23 @@
 
         <!-- waiting for data -->
         <v-skeleton-loader
-          v-if="waitingForData"
+          v-if="waitingForData && canceled.length == 0"
           max-width="300"
           type="card"
         ></v-skeleton-loader>
 
         <!-- no data -->
-        <div v-else class="d-flex flex-column align-center justify-center">
-          <v-icon class="mb-5" size="100"> mdi-calendar-remove </v-icon>
+        <div
+          v-if="!waitingForData && canceled.length == 0"
+          class="d-flex flex-column align-center justify-center"
+        >
+          <v-avatar class="mb-5" size="120">
+            <v-img
+              :src="require('@/assets/images/pen-no-data.webp')"
+              :lazy-src="require('@/assets/images/pen-no-data.webp')"
+              cover
+            ></v-img>
+          </v-avatar>
           <span class="d-block font-weight-bold primary--text">
             ليس لديك مواعيد ملغية
           </span>
@@ -275,7 +304,7 @@ export default {
     initData() {
       this.waitingForData = true;
       // get appointments
-      this.getData(`patient/reservations`).then((res) => {
+      this.getData(`patient/reservations?type=1`).then((res) => {
         // upcoming
         this.upcoming = res.filter((item) => item.status.value == 0);
         // expired

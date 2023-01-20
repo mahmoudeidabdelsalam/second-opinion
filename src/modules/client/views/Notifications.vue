@@ -34,7 +34,7 @@
         v-if="!waitingForData && notifications.length == 0"
         class="d-flex flex-column align-center justify-center"
       >
-        <v-icon class="mb-5" size="100">mdi-bell-off</v-icon>
+        <v-icon class="mb-5 primary--text" size="90">mdi-bell-off</v-icon>
         <span class="d-block font-weight-bold primary--text">
           ليس لديك اشعارات حتى الان
         </span>
