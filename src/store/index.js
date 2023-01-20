@@ -31,6 +31,9 @@ import notifications from "@/modules/notifications/store/notifications.store";
 // errorsHandler module
 import errorsHandler from "./errorsHandler.store";
 
+// settings module
+import settings from "@/modules/client/store/settings.store";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -45,5 +48,6 @@ export default new Vuex.Store({
     crudOperations,
     notifications,
     errorsHandler,
+    settings,
   },
 });

@@ -8,6 +8,15 @@
       <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
     </router-link>
 
+    <div class="user-data d-flex flex-column align-center pa-5">
+      <span class="d-block font-weight-bold white--text">
+        {{ user.full_name }}
+      </span>
+      <span class="d-block mb-3 font-weight-light white--text">
+        {{ user.phone_number }}
+      </span>
+    </div>
+
     <v-list>
       <v-list-item link to="/" active-class="white active" class="white--text">
         <v-list-item-icon>
@@ -98,7 +107,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item
+      <!-- <v-list-item
         link
         :to="{ name: 'ClientHelp' }"
         active-class="white active"
@@ -112,9 +121,9 @@
             المساعدة
           </v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
-      <v-list-item
+      <!-- <v-list-item
         link
         :to="{ name: 'ClientAboutSite' }"
         active-class="white active"
@@ -128,14 +137,22 @@
             عن الموقع
           </v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
     </v-list>
   </aside>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Sidebar",
+
+  computed: {
+    ...mapGetters({
+      user: "user/userData",
+    }),
+  },
 };
 </script>
 
