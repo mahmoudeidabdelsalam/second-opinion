@@ -3,10 +3,10 @@ import axios from "axios";
 
 // actions
 const actions = {
-  // update name
-  async updateName(_, name) {
+  // update profile
+  async updateProfile(_, data) {
     await axios
-      .put("patient/profile", name)
+      .put("patient/profile", data)
       .then((response) => {
         // update user object in user store
         this.commit("login/SET_USER", response.data.data);

@@ -1,6 +1,6 @@
 <template>
-  <main class="pa-10 text-center">
-    <h1 class="mb-5">Payment methods page</h1>
+  <main class="payment-methods pa-5">
+    <span class="font-weight-bold"> صفحة الدفع </span>
   </main>
 </template>
 
