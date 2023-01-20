@@ -2,10 +2,8 @@
   <transition name="slide-fade" v-if="loaded">
     <section class="data-table-page white rounded-lg pa-5">
       <v-data-table
-        v-model="selected"
         :headers="headers"
         :items="desserts"
-        :single-select="singleSelect"
         item-key="id"
         sort-by="id"
         sort-desc
@@ -73,11 +71,11 @@ export default {
   name: "Invoices",
 
   data: () => ({
+    // loading
     loaded: false,
-    dialog: false,
-    dialogDelete: false,
+
     headers: [
-      { text: "المرضى", value: "patient", sortable: false },
+      { text: "المريض", value: "patient", sortable: false },
       { text: "نوع الخدمة", value: "invoice_type" },
       { text: "حالة الخدمة", value: "status" },
       { text: "حالة الدفع", value: "is_paid" },
@@ -86,22 +84,13 @@ export default {
       { text: "الاجمالى النهائى", value: "total" },
       // { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
-    // selected rows
-    singleSelect: false,
-    selected: [],
-    editedIndex: -1,
-    editedItem: {
-      id: "",
-    },
-    defaultItem: {
-      id: "",
-    },
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Invoice" : "Edit Invoice";
+      return this.editedIndex === -1 ? "فاتورة جديدة" : "تعديل الفاتورة";
     },
 
     ...mapGetters({

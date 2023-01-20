@@ -4,7 +4,7 @@
       الاشعارات
     </span>
 
-    <div class="content pa-5 elevation-3 rounded-lg">
+    <div class="content pa-5 elevation-3 rounded-lg" v-if="!waitingForData">
       <div
         class="notification pa-5 rounded-lg white mb-5"
         v-for="notification in notifications"
@@ -28,7 +28,21 @@
           }}
         </span>
       </div>
+
+      <!-- no data -->
+      <div
+        v-if="!waitingForData && notifications.length == 0"
+        class="d-flex flex-column align-center justify-center"
+      >
+        <v-icon class="mb-5" size="100">mdi-bell-off</v-icon>
+        <span class="d-block font-weight-bold primary--text">
+          ليس لديك اشعارات حتى الان
+        </span>
+      </div>
     </div>
+
+    <!-- waiting for data -->
+    <v-skeleton-loader v-else max-width="300" type="card"></v-skeleton-loader>
   </main>
 </template>
 
@@ -39,6 +53,9 @@ export default {
   name: "Notifications",
 
   data: () => ({
+    // waiting for data
+    waitingForData: false,
+
     // notifications
     notifications: [],
   }),
@@ -55,9 +72,11 @@ export default {
 
     // init data
     initData() {
+      this.waitingForData = true;
       // get notifications
       this.getData(`notifications`).then((res) => {
         this.notifications = res;
+        this.waitingForData = false;
       });
     },
   },

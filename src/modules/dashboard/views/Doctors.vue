@@ -353,46 +353,40 @@ export default {
   name: "Doctors",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
     dialogRestore: false,
+
     headers: [
-      { text: "الاطباء", value: "name", sortable: false },
-      { text: "الاقسام", value: "department", sortable: false },
+      { text: "الطبيب", value: "name", sortable: false },
+      { text: "القسم", value: "department", sortable: false },
       { text: "التواصل", value: "contacts", sortable: false },
       { text: "سعر الحجز", value: "session_price" },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // departments
     departments: [],
+
     // genders
     genders: [
       { text: "ذكر", value: "m" },
       { text: "انثى", value: "f" },
     ],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
-      id: "",
-      full_name_en: "",
-      full_name_ar: "",
-      description_en: "",
-      description_ar: "",
-      title_en: "",
-      title_ar: "",
-      email: "",
-      phone_number: "",
-      gender: "",
-      session_price: "",
-      session_duration: "",
-      department_id: "",
-      image: "",
-    },
-    defaultItem: {
       id: "",
       full_name_en: "",
       full_name_ar: "",

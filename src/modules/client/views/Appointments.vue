@@ -144,10 +144,18 @@
 
         <!-- waiting for data -->
         <v-skeleton-loader
-          v-else
+          v-if="waitingForData"
           max-width="300"
           type="card"
         ></v-skeleton-loader>
+
+        <!-- no data -->
+        <div v-else class="d-flex flex-column align-center justify-center">
+          <v-icon class="mb-5" size="100"> mdi-calendar-remove </v-icon>
+          <span class="d-block font-weight-bold primary--text">
+            ليس لديك مواعيد ملغية
+          </span>
+        </div>
       </div>
 
       <div class="cancelled mb-5">
@@ -217,10 +225,18 @@
 
         <!-- waiting for data -->
         <v-skeleton-loader
-          v-else
+          v-if="waitingForData"
           max-width="300"
           type="card"
         ></v-skeleton-loader>
+
+        <!-- no data -->
+        <div v-else class="d-flex flex-column align-center justify-center">
+          <v-icon class="mb-5" size="100"> mdi-calendar-remove </v-icon>
+          <span class="d-block font-weight-bold primary--text">
+            ليس لديك مواعيد ملغية
+          </span>
+        </div>
       </div>
     </div>
   </main>
@@ -233,6 +249,9 @@ export default {
   name: "Appointments",
 
   data: () => ({
+    // waiting for data
+    waitingForData: false,
+
     // appointments
     // upcoming
     upcoming: [],
@@ -254,6 +273,7 @@ export default {
 
     // init data
     initData() {
+      this.waitingForData = true;
       // get appointments
       this.getData(`patient/reservations`).then((res) => {
         // upcoming
@@ -262,6 +282,8 @@ export default {
         this.expired = res.filter((item) => item.status.value == 3);
         // canceled
         this.canceled = res.filter((item) => item.status.value == 2);
+
+        this.waitingForData = false;
       });
     },
   },

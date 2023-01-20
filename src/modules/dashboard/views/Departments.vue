@@ -296,33 +296,31 @@ export default {
   },
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
     dialogRestore: false,
+
     headers: [
-      { text: "الاقسام", value: "name" },
+      { text: "القسم", value: "name" },
       { text: "البريد الالكترونى", value: "email" },
       { text: "رقم الهاتف", value: "telephone" },
       // { text: "Services", value: "services", sortable: false },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
-      id: "",
-      en_name: "",
-      ar_name: "",
-      en_description: "",
-      ar_description: "",
-      email: "",
-      telephone: "",
-      image: "",
-    },
-    defaultItem: {
       id: "",
       en_name: "",
       ar_name: "",

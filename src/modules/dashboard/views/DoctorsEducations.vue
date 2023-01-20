@@ -253,22 +253,31 @@ export default {
   name: "DoctorsEducations",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
+
     headers: [
-      { text: "Doctor", value: "doctor" },
-      { text: "Education", value: "education" },
-      { text: "Time", value: "time" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "الطبيب", value: "doctor" },
+      { text: "الشهادة", value: "education" },
+      { text: "التوقيت", value: "time" },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // doctors
     doctors: [],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
       id: "",
       institute_en: "",
@@ -279,16 +288,7 @@ export default {
       date_of_end: "",
       doctor_id: "",
     },
-    defaultItem: {
-      id: "",
-      institute_en: "",
-      institute_ar: "",
-      degree_en: "",
-      degree_ar: "",
-      date_of_start: "",
-      date_of_end: "",
-      doctor_id: "",
-    },
+
     // date picker
     menuFrom: false,
     menuTo: false,

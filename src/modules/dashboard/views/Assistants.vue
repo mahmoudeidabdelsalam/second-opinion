@@ -249,38 +249,39 @@ export default {
   name: "Assistants",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
     dialogRestore: false,
+
     headers: [
-      { text: "المساعدين", value: "name" },
+      { text: "المساعد", value: "name" },
       { text: "البريد الالكترونى", value: "email" },
       { text: "رقم الهاتف", value: "phone_number" },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // doctors
     doctors: [],
+
     // genders
     genders: [
       { text: "ذكر", value: "m" },
       { text: "انثى", value: "f" },
     ],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
-      id: "",
-      full_name: "",
-      email: "",
-      doctors_id: "",
-      phone_number: "",
-      gender: "",
-      national_id: "",
-    },
-    defaultItem: {
       id: "",
       full_name: "",
       email: "",
@@ -470,7 +471,9 @@ export default {
         data.append("full_name", this.editedItem.full_name);
         data.append("email", this.editedItem.email);
         data.append("phone_number", this.editedItem.phone_number);
-        data.append("doctors_id[]", this.editedItem.doctors_id);
+        for (let i = 0; i < this.editedItem.doctors_id.length; i++) {
+          data.append("doctors_id[]", this.editedItem.doctors_id[i]);
+        }
         data.append("gender", this.editedItem.gender);
         data.append("national_id", this.editedItem.national_id);
         data.append("_method", "PUT");
@@ -488,7 +491,9 @@ export default {
           data.append("full_name", this.editedItem.full_name);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
-          data.append("doctors_id[]", this.editedItem.doctors_id);
+          for (let i = 0; i < this.editedItem.doctors_id.length; i++) {
+            data.append("doctors_id[]", this.editedItem.doctors_id[i]);
+          }
           data.append("gender", this.editedItem.gender);
           data.append("national_id", this.editedItem.national_id);
 
@@ -496,7 +501,6 @@ export default {
             url: "dashboard/assistants",
             data: data,
           }).then((res) => {
-            console.log(res);
             this.desserts.unshift(res);
 
             this.close();

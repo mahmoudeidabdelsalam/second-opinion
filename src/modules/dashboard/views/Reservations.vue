@@ -249,14 +249,16 @@
         </template>
 
         <template v-slot:[`item.time`]="{ item }">
-          <span class="d-block black--text">
-            اليوم: {{ item.reservation_day }}
+          <span class="d-block black--text" v-if="item.reservation_date">
+            اليوم:
+            {{
+              item.reservation_date.day.label +
+              ", " +
+              item.reservation_date.day.value
+            }}
           </span>
-          <span class="d-block black--text">
-            يبدا فى: {{ item.reservation_time_start }}
-          </span>
-          <span class="d-block black--text">
-            ينتهى فى: {{ item.reservation_time_end }}
+          <span class="d-block black--text" v-if="item.reservation_date">
+            التوقيت: {{ item.reservation_date.time }}
           </span>
         </template>
 
@@ -295,36 +297,44 @@ export default {
   name: "Reservations",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
-    dialogRestore: false,
+
     headers: [
-      { text: "المرضى", value: "patient", sortable: false },
-      { text: "الاطباء", value: "doctor", sortable: false },
+      { text: "المريض", value: "patient", sortable: false },
+      { text: "الطبيب", value: "doctor", sortable: false },
       { text: "تاريخ الحجز", value: "time", sortable: false },
       { text: "نوع الحجز", value: "type.text" },
       {
         text: "الحالة",
         value: "status",
-        width: "200",
-        align: "center",
+        width: "210",
         sortable: false,
       },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // doctors
     doctors: [],
+
     // patients
     patients: [],
+
     // available times
     availableTimes: [],
+
     // genders
     genders: [
       { text: "ذكر", value: "m" },
       { text: "انثى", value: "f" },
     ],
+
     // status
     status: [
       { text: "فى الانتظار", value: 0 },
@@ -334,6 +344,7 @@ export default {
       { text: "منتهية الصلاحية", value: 4 },
       { text: "استعادة الاموال", value: 5 },
     ],
+
     // reservationTypes
     reservationTypes: [
       { text: "زيارة", value: 0 },
@@ -341,10 +352,13 @@ export default {
       { text: "مكالمة مرئية", value: 2 },
       { text: "زيارة منزلية", value: 3 },
     ],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
       id: "",
       doctor_id: "",
@@ -353,17 +367,11 @@ export default {
       reservation_time_start: "",
       type: "",
     },
-    defaultItem: {
-      id: "",
-      doctor_id: "",
-      patient_id: "",
-      reservation_day: "",
-      reservation_time_start: "",
-      type: "",
-    },
+
     // date picker
     menu: false,
 
+    // show inputs
     showInpust: false,
   }),
 

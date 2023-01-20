@@ -3,7 +3,7 @@
     <v-container style="max-width: 1400px">
       <h1 class="primary--text text-center mb-10">معلومات أفضل .. لصحة أفضل</h1>
 
-      <div class="articles mx-auto">
+      <div class="articles mx-auto" v-if="articles.length">
         <v-row>
           <v-col cols="12" md="6" v-for="article in articles" :key="article.id">
             <a
@@ -34,6 +34,9 @@
           </v-col>
         </v-row>
       </div>
+
+      <!-- waiting for data -->
+      <v-skeleton-loader v-else max-width="300" type="card"></v-skeleton-loader>
     </v-container>
   </section>
 </template>

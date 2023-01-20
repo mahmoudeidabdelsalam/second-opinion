@@ -246,31 +246,41 @@ export default {
   name: "Employees",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
     dialogRestore: false,
+
     headers: [
-      { text: "الموظفين", value: "name" },
+      { text: "الموظف", value: "name" },
       { text: "البريد الالكترونى", value: "email" },
       { text: "رقم الهاتف", value: "phone_number" },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // genders
     genders: [
       { text: "ذكر", value: "m" },
       { text: "انثى", value: "f" },
     ],
+
     // sttaus
     status: [
       { text: "نشط", value: "1" },
       { text: "خامل", value: "0" },
     ],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
       id: "",
       full_name: "",
@@ -281,16 +291,7 @@ export default {
       gender: "",
       image: "",
     },
-    defaultItem: {
-      id: "",
-      full_name: "",
-      email: "",
-      phone_number: "",
-      active: "",
-      national_id: "",
-      gender: "",
-      image: "",
-    },
+
     // date picker
     menu: false,
   }),

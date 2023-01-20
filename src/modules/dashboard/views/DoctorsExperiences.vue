@@ -275,22 +275,30 @@ export default {
   name: "DoctorsExperiences",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
+
     headers: [
-      { text: "Doctor", value: "doctor" },
-      { text: "Experience", value: "experience" },
-      { text: "Time", value: "time" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "الطبيب", value: "doctor" },
+      { text: "الخبرة", value: "experience" },
+      { text: "التوقيت", value: "time" },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
     desserts: [],
+
     // doctors
     doctors: [],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
       id: "",
       hospital_en: "",
@@ -303,18 +311,7 @@ export default {
       to: "",
       doctor_id: "",
     },
-    defaultItem: {
-      id: "",
-      hospital_en: "",
-      hospital_ar: "",
-      title_en: "",
-      title_ar: "",
-      description_en: "",
-      description_ar: "",
-      from: "",
-      to: "",
-      doctor_id: "",
-    },
+
     // date picker
     menuFrom: false,
     menuTo: false,

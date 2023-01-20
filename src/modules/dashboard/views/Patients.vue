@@ -219,26 +219,34 @@ export default {
   name: "Patients",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
-    dialogRestore: false,
+
     headers: [
-      { text: "المرضى", value: "name", sortable: false },
+      { text: "المريض", value: "name" },
       { text: "التواصل", value: "contacts", sortable: false },
       { text: "النوع و العمر", value: "info", sortable: false },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // genders
     genders: [
       { text: "ذكر", value: "m" },
       { text: "انثى", value: "f" },
     ],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
       id: "",
       first_name: "",
@@ -249,16 +257,7 @@ export default {
       gender: "",
       birthday: "",
     },
-    defaultItem: {
-      id: "",
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone_number: "",
-      national_id: "",
-      gender: "",
-      birthday: "",
-    },
+
     // date picker
     menu: false,
   }),

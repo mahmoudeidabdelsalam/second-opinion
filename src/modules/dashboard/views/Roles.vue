@@ -143,27 +143,30 @@ export default {
   name: "Roles",
 
   data: () => ({
+    // loading
     loaded: false,
+
+    // dialog
     dialog: false,
     dialogDelete: false,
+
     headers: [
       { text: "الصلاحيات", value: "name" },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // permissions
     permissions: [],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
-      id: "",
-      en_name: "",
-      ar_name: "",
-      permissions: [],
-    },
-    defaultItem: {
       id: "",
       en_name: "",
       ar_name: "",
