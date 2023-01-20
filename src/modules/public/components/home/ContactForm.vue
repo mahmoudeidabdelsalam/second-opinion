@@ -68,16 +68,44 @@
 
           <v-col cols="2">
             <div class="social-media d-flex flex-column align-center">
-              <v-btn color="white" class="primary mb-5" link icon large>
+              <v-btn
+                color="white"
+                class="primary mb-5"
+                link
+                icon
+                large
+                aria-label="facebook"
+              >
                 <v-icon>mdi-facebook</v-icon>
               </v-btn>
-              <v-btn color="white" class="primary mb-5" link icon large>
+              <v-btn
+                color="white"
+                class="primary mb-5"
+                link
+                icon
+                large
+                aria-label="twitter"
+              >
                 <v-icon>mdi-twitter</v-icon>
               </v-btn>
-              <v-btn color="white" class="primary mb-5" link icon large>
+              <v-btn
+                color="white"
+                class="primary mb-5"
+                link
+                icon
+                large
+                aria-label="instagram"
+              >
                 <v-icon>mdi-instagram</v-icon>
               </v-btn>
-              <v-btn color="white" class="primary mb-5" link icon large>
+              <v-btn
+                color="white"
+                class="primary mb-5"
+                link
+                icon
+                large
+                aria-label="linkedin"
+              >
                 <v-icon>mdi-linkedin</v-icon>
               </v-btn>
             </div>

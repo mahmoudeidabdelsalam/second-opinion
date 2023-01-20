@@ -64,13 +64,13 @@
               3004، طريق الامام سعود بن فيصل، حى الصحافة، 6130
             </span>
             <div class="social-links mb-5">
-              <a href="#" target="_blank" class="box">
+              <a href="#" target="_blank" class="box" aria-label="twitter">
                 <v-icon color="white">mdi-twitter</v-icon>
               </a>
-              <a href="#" target="_blank" class="box">
+              <a href="#" target="_blank" class="box" aria-label="whatsapp">
                 <v-icon color="white">mdi-whatsapp</v-icon>
               </a>
-              <a href="#" target="_blank" class="box">
+              <a href="#" target="_blank" class="box" aria-label="instagram">
                 <v-icon color="white">mdi-instagram</v-icon>
               </a>
             </div>

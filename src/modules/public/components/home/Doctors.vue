@@ -32,6 +32,7 @@
           <img
             :src="doctor.profile"
             :lazy-src="doctor.profile"
+            :alt="doctor.full_name"
             class="rounded-lg mb-5"
           />
           <h1 class="text-center primary--text mb-2">
