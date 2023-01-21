@@ -8,12 +8,16 @@
       item-key="id"
       sort-by="id"
       sort-desc
-      no-data-text="No patients."
+      no-data-text="لا توجد بيانات حتى الان"
+      :footer-props="{
+        'items-per-page-all-text': 'الكل',
+        'items-per-page-text': 'عدد الصفوف في الصفحة',
+      }"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title class="black--text font-weight-medium">
-            Patients
+          <v-toolbar-title class="primary--text font-weight-bold">
+            المرضى
           </v-toolbar-title>
           <v-spacer></v-spacer>
 
@@ -21,15 +25,15 @@
           <v-dialog v-model="dialogDelete" max-width="600px">
             <v-card>
               <v-card-title class="text-h6">
-                Are you sure you want to delete this patient?
+                هل انت متاكد من حذف المريض؟
               </v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="secondary" depressed small @click="closeDelete">
-                  Cancel
+                  الغاء
                 </v-btn>
                 <v-btn color="error" depressed small @click="deleteItemConfirm">
-                  Delete
+                  حذف
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -39,7 +43,7 @@
 
       <template v-slot:[`item.name`]="{ item }">
         <span class="d-block black--text font-weight-bold">
-          {{ item.full_name }}
+          {{ item.name }}
         </span>
       </template>
 
@@ -53,16 +57,14 @@
       </template>
 
       <template v-slot:[`item.info`]="{ item }">
-        <span class="d-block black--text">
-          Gender: {{ item.gender.text }}
-        </span>
-        <span class="d-block black--text"> Age: {{ item.age }} </span>
+        <span class="d-block black--text"> النوع: {{ item.gender.text }} </span>
+        <span class="d-block black--text"> العمر: {{ item.age }} </span>
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
-        <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
+        <!-- <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
           <v-icon small color="success">mdi-pencil</v-icon>
-        </v-btn>
+        </v-btn> -->
 
         <v-btn
           class="primary--text primary_bg mx-2"
@@ -83,25 +85,33 @@ export default {
   name: "Patients",
 
   data: () => ({
-    dialog: false,
+    // loading
+    loaded: false,
+
+    // dialog
     dialogDelete: false,
-    dialogRestore: false,
+
     headers: [
-      { text: "Patient", value: "name", sortable: false },
-      { text: "Contacts", value: "contacts", sortable: false },
-      { text: "Info", value: "info", sortable: false },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "المريض", value: "name" },
+      { text: "التواصل", value: "contacts", sortable: false },
+      { text: "النوع و العمر", value: "info", sortable: false },
+      { text: "الاجراءات", value: "actions", sortable: false },
     ],
+
     desserts: [],
+
     // genders
     genders: [
       { text: "Male", value: "m" },
       { text: "Female", value: "f" },
     ],
+
     // selected rows
     singleSelect: false,
     selected: [],
+
     editedIndex: -1,
+
     editedItem: {
       id: "",
       first_name: "",
@@ -112,16 +122,7 @@ export default {
       gender: "",
       birthday: "",
     },
-    defaultItem: {
-      id: "",
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone_number: "",
-      national_id: "",
-      gender: "",
-      birthday: "",
-    },
+
     // date picker
     menu: false,
   }),

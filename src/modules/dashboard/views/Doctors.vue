@@ -635,8 +635,6 @@ export default {
     },
 
     goToDoctorProfile(event, { item }) {
-      console.log(event);
-      console.log(item.id);
       this.$router.push({
         name: "DoctorProfile",
         params: { id: item.id },

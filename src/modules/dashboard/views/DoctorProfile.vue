@@ -23,12 +23,12 @@
                 {{ doctor.full_name }}
               </span>
               <span
-                class="d-block text-center font-weight-bold secondary--text mb-1"
+                class="d-block text-center font-weight-medium body-2 secondary--text mb-1"
               >
                 {{ doctor.title }}
               </span>
               <span
-                class="d-block text-center font-weight-bold body-2 secondary--text mb-5"
+                class="d-block text-center font-weight-medium body-2 secondary--text mb-5"
               >
                 {{ doctor.department.name }}
               </span>
@@ -113,7 +113,7 @@
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
             >
-              الموايعات
+              المواعيد
             </v-tab>
 
             <v-tab

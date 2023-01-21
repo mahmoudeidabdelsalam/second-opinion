@@ -2,14 +2,14 @@
   <v-card flat>
     <v-form ref="form" :v-model="valid" lazy-validation>
       <span class="d-block text-h6 font-weight-bold mb-5 primary--text">
-        Doctor information
+        بيانات الطبيب
       </span>
       <v-row>
         <v-col cols="12" md="6">
           <v-text-field
             v-model="form.name_en"
             :rules="nameRules"
-            label="English name"
+            label="الاسم باللغة الانجليزية"
             outlined
             dense
             class="rounded-lg"
@@ -20,7 +20,7 @@
           <v-text-field
             v-model="form.name_ar"
             :rules="nameRules"
-            label="Arabic name"
+            label="الاسم باللغة العربية"
             outlined
             dense
             class="rounded-lg"
@@ -31,7 +31,7 @@
           <v-text-field
             v-model="form.title_en"
             :rules="nameRules"
-            label="English title"
+            label="اللقب باللغة الانجليزية"
             outlined
             dense
             class="rounded-lg"
@@ -42,7 +42,7 @@
           <v-text-field
             v-model="form.title_ar"
             :rules="nameRules"
-            label="Arabic title"
+            label="اللقب باللغة العربية"
             outlined
             dense
             class="rounded-lg"
@@ -53,7 +53,7 @@
           <v-textarea
             v-model="form.description_en"
             :rules="descriptionRules"
-            label="English description"
+            label="الوصف باللغة الانجليزية"
             outlined
             dense
             rows="3"
@@ -65,7 +65,7 @@
           <v-textarea
             v-model="form.description_ar"
             :rules="descriptionRules"
-            label="Arabic description"
+            label="الوصف باللغة العربية"
             outlined
             dense
             rows="3"
@@ -77,7 +77,7 @@
           <v-text-field
             v-model="form.email"
             :rules="emailRules"
-            label="Email"
+            label="البريد الالكتروني"
             type="email"
             outlined
             dense
@@ -89,7 +89,7 @@
           <v-text-field
             v-model="form.phone"
             :rules="phoneRules"
-            label="Phone"
+            label="رقم الهاتف"
             type="tel"
             outlined
             dense
@@ -99,23 +99,21 @@
       </v-row>
 
       <span class="d-block text-h6 font-weight-bold mb-5 primary--text">
-        Speciality information
+        تخصص الطبيب
       </span>
       <v-row>
         <v-col cols="12" md="6">
           <v-select
             v-model="form.speciality"
             :items="[
-              { text: 'Dentist', value: 'Dentist' },
-              { text: 'Dermatologist', value: 'Dermatologist' },
-              { text: 'Gynecologist', value: 'Gynecologist' },
-              { text: 'Pediatrician', value: 'Pediatrician' },
-              { text: 'Psychiatrist', value: 'Psychiatrist' },
-              { text: 'Surgeon', value: 'Surgeon' },
-              { text: 'Urologist', value: 'Urologist' },
+              { text: 'الاسنان', value: 'Dentist' },
+              { text: 'العظام', value: 'Dermatologist' },
+              { text: 'الباطنةو القلب', value: 'Gynecologist' },
+              { text: 'الجراحة العامة', value: 'Pediatrician' },
+              { text: 'جراة المناظير', value: 'Psychiatrist' },
             ]"
             :rules="selectRules"
-            label="Doctor speciality"
+            label="تخصص الطبيب"
             outlined
             dense
             class="rounded-lg"
@@ -126,16 +124,14 @@
           <v-select
             v-model="form.department"
             :items="[
-              { text: 'Dentist', value: 'Dentist' },
-              { text: 'Dermatologist', value: 'Dermatologist' },
-              { text: 'Gynecologist', value: 'Gynecologist' },
-              { text: 'Pediatrician', value: 'Pediatrician' },
-              { text: 'Psychiatrist', value: 'Psychiatrist' },
-              { text: 'Surgeon', value: 'Surgeon' },
-              { text: 'Urologist', value: 'Urologist' },
+              { text: 'الاسنان', value: 'Dentist' },
+              { text: 'العظام', value: 'Dermatologist' },
+              { text: 'الباطنةو القلب', value: 'Gynecologist' },
+              { text: 'الجراحة العامة', value: 'Pediatrician' },
+              { text: 'جراة المناظير', value: 'Psychiatrist' },
             ]"
             :rules="selectRules"
-            label="Doctor department"
+            label="القسم"
             outlined
             dense
             class="rounded-lg"
@@ -146,7 +142,7 @@
       <v-row>
         <v-col cols="12">
           <v-btn color="primary" class="text-capitalize rounded-lg">
-            Save
+            حفظ
           </v-btn>
         </v-col>
       </v-row>
@@ -155,17 +151,36 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "DoctorDetails",
 
   data: () => ({
-    valid: true,
     form: {
-      session_price: null,
-      session_duration: null,
+      name_en: "",
+      name_ar: "",
+      title_en: "",
+      title_ar: "",
+      description_en: "",
+      description_ar: "",
+      email: "",
+      phone: "",
+      speciality: "",
+      department: "",
     },
-    numberRules: [(v) => !!v || "This field is required"],
   }),
+
+  computed: {
+    ...mapGetters({
+      valid: "validationRules/valid",
+      nameRules: "validationRules/nameRules",
+      descriptionRules: "validationRules/descriptionRules",
+      emailRules: "validationRules/emailRules",
+      phoneRules: "validationRules/phoneRules",
+      selectRules: "validationRules/selectRules",
+    }),
+  },
 };
 </script>
 

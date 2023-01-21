@@ -1,14 +1,21 @@
 <template>
   <v-card flat>
-    <span class="d-block text-h6 font-weight-bold mb-5">Doctor cost</span>
+    <span class="d-block primary--text text-h6 font-weight-bold mb-5"
+      >تكلفة الكشف</span
+    >
 
-    <v-form ref="form" :v-model="valid" lazy-validation>
+    <v-form
+      ref="form"
+      :v-model="valid"
+      lazy-validation
+      style="max-width: 700px"
+    >
       <v-row>
         <v-col cols="12">
           <v-text-field
             v-model="form.session_price"
             :rules="numberRules"
-            label="Session price"
+            label="سعر الكشف"
             type="number"
             outlined
             class="rounded-lg"
@@ -19,7 +26,7 @@
           <v-text-field
             v-model="form.session_duration"
             :rules="numberRules"
-            label="Session duration (in minutes)"
+            label="مدة الكشف بالدقائق"
             type="number"
             outlined
             class="rounded-lg"
@@ -28,7 +35,7 @@
 
         <v-col cols="12">
           <v-btn color="primary" class="text-capitalize rounded-lg">
-            Save
+            حفظ
           </v-btn>
         </v-col>
       </v-row>
