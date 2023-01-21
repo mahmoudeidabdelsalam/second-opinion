@@ -166,7 +166,7 @@
               </v-radio-group>
 
               <v-btn color="primary" depressed @click="bookVideoAppointment">
-                احجز موعد
+                ادفع لتاكيد الحجز
               </v-btn>
             </v-form>
 
@@ -193,6 +193,7 @@
               <v-textarea
                 v-model="notes"
                 label="اكتب ملاحظاتك ..."
+                :rules="requiredRules"
                 outlined
                 dense
                 auto-grow
@@ -201,7 +202,8 @@
 
               <v-file-input
                 v-model="report_files"
-                label="ارفق ملفات"
+                label="ارفق ملف"
+                :rules="requiredRules"
                 placeholder="اختر الملفات"
                 prepend-icon="mdi-paperclip"
                 outlined
@@ -216,7 +218,7 @@
 
               <file-pond
                 ref="pond"
-                label-idle="ارفق صور الاشعة"
+                label-idle="ارفق صورة الاشعة او التحاليل"
                 accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
                 @addfile="onAddFile"
               />
@@ -288,6 +290,10 @@ export default {
 
     // notes
     notes: "",
+
+    // required rules
+    requiredRules: [(v) => !!v || "الحقل مطلوب"],
+
     // file
     report_files: [],
     // image
@@ -332,8 +338,10 @@ export default {
           url: "patient/reservations/get-available-dates",
           data: data,
         }).then((res) => {
-          this.available_times = res;
           this.loading_resutls = false;
+          res
+            ? (this.available_times = res)
+            : ((this.available_times = []), this.$refs.form.reset());
         });
       }
     },
@@ -344,18 +352,16 @@ export default {
         data.append("doctor_id", this.$route.params.id);
         data.append("reservation_day", this.reservation_day);
         data.append("reservation_time_start", this.reservation_time);
+        data.append("notes", "Video/audio Appointment");
         data.append("type", 1);
+        data.append("is_web", 1);
 
         this.addData({
-          url: "patient/reservations",
+          url: "patient/reservations-two",
           data: data,
-        }).then(() => {
-          // reset form
-          this.$refs.form.reset();
-          // hide date picker
-          this.showDatePicker = false;
-          // empty available times
-          this.available_times = [];
+        }).then((res) => {
+          // open payment url
+          window.open(res.invoice.payment_url, "_self");
         });
       }
     },
@@ -364,18 +370,18 @@ export default {
       if (this.$refs.form.validate()) {
         let data = new FormData();
         data.append("doctor_id", this.$route.params.id);
-        data.append("reservation_day", this.reservation_day);
-        data.append("reservation_time_start", this.reservation_time);
-        data.append("type", 1);
+        data.append("attachments[]", this.report_files);
+        data.append("rays[]", this.image);
+        data.append("notes", this.notes);
+        data.append("type", 2);
+        data.append("is_web", 1);
 
         this.addData({
-          url: "patient/reservations",
+          url: "patient/reservations-two",
           data: data,
-        }).then(() => {
-          // reset form
-          this.$refs.form.reset();
-          // hide date picker
-          this.showDatePicker = false;
+        }).then((res) => {
+          // open payment url
+          window.open(res.invoice.payment_url, "_self");
         });
       }
     },

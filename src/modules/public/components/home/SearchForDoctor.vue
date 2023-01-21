@@ -26,7 +26,7 @@
 
       <v-tabs-items
         v-model="tabs"
-        class="pa-5 rounded-lg rounded-tl-0 rounded-tr-0 elevation-3"
+        class="pa-5 mb-10 rounded-lg rounded-tl-0 rounded-tr-0 elevation-3"
       >
         <v-tab-item value="mobile-tabs-5-1">
           <v-card flat>
@@ -45,6 +45,7 @@
                     "
                     label="بحث بالطبيب"
                     outlined
+                    background-color="primary_bg"
                     class="rounded-lg"
                   ></v-autocomplete>
                 </v-col>
@@ -74,6 +75,7 @@
                     :items="departments"
                     label="بحث بالتخصص"
                     outlined
+                    background-color="primary_bg"
                     class="rounded-lg"
                   ></v-autocomplete>
                 </v-col>
@@ -93,6 +95,24 @@
           </v-card>
         </v-tab-item>
       </v-tabs-items>
+
+      <div
+        class="departments-tags mx-auto text-center"
+        style="max-width: 1000px"
+      >
+        <v-btn
+          v-for="department in departments.slice(0, 10)"
+          :key="department.value"
+          class="primary rounded-lg ma-1"
+          link
+          :to="{
+            name: 'PublicDoctors',
+            query: { department_id: department.value },
+          }"
+        >
+          {{ department.text }}
+        </v-btn>
+      </div>
     </v-container>
   </section>
 </template>

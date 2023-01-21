@@ -7,24 +7,61 @@
             class="text-content d-flex flex-column justify-center"
             style="height: 100%"
           >
-            <span class="d-block mb-10 white--text font-weight-black text-h4">
+            <span class="d-block mb-10 white--text font-weight-bold text-h4">
               حمّل التطبيق
             </span>
-            <p class="white--text body-1 mb-10">
+            <p class="white--text text-h5 mb-10">
               لتجربة افضل
               <br />
               و للاستفادة من جميع الخدمات
               <br />
               حمّل التطبيق الآن
             </p>
-            <div class="stores buttons">
-              <v-btn class="white text-capitalize font-weight-bold py-6">
-                <v-icon class="mx-2">mdi-apple</v-icon>
-                <span>App Store</span>
+            <div class="stores buttons d-flex justify-start align-center">
+              <v-btn
+                class="white rounded-lg py-7 d-flex justify-start align-center"
+              >
+                <div class="text d-flex flex-column align-end px-2">
+                  <span
+                    class="font-weight-medium text-capitalize"
+                    style="margin-bottom: -8px"
+                  >
+                    Download on the
+                  </span>
+                  <span class="text-capitalize font-weight-bold text-h6">
+                    App Store
+                  </span>
+                </div>
+                <v-avatar size="32">
+                  <v-img
+                    :src="require('@/assets/images/apple.webp')"
+                    :lazy-src="require('@/assets/images/apple.webp')"
+                    contain
+                  ></v-img>
+                </v-avatar>
               </v-btn>
-              <v-btn class="white text-capitalize font-weight-bold py-6 mx-3">
-                <v-icon class="mx-2">mdi-google-play</v-icon>
-                <span>Play Store</span>
+
+              <v-btn
+                class="white rounded-lg py-7 mx-4 d-flex justify-start align-center"
+              >
+                <div class="text d-flex flex-column align-end px-2">
+                  <span
+                    class="font-weight-medium text-uppercase"
+                    style="margin-bottom: -8px"
+                  >
+                    Get it on
+                  </span>
+                  <span class="text-capitalize font-weight-bold text-h6">
+                    Google Play
+                  </span>
+                </div>
+                <v-avatar size="32">
+                  <v-img
+                    :src="require('@/assets/images/google-play.webp')"
+                    :lazy-src="require('@/assets/images/google-play.webp')"
+                    contain
+                  ></v-img>
+                </v-avatar>
               </v-btn>
             </div>
           </div>

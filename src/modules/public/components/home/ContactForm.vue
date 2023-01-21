@@ -5,7 +5,7 @@
 
       <v-form ref="form" :v-model="valid" lazy-validation>
         <v-row>
-          <v-col cols="10">
+          <v-col cols="11">
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
@@ -14,8 +14,11 @@
                   label="الاسم الاول"
                   outlined
                   dense
+                  color="primary"
+                  background-color="white"
                   class="rounded-lg"
-                ></v-text-field>
+                >
+                </v-text-field>
               </v-col>
 
               <v-col cols="12" md="6">
@@ -25,6 +28,8 @@
                   label="الاسم الاخير"
                   outlined
                   dense
+                  color="primary"
+                  background-color="white"
                   class="rounded-lg"
                 ></v-text-field>
               </v-col>
@@ -37,6 +42,8 @@
                   type="email"
                   outlined
                   dense
+                  color="primary"
+                  background-color="white"
                   class="rounded-lg"
                 ></v-text-field>
               </v-col>
@@ -48,6 +55,8 @@
                   label="الرسالة"
                   outlined
                   dense
+                  color="primary"
+                  background-color="white"
                   auto-grow
                   rows="6"
                   class="rounded-lg"
@@ -66,7 +75,7 @@
             </v-row>
           </v-col>
 
-          <v-col cols="2">
+          <v-col cols="1">
             <div class="social-media d-flex flex-column align-center">
               <v-btn
                 color="white"
@@ -165,11 +174,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.v-input {
-  fieldset {
-    border: 2px solid #3e7ab1;
-  }
-}
-</style>

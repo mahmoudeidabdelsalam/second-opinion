@@ -1,5 +1,5 @@
 <template>
-  <section class="mb-16">
+  <section class="mb-16" style="direction: ltr">
     <v-container>
       <h1 class="primary--text text-center mb-10">الاطباء</h1>
 
@@ -8,6 +8,11 @@
         style="max-width: 1400px"
         :nav="false"
         :dots="false"
+        :stagePadding="50"
+        :margin="20"
+        :loop="true"
+        :autoplay="true"
+        :autoplayTimeout="5000"
         :responsive="{
           0: {
             items: 1,
@@ -25,7 +30,8 @@
         v-if="doctors.length"
       >
         <div
-          class="pa-5 ma-5 rounded-lg elevation-3 white"
+          class="pa-5 mb-5 rounded-lg elevation-3 white"
+          style="direction: rtl"
           v-for="doctor in doctors"
           :key="doctor.id"
         >
