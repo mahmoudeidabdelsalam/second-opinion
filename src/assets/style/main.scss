@@ -1,9 +1,42 @@
+@font-face {
+  font-family: "Expo Arabic Book";
+  src: local("ExpoArabic-Book"),
+    url("../fonts/ExpoArabic-Book.woff2") format("woff2"),
+    url("../fonts/ExpoArabic-Book.woff") format("woff"),
+    url("../fonts/ExpoArabic-Book.svg#ExpoArabic-Book") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Expo Arabic";
+  src: local("ExpoArabic-Medium"),
+    url("../fonts/ExpoArabic-Medium.woff2") format("woff2"),
+    url("../fonts/ExpoArabic-Medium.woff") format("woff"),
+    url("../fonts/ExpoArabic-Medium.svg#ExpoArabic-Medium") format("svg");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Expo Arabic";
+  src: local("ExpoArabic-Light"),
+    url("../fonts/ExpoArabic-Light.woff2") format("woff2"),
+    url("../fonts/ExpoArabic-Light.woff") format("woff"),
+    url("../fonts/ExpoArabic-Light.svg#ExpoArabic-Light") format("svg");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 html[lang="ar"] {
   body {
     .v-application {
       * {
         // cairo font for arabic
-        font-family: "Cairo", sans-serif !important;
+        font-family: "Expo Arabic", sans-serif !important;
         letter-spacing: 0;
       }
     }

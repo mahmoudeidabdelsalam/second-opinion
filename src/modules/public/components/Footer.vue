@@ -4,7 +4,16 @@
       <v-row>
         <v-col cols="12" lg="4" md="6">
           <div class="main-column column">
-            <span class="brand d-block primary--text mb-8">Second Opinion</span>
+            <router-link
+              :to="{ name: 'Home' }"
+              class="logo d-block mb-4"
+              style="height: 100px"
+            >
+              <img
+                src="../../../assets/images/logo.webp"
+                alt="Top Doctors logo"
+              />
+            </router-link>
             <span class="commercial-number primary--text d-block mb-4">
               رقم السجل التجاري: 1010829627
             </span>
@@ -17,17 +26,37 @@
           </div>
         </v-col>
 
-        <v-col cols="6" lg="3" md="6" sm="6">
+        <v-col cols="6" lg="2" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               روابط مساعدة
             </span>
+            <router-link
+              :to="{ name: 'PublicAbout' }"
+              class="link d-block mb-6"
+            >
+              من نحن؟
+            </router-link>
+            <router-link
+              :to="{ name: 'PublicDoctors' }"
+              class="link d-block mb-6"
+            >
+              الاطباء
+            </router-link>
             <router-link
               :to="{ name: 'PublicTermsAndConditions' }"
               class="link d-block mb-6"
             >
               الشروط والأحكام
             </router-link>
+          </div>
+        </v-col>
+
+        <v-col cols="6" lg="2" md="6" sm="6">
+          <div class="regular-column column">
+            <span class="column-title d-block primary--text mb-6">
+              انضم الينا
+            </span>
             <router-link :to="{ name: 'Login' }" class="link d-block mb-6">
               تسجيل الدخول
             </router-link>
@@ -99,6 +128,14 @@ export default {
   box-shadow: 0px 0px 110px rgba(0, 0, 0, 0.04) !important;
 
   .main-column {
+    .logo {
+      img {
+        width: 120px;
+        height: auto;
+        object-fit: cover;
+      }
+    }
+
     .brand {
       font-size: 2rem;
       font-weight: 800;

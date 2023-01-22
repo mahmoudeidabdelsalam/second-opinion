@@ -5,6 +5,7 @@
       app
       class="secondary_bg"
       :right="systemDirection === 'rtl'"
+      width="311"
     >
       <!-- sidebar -->
       <sidebar />

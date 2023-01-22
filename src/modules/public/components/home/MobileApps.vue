@@ -2,9 +2,9 @@
   <section class="mb-16" style="background-color: #2f79bd">
     <v-container style="max-width: 1400px">
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" class="order-1 order-md-0">
           <div
-            class="text-content d-flex flex-column justify-center"
+            class="text-content d-flex flex-column justify-center text-center text-md-start"
             style="height: 100%"
           >
             <span class="d-block mb-10 white--text font-weight-bold text-h4">
@@ -17,7 +17,9 @@
               <br />
               حمّل التطبيق الآن
             </p>
-            <div class="stores buttons d-flex justify-start align-center">
+            <div
+              class="stores buttons d-flex flex-column flex-md-row justify-start align-center"
+            >
               <v-btn
                 class="white rounded-lg py-7 d-flex justify-start align-center"
               >
@@ -42,7 +44,7 @@
               </v-btn>
 
               <v-btn
-                class="white rounded-lg py-7 mx-4 d-flex justify-start align-center"
+                class="white rounded-lg py-7 my-2 mx-0 mx-md-4 d-flex justify-start align-center"
               >
                 <div class="text d-flex flex-column align-end px-2">
                   <span
@@ -67,7 +69,12 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="6" class="pa-0" style="margin-bottom: -6px">
+        <v-col
+          cols="12"
+          md="6"
+          class="pa-0 order-0 order-md-1"
+          style="margin-bottom: -8px"
+        >
           <div class="image">
             <img
               src="@/assets/images/mobile-apps.webp"

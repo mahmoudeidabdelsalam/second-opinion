@@ -10,7 +10,7 @@
         v-for="notification in notifications"
         :key="notification.id"
       >
-        <span class="d-block font-weight-bold mb-2 primary--text text-h6">
+        <span class="d-block font-weight-bold mb-2 black--text text-h6">
           {{ notification.title }}
         </span>
         <p class="secondary--text mb-5">

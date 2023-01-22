@@ -1,7 +1,9 @@
 <template>
   <section class="pb-16">
     <v-container style="max-width: 1400px">
-      <h1 class="primary--text text-center mb-10">تواصل معنا</h1>
+      <h1 class="primary--text text-center mb-10 text-h4 font-weight-bold">
+        تواصل معنا
+      </h1>
 
       <v-form ref="form" :v-model="valid" lazy-validation>
         <v-row>
@@ -13,10 +15,10 @@
                   :rules="nameRules"
                   label="الاسم الاول"
                   outlined
-                  dense
+                  hide-details="true"
                   color="primary"
                   background-color="white"
-                  class="rounded-lg"
+                  class="input rounded-lg text-subtitle-1"
                 >
                 </v-text-field>
               </v-col>
@@ -27,10 +29,10 @@
                   :rules="nameRules"
                   label="الاسم الاخير"
                   outlined
-                  dense
+                  hide-details="true"
                   color="primary"
                   background-color="white"
-                  class="rounded-lg"
+                  class="input rounded-lg text-subtitle-1"
                 ></v-text-field>
               </v-col>
 
@@ -41,10 +43,10 @@
                   label="البريد الالكتروني"
                   type="email"
                   outlined
-                  dense
+                  hide-details="true"
                   color="primary"
                   background-color="white"
-                  class="rounded-lg"
+                  class="input rounded-lg text-subtitle-1"
                 ></v-text-field>
               </v-col>
 
@@ -54,19 +56,19 @@
                   :rules="messageRules"
                   label="الرسالة"
                   outlined
-                  dense
+                  hide-details="true"
                   color="primary"
                   background-color="white"
                   auto-grow
                   rows="6"
-                  class="rounded-lg"
+                  class="input rounded-lg text-subtitle-1"
                 ></v-textarea>
               </v-col>
 
-              <v-col cols="12">
+              <v-col cols="12" class="d-flex justify-end">
                 <v-btn
                   color="primary"
-                  class="text-capitalize px-16"
+                  class="text-capitalize py-6 px-16 text-subtitle-1"
                   @click="sendMessage"
                 >
                   ارسال
@@ -174,3 +176,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.input {
+  .v-label {
+    color: #008ad0;
+  }
+}
+</style>

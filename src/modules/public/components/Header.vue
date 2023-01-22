@@ -96,26 +96,29 @@
         class="primary rounded-lg text-capitalize px-6 mx-2"
         v-if="authenticated"
       >
-        {{ authenticated.role.value == 4 ? "الحساب" : "لوحة التحكم" }}
-      </v-btn>
-
-      <v-btn
-        depressed
-        @click="logout"
-        class="primary rounded-lg text-capitalize px-6 mx-2"
-        v-if="authenticated"
-      >
-        تسجيل الخروج
+        {{ authenticated.role.value == 4 ? "الصفحة الشخصية" : "لوحة التحكم" }}
       </v-btn>
 
       <v-btn
         depressed
         link
         :to="{ name: 'Login' }"
-        class="primary rounded-lg text-capitalize px-6 mx-2"
+        class="white primary--text rounded-lg text-capitalize px-6 mx-2"
+        style="border: 1px solid #3c87cd !important"
         v-if="!authenticated"
       >
         تسجيل الدخول
+      </v-btn>
+
+      <v-btn
+        depressed
+        link
+        :to="{ name: 'Register' }"
+        class="primary rounded-lg text-capitalize px-6 mx-2"
+        style="border: 1px solid #3c87cd !important"
+        v-if="!authenticated"
+      >
+        التسجيل
       </v-btn>
     </div>
   </nav>

@@ -1,7 +1,9 @@
 <template>
   <section class="blog mb-16">
     <v-container style="max-width: 1400px">
-      <h1 class="primary--text text-center mb-10">معلومات أفضل .. لصحة أفضل</h1>
+      <h1 class="primary--text text-center mb-10 text-h4 font-weight-bold">
+        معلومات أفضل .. لصحة أفضل
+      </h1>
 
       <div class="articles mx-auto" v-if="articles.length">
         <v-row>
@@ -21,14 +23,32 @@
                 ></v-img>
               </v-avatar>
               <div class="article-info pa-3">
-                <span class="d-block mb-2 primary--text">
+                <span
+                  class="d-block mb-2 primary--text font-weight-regular text-subtitle-1"
+                >
                   {{ article.time }}
                 </span>
-                <span
-                  class="d-block mb-2 font-weight-bold body-2 secondary--text"
-                >
+                <span class="d-block mb-4 font-weight-regular secondary--text">
                   {{ article.title }}
                 </span>
+                <div class="article-details d-flex justify-start align-center">
+                  <div class="box">
+                    <span
+                      class="mx-1 font-weight-regular text-subtitle-2 black--text"
+                    >
+                      65
+                    </span>
+                    <v-icon size="20" color="pink">mdi-heart-outline</v-icon>
+                  </div>
+                  <div class="box mx-4">
+                    <span
+                      class="mx-1 font-weight-regular text-subtitle-2 black--text"
+                    >
+                      86
+                    </span>
+                    <v-icon size="20" color="primary">mdi-eye-outline</v-icon>
+                  </div>
+                </div>
               </div>
             </a>
           </v-col>

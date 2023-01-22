@@ -1,9 +1,9 @@
 <template>
   <section class="mb-16 mx-auto">
-    <v-container style="max-width: 1400px">
+    <v-container style="max-width: 1180px">
       <v-tabs
         v-model="tabs"
-        class="rounded-lg rounded-bl-0 rounded-br-0 elevation-3"
+        class="main-tabs rounded-lg rounded-bl-0 rounded-br-0 elevation-3"
         style="max-width: max-content"
       >
         <v-tabs-slider></v-tabs-slider>
@@ -30,7 +30,12 @@
       >
         <v-tab-item value="mobile-tabs-5-1">
           <v-card flat>
-            <v-form ref="form" :v-model="valid" lazy-validation>
+            <v-form
+              ref="form"
+              :v-model="valid"
+              lazy-validation
+              style="max-width: 909px"
+            >
               <v-row>
                 <v-col cols="12" md="10">
                   <v-autocomplete
@@ -45,7 +50,9 @@
                     "
                     label="بحث بالطبيب"
                     outlined
-                    background-color="primary_bg"
+                    hide-details="true"
+                    color="primary"
+                    background-color="#ecf6fc"
                     class="rounded-lg"
                   ></v-autocomplete>
                 </v-col>
@@ -67,7 +74,12 @@
 
         <v-tab-item value="mobile-tabs-5-2">
           <v-card flat>
-            <v-form ref="form" :v-model="valid" lazy-validation>
+            <v-form
+              ref="form"
+              :v-model="valid"
+              lazy-validation
+              style="max-width: 909px"
+            >
               <v-row>
                 <v-col cols="12" md="10">
                   <v-autocomplete
@@ -75,7 +87,9 @@
                     :items="departments"
                     label="بحث بالتخصص"
                     outlined
-                    background-color="primary_bg"
+                    hide-details="true"
+                    color="primary"
+                    background-color="#ecf6fc"
                     class="rounded-lg"
                   ></v-autocomplete>
                 </v-col>
@@ -101,9 +115,9 @@
         style="max-width: 1000px"
       >
         <v-btn
-          v-for="department in departments.slice(0, 10)"
+          v-for="department in departments.slice(0, 9)"
           :key="department.value"
-          class="primary rounded-lg ma-1"
+          class="primary rounded-lg py-7 ma-1 text-subtitle-1 font-weight-medium"
           link
           :to="{
             name: 'PublicDoctors',
@@ -199,8 +213,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.v-tabs-slider {
-  color: transparent !important;
+<style lang="scss">
+.main-tabs {
+  .v-tabs-slider {
+    color: transparent !important;
+  }
 }
 </style>

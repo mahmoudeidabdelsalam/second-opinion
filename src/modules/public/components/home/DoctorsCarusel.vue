@@ -29,9 +29,9 @@
               {{ doctor.full_name }}
             </span>
             <span
-              class="d-block text-center secondary--text mb-4 body-2 font-weight-bold"
+              class="d-block text-center secondary--text mb-4 body-2 font-weight-bold text-truncate"
             >
-              {{ doctor.department.name }}
+              {{ doctor.title }}
             </span>
             <v-btn
               class="primary mx-auto rounded-lg mb-2 text-capitalize"

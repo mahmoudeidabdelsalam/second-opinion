@@ -17,10 +17,8 @@
             :key="appointment.id"
           >
             <div class="appointment rounded-lg overflow-hidden">
-              <div
-                class="head primary_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
-              >
-                <div class="m mb-2">
+              <div class="head primary_dark pa-3">
+                <div class="mb-2">
                   <v-icon color="white"> mdi-calendar </v-icon>
                   <span class="white--text" v-if="appointment.reservation_date">
                     {{
@@ -34,31 +32,44 @@
                     }}
                   </span>
                 </div>
-                <v-icon color="white"> mdi-video </v-icon>
               </div>
               <div class="body primary py-5 px-3">
-                <div class="doctor d-flex justify-start align-center">
-                  <v-avatar class="mx-2 rounded-lg" size="90">
-                    <v-img
-                      :src="appointment.doctor.profile"
-                      :lazy-src="appointment.doctor.profile"
-                      cover
-                      max-height="90"
-                      max-width="90"
-                      alt="doctor"
-                    ></v-img>
-                  </v-avatar>
-                  <div class="doctor-info px-2">
-                    <span class="d-block mb-2 font-weight-bold white--text">
-                      {{ appointment.doctor.name }}
-                    </span>
-                    <span
-                      class="d-block mb-2 font-weight-regular body-2 white--text"
-                    >
-                      {{ appointment.doctor.title }}
-                    </span>
+                <div class="top d-flex justify-space-between align-start">
+                  <div class="doctor d-flex justify-start align-center mb-4">
+                    <v-avatar class="mx-2 rounded-lg" size="91">
+                      <v-img
+                        :src="appointment.doctor.profile"
+                        :lazy-src="appointment.doctor.profile"
+                        cover
+                        max-height="90"
+                        max-width="90"
+                        alt="doctor"
+                      ></v-img>
+                    </v-avatar>
+                    <div class="doctor-info px-2">
+                      <span class="d-block mb-2 font-weight-bold white--text">
+                        {{ appointment.doctor.name }}
+                      </span>
+                      <span
+                        class="d-block mb-2 font-weight-regular body-2 white--text text-truncate"
+                      >
+                        {{ appointment.doctor.title }}
+                      </span>
+                    </div>
                   </div>
+
+                  <span
+                    class="white rounded-lg pa-3 primary--text font-weight-bold text-h6"
+                  >
+                    zoom
+                  </span>
                 </div>
+                <v-btn
+                  block
+                  class="white primary--text py-6 rounded-lg font-weight-bold"
+                >
+                  اعادة جدولة
+                </v-btn>
               </div>
             </div>
           </v-col>
@@ -111,9 +122,7 @@
             :key="appointment.id"
           >
             <div class="appointment rounded-lg overflow-hidden">
-              <div
-                class="head grey_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
-              >
+              <div class="head grey_dark pa-3">
                 <div class="m mb-2">
                   <v-icon color="white"> mdi-calendar </v-icon>
                   <span class="white--text" v-if="appointment.reservation_date">
@@ -128,11 +137,10 @@
                     }}
                   </span>
                 </div>
-                <v-icon color="white"> mdi-video </v-icon>
               </div>
               <div class="body grey py-5 px-3">
-                <div class="doctor d-flex justify-start align-center">
-                  <v-avatar class="mx-2 rounded-lg" size="90">
+                <div class="doctor d-flex justify-start align-center mb-4">
+                  <v-avatar class="mx-2 rounded-lg" size="91">
                     <v-img
                       :src="appointment.doctor.profile"
                       :lazy-src="appointment.doctor.profile"
@@ -153,6 +161,12 @@
                     </span>
                   </div>
                 </div>
+                <v-btn
+                  block
+                  class="white primary--text py-6 rounded-lg font-weight-bold"
+                >
+                  تقييم الخدمة
+                </v-btn>
               </div>
             </div>
           </v-col>
@@ -196,9 +210,7 @@
             :key="appointment.id"
           >
             <div class="appointment rounded-lg overflow-hidden">
-              <div
-                class="head red_dark d-flex flex-column flex-sm-row justify-sm-space-between justify-start align-start pa-3"
-              >
+              <div class="head red_dark pa-3">
                 <div class="m mb-2">
                   <v-icon color="white"> mdi-calendar </v-icon>
                   <span class="white--text" v-if="appointment.reservation_date">
@@ -213,11 +225,10 @@
                     }}
                   </span>
                 </div>
-                <v-icon color="white"> mdi-video </v-icon>
               </div>
               <div class="body red py-5 px-3">
                 <div class="doctor d-flex justify-start align-center">
-                  <v-avatar class="mx-2 rounded-lg" size="90">
+                  <v-avatar class="mx-2 rounded-lg" size="91">
                     <v-img
                       :src="appointment.doctor.profile"
                       :lazy-src="appointment.doctor.profile"

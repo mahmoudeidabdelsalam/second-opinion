@@ -15,17 +15,18 @@
     border-radius: 0 2000px 2000px 0;
     position: relative;
     transition: none !important;
+    height: 73px;
 
     &::before {
       content: "";
       position: absolute;
-      top: -20px;
-      right: calc(100% - 20px);
-      width: 20px;
-      height: 20px;
+      top: -80px;
+      right: calc(100% - 80px);
+      width: 80px;
+      height: 80px;
       background: transparent;
-      border-radius: 50%;
-      box-shadow: -10px 10px 0 #fff;
+      border-radius: 0 0 0 70%;
+      box-shadow: -20px 20px 0 #fff;
       opacity: 1;
       transition: none !important;
     }
@@ -33,13 +34,13 @@
     &::after {
       content: "";
       position: absolute;
-      bottom: -20px;
-      right: calc(100% - 20px);
-      width: 20px;
-      min-height: 20px;
+      bottom: -80px;
+      right: calc(100% - 80px);
+      width: 80px;
+      min-height: 80px;
       background: transparent;
-      border-radius: 50%;
-      box-shadow: -10px -10px 0 #fff;
+      border-radius: 70% 0 0 0;
+      box-shadow: -20px -20px 0 #fff;
       opacity: 1;
       transition: none !important;
     }

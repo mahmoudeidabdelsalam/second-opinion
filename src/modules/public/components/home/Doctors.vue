@@ -1,16 +1,17 @@
 <template>
   <section class="mb-16" style="direction: ltr">
     <v-container>
-      <h1 class="primary--text text-center mb-10">الاطباء</h1>
+      <h1 class="primary--text text-center mb-10 text-h4 font-weight-bold">
+        الاطباء
+      </h1>
 
       <carousel
         class="mx-auto"
         style="max-width: 1400px"
         :nav="false"
         :dots="false"
-        :stagePadding="50"
+        :stagePadding="100"
         :margin="20"
-        :loop="true"
         :autoplay="true"
         :autoplayTimeout="5000"
         :responsive="{
@@ -18,7 +19,7 @@
             items: 1,
           },
           600: {
-            items: 1,
+            items: 2,
           },
           1000: {
             items: 2,
@@ -45,12 +46,12 @@
             {{ doctor.full_name }}
           </h1>
           <span
-            class="d-block text-center font-weight-bold text--secondary mb-3"
+            class="d-block text-center font-weight-bold text--secondary mb-3 text-truncate"
           >
             {{ doctor.title }}
           </span>
           <v-btn
-            class="primary rounded-lg mb-2 text-capitalize"
+            class="primary rounded-lg mb-2 text-capitalize py-6 px-5 px-md-16 d-flex justify-start"
             block
             link
             :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
@@ -59,7 +60,7 @@
             <span class="px-2">استشارة صوتية/مرئية</span>
           </v-btn>
           <v-btn
-            class="primary rounded-lg mb-2 text-capitalize"
+            class="primary rounded-lg mb-2 text-capitalize py-6 px-5 px-md-16 d-flex justify-start"
             block
             link
             :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
@@ -68,7 +69,7 @@
             <span class="px-2">طلب تقرير طبي</span>
           </v-btn>
           <v-btn
-            class="primary rounded-lg text-capitalize"
+            class="primary rounded-lg text-capitalize py-6 px-5 px-md-16 d-flex justify-start"
             block
             link
             :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
