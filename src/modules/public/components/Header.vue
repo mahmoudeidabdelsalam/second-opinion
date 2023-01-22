@@ -99,16 +99,32 @@
         {{ authenticated.role.value == 4 ? "الصفحة الشخصية" : "لوحة التحكم" }}
       </v-btn>
 
-      <v-btn
-        depressed
-        link
-        :to="{ name: 'Login' }"
-        class="white primary--text rounded-lg text-capitalize px-6 mx-2"
-        style="border: 1px solid #3c87cd !important"
-        v-if="!authenticated"
-      >
-        تسجيل الدخول
-      </v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            v-bind="attrs"
+            v-on="on"
+            depressed
+            class="white primary--text rounded-lg text-capitalize px-6 mx-2"
+            style="border: 1px solid #3c87cd !important"
+            v-if="!authenticated"
+          >
+            تسجيل الدخول
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item link :to="{ name: 'DoctorLogin' }">
+            <v-list-item-title class="font-weight-regular">
+              تسجيل الدخول للطبيب
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item link :to="{ name: 'Login' }">
+            <v-list-item-title class="font-weight-regular">
+              تسجيل الدخول للمريض
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <v-btn
         depressed

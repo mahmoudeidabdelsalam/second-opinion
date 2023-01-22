@@ -7,15 +7,24 @@
             class="form-side d-flex flex-column justify-center align-start mx-auto pa-5"
           >
             <span class="mb-7 text-h5 font-weight-bold">
-              تسجيل الدخول كمريض
+              تسجيل الدخول كطبيب
             </span>
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
-                v-model="loginForm.phone_number"
-                :rules="phoneRules"
-                label="رقم الهاتف"
+                v-model="loginForm.email"
+                :rules="phoneOrEmailRules"
+                label="ادخل رقم الهاتف او البريد الالكتروني"
                 outlined
+              ></v-text-field>
+
+              <v-text-field
+                v-model="loginForm.password"
+                :rules="passwordRules"
+                type="password"
+                label="كلمة المرور"
+                outlined
+                @keydown.enter="login"
               ></v-text-field>
 
               <!-- remember me -->
@@ -210,7 +219,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "Login",
+  name: "DoctorLogin",
 
   data: () => ({
     // buttons loader
@@ -222,7 +231,8 @@ export default {
 
     // login form data
     loginForm: {
-      phone_number: "",
+      email: "",
+      password: "",
     },
 
     // forget password form data
@@ -245,7 +255,6 @@ export default {
   computed: {
     ...mapGetters({
       valid: "validationRules/valid",
-      phoneRules: "validationRules/phoneRules",
       phoneOrEmailRules: "validationRules/phoneOrEmailRules",
       passwordRules: "validationRules/passwordRules",
       confirmPasswordRules: "validationRules/confirmPasswordRules",

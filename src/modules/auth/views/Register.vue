@@ -4,9 +4,9 @@
       <v-row>
         <v-col cols="12" md="6" class="pa-0">
           <div
-            class="form-side d-flex flex-column justify-center align-start mx-auto pa-5"
+            class="form-side d-flex flex-column justify-center align-start mx-auto py-10 px-5"
           >
-            <h1 class="mb-7">انشاء حساب</h1>
+            <span class="mb-7 text-h5 font-weight-bold"> انشاء حساب </span>
 
             <v-form ref="form" :v-model="valid" lazy-validation>
               <v-text-field
@@ -66,7 +66,7 @@
               ></v-checkbox>
 
               <v-btn
-                class="mb-3 white--text"
+                class="mb-3 white--text py-6"
                 color="primary"
                 block
                 :loading="loading"
@@ -91,7 +91,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="6" class="primary pa-0 hidden-sm-and-down">
+        <v-col cols="12" md="6" class="img-column hidden-sm-and-down">
           <div class="image-side">
             <div class="image mx-auto">
               <img src="@/assets/images/women-doctor.webp" alt="women doctor" />
