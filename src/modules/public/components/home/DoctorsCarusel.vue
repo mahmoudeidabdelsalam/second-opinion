@@ -1,13 +1,15 @@
 <template>
   <section class="doctors-carusel mb-16 pt-10">
-    <v-container style="max-width: 1400px">
+    <v-container style="max-width: 900px">
       <carousel-3d
-        :perspective="35"
-        :space="460"
+        :perspective="330"
+        :space="380"
         :display="3"
         :height="370"
-        :autoplay="true"
-        :autoplay-timeout="3000"
+        :inverse-scaling="150"
+        :controls-visible="true"
+        controlsNextHtml="&lsaquo;"
+        controlsPrevHtml="&rsaquo;"
         v-if="doctors.length"
       >
         <slide

@@ -9,7 +9,7 @@
         <v-tabs-slider></v-tabs-slider>
         <v-tab
           href="#mobile-tabs-5-1"
-          class="font-weight-bold"
+          class="font-weight-bold px-10"
           active-class="primary--text active-tab"
         >
           الطبيب
@@ -17,7 +17,7 @@
 
         <v-tab
           href="#mobile-tabs-5-2"
-          class="font-weight-bold"
+          class="font-weight-bold px-10"
           active-class="primary--text active-tab"
         >
           التخصص
