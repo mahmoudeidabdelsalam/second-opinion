@@ -24,6 +24,7 @@
           </span>
           <div class="tags d-flex justify-start align-start flex-wrap">
             <v-btn
+              depressed
               link
               :to="{
                 name: 'PublicDoctors',
@@ -193,7 +194,6 @@
               <v-textarea
                 v-model="notes"
                 label="اكتب ملاحظاتك ..."
-                :rules="requiredRules"
                 outlined
                 dense
                 auto-grow
@@ -203,7 +203,6 @@
               <v-file-input
                 v-model="report_files"
                 label="ارفق ملف"
-                :rules="requiredRules"
                 placeholder="اختر الملفات"
                 prepend-icon="mdi-paperclip"
                 outlined
@@ -370,8 +369,12 @@ export default {
       if (this.$refs.form.validate()) {
         let data = new FormData();
         data.append("doctor_id", this.$route.params.id);
-        data.append("attachments[]", this.report_files);
-        data.append("rays[]", this.image);
+        if (this.report_files) {
+          data.append("attachments[]", this.report_files);
+        }
+        if (this.image) {
+          data.append("rays[]", this.image);
+        }
         data.append("notes", this.notes);
         data.append("type", 2);
         data.append("is_web", 1);
