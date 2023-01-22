@@ -218,5 +218,9 @@ export default {
   .v-tabs-slider {
     color: transparent !important;
   }
+
+  .active-tab {
+    box-shadow: 0px 1px 20px rgba(48, 122, 190, 0.1);
+  }
 }
 </style>
