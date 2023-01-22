@@ -1,11 +1,13 @@
 <template>
   <section class="doctors-carusel mb-16 pt-10">
-    <v-container style="max-width: 900px">
+    <v-container style="max-width: 1220px">
       <carousel-3d
-        :perspective="330"
-        :space="380"
+        :perspective="340"
+        :space="530"
         :display="3"
-        :height="370"
+        :height="480"
+        :width="492"
+        :border="0"
         :inverse-scaling="150"
         :controls-visible="true"
         controlsNextHtml="&lsaquo;"
@@ -16,32 +18,49 @@
           v-for="(doctor, index) in doctors"
           :key="doctor.id"
           :index="index"
-          class="rounded-lg white"
+          class="rounded-lg"
+          style="background-color: #f8fbff"
         >
           <div class="text-center">
-            <img
-              :src="doctor.profile"
-              :lazy-src="doctor.profile"
-              :alt="doctor.full_name"
-              class="rounded-lg"
-            />
-            <span
-              class="d-block text-center primary--text mb-1 text-h6 font-weight-bold"
-            >
-              {{ doctor.full_name }}
-            </span>
-            <span
-              class="d-block text-center secondary--text mb-4 body-2 font-weight-bold text-truncate"
-            >
-              {{ doctor.title }}
-            </span>
-            <v-btn
-              class="primary mx-auto rounded-lg mb-2 text-capitalize"
-              link
-              :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
-            >
-              <span class="px-2">احجز الان</span>
-            </v-btn>
+            <v-avatar class="mb-5 rounded-lg" size="100%">
+              <v-img :src="doctor.profile" :lazy-src="doctor.profile"></v-img>
+            </v-avatar>
+            <div class="hide">
+              <span
+                class="d-block text-center primary--text mb-1 text-h6 font-weight-bold"
+              >
+                {{ doctor.full_name }}
+              </span>
+              <span
+                class="d-block text-center secondary--text mb-4 body-2 font-weight-bold text-truncate"
+              >
+                {{ doctor.title }}
+              </span>
+              <div class="actions-butto d-flex justify-center align-center">
+                <v-btn
+                  class="primary rounded-lg pa-6 ma-1"
+                  link
+                  :to="{
+                    name: 'PublicDoctorsProfile',
+                    params: { id: doctor.id },
+                  }"
+                >
+                  <v-icon>mdi-file-multiple</v-icon>
+                  <span class="px-2">طلب تقرير طبي</span>
+                </v-btn>
+                <v-btn
+                  class="primary rounded-lg pa-6 ma-1"
+                  link
+                  :to="{
+                    name: 'PublicDoctorsProfile',
+                    params: { id: doctor.id },
+                  }"
+                >
+                  <v-icon>mdi-video</v-icon>
+                  <span class="px-2">استشارة صوتية/مرئية</span>
+                </v-btn>
+              </div>
+            </div>
           </div>
         </slide>
       </carousel-3d>
@@ -77,14 +96,43 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .carousel-3d-slide {
   img {
     width: 100%;
     max-height: 270px;
     object-fit: contain;
   }
+
+  &.left-1,
+  &.right-1 {
+    .hide {
+      display: none;
+    }
+  }
 }
+
+.carousel-3d-controls {
+  top: 41% !important;
+
+  .prev,
+  .next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ecf6fc;
+    color: #008ad0;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    width: 35px !important;
+    height: 35px !important;
+
+    span {
+      font-size: 40px;
+    }
+  }
+}
+
 .carousel-3d-container figure {
   margin: 0;
 }
