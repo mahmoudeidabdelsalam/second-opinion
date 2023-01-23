@@ -35,29 +35,6 @@
                 dense
               ></v-text-field>
 
-              <v-text-field
-                v-model="form.password"
-                :rules="passwordRules"
-                type="password"
-                label="كلمة المرور"
-                outlined
-                dense
-                @keydown.enter="register"
-              ></v-text-field>
-
-              <v-text-field
-                v-model="form.password_confirmation"
-                :rules="[
-                  ...confirmPasswordRules,
-                  (v) => v === form.password || 'كلمة المرور غير متطابقة',
-                ]"
-                type="password"
-                label="تأكيد كلمة المرور"
-                outlined
-                dense
-                @keydown.enter="register"
-              ></v-text-field>
-
               <!-- accept terms and conditions -->
               <v-checkbox
                 v-model="form.acceptTerms"
@@ -88,6 +65,44 @@
                 تسجيل الدخول
               </v-btn>
             </div>
+
+            <!-- otp dialog -->
+            <v-dialog v-model="checkOtpModal" persistent max-width="400">
+              <v-card>
+                <v-toolbar class="mb-5" elevation="0">
+                  <v-toolbar-title>التحقق من OTP</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-btn icon @click.stop="closeCheckOtpModal">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-toolbar>
+
+                <v-card-text>
+                  <span class="d-block body-2 mb-7">
+                    برجاء ادخال الكود المرسل على رقم الهاتف
+                  </span>
+                  <v-form ref="form" :v-model="valid" lazy-validation>
+                    <v-otp-input
+                      length="4"
+                      v-model="checkOtpForm.otp"
+                      :rules="otpRules"
+                      style="direction: ltr"
+                    ></v-otp-input>
+
+                    <v-btn
+                      class="mt-3 white--text"
+                      color="primary"
+                      block
+                      :loading="checkOtpLoading"
+                      :disabled="checkOtpLoading"
+                      @click="checkOtp"
+                    >
+                      تحقق
+                    </v-btn>
+                  </v-form>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </div>
         </v-col>
 
@@ -113,13 +128,18 @@ export default {
     // button loader
     loader: null,
     loading: false,
+    checkOtpLoading: false,
+
     // register form data
     form: {
       name: "",
       email: "",
       phone_number: "",
-      password: "",
-      password_confirmation: "",
+    },
+
+    // check otp form
+    checkOtpForm: {
+      otp: "",
     },
   }),
 
@@ -129,8 +149,9 @@ export default {
       nameRules: "validationRules/nameRules",
       emailRules: "validationRules/emailRules",
       phoneRules: "validationRules/phoneRules",
-      passwordRules: "validationRules/passwordRules",
-      confirmPasswordRules: "validationRules/confirmPasswordRules",
+      otpRules: "validationRules/otpRules",
+
+      checkOtpModal: "register/checkOtpModal",
     }),
   },
 
@@ -149,6 +170,12 @@ export default {
     ...mapActions({
       // register action
       registerAction: "register/register",
+
+      // check otp action
+      checkOtpAction: "register/checkOtp",
+
+      // close check otp modal
+      closeCheckOtpModal: "register/closeCheckOtpModal",
     }),
 
     // register method
@@ -157,6 +184,15 @@ export default {
       if (this.$refs.form.validate()) {
         this.loader = "loading";
         this.registerAction(this.form);
+      }
+    },
+
+    // check otp method
+    checkOtp() {
+      // validate form
+      if (this.$refs.form.validate()) {
+        this.loader = "checkOtpLoading";
+        this.checkOtpAction(this.checkOtpForm);
       }
     },
   },

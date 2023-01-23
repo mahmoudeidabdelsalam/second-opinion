@@ -16,6 +16,9 @@ const actions = {
           color: "green",
         });
 
+        // remove token from local storage
+        localStorage.removeItem("token");
+
         // remove token
         commit("SET_TOKEN", null);
         // remove user
