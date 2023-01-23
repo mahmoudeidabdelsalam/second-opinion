@@ -2,7 +2,7 @@
   <v-footer class="footer">
     <v-container style="max-width: 1400px">
       <v-row>
-        <v-col cols="12" lg="4" md="6">
+        <!-- <v-col cols="12" lg="3" md="6">
           <div class="main-column column">
             <router-link
               :to="{ name: 'Home' }"
@@ -24,9 +24,9 @@
               <img src="@/assets/images/mastercard.svg" alt="Mastercard" />
             </div>
           </div>
-        </v-col>
+        </v-col> -->
 
-        <v-col cols="6" lg="2" md="6" sm="6">
+        <v-col cols="6" lg="3" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               روابط مساعدة
@@ -103,6 +103,67 @@
                 <v-icon color="white">mdi-instagram</v-icon>
               </a>
             </div>
+          </div>
+        </v-col>
+
+        <v-col cols="12" lg="3" md="6">
+          <div class="regular-column column d-flex justify-start align-center">
+            <div class="stores d-flex flex-column ml-8">
+              <v-btn
+                class="white rounded-lg py-7 mb-4 d-flex justify-start align-center"
+                style="border: 1px solid #000 !important"
+              >
+                <div class="text d-flex flex-column align-end px-2">
+                  <span
+                    class="font-weight-medium text-capitalize"
+                    style="margin-bottom: -8px"
+                  >
+                    Get it on
+                  </span>
+                  <span class="text-capitalize font-weight-bold text-h6">
+                    App Store
+                  </span>
+                </div>
+                <v-avatar size="32">
+                  <v-img
+                    :src="require('@/assets/images/apple.webp')"
+                    :lazy-src="require('@/assets/images/apple.webp')"
+                    contain
+                  ></v-img>
+                </v-avatar>
+              </v-btn>
+
+              <v-btn
+                class="white rounded-lg py-7 d-flex justify-start align-center"
+                style="border: 1px solid #000 !important"
+              >
+                <div class="text d-flex flex-column align-end px-2">
+                  <span
+                    class="font-weight-medium text-uppercase"
+                    style="margin-bottom: -8px"
+                  >
+                    Get it on
+                  </span>
+                  <span class="text-capitalize font-weight-bold text-h6">
+                    Google Play
+                  </span>
+                </div>
+                <v-avatar size="32">
+                  <v-img
+                    :src="require('@/assets/images/google-play.webp')"
+                    :lazy-src="require('@/assets/images/google-play.webp')"
+                    contain
+                  ></v-img>
+                </v-avatar>
+              </v-btn>
+            </div>
+            <v-avatar tile class="mb-5" size="222">
+              <v-img
+                :src="require('@/assets/images/logo.webp')"
+                :lazy-src="require('@/assets/images/logo.webp')"
+                contain
+              ></v-img>
+            </v-avatar>
           </div>
         </v-col>
       </v-row>
