@@ -107,7 +107,9 @@
         </v-col>
 
         <v-col cols="12" lg="3" md="6">
-          <div class="regular-column column d-flex justify-start align-center">
+          <div
+            class="regular-column column d-flex flex-column flex-md-row justify-start align-center"
+          >
             <div class="stores d-flex flex-column ml-8">
               <v-btn
                 class="white rounded-lg py-7 mb-4 d-flex justify-start align-center"

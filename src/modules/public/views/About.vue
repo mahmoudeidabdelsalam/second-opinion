@@ -43,7 +43,7 @@ export default {
   }
 
   .box {
-    max-width: max-content;
+    width: max-content;
     position: absolute;
     bottom: 0;
     left: 50%;
