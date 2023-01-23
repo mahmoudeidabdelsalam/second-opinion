@@ -4,7 +4,7 @@
       <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
     </router-link>
 
-    <div class="links">
+    <div class="links hidden-md-and-down">
       <v-tabs>
         <v-tabs-slider></v-tabs-slider>
 

@@ -15,7 +15,7 @@
 
     <v-container style="max-width: 1158px" class="pb-16">
       <p
-        class="text-center mx-auto mb-16 text-h5 font-weight-medium primary--text"
+        class="text-center mx-auto mb-16 text-h5 font-weight-medium secondary--text"
         style="max-width: 1135px; margin-top: 80px; line-height: 2"
       >
         منصة تجمع بين المريض والأطباء النخبة في التخصصات الطبية الدقيقة ، حيث
