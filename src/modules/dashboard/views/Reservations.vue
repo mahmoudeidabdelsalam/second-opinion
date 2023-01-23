@@ -347,10 +347,8 @@ export default {
 
     // reservationTypes
     reservationTypes: [
-      { text: "زيارة", value: 0 },
-      { text: "مكالمة صوتية", value: 1 },
-      { text: "مكالمة مرئية", value: 2 },
-      { text: "زيارة منزلية", value: 3 },
+      { text: "استشارة صوتية/مرئية", value: 1 },
+      { text: "استشارة كتابية", value: 2 },
     ],
 
     // selected rows

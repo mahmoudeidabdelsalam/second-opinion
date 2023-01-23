@@ -101,6 +101,17 @@
                             dense
                           ></v-select>
                         </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-select
+                            v-model="editedItem.role_id"
+                            :items="roles"
+                            :rules="selectRules"
+                            label="الصلاحية"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-col>
                       </v-row>
                     </v-container>
                   </v-form>
@@ -263,6 +274,9 @@ export default {
 
     desserts: [],
 
+    // roles
+    roles: [],
+
     // genders
     genders: [
       { text: "ذكر", value: "m" },
@@ -289,7 +303,7 @@ export default {
       active: "",
       national_id: "",
       gender: "",
-      image: "",
+      role_id: "",
     },
 
     // date picker
@@ -373,6 +387,16 @@ export default {
 
         this.loaded = true;
       }, 0);
+
+      // get roles
+      this.getData("dashboard/roles-list").then((res) => {
+        this.roles = res.map((role) => {
+          return {
+            text: role.name,
+            value: role.id,
+          };
+        });
+      });
     },
 
     editItem(item) {
@@ -461,18 +485,13 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("full_name:en", this.editedItem.full_name);
-        data.append("full_name:ar", this.editedItem.full_name_ar);
+        data.append("full_name", this.editedItem.full_name);
         data.append("email", this.editedItem.email);
-        data.append("personal_phone", this.editedItem.personal_phone);
         data.append("phone_number", this.editedItem.phone_number);
         data.append("active", this.editedItem.active);
         data.append("national_id", this.editedItem.national_id);
-        data.append("birthday", this.editedItem.birthday);
         data.append("gender", this.editedItem.gender);
-        this.editedItem.image
-          ? data.append("profile", this.editedItem.image)
-          : "";
+        data.append("role_id", this.editedItem.role_id);
         data.append("_method", "PUT");
 
         await this.updateData({
@@ -485,18 +504,13 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("full_name:en", this.editedItem.full_name);
-          data.append("full_name:ar", this.editedItem.full_name_ar);
+          data.append("full_name", this.editedItem.full_name);
           data.append("email", this.editedItem.email);
-          data.append("personal_phone", this.editedItem.personal_phone);
           data.append("phone_number", this.editedItem.phone_number);
           data.append("active", this.editedItem.active);
           data.append("national_id", this.editedItem.national_id);
-          data.append("birthday", this.editedItem.birthday);
           data.append("gender", this.editedItem.gender);
-          this.editedItem.image
-            ? data.append("profile", this.editedItem.image)
-            : "";
+          data.append("role_id", this.editedItem.role_id);
 
           this.addData({
             url: "dashboard/employees",
