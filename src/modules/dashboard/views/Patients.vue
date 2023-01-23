@@ -37,21 +37,11 @@
                   <v-form ref="form" :v-model="valid" lazy-validation>
                     <v-container>
                       <v-row>
-                        <v-col cols="12" md="6">
+                        <v-col cols="12">
                           <v-text-field
-                            v-model="editedItem.first_name"
+                            v-model="editedItem.name"
                             :rules="nameRules"
-                            label="الاسم الاول"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.last_name"
-                            :rules="nameRules"
-                            label="الاسم الاخير"
+                            label="الاسم بالكامل"
                             outlined
                             dense
                           ></v-text-field>
@@ -249,8 +239,7 @@ export default {
 
     editedItem: {
       id: "",
-      first_name: "",
-      last_name: "",
+      name: "",
       email: "",
       phone_number: "",
       national_id: "",
@@ -322,8 +311,7 @@ export default {
           {},
           {
             id: res.id,
-            first_name: res.first_name,
-            last_name: res.last_name,
+            name: res.name,
             email: res.email,
             phone_number: res.phone_number,
             national_id: res.national_id,
@@ -373,7 +361,7 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
-        data.append("first_name", this.editedItem.first_name);
+        data.append("name", this.editedItem.name);
         data.append("last_name", this.editedItem.last_name);
         data.append("email", this.editedItem.email);
         data.append("phone_number", this.editedItem.phone_number);
@@ -392,7 +380,7 @@ export default {
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-          data.append("first_name", this.editedItem.first_name);
+          data.append("name", this.editedItem.name);
           data.append("last_name", this.editedItem.last_name);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);

@@ -79,30 +79,6 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.description_en"
-                            :rules="descriptionRules"
-                            label=" الوصف باللغة الانجليزية"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                          <v-textarea
-                            v-model="editedItem.description_ar"
-                            :rules="descriptionRules"
-                            label=" الوصف باللغة العربية"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="2"
-                          ></v-textarea>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
                           <v-text-field
                             v-model="editedItem.email"
                             :rules="emailRules"
@@ -140,7 +116,18 @@
                             v-model="editedItem.session_price"
                             :rules="numberRules"
                             type="number"
-                            label="سعر الحجز"
+                            label="سعر الكشف"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.consultation_price"
+                            :rules="numberRules"
+                            type="number"
+                            label="سعر الاستشارة"
                             outlined
                             dense
                           ></v-text-field>
@@ -166,6 +153,82 @@
                             outlined
                             dense
                           ></v-select>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.educations_en"
+                            :rules="descriptionRules"
+                            label="الشهادات باللغة الانجليزية"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+                        <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.educations_ar"
+                            :rules="descriptionRules"
+                            label="الشهادات باللغة العربية"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.experiences_en"
+                            :rules="descriptionRules"
+                            label="الخبرات باللغة الانجليزية"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-textarea
+                            v-model="editedItem.experiences_ar"
+                            :rules="descriptionRules"
+                            label="الخبرات باللغة العربية"
+                            outlined
+                            dense
+                            auto-grow
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <v-text-field
+                            v-model="editedItem.job_id"
+                            :rules="numberRules"
+                            type="number"
+                            label="الرقم الوظيفي"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <file-pond
+                            ref="pond"
+                            label-idle="اسحب وأفلت الملفات هنا أو <span class='filepond--label-action'> اختر الملفات </span>"
+                            accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
+                            @addfile="onAddDoctorImage"
+                          />
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                          <file-pond
+                            ref="pond"
+                            label-idle="اسحب وأفلت الملفات هنا أو <span class='filepond--label-action'> اختر الملفات </span>"
+                            accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
+                            @addfile="onAddDoctorSignature"
+                          />
                         </v-col>
                       </v-row>
                     </v-container>
@@ -314,6 +377,12 @@
           </span>
         </template>
 
+        <template v-slot:[`item.session_price`]="{ item }">
+          <span class="d-block black--text font-weight-bold">
+            {{ item.session_price + " ريال" }}
+          </span>
+        </template>
+
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn
             class="primary--text primary_bg"
@@ -349,8 +418,30 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
+// Import Vue FilePond
+import vueFilePond from "vue-filepond";
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+// Import FilePond plugins
+// Please note that you need to install these plugins separately
+// Import image preview plugin styles
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+// Import image preview and file type validation plugins
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+// Create component
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+);
+
 export default {
   name: "Doctors",
+
+  components: {
+    FilePond,
+  },
 
   data: () => ({
     // loading
@@ -390,8 +481,6 @@ export default {
       id: "",
       full_name_en: "",
       full_name_ar: "",
-      description_en: "",
-      description_ar: "",
       title_en: "",
       title_ar: "",
       email: "",
@@ -399,8 +488,15 @@ export default {
       gender: "",
       session_price: "",
       session_duration: "",
+      consultation_price: "",
       department_id: "",
       image: "",
+      signature: "",
+      job_id: "",
+      educations_en: "",
+      educations_ar: "",
+      experiences_en: "",
+      experiences_ar: "",
     },
   }),
 
@@ -493,6 +589,18 @@ export default {
       }, 0);
     },
 
+    // handle image
+    onAddDoctorImage(error, file) {
+      console.log("file added", { error, file });
+      this.editedItem.image = file.file;
+    },
+
+    // handle signature
+    onAddDoctorSignature(error, file) {
+      console.log("file added", { error, file });
+      this.editedItem.signature = file.file;
+    },
+
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
@@ -582,19 +690,22 @@ export default {
         let data = new FormData();
         data.append("full_name:en", this.editedItem.full_name_en);
         data.append("full_name:ar", this.editedItem.full_name_ar);
-        data.append("description:en", this.editedItem.description_en);
-        data.append("description:ar", this.editedItem.description_ar);
-        data.append("title:en", this.editedItem.title_en);
-        data.append("title:ar", this.editedItem.title_ar);
+        data.append("image", this.editedItem.image);
+        data.append("gender", this.editedItem.gender);
         data.append("email", this.editedItem.email);
         data.append("phone_number", this.editedItem.phone_number);
-        data.append("gender", this.editedItem.gender);
+        data.append("title:en", this.editedItem.title_en);
+        data.append("title:ar", this.editedItem.title_ar);
+        data.append("department_id", this.editedItem.department_id);
         data.append("session_price", this.editedItem.session_price);
         data.append("session_duration", this.editedItem.session_duration);
-        data.append("department_id", this.editedItem.department_id);
-        this.editedItem.image
-          ? data.append("image", this.editedItem.image)
-          : "";
+        data.append("consultation_price", this.editedItem.consultation_price);
+        data.append("signature", this.editedItem.signature);
+        data.append("job_id", this.editedItem.job_id);
+        data.append("educations:en", this.editedItem.educations_en);
+        data.append("educations:ar", this.editedItem.educations_ar);
+        data.append("experiences:en", this.editedItem.experiences_en);
+        data.append("experiences:ar", this.editedItem.experiences_ar);
         data.append("_method", "PUT");
 
         await this.updateData({
@@ -609,17 +720,22 @@ export default {
           let data = new FormData();
           data.append("full_name:en", this.editedItem.full_name_en);
           data.append("full_name:ar", this.editedItem.full_name_ar);
-          data.append("description:en", this.editedItem.description_en);
-          data.append("description:ar", this.editedItem.description_ar);
-          data.append("title:en", this.editedItem.title_en);
-          data.append("title:ar", this.editedItem.title_ar);
+          data.append("image", this.editedItem.image);
+          data.append("gender", this.editedItem.gender);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
-          data.append("gender", this.editedItem.gender);
+          data.append("title:en", this.editedItem.title_en);
+          data.append("title:ar", this.editedItem.title_ar);
+          data.append("department_id", this.editedItem.department_id);
           data.append("session_price", this.editedItem.session_price);
           data.append("session_duration", this.editedItem.session_duration);
-          data.append("department_id", this.editedItem.department_id);
-          data.append("image", this.editedItem.image);
+          data.append("consultation_price", this.editedItem.consultation_price);
+          data.append("signature", this.editedItem.signature);
+          data.append("job_id", this.editedItem.job_id);
+          data.append("educations:en", this.editedItem.educations_en);
+          data.append("educations:ar", this.editedItem.educations_ar);
+          data.append("experiences:en", this.editedItem.experiences_en);
+          data.append("experiences:ar", this.editedItem.experiences_ar);
 
           this.addData({
             url: "dashboard/doctors",

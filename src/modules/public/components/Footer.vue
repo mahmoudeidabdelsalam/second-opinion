@@ -52,7 +52,7 @@
           </div>
         </v-col>
 
-        <v-col cols="6" xl="3" lg="4" md="6" sm="6">
+        <v-col cols="6" xl="2" lg="4" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               انضم الينا
@@ -63,13 +63,10 @@
             <router-link :to="{ name: 'Register' }" class="link d-block mb-6">
               التسجيل
             </router-link>
-            <router-link :to="{ name: 'ContactUs' }" class="link d-block">
-              تواصل معنا
-            </router-link>
           </div>
         </v-col>
 
-        <v-col cols="12" xl="3" lg="4" md="6">
+        <v-col cols="12" xl="4" lg="4" md="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               تواصل معنا

@@ -148,7 +148,7 @@
                     @click="save"
                     v-if="showInpust && availableTimes"
                   >
-                    Save
+                    حفظ
                   </v-btn>
                 </v-card-actions>
               </v-card>
