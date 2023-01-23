@@ -1,6 +1,6 @@
 <template>
-  <nav class="d-flex justify-space-around align-center" style="width: 100%">
-    <div class="links">
+  <nav class="d-flex justify-end align-center" style="width: 100%">
+    <!-- <div class="links">
       <v-tabs>
         <v-tabs-slider></v-tabs-slider>
 
@@ -36,7 +36,7 @@
           المدونة
         </v-tab>
       </v-tabs>
-    </div>
+    </div> -->
 
     <div>
       <!-- translations -->
@@ -80,7 +80,7 @@
         </v-list>
       </v-menu> -->
 
-      <v-btn
+      <!-- <v-btn
         depressed
         link
         :to="{
@@ -93,7 +93,7 @@
         v-if="authenticated"
       >
         {{ authenticated.role.value == 4 ? "الحساب" : "لوحة التحكم" }}
-      </v-btn>
+      </v-btn> -->
 
       <v-btn
         depressed

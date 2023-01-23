@@ -13,9 +13,9 @@
         <v-row v-if="doctors.length">
           <v-col cols="12" md="6" v-for="doctor in doctors" :key="doctor.id">
             <div
-              class="doctor primary pa-5 rounded-lg d-flex justify-start align-start"
+              class="doctor primary pa-5 rounded-lg d-flex flex-column flex-md-row justify-start align-start"
             >
-              <v-avatar class="rounded-lg" size="150">
+              <v-avatar class="rounded-lg mb-4" size="150">
                 <v-img
                   :src="doctor.profile"
                   :lazy-src="doctor.profile"
@@ -26,7 +26,7 @@
                 ></v-img>
               </v-avatar>
 
-              <div class="doctor-info mx-4">
+              <div class="doctor-info mx-0 mx-md-4">
                 <span class="d-block mb-2 white--text font-weight-bold text-h6">
                   {{ doctor.full_name }}
                 </span>

@@ -5,7 +5,7 @@
         :perspective="340"
         :space="530"
         :display="3"
-        :height="480"
+        :height="545"
         :width="492"
         :border="0"
         :inverse-scaling="150"

@@ -7,7 +7,7 @@
 
       <v-form ref="form" :v-model="valid" lazy-validation>
         <v-row>
-          <v-col cols="11">
+          <v-col cols="10">
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
@@ -77,7 +77,7 @@
             </v-row>
           </v-col>
 
-          <v-col cols="1">
+          <v-col cols="2">
             <div class="social-media d-flex flex-column align-center">
               <v-btn
                 color="white"

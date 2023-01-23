@@ -10,7 +10,7 @@
         style="max-width: 1400px"
         :nav="false"
         :dots="false"
-        :stagePadding="100"
+        :stagePadding="50"
         :margin="20"
         :autoplay="true"
         :autoplayTimeout="5000"

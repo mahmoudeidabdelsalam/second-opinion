@@ -2,7 +2,7 @@
   <v-footer class="footer">
     <v-container style="max-width: 1400px">
       <v-row>
-        <!-- <v-col cols="12" lg="3" md="6">
+        <!-- <v-col cols="12" xl="3" lg="4" md="6">
           <div class="main-column column">
             <router-link
               :to="{ name: 'Home' }"
@@ -26,7 +26,7 @@
           </div>
         </v-col> -->
 
-        <v-col cols="6" lg="3" md="6" sm="6">
+        <v-col cols="6" xl="3" lg="4" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               روابط مساعدة
@@ -52,7 +52,7 @@
           </div>
         </v-col>
 
-        <v-col cols="6" lg="2" md="6" sm="6">
+        <v-col cols="6" xl="3" lg="4" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               انضم الينا
@@ -69,7 +69,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" lg="4" md="6">
+        <v-col cols="12" xl="3" lg="4" md="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               تواصل معنا
@@ -106,7 +106,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" lg="3" md="6">
+        <v-col cols="12" xl="3" lg="4" md="6">
           <div
             class="regular-column column d-flex flex-column flex-md-row justify-start align-center"
           >
