@@ -79,7 +79,7 @@
               class="contact-link d-flex align-center mb-4"
             >
               <v-icon class="mx-2">mdi-email-outline</v-icon>
-              info@second-opinion.com
+              info@secondopinion.sa
             </a>
             <a
               href="tel:+966595620000"
@@ -90,7 +90,7 @@
             </a>
             <span class="company-address d-flex align-center mb-4">
               <v-icon class="mx-2">mdi-map-marker</v-icon>
-              3004، طريق الامام سعود بن فيصل، حى الصحافة، 6130
+              7064، سالم بن معقل، حي النخيل، 4092
             </span>
             <div class="social-links mb-5">
               <a href="#" target="_blank" class="box" aria-label="twitter">

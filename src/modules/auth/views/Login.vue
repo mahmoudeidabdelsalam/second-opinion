@@ -28,9 +28,9 @@
                 class="mb-3 white--text py-6"
                 color="primary"
                 block
-                :loading="loginLoading"
-                :disabled="loginLoading"
-                @click="login"
+                :loading="sendOtpLoading"
+                :disabled="sendOtpLoading"
+                @click="sendOtp"
               >
                 تسجيل الدخول
               </v-btn>
@@ -58,6 +58,45 @@
               >
                 نسيت كلمة المرور؟
               </v-btn>
+
+              <!-- otp dialog -->
+              <v-dialog v-model="checkOtpModalLogin" persistent max-width="400">
+                <v-card>
+                  <v-toolbar class="mb-5" elevation="0">
+                    <v-toolbar-title>التحقق من OTP</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click.stop="closeCheckOtpLoginModal">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-toolbar>
+
+                  <v-card-text>
+                    <span class="d-block body-2 mb-7">
+                      برجاء ادخال الكود المرسل على رقم الهاتف
+                    </span>
+                    <v-form ref="form" :v-model="valid" lazy-validation>
+                      <v-otp-input
+                        length="4"
+                        v-model="checkOtpForm.otp"
+                        :rules="otpRules"
+                        style="direction: ltr"
+                      ></v-otp-input>
+
+                      <v-btn
+                        class="mt-3 white--text"
+                        color="primary"
+                        block
+                        :loading="checkOtpLoadingLogin"
+                        :disabled="checkOtpLoadingLogin"
+                        @click="checkOtpLogin"
+                      >
+                        تحقق
+                      </v-btn>
+                    </v-form>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+
               <!-- forgot password dialog -->
               <v-dialog
                 v-model="forgetPasswordModal"
@@ -77,8 +116,8 @@
                     <v-form ref="form" :v-model="valid" lazy-validation>
                       <v-text-field
                         v-model="forgetPasswordForm.username"
-                        :rules="phoneOrEmailRules"
-                        label="ادخل رقم الهاتف او البريد الالكتروني"
+                        :rules="phoneRules"
+                        label="ادخل رقم الهاتف"
                         outlined
                         dense
                         autofocus
@@ -215,24 +254,26 @@ export default {
   data: () => ({
     // buttons loader
     loader: null,
-    loginLoading: false,
+    sendOtpLoading: false,
+    checkOtpLoadingLogin: false,
     forgetLoading: false,
     checkOtpLoading: false,
     resetPasswordLoading: false,
 
-    // login form data
+    // login form
     loginForm: {
       phone_number: "",
+      rememberMe: false,
+    },
+
+    // check otp form
+    checkOtpForm: {
+      otp: "",
     },
 
     // forget password form data
     forgetPasswordForm: {
       username: "",
-    },
-
-    // otp code
-    checkOtpForm: {
-      code: "",
     },
 
     // reset password form data
@@ -246,11 +287,12 @@ export default {
     ...mapGetters({
       valid: "validationRules/valid",
       phoneRules: "validationRules/phoneRules",
-      phoneOrEmailRules: "validationRules/phoneOrEmailRules",
+      otpRules: "validationRules/otpRules",
       passwordRules: "validationRules/passwordRules",
       confirmPasswordRules: "validationRules/confirmPasswordRules",
-      otpRules: "validationRules/otpRules",
 
+      // modals
+      checkOtpModalLogin: "patientLogin/checkOtpModal",
       forgetPasswordModal: "forget/forgetPasswordModal",
       checkOtpModal: "forget/checkOtpModal",
       resetPasswordModal: "forget/resetPasswordModal",
@@ -270,8 +312,12 @@ export default {
 
   methods: {
     ...mapActions({
-      // login action
-      loginAction: "login/login",
+      // send otp action
+      sendOtpAction: "patientLogin/sendOtp",
+      // check otp action
+      checkOtpLoginAction: "patientLogin/checkOtp",
+      // close check otp modal action
+      closeCheckOtpLoginModalAction: "patientLogin/closeCheckOtpModal",
 
       // open forget password modal action
       openForgetPasswordModalAction: "forget/openForgetPasswordModal",
@@ -295,13 +341,29 @@ export default {
       closeResetPasswordModalAction: "forget/closeResetPasswordModal",
     }),
 
-    // login method
-    login() {
+    // send otp method
+    sendOtp() {
       // validate form
       if (this.$refs.form.validate()) {
-        this.loader = "loginLoading";
-        this.loginAction(this.loginForm);
+        this.loader = "sendOtpLoading";
+        this.sendOtpAction(this.loginForm);
       }
+    },
+
+    // check otp method
+    checkOtpLogin() {
+      // validate form
+      if (this.$refs.form.validate()) {
+        this.loader = "checkOtpLoadingLogin";
+        this.checkOtpLoginAction(this.checkOtpForm);
+      }
+    },
+
+    // close check otp modal method
+    closeCheckOtpLoginModal() {
+      this.closeCheckOtpLoginModalAction();
+      // reset form
+      this.$refs.form.reset();
     },
 
     // open forget password modal

@@ -156,7 +156,7 @@
         </v-list-item-content>
       </v-list-item> -->
 
-      <v-list-item link :to="{ name: 'Invoices' }" active-class="primary--text">
+      <!-- <v-list-item link :to="{ name: 'Invoices' }" active-class="primary--text">
         <v-list-item-icon>
           <v-icon>mdi-receipt</v-icon>
         </v-list-item-icon>
@@ -165,7 +165,7 @@
             الفواتير
           </v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
     </v-list>
   </aside>
 </template>
