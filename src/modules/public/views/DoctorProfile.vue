@@ -139,6 +139,7 @@
                 </template>
                 <v-date-picker
                   v-model="reservation_day"
+                  :min="minDate"
                   @change="getAvailablTimes"
                 ></v-date-picker>
               </v-menu>
@@ -300,6 +301,9 @@ export default {
 
     // loading results
     loading_resutls: false,
+
+    // min date
+    minDate: new Date().toISOString().substr(0, 10),
   }),
 
   created() {

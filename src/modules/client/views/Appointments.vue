@@ -64,12 +64,95 @@
                     zoom
                   </span>
                 </div>
-                <v-btn
-                  block
-                  class="white primary--text py-6 rounded-lg font-weight-bold"
+
+                <v-dialog
+                  v-model="changeAppointmentTimeDialog"
+                  transition="dialog-top-transition"
+                  max-width="600"
                 >
-                  اعادة جدولة
-                </v-btn>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      block
+                      class="white primary--text py-6 rounded-lg font-weight-bold"
+                    >
+                      اعادة جدولة
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-toolbar
+                      class="text-h6 d-flex justify-start align-center"
+                      elevation="0"
+                    >
+                      <v-icon color="primary">mdi-calendar</v-icon>
+                      <span class="mx-4">المواعيد المتاحة</span>
+                    </v-toolbar>
+                    <v-card-text>
+                      <v-menu
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="reservation_day"
+                            :min="minDate"
+                            label="اختر اليوم"
+                            append-icon="mdi-calendar"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                            clearable
+                            required
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker
+                          v-model="reservation_day"
+                          :min="minDate"
+                          @change="getAvailablTimes(appointment.doctor.id)"
+                        ></v-date-picker>
+                      </v-menu>
+
+                      <!-- loading -->
+                      <v-progress-linear
+                        v-if="loading_resutls"
+                        indeterminate
+                        color="primary"
+                        class="mb-5"
+                      ></v-progress-linear>
+
+                      <v-radio-group
+                        v-model="reservation_time"
+                        row
+                        v-if="available_times.length"
+                        class="font-weight-bold"
+                      >
+                        <v-radio
+                          v-for="item in available_times"
+                          :key="item"
+                          :label="item"
+                          :value="item"
+                          class="mb-2"
+                        ></v-radio>
+                      </v-radio-group>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn
+                        block
+                        class="primary py-6 rounded-lg"
+                        @click="changeTime(appointment.id)"
+                      >
+                        تاكيد الحجز
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </div>
             </div>
           </v-col>
@@ -299,6 +382,27 @@ export default {
     expired: [],
     // canceled
     canceled: [],
+
+    // changeAppointmentTimeDialog
+    changeAppointmentTimeDialog: false,
+
+    // date picker
+    menu: false,
+
+    // reservation day
+    reservation_day: null,
+    // availabl times
+    available_times: [],
+    // reservation time
+    reservation_time: null,
+    // row radio group
+    rowRadio: null,
+
+    // loading results
+    loading_resutls: false,
+
+    // min date
+    minDate: new Date().toISOString().substr(0, 10),
   }),
 
   created() {
@@ -309,6 +413,7 @@ export default {
   methods: {
     ...mapActions({
       getData: "crudOperations/getData",
+      addData: "crudOperations/addData",
     }),
 
     // init data
@@ -324,6 +429,44 @@ export default {
         this.canceled = res.filter((item) => item.status.value == 2);
 
         this.waitingForData = false;
+      });
+    },
+
+    // get available times
+    getAvailablTimes(doctor_id) {
+      alert(doctor_id);
+      // this.available_times = [];
+      // this.loading_resutls = true;
+      // let data = new FormData();
+      // data.append("doctor_id", doctor_id);
+      // data.append("reservation_day", this.reservation_day);
+
+      // this.addData({
+      //   url: "patient/reservations/get-available-dates",
+      //   data: data,
+      // }).then((res) => {
+      //   this.loading_resutls = false;
+      //   res
+      //     ? (this.available_times = res)
+      //     : ((this.available_times = []), this.$refs.form.reset());
+      // });
+    },
+
+    // change appointment time
+    changeTime(appointment_id) {
+      this.available_times = [];
+
+      let data = new FormData();
+      data.append("reservation_day", this.reservation_day);
+      data.append("reservation_time_start", this.reservation_time);
+      data.append("_method", "PUT");
+
+      this.addData({
+        url: `patient/reservations/${appointment_id}`,
+        data: data,
+      }).then(() => {
+        this.changeAppointmentTimeDialog = false;
+        this.initData();
       });
     },
   },
