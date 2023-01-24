@@ -1,295 +1,296 @@
 <template>
-  <transition name="slide-fade" v-if="loaded">
-    <section class="data-table-page white rounded-lg pa-5">
-      <v-data-table
-        v-model="selected"
-        :headers="headers"
-        :items="desserts"
-        :single-select="singleSelect"
-        item-key="id"
-        sort-by="id"
-        sort-desc
-        :loading="loadingData"
-        loading-text="جاري تحميل البيانات"
-        no-data-text="لا توجد بيانات حتى الان"
-        :footer-props="{
-          'items-per-page-all-text': 'الكل',
-          'items-per-page-text': 'عدد الصفوف في الصفحة',
-        }"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-bold">
-              الحجوزات
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-dialog persistent v-model="dialog" max-width="800px" scrollable>
-              <template v-slot:activator="{ on, attrs }">
-                <!-- new item btn -->
-                <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
-                  <v-icon left>mdi-plus</v-icon>
-                  جديد
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5">{{ formTitle }}</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-form ref="form" :v-model="valid" lazy-validation>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" md="6">
-                          <v-autocomplete
-                            v-model="editedItem.doctor_id"
-                            :items="doctors"
-                            :rules="selectRules"
-                            label="الطبيب"
-                            outlined
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
+  <section class="data-table-page white rounded-lg pa-5">
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :loading="loadingData"
+      :search="search"
+      loading-text="جاري تحميل البيانات"
+      no-data-text="لا توجد بيانات حتى الان"
+      :footer-props="{
+        'items-per-page-all-text': 'الكل',
+        'items-per-page-text': 'عدد الصفوف في الصفحة',
+      }"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title class="black--text font-weight-bold">
+            الحجوزات
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-dialog persistent v-model="dialog" max-width="800px" scrollable>
+            <template v-slot:activator="{ on, attrs }">
+              <!-- new item btn -->
+              <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
+                <v-icon left>mdi-plus</v-icon>
+                جديد
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">{{ formTitle }}</span>
+              </v-card-title>
+              <v-card-text>
+                <v-form ref="form" :v-model="valid" lazy-validation>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" md="6">
+                        <v-autocomplete
+                          v-model="editedItem.doctor_id"
+                          :items="doctors"
+                          :rules="selectRules"
+                          label="الطبيب"
+                          outlined
+                          dense
+                        ></v-autocomplete>
+                      </v-col>
 
-                        <v-col cols="12" md="6">
-                          <v-menu
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="auto"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="editedItem.reservation_day"
-                                label="تاريح الحجز"
-                                append-icon="mdi-calendar"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                                clearable
-                                required
-                                outlined
-                                dense
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
+                      <v-col cols="12" md="6">
+                        <v-menu
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="auto"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
                               v-model="editedItem.reservation_day"
-                              @input="menu = false"
-                            ></v-date-picker>
-                          </v-menu>
-                        </v-col>
+                              label="تاريح الحجز"
+                              append-icon="mdi-calendar"
+                              readonly
+                              v-bind="attrs"
+                              v-on="on"
+                              clearable
+                              required
+                              outlined
+                              dense
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="editedItem.reservation_day"
+                            @input="menu = false"
+                          ></v-date-picker>
+                        </v-menu>
+                      </v-col>
 
-                        <v-col cols="12">
-                          <v-btn
-                            depressed
-                            class="capitalize mb-5 primary_bg primary--text"
-                            @click="getAvailableDates"
-                          >
-                            معرفة الاوقات المتاحة
-                          </v-btn>
-                        </v-col>
-
-                        <v-col
-                          cols="12"
-                          md="6"
-                          v-if="showInpust && availableTimes"
+                      <v-col cols="12">
+                        <v-btn
+                          depressed
+                          class="capitalize mb-5 primary_bg primary--text"
+                          @click="getAvailableDates"
                         >
-                          <v-autocomplete
-                            v-model="editedItem.patient_id"
-                            :items="patients"
-                            :rules="selectRules"
-                            label="المريض"
-                            outlined
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
+                          معرفة الاوقات المتاحة
+                        </v-btn>
+                      </v-col>
 
-                        <v-col
-                          cols="12"
-                          md="6"
-                          v-if="showInpust && availableTimes"
-                        >
-                          <v-autocomplete
-                            v-model="editedItem.reservation_time_start"
-                            :items="availableTimes"
-                            :rules="selectRules"
-                            label="التوقيت"
-                            outlined
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
+                      <v-col
+                        cols="12"
+                        md="6"
+                        v-if="showInpust && availableTimes"
+                      >
+                        <v-autocomplete
+                          v-model="editedItem.patient_id"
+                          :items="patients"
+                          :rules="selectRules"
+                          label="المريض"
+                          outlined
+                          dense
+                        ></v-autocomplete>
+                      </v-col>
 
-                        <v-col
-                          cols="12"
-                          md="6"
-                          v-if="showInpust && availableTimes"
-                        >
-                          <v-autocomplete
-                            v-model="editedItem.type"
-                            :items="reservationTypes"
-                            label="نوع الحجز"
-                            outlined
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-form>
-                </v-card-text>
+                      <v-col
+                        cols="12"
+                        md="6"
+                        v-if="showInpust && availableTimes"
+                      >
+                        <v-autocomplete
+                          v-model="editedItem.reservation_time_start"
+                          :items="availableTimes"
+                          :rules="selectRules"
+                          label="التوقيت"
+                          outlined
+                          dense
+                        ></v-autocomplete>
+                      </v-col>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="secondary" depressed small @click="close">
-                    الغاء
-                  </v-btn>
-                  <v-btn
-                    color="primary"
-                    depressed
-                    small
-                    @click="save"
-                    v-if="showInpust && availableTimes"
-                  >
-                    حفظ
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+                      <v-col
+                        cols="12"
+                        md="6"
+                        v-if="showInpust && availableTimes"
+                      >
+                        <v-autocomplete
+                          v-model="editedItem.type"
+                          :items="reservationTypes"
+                          label="نوع الحجز"
+                          outlined
+                          dense
+                        ></v-autocomplete>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </v-card-text>
 
-            <!-- delete item -->
-            <v-dialog persistent v-model="dialogDelete" max-width="600px">
-              <v-card>
-                <v-card-title class="text-h6">
-                  هل انت متاكد من حذف الحجز ؟
-                </v-card-title>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="secondary" depressed small @click="closeDelete">
-                    الغاء
-                  </v-btn>
-                  <v-btn
-                    color="error"
-                    depressed
-                    small
-                    @click="deleteItemConfirm"
-                  >
-                    حذف
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-        </template>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" depressed small @click="close">
+                  الغاء
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  depressed
+                  small
+                  @click="save"
+                  v-if="showInpust && availableTimes"
+                >
+                  حفظ
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
-        <template v-slot:[`item.name`]="{ item }">
-          <span class="d-block black--text font-weight-bold">
-            {{ item.name }}
-          </span>
-        </template>
+          <!-- delete item -->
+          <v-dialog persistent v-model="dialogDelete" max-width="600px">
+            <v-card>
+              <v-card-title class="text-h6">
+                هل انت متاكد من حذف الحجز ؟
+              </v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" depressed small @click="closeDelete">
+                  الغاء
+                </v-btn>
+                <v-btn color="error" depressed small @click="deleteItemConfirm">
+                  حذف
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
 
-        <template v-slot:[`item.patient`]="{ item }">
-          <span
-            class="d-block black--text font-weight-bold"
-            v-if="item.patient && item.patient.full_name"
-          >
-            {{ item.patient.full_name }}
-          </span>
-          <span
-            class="d-block black--text"
-            v-if="item.patient && item.patient.email"
-          >
-            {{ item.patient.email }}
-          </span>
-          <span
-            class="d-block black--text"
-            v-if="item.patient && item.patient.phone_number"
-          >
-            {{ item.patient.phone_number }}
-          </span>
-          <span
-            class="d-block black--text"
-            v-if="item.patient && item.patient.gender"
-          >
-            {{ item.patient.gender }}
-          </span>
-        </template>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="بحث"
+          single-line
+          hide-details
+          outlined
+          dense
+          class="mb-5 rounded-lg"
+          style="max-width: 500px"
+        ></v-text-field>
+      </template>
 
-        <template v-slot:[`item.doctor`]="{ item }">
-          <div class="d-flex justify-start align-center">
-            <v-avatar size="50">
-              <v-img
-                cover
-                :lazy-src="item.doctor.profile"
-                max-height="50"
-                max-width="50"
-                :src="item.doctor.profile"
-                :alt="item.doctor.full_name"
-                v-if="item.doctor && item.doctor.profile"
-              ></v-img>
-            </v-avatar>
-            <div class="px-4">
-              <span
-                class="d-block black--text font-weight-bold"
-                v-if="item.doctor && item.doctor.full_name"
-              >
-                {{ item.doctor.full_name }}
-              </span>
-              <span
-                class="d-block black--text"
-                v-if="item.doctor && item.doctor.email"
-              >
-                {{ item.doctor.email }}
-              </span>
-              <span
-                class="d-block black--text"
-                v-if="item.doctor && item.doctor.work_phone"
-              >
-                {{ item.doctor.work_phone }}
-              </span>
-            </div>
+      <template v-slot:[`item.name`]="{ item }">
+        <span class="d-block black--text font-weight-bold">
+          {{ item.name }}
+        </span>
+      </template>
+
+      <template v-slot:[`item.patient.full_name`]="{ item }">
+        <span
+          class="d-block black--text font-weight-bold"
+          v-if="item.patient && item.patient.full_name"
+        >
+          {{ item.patient.full_name }}
+        </span>
+        <span
+          class="d-block black--text"
+          v-if="item.patient && item.patient.email"
+        >
+          {{ item.patient.email }}
+        </span>
+        <span
+          class="d-block black--text"
+          v-if="item.patient && item.patient.phone_number"
+        >
+          {{ item.patient.phone_number }}
+        </span>
+        <span
+          class="d-block black--text"
+          v-if="item.patient && item.patient.gender"
+        >
+          {{ item.patient.gender }}
+        </span>
+      </template>
+
+      <template v-slot:[`item.doctor.full_name`]="{ item }">
+        <div class="d-flex justify-start align-center">
+          <v-avatar size="50">
+            <v-img
+              cover
+              :lazy-src="item.doctor.profile"
+              max-height="50"
+              max-width="50"
+              :src="item.doctor.profile"
+              :alt="item.doctor.full_name"
+              v-if="item.doctor && item.doctor.profile"
+            ></v-img>
+          </v-avatar>
+          <div class="px-4">
+            <span
+              class="d-block black--text font-weight-bold"
+              v-if="item.doctor && item.doctor.full_name"
+            >
+              {{ item.doctor.full_name }}
+            </span>
+            <span
+              class="d-block black--text"
+              v-if="item.doctor && item.doctor.email"
+            >
+              {{ item.doctor.email }}
+            </span>
+            <span
+              class="d-block black--text"
+              v-if="item.doctor && item.doctor.work_phone"
+            >
+              {{ item.doctor.work_phone }}
+            </span>
           </div>
-        </template>
+        </div>
+      </template>
 
-        <template v-slot:[`item.time`]="{ item }">
-          <span class="d-block black--text" v-if="item.reservation_date">
-            اليوم:
-            {{
-              item.reservation_date.day.label +
-              ", " +
-              item.reservation_date.day.value
-            }}
-          </span>
-          <span class="d-block black--text" v-if="item.reservation_date">
-            التوقيت: {{ item.reservation_date.time }}
-          </span>
-        </template>
+      <template v-slot:[`item.time`]="{ item }">
+        <span class="d-block black--text" v-if="item.reservation_date">
+          اليوم:
+          {{
+            item.reservation_date.day.label +
+            ", " +
+            item.reservation_date.day.value
+          }}
+        </span>
+        <span class="d-block black--text" v-if="item.reservation_date">
+          التوقيت: {{ item.reservation_date.time }}
+        </span>
+      </template>
 
-        <template v-slot:[`item.status`]="{ item }">
-          <v-select
-            :items="status"
-            :value="item.status"
-            outlined
-            dense
-            @change="changeStatus(item, $event)"
-          ></v-select>
-        </template>
+      <template v-slot:[`item.status`]="{ item }">
+        <v-select
+          :items="status"
+          :value="item.status"
+          outlined
+          dense
+          @change="changeStatus(item, $event)"
+        ></v-select>
+      </template>
 
-        <template v-slot:[`item.actions`]="{ item }">
-          <!-- <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
+      <template v-slot:[`item.actions`]="{ item }">
+        <!-- <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
             <v-icon small color="success">mdi-pencil</v-icon>
           </v-btn> -->
 
-          <v-btn
-            class="primary--text primary_bg mx-2"
-            icon
-            @click="deleteItem(item)"
-          >
-            <v-icon small color="error">mdi-trash-can</v-icon>
-          </v-btn>
-        </template>
-      </v-data-table>
-    </section>
-  </transition>
+        <v-btn
+          class="primary--text primary_bg mx-2"
+          icon
+          @click="deleteItem(item)"
+        >
+          <v-icon small color="error">mdi-trash-can</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
+  </section>
 </template>
 
 <script>
@@ -299,9 +300,6 @@ export default {
   name: "Reservations",
 
   data: () => ({
-    // loading
-    loaded: false,
-
     // loading data
     loadingData: false,
 
@@ -310,8 +308,8 @@ export default {
     dialogDelete: false,
 
     headers: [
-      { text: "المريض", value: "patient", sortable: false },
-      { text: "الطبيب", value: "doctor", sortable: false },
+      { text: "المريض", value: "patient.full_name", width: "250" },
+      { text: "الطبيب", value: "doctor.full_name", width: "250" },
       { text: "تاريخ الحجز", value: "time", sortable: false },
       { text: "نوع الحجز", value: "type.text" },
       {
@@ -324,6 +322,9 @@ export default {
     ],
 
     desserts: [],
+
+    // search
+    search: "",
 
     // doctors
     doctors: [],
@@ -355,10 +356,6 @@ export default {
       { text: "استشارة صوتية/مرئية", value: 1 },
       { text: "استشارة كتابية", value: 2 },
     ],
-
-    // selected rows
-    singleSelect: false,
-    selected: [],
 
     editedIndex: -1,
 
@@ -416,36 +413,35 @@ export default {
 
     // init data
     initData() {
+      // loading data
       this.loadingData = true;
-      setTimeout(() => {
-        // get reservations
-        this.getData("dashboard/reservations").then((res) => {
-          this.desserts = res;
-        });
+      // get reservations
+      this.getData("dashboard/reservations").then((res) => {
+        // hide loading
+        this.loadingData = false;
+        // set data
+        this.desserts = res;
+      });
 
-        this.loaded = true;
-
-        // get doctors
-        this.getData("dashboard/doctors").then((res) => {
-          this.loadingData = false;
-          this.doctors = res.map((item) => {
-            return {
-              text: item.full_name,
-              value: item.id,
-            };
-          });
+      // get doctors
+      this.getData("dashboard/doctors").then((res) => {
+        this.doctors = res.map((item) => {
+          return {
+            text: item.full_name,
+            value: item.id,
+          };
         });
+      });
 
-        // get patients
-        this.getData("dashboard/patients").then((res) => {
-          this.patients = res.map((item) => {
-            return {
-              text: item.name,
-              value: item.id,
-            };
-          });
+      // get patients
+      this.getData("dashboard/patients").then((res) => {
+        this.patients = res.map((item) => {
+          return {
+            text: item.name,
+            value: item.id,
+          };
         });
-      }, 0);
+      });
     },
 
     editItem(item) {
@@ -519,6 +515,7 @@ export default {
     // get available dates
     getAvailableDates() {
       let data = new FormData();
+
       data.append("doctor_id", this.editedItem.doctor_id);
       data.append("reservation_day", this.editedItem.reservation_day);
 
@@ -533,21 +530,26 @@ export default {
 
     async save() {
       if (this.editedIndex > -1) {
-        let data = new FormData();
-        data.append("name:en", this.editedItem.en_name);
-        data.append("name:ar", this.editedItem.ar_name);
-        data.append("_method", "PUT");
+        if (this.$refs.form.validate()) {
+          let data = new FormData();
 
-        await this.updateData({
-          url: `dashboard/reservations/${this.editedItem.id}`,
-          data: data,
-        }).then((res) => {
-          Object.assign(this.desserts[this.editedIndex], res);
-          this.close();
-        });
+          data.append("name:en", this.editedItem.en_name);
+          data.append("name:ar", this.editedItem.ar_name);
+
+          data.append("_method", "PUT");
+
+          await this.updateData({
+            url: `dashboard/reservations/${this.editedItem.id}`,
+            data: data,
+          }).then((res) => {
+            Object.assign(this.desserts[this.editedIndex], res);
+            this.close();
+          });
+        }
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
+
           data.append("doctor_id", this.editedItem.doctor_id);
           data.append("reservation_day", this.editedItem.reservation_day);
           data.append("patient_id", this.editedItem.patient_id);
@@ -561,9 +563,7 @@ export default {
             url: "dashboard/reservations",
             data: data,
           }).then((res) => {
-            console.log(res);
             this.desserts.unshift(res);
-
             this.close();
           });
         }

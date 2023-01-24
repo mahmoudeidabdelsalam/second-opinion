@@ -61,9 +61,9 @@ const state = () => ({
 
   // nationalIdRules rules
   nationalIdRules: [
-    (v) => !!v || "حقل الرقم القومي مطلوب",
-    (v) => (v && v.length == 10) || "الرقم القومي يجب ان يكون 10 ارقام",
-    (v) => /^\d+$/.test(v) || "الرقم القومي يجب ان يكون ارقام فقط",
+    (v) => !!v || "حقل الرقم الهوية مطلوب",
+    (v) => (v && v.length == 10) || "الرقم الهوية يجب ان يكون 10 ارقام",
+    (v) => /^\d+$/.test(v) || "الرقم الهوية يجب ان يكون ارقام فقط",
   ],
 
   // phoneOrEmailRules rules
@@ -98,6 +98,13 @@ const state = () => ({
     (v) => !!v || "حقل الرمز مطلوب",
     (v) => (v && v.length == 4) || "الرمز يجب ان يكون 4 ارقام",
     (v) => /^\d+$/.test(v) || "الرمز يجب ان يكون ارقام فقط",
+  ],
+
+  // durationRules rules
+  durationRules: [
+    (v) => !!v || "حقل المدة مطلوب",
+    (v) => /^\d+$/.test(v) || "المدة يجب ان تكون ارقام فقط",
+    (v) => (v && v >= 15) || "المدة يجب ان تكون اكبر من 15 دقيقة",
   ],
 });
 
@@ -141,6 +148,9 @@ const getters = {
 
   // otp rules
   otpRules: (state) => state.otpRules,
+
+  // duration rules
+  durationRules: (state) => state.durationRules,
 };
 
 export default {

@@ -1,141 +1,142 @@
 <template>
-  <transition name="slide-fade" v-if="loaded">
-    <section class="data-table-page white rounded-lg pa-5">
-      <v-data-table
-        v-model="selected"
-        :headers="headers"
-        :items="desserts"
-        :single-select="singleSelect"
-        item-key="id"
-        sort-by="id"
-        sort-desc
-        :loading="loadingData"
-        loading-text="جاري تحميل البيانات"
-        no-data-text="لا توجد بيانات حتى الان"
-        :footer-props="{
-          'items-per-page-all-text': 'الكل',
-          'items-per-page-text': 'عدد الصفوف في الصفحة',
-        }"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title class="black--text font-weight-bold">
-              الصلاحيات
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-dialog persistent v-model="dialog" max-width="800px" scrollable>
-              <template v-slot:activator="{ on, attrs }">
-                <!-- new item btn -->
-                <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
-                  <v-icon left>mdi-plus</v-icon>
-                  جديد
+  <section class="data-table-page white rounded-lg pa-5">
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :loading="loadingData"
+      :search="search"
+      loading-text="جاري تحميل البيانات"
+      no-data-text="لا توجد بيانات حتى الان"
+      :footer-props="{
+        'items-per-page-all-text': 'الكل',
+        'items-per-page-text': 'عدد الصفوف في الصفحة',
+      }"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title class="black--text font-weight-bold">
+            الصلاحيات
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-dialog persistent scrollable v-model="dialog" max-width="800px">
+            <template v-slot:activator="{ on, attrs }">
+              <!-- new item btn -->
+              <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
+                <v-icon left>mdi-plus</v-icon>
+                جديد
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="elevation-2">
+                <span class="text-h5">{{ formTitle }}</span>
+              </v-card-title>
+              <v-card-text class="py-4">
+                <v-form ref="form" :v-model="valid" lazy-validation>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model="editedItem.en_name"
+                          :rules="nameRules"
+                          label="الاسم باللغة الانجليزية"
+                          outlined
+                          dense
+                          dir="ltr"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model="editedItem.ar_name"
+                          :rules="nameRules"
+                          label="الاسم باللغة العربية"
+                          outlined
+                          dense
+                          dir="rtl"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                        v-for="permission in permissions"
+                        :key="permission.id"
+                      >
+                        <v-checkbox
+                          v-model="editedItem.permissions"
+                          :label="permission.name"
+                          :value="permission.id"
+                        ></v-checkbox>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" depressed @click="close">
+                  الغاء
                 </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5">{{ formTitle }}</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-form ref="form" :v-model="valid" lazy-validation>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.en_name"
-                            :rules="nameRules"
-                            label="الاسم باللغة الانجليزية"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
+                <v-btn color="primary" depressed @click="save"> حفظ </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            v-model="editedItem.ar_name"
-                            :rules="nameRules"
-                            label="الاسم باللغة العربية"
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
+          <!-- delete item -->
+          <v-dialog persistent v-model="dialogDelete" max-width="600px">
+            <v-card>
+              <v-card-title class="text-h6">
+                هل انت متاكد من حذف هذة الصلاحية ؟
+              </v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" depressed @click="closeDelete">
+                  الغاء
+                </v-btn>
+                <v-btn color="error" depressed @click="deleteItemConfirm">
+                  حذف
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
 
-                        <v-col
-                          cols="12"
-                          sm="6"
-                          md="4"
-                          v-for="permission in permissions"
-                          :key="permission.id"
-                        >
-                          <v-checkbox
-                            v-model="editedItem.permissions"
-                            :label="permission.name"
-                            :value="permission.id"
-                          ></v-checkbox>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-form>
-                </v-card-text>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="بحث"
+          single-line
+          hide-details
+          outlined
+          dense
+          class="mb-5 rounded-lg"
+          style="max-width: 500px"
+        ></v-text-field>
+      </template>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="secondary" depressed small @click="close">
-                    الغاء
-                  </v-btn>
-                  <v-btn color="primary" depressed small @click="save">
-                    حفظ
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+      <template v-slot:[`item.name`]="{ item }">
+        <span class="d-block black--text font-weight-bold">
+          {{ item.name }}
+        </span>
+      </template>
 
-            <!-- delete item -->
-            <v-dialog persistent v-model="dialogDelete" max-width="600px">
-              <v-card>
-                <v-card-title class="text-h6">
-                  هل انت متاكد من حذف هذة الصلاحية ؟
-                </v-card-title>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="secondary" depressed small @click="closeDelete">
-                    الغاء
-                  </v-btn>
-                  <v-btn
-                    color="error"
-                    depressed
-                    small
-                    @click="deleteItemConfirm"
-                  >
-                    حذف
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-        </template>
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
+          <v-icon small color="success">mdi-pencil</v-icon>
+        </v-btn>
 
-        <template v-slot:[`item.name`]="{ item }">
-          <span class="d-block black--text font-weight-bold">
-            {{ item.name }}
-          </span>
-        </template>
-
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
-            <v-icon small color="success">mdi-pencil</v-icon>
-          </v-btn>
-
-          <v-btn
-            class="primary--text primary_bg mx-2"
-            icon
-            @click="deleteItem(item)"
-          >
-            <v-icon small color="error">mdi-trash-can</v-icon>
-          </v-btn>
-        </template>
-      </v-data-table>
-    </section>
-  </transition>
+        <v-btn
+          class="primary--text primary_bg mx-2"
+          icon
+          @click="deleteItem(item)"
+        >
+          <v-icon small color="error">mdi-trash-can</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
+  </section>
 </template>
 
 <script>
@@ -145,9 +146,6 @@ export default {
   name: "Roles",
 
   data: () => ({
-    // loading
-    loaded: false,
-
     // loading data
     loadingData: false,
 
@@ -162,12 +160,11 @@ export default {
 
     desserts: [],
 
+    // search
+    search: "",
+
     // permissions
     permissions: [],
-
-    // selected rows
-    singleSelect: false,
-    selected: [],
 
     editedIndex: -1,
 
@@ -218,21 +215,23 @@ export default {
 
     // init data
     initData() {
+      // loading data
       this.loadingData = true;
-      setTimeout(() => {
-        // get roles
-        this.getData("dashboard/roles").then((res) => {
-          this.desserts = res;
-        });
+      // get roles
+      this.getData("dashboard/roles").then((res) => {
+        // hide loading
+        this.loadingData = false;
+        // set data
+        this.desserts = res;
+      });
 
-        this.loaded = true;
-
-        // get permissions
-        this.getData("dashboard/permissions").then((res) => {
-          this.loadingData = false;
-          this.permissions = res;
-        });
-      }, 0);
+      // get permissions
+      this.getData("dashboard/permissions").then((res) => {
+        // hide loading
+        this.loadingData = false;
+        // set data
+        this.permissions = res;
+      });
     },
 
     editItem(item) {
@@ -290,24 +289,29 @@ export default {
 
     async save() {
       if (this.editedIndex > -1) {
-        let data = new FormData();
-        data.append("name:en", this.editedItem.en_name);
-        data.append("name:ar", this.editedItem.ar_name);
-        for (let i = 0; i < this.editedItem.permissions.length; i++) {
-          data.append("permissions[]", this.editedItem.permissions[i]);
-        }
-        data.append("_method", "PUT");
+        if (this.$refs.form.validate()) {
+          let data = new FormData();
 
-        await this.updateData({
-          url: `dashboard/roles/${this.editedItem.id}`,
-          data: data,
-        }).then((res) => {
-          Object.assign(this.desserts[this.editedIndex], res);
-          this.close();
-        });
+          data.append("name:en", this.editedItem.en_name);
+          data.append("name:ar", this.editedItem.ar_name);
+          for (let i = 0; i < this.editedItem.permissions.length; i++) {
+            data.append("permissions[]", this.editedItem.permissions[i]);
+          }
+
+          data.append("_method", "PUT");
+
+          await this.updateData({
+            url: `dashboard/roles/${this.editedItem.id}`,
+            data: data,
+          }).then((res) => {
+            Object.assign(this.desserts[this.editedIndex], res);
+            this.close();
+          });
+        }
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
+
           data.append("name:en", this.editedItem.en_name);
           data.append("name:ar", this.editedItem.ar_name);
           for (let i = 0; i < this.editedItem.permissions.length; i++) {
@@ -318,11 +322,9 @@ export default {
             url: "dashboard/roles",
             data: data,
           }).then((res) => {
-            console.log(res);
             this.desserts.unshift(res);
+            this.close();
           });
-
-          this.close();
         }
       }
     },
