@@ -64,7 +64,7 @@
         class="setting mb-5 d-flex justify-space-between align-center"
         style="max-width: 700px"
       >
-        <span class="primary--text font-weight-bold">الرقم القومى</span>
+        <span class="primary--text font-weight-bold">الرقم الهوية</span>
         <span class="secondary--text font-weight-bold">
           {{ user.national_id }}
         </span>
@@ -80,7 +80,7 @@
       <v-dialog v-model="updateNationalIdModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
-            <v-toolbar-title>تعديل الرقم القومى</v-toolbar-title>
+            <v-toolbar-title>تعديل الرقم الهوية</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon @click.stop="updateNationalIdModal = false">
               <v-icon>mdi-close</v-icon>
@@ -92,7 +92,7 @@
               <v-text-field
                 v-model="nationalIdForm.national_id"
                 :rules="nationalIdRules"
-                label="الرقم القومى"
+                label="الرقم الهوية"
                 type="number"
                 outlined
                 dense
