@@ -9,6 +9,8 @@
         item-key="id"
         sort-by="id"
         sort-desc
+        :loading="loadingData"
+        loading-text="جاري تحميل البيانات"
         no-data-text="لا توجد بيانات حتى الان"
         :footer-props="{
           'items-per-page-all-text': 'الكل',
@@ -22,7 +24,7 @@
               الاطباء
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="800px">
+            <v-dialog persistent scrollable v-model="dialog" max-width="800px">
               <template v-slot:activator="{ on, attrs }">
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
@@ -78,7 +80,7 @@
                           ></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" md="6">
+                        <v-col cols="12">
                           <v-text-field
                             v-model="editedItem.email"
                             :rules="emailRules"
@@ -202,7 +204,7 @@
                           ></v-textarea>
                         </v-col>
 
-                        <v-col cols="12" md="6">
+                        <v-col cols="12">
                           <v-text-field
                             v-model="editedItem.job_id"
                             :rules="numberRules"
@@ -216,7 +218,7 @@
                         <v-col cols="12" md="6">
                           <file-pond
                             ref="pond"
-                            label-idle="اسحب وأفلت الملفات هنا أو <span class='filepond--label-action'> اختر الملفات </span>"
+                            label-idle="ارفق صورة الطبيب"
                             accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
                             @addfile="onAddDoctorImage"
                           />
@@ -225,7 +227,7 @@
                         <v-col cols="12" md="6">
                           <file-pond
                             ref="pond"
-                            label-idle="اسحب وأفلت الملفات هنا أو <span class='filepond--label-action'> اختر الملفات </span>"
+                            label-idle="ارفق امضاء الطبيب"
                             accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
                             @addfile="onAddDoctorSignature"
                           />
@@ -277,7 +279,7 @@
             </v-menu>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog persistent v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   هل انت متاكد من حذف هذا الطبيب؟
@@ -300,7 +302,7 @@
             </v-dialog>
 
             <!-- restore item -->
-            <v-dialog v-model="dialogRestore" max-width="600px">
+            <v-dialog persistent v-model="dialogRestore" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   هل انت متاكد من استعادة هذا الطبيب؟
@@ -447,6 +449,9 @@ export default {
     // loading
     loaded: false,
 
+    // loading data
+    loadingData: false,
+
     // dialog
     dialog: false,
     dialogDelete: false,
@@ -547,6 +552,7 @@ export default {
 
     // init data
     initData(dataType) {
+      this.loadingData = true;
       setTimeout(() => {
         // check data type
         if (dataType === "trashed") {
@@ -563,6 +569,7 @@ export default {
             .catch(() => {});
         } else {
           this.getData("dashboard/doctors").then((res) => {
+            this.loadingData = false;
             this.desserts = res;
           });
 
@@ -618,8 +625,14 @@ export default {
             phone_number: res.phone_number,
             gender: res.gender,
             session_price: res.session_price,
+            consultation_price: res.consultation_price,
             session_duration: res.session_duration,
             department_id: res.department.id,
+            educations_en: res.en.educations,
+            educations_ar: res.ar.educations,
+            experiences_en: res.en.experiences,
+            experiences_ar: res.ar.experiences,
+            job_id: res.job_id,
           }
         );
       });
@@ -690,7 +703,9 @@ export default {
         let data = new FormData();
         data.append("full_name:en", this.editedItem.full_name_en);
         data.append("full_name:ar", this.editedItem.full_name_ar);
-        data.append("image", this.editedItem.image);
+        if (this.editedItem.image) {
+          data.append("image", this.editedItem.image);
+        }
         data.append("gender", this.editedItem.gender);
         data.append("email", this.editedItem.email);
         data.append("phone_number", this.editedItem.phone_number);
@@ -700,7 +715,9 @@ export default {
         data.append("session_price", this.editedItem.session_price);
         data.append("session_duration", this.editedItem.session_duration);
         data.append("consultation_price", this.editedItem.consultation_price);
-        data.append("signature", this.editedItem.signature);
+        if (this.editedItem.signature) {
+          data.append("signature", this.editedItem.signature);
+        }
         data.append("job_id", this.editedItem.job_id);
         data.append("educations:en", this.editedItem.educations_en);
         data.append("educations:ar", this.editedItem.educations_ar);

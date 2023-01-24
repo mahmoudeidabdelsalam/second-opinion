@@ -7,7 +7,7 @@
     <span class="d-block pa-5 font-weight-bold black--text">القائمة</span>
 
     <v-list>
-      <v-list-item
+      <!-- <v-list-item
         link
         :to="{ name: 'DashboardOverview' }"
         active-class="primary--text"
@@ -20,7 +20,7 @@
             >لوحة التحكم</v-list-item-title
           >
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <v-list-item
         link

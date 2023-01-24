@@ -9,6 +9,8 @@
         item-key="id"
         sort-by="id"
         sort-desc
+        :loading="loadingData"
+        loading-text="جاري تحميل البيانات"
         no-data-text="لا توجد بيانات حتى الان"
         :footer-props="{
           'items-per-page-all-text': 'الكل',
@@ -21,7 +23,7 @@
               الحجوزات
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="800px" scrollable>
+            <v-dialog persistent v-model="dialog" max-width="800px" scrollable>
               <template v-slot:activator="{ on, attrs }">
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
@@ -155,7 +157,7 @@
             </v-dialog>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog persistent v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   هل انت متاكد من حذف الحجز ؟
@@ -300,6 +302,9 @@ export default {
     // loading
     loaded: false,
 
+    // loading data
+    loadingData: false,
+
     // dialog
     dialog: false,
     dialogDelete: false,
@@ -411,6 +416,7 @@ export default {
 
     // init data
     initData() {
+      this.loadingData = true;
       setTimeout(() => {
         // get reservations
         this.getData("dashboard/reservations").then((res) => {
@@ -421,6 +427,7 @@ export default {
 
         // get doctors
         this.getData("dashboard/doctors").then((res) => {
+          this.loadingData = false;
           this.doctors = res.map((item) => {
             return {
               text: item.full_name,

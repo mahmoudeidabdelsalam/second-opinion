@@ -22,8 +22,12 @@
           style="background-color: #f8fbff"
         >
           <div class="text-center">
-            <v-avatar class="mb-5 rounded-lg" size="100%">
-              <v-img :src="doctor.profile" :lazy-src="doctor.profile"></v-img>
+            <v-avatar class="mb-5 rounded-lg" size="100%" max-height="328">
+              <v-img
+                :src="doctor.profile"
+                :lazy-src="doctor.profile"
+                cover
+              ></v-img>
             </v-avatar>
             <div class="hide">
               <span

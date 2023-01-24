@@ -9,6 +9,8 @@
         item-key="id"
         sort-by="id"
         sort-desc
+        :loading="loadingData"
+        loading-text="جاري تحميل البيانات"
         no-data-text="لا توجد بيانات حتى الان"
         :footer-props="{
           'items-per-page-all-text': 'الكل',
@@ -21,7 +23,7 @@
               المساعدين
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="800px">
+            <v-dialog persistent v-model="dialog" max-width="800px">
               <template v-slot:activator="{ on, attrs }">
                 <!-- new item btn -->
                 <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
@@ -150,7 +152,7 @@
             </v-menu>
 
             <!-- delete item -->
-            <v-dialog v-model="dialogDelete" max-width="600px">
+            <v-dialog persistent v-model="dialogDelete" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   هل انت متاكد من حذف هذا المساعد؟
@@ -173,7 +175,7 @@
             </v-dialog>
 
             <!-- restore item -->
-            <v-dialog v-model="dialogRestore" max-width="600px">
+            <v-dialog persistent v-model="dialogRestore" max-width="600px">
               <v-card>
                 <v-card-title class="text-h6">
                   هل انت متاكد من استعادة هذا المساعد؟
@@ -251,6 +253,9 @@ export default {
   data: () => ({
     // loading
     loaded: false,
+
+    // loading data
+    loadingData: false,
 
     // dialog
     dialog: false,
@@ -340,6 +345,7 @@ export default {
 
     // init data
     initData(dataType) {
+      this.loadingData = true;
       setTimeout(() => {
         // check data type
         if (dataType === "trashed") {
@@ -356,6 +362,7 @@ export default {
             .catch(() => {});
         } else {
           this.getData("dashboard/assistants").then((res) => {
+            this.loadingData = false;
             this.desserts = res;
           });
 

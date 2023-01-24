@@ -53,7 +53,7 @@ const actions = {
           break;
 
         default:
-          router.push({ name: "DashboardOverview" });
+          router.push({ name: "Departments" });
           break;
       }
       // } else {

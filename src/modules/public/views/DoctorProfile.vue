@@ -359,8 +359,12 @@ export default {
           url: "patient/reservations-two",
           data: data,
         }).then((res) => {
+          // redirect to ClientNotifications page
+          this.$router.push({
+            name: "ClientNotifications",
+          });
           // open payment url
-          window.open(res.invoice.payment_url, "_self");
+          window.open(res.invoice.payment_url, "_blank");
         });
       }
     },
@@ -383,8 +387,12 @@ export default {
           url: "patient/reservations-two",
           data: data,
         }).then((res) => {
+          // redirect to ClientNotifications page
+          this.$router.push({
+            name: "ClientNotifications",
+          });
           // open payment url
-          window.open(res.invoice.payment_url, "_self");
+          window.open(res.invoice.payment_url, "_blank");
         });
       }
     },

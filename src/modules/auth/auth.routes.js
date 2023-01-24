@@ -20,7 +20,7 @@ let routes = [
             ? next({ name: "Home" })
             : store.getters["user/authenticated"] &&
               store.getters["user/userData"].role.value != 4
-            ? next({ name: "DashboardOverview" })
+            ? next({ name: "Departments" })
             : next();
         },
       },
@@ -37,7 +37,7 @@ let routes = [
             ? next({ name: "Home" })
             : store.getters["user/authenticated"] &&
               store.getters["user/userData"].role.value != 4
-            ? next({ name: "DashboardOverview" })
+            ? next({ name: "Departments" })
             : next();
         },
       },
@@ -54,7 +54,7 @@ let routes = [
             ? next({ name: "Home" })
             : store.getters["user/authenticated"] &&
               store.getters["user/userData"].role.value != 4
-            ? next({ name: "DashboardOverview" })
+            ? next({ name: "Departments" })
             : next();
         },
       },
