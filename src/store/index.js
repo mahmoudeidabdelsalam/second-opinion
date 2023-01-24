@@ -28,6 +28,9 @@ import translate from "@/modules/translate/translate.store";
 // crud operations module
 import crudOperations from "@/modules/dashboard/store/crud-operations.store";
 
+// send Message module
+import contactUs from "@/modules/dashboard/store/contact-us.store";
+
 // notifications module
 import notifications from "@/modules/notifications/store/notifications.store";
 
@@ -53,5 +56,6 @@ export default new Vuex.Store({
     notifications,
     errorsHandler,
     settings,
+    contactUs,
   },
 });
