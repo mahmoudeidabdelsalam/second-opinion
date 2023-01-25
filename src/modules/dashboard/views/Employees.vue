@@ -31,7 +31,7 @@
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
               <v-card-text class="py-4">
-                <v-form ref="form" :v-model="valid" lazy-validation>
+                <v-form ref="form" :v-model="valid">
                   <v-container>
                     <v-row>
                       <v-col cols="12" md="6">
@@ -41,6 +41,7 @@
                           label="الاسم"
                           outlined
                           dense
+                          autofocus
                         ></v-text-field>
                       </v-col>
 
@@ -204,7 +205,7 @@
       </template>
 
       <template v-slot:[`item.full_name`]="{ item }">
-        <span class="d-block black--text font-weight-bold">
+        <span class="d-block black--text font-weight-medium">
           {{ item.full_name }}
         </span>
       </template>
@@ -263,10 +264,8 @@ export default {
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
+    // items
     desserts: [],
-
-    // search
-    search: "",
 
     // roles
     roles: [],
@@ -283,8 +282,13 @@ export default {
       { text: "غير نشط", value: "0" },
     ],
 
+    // search
+    search: "",
+
+    // edited item
     editedIndex: -1,
 
+    // edited item
     editedItem: {
       id: "",
       full_name: "",
@@ -311,7 +315,6 @@ export default {
       emailRules: "validationRules/emailRules",
       phoneRules: "validationRules/phoneRules",
       selectRules: "validationRules/selectRules",
-      numberRules: "validationRules/numberRules",
       nationalIdRules: "validationRules/nationalIdRules",
     }),
 
@@ -338,11 +341,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
-      addData: "crudOperations/addData",
-      updateData: "crudOperations/updateData",
-      deleteData: "crudOperations/deleteData",
-      restoreData: "crudOperations/restoreData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
@@ -351,12 +350,19 @@ export default {
       this.loadingData = true;
       // check data type
       if (dataType === "trashed") {
-        this.getData("dashboard/employees?removed=only").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/employees?removed=only`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router
@@ -366,12 +372,19 @@ export default {
           })
           .catch(() => {});
       } else {
-        this.getData("dashboard/employees").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/employees`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router
@@ -383,35 +396,50 @@ export default {
       }
 
       // get roles
-      this.getData("dashboard/roles-list").then((res) => {
-        this.roles = res.map((role) => {
-          return {
-            text: role.name,
-            value: role.id,
-          };
+      this.axios
+        .get(`dashboard/roles-list`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // set data
+          this.roles = response.data.data.map((role) => {
+            return {
+              text: role.name,
+              value: role.id,
+            };
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
         });
-      });
     },
 
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
       // get single item data from show api
-      this.getData(`dashboard/employees/${item.id}`).then((res) => {
-        this.editedItem = Object.assign(
-          {},
-          {
-            id: res.id,
-            full_name: res.full_name,
-            email: res.email,
-            phone_number: res.phone_number,
-            active: res.active ? "1" : "0",
-            national_id: res.national_id,
-            gender: res.gender,
-            role_id: res.role_id,
-          }
-        );
-      });
+      this.axios
+        .get(`dashboard/employees/${item.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.editedItem = Object.assign(
+            {},
+            {
+              id: response.data.data.id,
+              full_name: response.data.data.full_name,
+              email: response.data.data.email,
+              phone_number: response.data.data.phone_number,
+              active: response.data.data.active ? "1" : "0",
+              national_id: response.data.data.national_id,
+              gender: response.data.data.gender,
+              role_id: response.data.data.role_id,
+            }
+          );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
 
       this.dialog = true;
     },
@@ -423,13 +451,18 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.deleteData({
-        url: "dashboard/employees",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeDelete();
-      });
+      this.axios
+        .delete(`dashboard/employees/${this.editedItem.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeDelete();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     restoreItem(item) {
@@ -438,14 +471,23 @@ export default {
       this.dialogRestore = true;
     },
 
-    restoreItemConfirm() {
-      this.restoreData({
-        url: "dashboard/employees",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeRestore();
-      });
+    async restoreItemConfirm() {
+      await this.axios
+        .put(
+          `dashboard/employees/${this.editedItem.id}/restore`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeRestore();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     close() {
@@ -487,13 +529,21 @@ export default {
           data.append("role_id", this.editedItem.role_id);
           data.append("_method", "PUT");
 
-          await this.updateData({
-            url: `dashboard/employees/${this.editedItem.id}`,
-            data: data,
-          }).then((res) => {
-            Object.assign(this.desserts[this.editedIndex], res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/employees/${this.editedItem.id}`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              Object.assign(
+                this.desserts[this.editedIndex],
+                response.data.data
+              );
+              this.handleResponse(response);
+              this.close();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       } else {
         if (this.$refs.form.validate()) {
@@ -506,19 +556,21 @@ export default {
           data.append("gender", this.editedItem.gender);
           data.append("role_id", this.editedItem.role_id);
 
-          this.addData({
-            url: "dashboard/employees",
-            data: data,
-          }).then((res) => {
-            console.log(res);
-            this.desserts.unshift(res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/employees`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              this.desserts.unshift(response.data.data);
+              this.handleResponse(response);
+              this.close();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       }
     },
   },
 };
 </script>
-
-<style lang="scss"></style>

@@ -31,7 +31,7 @@
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
               <v-card-text class="py-4">
-                <v-form ref="form" :v-model="valid" lazy-validation>
+                <v-form ref="form" :v-model="valid">
                   <v-container>
                     <v-row>
                       <v-col cols="12" md="6">
@@ -321,11 +321,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
-      addData: "crudOperations/addData",
-      updateData: "crudOperations/updateData",
-      deleteData: "crudOperations/deleteData",
-      restoreData: "crudOperations/restoreData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
@@ -334,12 +330,19 @@ export default {
       this.loadingData = true;
       // check data type
       if (dataType === "trashed") {
-        this.getData("dashboard/assistants?removed=only").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/assistants?removed=only`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router
@@ -349,12 +352,19 @@ export default {
           })
           .catch(() => {});
       } else {
-        this.getData("dashboard/assistants").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/assistants`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router

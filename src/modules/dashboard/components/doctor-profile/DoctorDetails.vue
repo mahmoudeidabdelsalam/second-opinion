@@ -1,6 +1,6 @@
 <template>
   <v-card flat>
-    <v-form ref="form" :v-model="valid" lazy-validation>
+    <v-form ref="form" :v-model="valid">
       <span class="d-block text-h6 font-weight-bold mb-5 primary--text">
         بيانات الطبيب
       </span>

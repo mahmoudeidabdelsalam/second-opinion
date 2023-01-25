@@ -111,7 +111,6 @@
             <v-form
               ref="form"
               :v-model="valid"
-              lazy-validation
               class="mb-10"
               v-if="showDatePicker"
             >
@@ -188,7 +187,6 @@
             <v-form
               ref="form"
               :v-model="valid"
-              lazy-validation
               class="mb-10"
               v-if="showReportForm"
             >

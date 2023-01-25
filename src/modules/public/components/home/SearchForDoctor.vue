@@ -30,12 +30,7 @@
       >
         <v-tab-item value="mobile-tabs-5-1">
           <v-card flat>
-            <v-form
-              ref="form"
-              :v-model="valid"
-              lazy-validation
-              style="max-width: 909px"
-            >
+            <v-form ref="form" :v-model="valid" style="max-width: 909px">
               <v-row>
                 <v-col cols="12" md="10">
                   <v-autocomplete
@@ -74,12 +69,7 @@
 
         <v-tab-item value="mobile-tabs-5-2">
           <v-card flat>
-            <v-form
-              ref="form"
-              :v-model="valid"
-              lazy-validation
-              style="max-width: 909px"
-            >
+            <v-form ref="form" :v-model="valid" style="max-width: 909px">
               <v-row>
                 <v-col cols="12" md="10">
                   <v-autocomplete

@@ -145,7 +145,6 @@
             <v-form
               ref="form"
               :v-model="valid"
-              lazy-validation
               style="max-width: 500px"
               v-if="!reservation.files.report"
             >
@@ -295,7 +294,8 @@ export default {
             this.reservation = response.data.data;
           })
           .catch((error) => {
-            console.log(error);
+            // handle error by store action
+            this.handleError(error);
           });
       }
     },

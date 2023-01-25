@@ -4,12 +4,7 @@
       >تكلفة الكشف</span
     >
 
-    <v-form
-      ref="form"
-      :v-model="valid"
-      lazy-validation
-      style="max-width: 700px"
-    >
+    <v-form ref="form" :v-model="valid" style="max-width: 700px">
       <v-row>
         <v-col cols="12">
           <v-text-field

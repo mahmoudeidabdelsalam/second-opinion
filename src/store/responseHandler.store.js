@@ -3,11 +3,22 @@ import router from "@/router";
 
 // actions
 const actions = {
-  // handleError
-  handleError(_, error) {
-    if (error.response) {
+  // handle response
+  handleResponse(_, response) {
+    if (response) {
       // switch condition for errors status code
-      switch (error.response.status) {
+      switch (response.status) {
+        // success
+        case 200:
+        case 201:
+        case 202:
+          // show notification
+          this.dispatch("notifications/showNotification", {
+            message: response.data.message,
+            color: "green",
+          });
+          break;
+
         case 401:
           // show notification
           this.dispatch("notifications/showNotification", {
@@ -25,7 +36,7 @@ const actions = {
         case 502:
           // show notification
           this.dispatch("notifications/showNotification", {
-            message: error.response.data.message,
+            message: response.data.message,
             color: "red",
           });
           break;
@@ -39,7 +50,7 @@ const actions = {
           break;
 
         case 422:
-          this.errors = error.response.data.errors;
+          this.errors = response.data.errors;
           for (let [, value] of Object.entries(this.errors)) {
             // show notification
             this.dispatch("notifications/showNotification", {

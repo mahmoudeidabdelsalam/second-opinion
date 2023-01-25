@@ -31,7 +31,7 @@
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
               <v-card-text class="py-4">
-                <v-form ref="form" :v-model="valid" lazy-validation>
+                <v-form ref="form" :v-model="valid">
                   <v-container>
                     <v-row>
                       <v-col cols="12">

@@ -32,7 +32,7 @@
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
               <v-card-text class="py-4">
-                <v-form ref="form" :v-model="valid" lazy-validation>
+                <v-form ref="form" :v-model="valid">
                   <v-container>
                     <v-row>
                       <v-col cols="12" md="6">
@@ -341,7 +341,7 @@
               :alt="item.name"
             ></v-img>
           </v-avatar>
-          <span class="d-block black--text font-weight-bold mx-4">
+          <span class="d-block black--text font-weight-medium mx-4">
             {{ item.full_name }}
           </span>
         </div>
@@ -359,29 +359,26 @@
               :alt="item.department.name"
             ></v-img>
           </v-avatar>
-          <span
-            class="d-block black--text font-weight-bold mx-4"
-            v-if="item.department"
-          >
+          <span class="d-block font-weight-medium mx-4" v-if="item.department">
             {{ item.department.name }}
           </span>
         </div>
       </template>
 
       <template v-slot:[`item.email`]="{ item }">
-        <span class="d-block black--text">
+        <span class="d-block">
           {{ item.email }}
         </span>
       </template>
 
       <template v-slot:[`item.phone_number`]="{ item }">
-        <span class="d-block black--text">
+        <span class="d-block">
           {{ item.phone_number }}
         </span>
       </template>
 
       <template v-slot:[`item.session_price`]="{ item }">
-        <span class="d-block black--text font-weight-bold">
+        <span class="d-block">
           {{ item.session_price + " ريال" }}
         </span>
       </template>
@@ -463,10 +460,8 @@ export default {
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
+    // items
     desserts: [],
-
-    // search
-    search: "",
 
     // departments
     departments: [],
@@ -477,8 +472,13 @@ export default {
       { text: "انثى", value: "f" },
     ],
 
+    // search
+    search: "",
+
+    // edited item
     editedIndex: -1,
 
+    // edited item
     editedItem: {
       id: "",
       full_name_en: "",
@@ -541,11 +541,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
-      addData: "crudOperations/addData",
-      updateData: "crudOperations/updateData",
-      deleteData: "crudOperations/deleteData",
-      restoreData: "crudOperations/restoreData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
@@ -554,12 +550,19 @@ export default {
       this.loadingData = true;
       // check data type
       if (dataType === "trashed") {
-        this.getData("dashboard/doctors?removed=only").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/doctors?removed=only`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router
@@ -569,12 +572,19 @@ export default {
           })
           .catch(() => {});
       } else {
-        this.getData("dashboard/doctors").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/doctors`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router
@@ -586,25 +596,31 @@ export default {
       }
 
       // get departments
-      this.getData("dashboard/departments").then((res) => {
-        this.departments = res.map((item) => {
-          return {
-            text: item.name,
-            value: item.id,
-          };
+      this.axios
+        .get(`dashboard/departments`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // set data
+          this.departments = response.data.data.map((item) => {
+            return {
+              text: item.name,
+              value: item.id,
+            };
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
         });
-      });
     },
 
     // handle image
-    onAddDoctorImage(error, file) {
-      console.log("file added", { error, file });
+    onAddDoctorImage(_, file) {
       this.editedItem.image = file.file;
     },
 
     // handle signature
-    onAddDoctorSignature(error, file) {
-      console.log("file added", { error, file });
+    onAddDoctorSignature(_, file) {
       this.editedItem.signature = file.file;
     },
 
@@ -612,30 +628,37 @@ export default {
       this.editedIndex = this.desserts.indexOf(item);
 
       // get single item data from show api
-      this.getData(`dashboard/doctors/${item.id}`).then((res) => {
-        this.editedItem = Object.assign(
-          {},
-          {
-            id: res.id,
-            full_name_en: res.en.full_name,
-            full_name_ar: res.ar.full_name,
-            title_en: res.en.title,
-            title_ar: res.ar.title,
-            email: res.email,
-            phone_number: res.phone_number,
-            gender: res.gender,
-            session_price: res.session_price,
-            consultation_price: res.consultation_price,
-            session_duration: res.session_duration,
-            department_id: res.department.id,
-            educations_en: res.en.educations,
-            educations_ar: res.ar.educations,
-            experiences_en: res.en.experiences,
-            experiences_ar: res.ar.experiences,
-            job_id: res.job_id,
-          }
-        );
-      });
+      this.axios
+        .get(`dashboard/doctors/${item.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.editedItem = Object.assign(
+            {},
+            {
+              id: response.data.data.id,
+              full_name_en: response.data.data.en.full_name,
+              full_name_ar: response.data.data.ar.full_name,
+              title_en: response.data.data.en.title,
+              title_ar: response.data.data.ar.title,
+              email: response.data.data.email,
+              phone_number: response.data.data.phone_number,
+              gender: response.data.data.gender,
+              session_price: response.data.data.session_price,
+              consultation_price: response.data.data.consultation_price,
+              session_duration: response.data.data.session_duration,
+              department_id: response.data.data.department.id,
+              educations_en: response.data.data.en.educations,
+              educations_ar: response.data.data.ar.educations,
+              experiences_en: response.data.data.en.experiences,
+              experiences_ar: response.data.data.ar.experiences,
+              job_id: response.data.data.job_id,
+            }
+          );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
 
       this.dialog = true;
     },
@@ -647,13 +670,18 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.deleteData({
-        url: "dashboard/doctors",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeDelete();
-      });
+      this.axios
+        .delete(`dashboard/doctors/${this.editedItem.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeDelete();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     restoreItem(item) {
@@ -662,14 +690,23 @@ export default {
       this.dialogRestore = true;
     },
 
-    restoreItemConfirm() {
-      this.restoreData({
-        url: "dashboard/doctors",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeRestore();
-      });
+    async restoreItemConfirm() {
+      await this.axios
+        .put(
+          `dashboard/doctors/${this.editedItem.id}/restore`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeRestore();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     close() {
@@ -725,13 +762,19 @@ export default {
         data.append("experiences:ar", this.editedItem.experiences_ar);
         data.append("_method", "PUT");
 
-        await this.updateData({
-          url: `dashboard/doctors/${this.editedItem.id}`,
-          data: data,
-        }).then((res) => {
-          Object.assign(this.desserts[this.editedIndex], res);
-          this.close();
-        });
+        await this.axios
+          .post(`dashboard/doctors/${this.editedItem.id}`, data, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            Object.assign(this.desserts[this.editedIndex], response.data.data);
+            this.handleResponse(response);
+            this.close();
+            this.$refs.pond.removeFiles();
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
@@ -754,15 +797,19 @@ export default {
           data.append("experiences:en", this.editedItem.experiences_en);
           data.append("experiences:ar", this.editedItem.experiences_ar);
 
-          this.addData({
-            url: "dashboard/doctors",
-            data: data,
-          }).then((res) => {
-            console.log(res);
-            this.desserts.unshift(res);
-
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/doctors`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              this.desserts.unshift(response.data.data);
+              this.handleResponse(response);
+              this.close();
+              this.$refs.pond.removeFiles();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       }
     },

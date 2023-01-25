@@ -31,7 +31,7 @@
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
               <v-card-text class="py-4">
-                <v-form ref="form" :v-model="valid" lazy-validation>
+                <v-form ref="form" :v-model="valid">
                   <v-container>
                     <v-row>
                       <v-col cols="12" md="6">
@@ -41,6 +41,7 @@
                           label="الاسم باللغة الانجليزية"
                           outlined
                           dense
+                          autofocus
                           dir="ltr"
                         ></v-text-field>
                       </v-col>
@@ -109,7 +110,6 @@
                           ref="pond"
                           label-idle="ارفق صورة القسم"
                           accepted-file-types="image/jpeg, image/png, image/jpg, image/gif, image/webp"
-                          v-bind:files="editedItem.image"
                           @addfile="onAddFile"
                         />
                       </v-col>
@@ -145,7 +145,7 @@
             <v-list>
               <v-list-item link @click.prevent="initData('normal')">
                 <v-list-item-content>
-                  <v-list-item-title>الاقسام فقط</v-list-item-title>
+                  <v-list-item-title>الاقسام</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
 
@@ -219,17 +219,11 @@
               :alt="item.name"
             ></v-img>
           </v-avatar>
-          <span class="d-block black--text font-weight-bold mx-4">
+          <span class="d-block font-weight-medium mx-4">
             {{ item.name }}
           </span>
         </div>
       </template>
-
-      <!-- <template v-slot:[`item.services`]="{}">
-          <v-btn class="primary--text" icon link :to="{ name: 'Departments' }">
-            <v-icon small>mdi-launch</v-icon>
-          </v-btn>
-        </template> -->
 
       <template v-slot:[`item.actions`]="{ item }">
         <v-btn
@@ -304,17 +298,19 @@ export default {
       { text: "القسم", value: "name" },
       { text: "البريد الالكترونى", value: "email" },
       { text: "رقم الهاتف", value: "telephone" },
-      // { text: "Services", value: "services", sortable: false },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
+    // items
     desserts: [],
 
     // search
     search: "",
 
+    // edited item
     editedIndex: -1,
 
+    // edited item
     editedItem: {
       id: "",
       name_en: "",
@@ -363,11 +359,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
-      addData: "crudOperations/addData",
-      updateData: "crudOperations/updateData",
-      deleteData: "crudOperations/deleteData",
-      restoreData: "crudOperations/restoreData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
@@ -377,12 +369,19 @@ export default {
 
       // check data type
       if (dataType === "trashed") {
-        this.getData("dashboard/departments?removed=only").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/departments?removed=only`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router
@@ -392,12 +391,19 @@ export default {
           })
           .catch(() => {});
       } else {
-        this.getData("dashboard/departments").then((res) => {
-          // hide loading
-          this.loadingData = false;
-          // set data
-          this.desserts = res;
-        });
+        this.axios
+          .get(`dashboard/departments`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
 
         // update query params
         this.$router
@@ -417,22 +423,27 @@ export default {
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
-      // get single item data from show api
-      this.getData(`dashboard/departments/${item.id}`).then((res) => {
-        this.editedItem = Object.assign(
-          {},
-          {
-            id: res.id,
-            name_en: res.en.name,
-            name_ar: res.ar.name,
-            description_en: res.en.description,
-            description_ar: res.ar.description,
-            email: res.email,
-            telephone: res.telephone,
-            image: res.logo,
-          }
-        );
-      });
+      this.axios
+        .get(`dashboard/departments/${item.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.editedItem = Object.assign(
+            {},
+            {
+              id: response.data.data.id,
+              name_en: response.data.data.en.name,
+              name_ar: response.data.data.ar.name,
+              description_en: response.data.data.en.description,
+              description_ar: response.data.data.ar.description,
+              email: response.data.data.email,
+              telephone: response.data.data.telephone,
+            }
+          );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
 
       this.dialog = true;
     },
@@ -444,13 +455,18 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.deleteData({
-        url: "dashboard/departments",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeDelete();
-      });
+      this.axios
+        .delete(`dashboard/departments/${this.editedItem.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeDelete();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     restoreItem(item) {
@@ -459,14 +475,23 @@ export default {
       this.dialogRestore = true;
     },
 
-    restoreItemConfirm() {
-      this.restoreData({
-        url: "dashboard/departments",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeRestore();
-      });
+    async restoreItemConfirm() {
+      await this.axios
+        .put(
+          `dashboard/departments/${this.editedItem.id}/restore`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeRestore();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     close() {
@@ -499,7 +524,6 @@ export default {
       if (this.editedIndex > -1) {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-
           data.append("name:en", this.editedItem.name_en);
           data.append("name:ar", this.editedItem.name_ar);
           data.append("description:en", this.editedItem.description_en);
@@ -511,18 +535,26 @@ export default {
             : "";
           data.append("_method", "PUT");
 
-          await this.updateData({
-            url: `dashboard/departments/${this.editedItem.id}`,
-            data: data,
-          }).then((res) => {
-            Object.assign(this.desserts[this.editedIndex], res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/departments/${this.editedItem.id}`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              Object.assign(
+                this.desserts[this.editedIndex],
+                response.data.data
+              );
+              this.handleResponse(response);
+              this.close();
+              this.$refs.pond.removeFiles();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-
           data.append("name:en", this.editedItem.name_en);
           data.append("name:ar", this.editedItem.name_ar);
           data.append("description:en", this.editedItem.description_en);
@@ -531,13 +563,19 @@ export default {
           data.append("telephone", this.editedItem.telephone);
           data.append("image", this.editedItem.image);
 
-          this.addData({
-            url: "dashboard/departments",
-            data: data,
-          }).then((res) => {
-            this.desserts.unshift(res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/departments`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              this.desserts.unshift(response.data.data);
+              this.handleResponse(response);
+              this.close();
+              this.$refs.pond.removeFiles();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       }
     },

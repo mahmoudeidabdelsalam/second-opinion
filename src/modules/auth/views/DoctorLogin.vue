@@ -10,7 +10,7 @@
               تسجيل الدخول كطبيب
             </span>
 
-            <v-form ref="form" :v-model="valid" lazy-validation>
+            <v-form ref="form" :v-model="valid">
               <v-text-field
                 v-model="loginForm.email"
                 :rules="phoneOrEmailRules"
@@ -83,7 +83,7 @@
                   </v-toolbar>
 
                   <v-card-text>
-                    <v-form ref="form" :v-model="valid" lazy-validation>
+                    <v-form ref="form" :v-model="valid">
                       <v-text-field
                         v-model="forgetPasswordForm.username"
                         :rules="phoneOrEmailRules"
@@ -123,7 +123,7 @@
                     <span class="d-block body-2 mb-7">
                       برجاء ادخال الكود المرسل على رقم الهاتف
                     </span>
-                    <v-form ref="form" :v-model="valid" lazy-validation>
+                    <v-form ref="form" :v-model="valid">
                       <v-otp-input
                         length="4"
                         v-model="checkOtpForm.code"
@@ -162,7 +162,7 @@
                       كلمة السر يجب ان تحتوي على ٨ احرف، ارقام ورموز.
                     </span>
 
-                    <v-form ref="form" :v-model="valid" lazy-validation>
+                    <v-form ref="form" :v-model="valid">
                       <v-text-field
                         v-model="resetPasswordForm.password"
                         :rules="passwordRules"

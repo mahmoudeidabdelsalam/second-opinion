@@ -4,12 +4,7 @@
       مواعيد العمل
     </span>
 
-    <v-form
-      ref="form"
-      :v-model="valid"
-      lazy-validation
-      style="max-width: 600px"
-    >
+    <v-form ref="form" :v-model="valid" style="max-width: 600px">
       <v-container>
         <v-row v-for="(day, index) in weekDays" :key="index">
           <v-col cols="12">

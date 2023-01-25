@@ -31,8 +31,8 @@ import crudOperations from "@/modules/dashboard/store/crud-operations.store";
 // notifications module
 import notifications from "@/modules/notifications/store/notifications.store";
 
-// errorsHandler module
-import errorsHandler from "./errorsHandler.store";
+// responseHandler module
+import responseHandler from "./responseHandler.store";
 
 // settings module
 import settings from "@/modules/client/store/settings.store";
@@ -51,7 +51,7 @@ export default new Vuex.Store({
     translate,
     crudOperations,
     notifications,
-    errorsHandler,
+    responseHandler,
     settings,
   },
 });

@@ -8,7 +8,7 @@
           >
             <span class="mb-7 text-h5 font-weight-bold"> انشاء حساب </span>
 
-            <v-form ref="form" :v-model="valid" lazy-validation>
+            <v-form ref="form" :v-model="valid">
               <v-text-field
                 v-model="form.name"
                 :rules="nameRules"
@@ -81,7 +81,7 @@
                   <span class="d-block body-2 mb-7">
                     برجاء ادخال الكود المرسل على رقم الهاتف
                   </span>
-                  <v-form ref="form" :v-model="valid" lazy-validation>
+                  <v-form ref="form" :v-model="valid">
                     <v-otp-input
                       length="4"
                       v-model="checkOtpForm.otp"

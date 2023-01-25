@@ -34,7 +34,7 @@
           </v-toolbar>
 
           <v-card-text>
-            <v-form ref="form" :v-model="valid" lazy-validation>
+            <v-form ref="form" :v-model="valid">
               <v-text-field
                 v-model="nameForm.name"
                 :rules="nameRules"
@@ -88,7 +88,7 @@
           </v-toolbar>
 
           <v-card-text>
-            <v-form ref="form" :v-model="valid" lazy-validation>
+            <v-form ref="form" :v-model="valid">
               <v-text-field
                 v-model="nationalIdForm.national_id"
                 :rules="nationalIdRules"
