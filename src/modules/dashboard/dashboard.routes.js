@@ -77,12 +77,12 @@ let routes = [
       },
 
       // reservation profile
-      {
-        path: "reservation-profile/:id",
-        name: "ReservationProfile",
-        component: () =>
-          import("@/modules/dashboard/views/ReservationProfile.vue"),
-      },
+      // {
+      //   path: "reservation-profile/:id",
+      //   name: "ReservationProfile",
+      //   component: () =>
+      //     import("@/modules/dashboard/views/ReservationProfile.vue"),
+      // },
 
       // doctors experiences
       {
