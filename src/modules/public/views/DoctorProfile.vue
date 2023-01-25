@@ -207,6 +207,7 @@
                 placeholder="اختر الملفات"
                 prepend-icon="mdi-paperclip"
                 outlined
+                multiple
                 :show-size="1000"
               >
                 <template v-slot:selection="{ text }">
@@ -378,7 +379,9 @@ export default {
         let data = new FormData();
         data.append("doctor_id", this.$route.params.id);
         if (this.report_files) {
-          data.append("attachments[]", this.report_files);
+          for (let i = 0; i < this.report_files.length; i++) {
+            data.append("attachments[]", this.report_files[i]);
+          }
         }
         if (this.image) {
           data.append("rays[]", this.image);

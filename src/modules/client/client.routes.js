@@ -27,6 +27,13 @@ let routes = [
         component: () => import("@/modules/client/views/MedicalReports.vue"),
       },
 
+      // medical reports details
+      {
+        path: "medical-reports-profile/:id",
+        name: "ClientMedicalReportsProfile",
+        component: () => import("@/modules/client/views/ReportProfile.vue"),
+      },
+
       // payment
       {
         path: "payment-methods",
