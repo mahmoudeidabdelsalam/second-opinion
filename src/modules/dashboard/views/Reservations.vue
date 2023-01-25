@@ -11,6 +11,7 @@
         'items-per-page-all-text': 'الكل',
         'items-per-page-text': 'عدد الصفوف في الصفحة',
       }"
+      @dblclick:row="goToReservationProfile"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -276,6 +277,12 @@
         ></v-select>
       </template>
 
+      <template v-slot:[`item.created_by`]="{ item }">
+        <span class="d-block">
+          {{ item.created_by }}
+        </span>
+      </template>
+
       <template v-slot:[`item.actions`]="{ item }">
         <!-- <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
             <v-icon small color="success">mdi-pencil</v-icon>
@@ -318,6 +325,7 @@ export default {
         width: "210",
         sortable: false,
       },
+      { text: "طريقة الحجز", value: "created_by" },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
@@ -568,6 +576,14 @@ export default {
           });
         }
       }
+    },
+
+    // go to reservations profile
+    goToReservationProfile(event, { item }) {
+      this.$router.push({
+        name: "DoctorProfile",
+        params: { id: item.id },
+      });
     },
   },
 };

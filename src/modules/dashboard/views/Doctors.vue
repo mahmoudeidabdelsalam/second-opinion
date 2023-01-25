@@ -767,6 +767,7 @@ export default {
       }
     },
 
+    // go to doctor profile
     goToDoctorProfile(event, { item }) {
       this.$router.push({
         name: "DoctorProfile",
