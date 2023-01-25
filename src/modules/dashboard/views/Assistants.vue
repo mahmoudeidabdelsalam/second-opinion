@@ -180,6 +180,18 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
+
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="بحث"
+          single-line
+          hide-details
+          outlined
+          dense
+          class="mb-5 rounded-lg"
+          style="max-width: 500px"
+        ></v-text-field>
       </template>
 
       <template v-slot:[`item.full_name`]="{ item }">

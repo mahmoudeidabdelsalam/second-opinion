@@ -24,9 +24,12 @@
               {{ report.doctor.title }}
             </span>
           </div>
-          <div class="mb-2">
+          <div>
+            <span class="font-weight-bold text-h6">
+              رقم ترخيص مزاولة المهنة:
+            </span>
             <span class="font-weight-regular text-h6">
-              رقم ترخيص مزاولة المهنه: 123456789
+              {{ report.doctor.job_id }}
             </span>
           </div>
         </div>

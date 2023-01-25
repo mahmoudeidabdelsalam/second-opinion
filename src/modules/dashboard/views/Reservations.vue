@@ -581,7 +581,7 @@ export default {
     // go to reservations profile
     goToReservationProfile(event, { item }) {
       this.$router.push({
-        name: "DoctorProfile",
+        name: "ReservationProfile",
         params: { id: item.id },
       });
     },

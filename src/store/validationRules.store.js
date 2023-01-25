@@ -106,6 +106,9 @@ const state = () => ({
     (v) => /^\d+$/.test(v) || "المدة يجب ان تكون ارقام فقط",
     (v) => (v && v >= 15) || "المدة يجب ان تكون اكبر من 15 دقيقة",
   ],
+
+  // select file rules
+  selectFileRules: [(v) => !!v || "برجاء اختيار الملف"],
 });
 
 // getters
@@ -151,6 +154,9 @@ const getters = {
 
   // duration rules
   durationRules: (state) => state.durationRules,
+
+  // select file rules
+  selectFileRules: (state) => state.selectFileRules,
 };
 
 export default {
