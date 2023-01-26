@@ -21,13 +21,6 @@ let routes = [
         component: () => import("@/modules/dashboard/views/Departments.vue"),
       },
 
-      // services
-      // {
-      //   path: "services",
-      //   name: "Services",
-      //   component: () => import("@/modules/dashboard/views/Services.vue"),
-      // },
-
       // employees
       {
         path: "employees",
@@ -82,28 +75,6 @@ let routes = [
         name: "ReservationProfile",
         component: () =>
           import("@/modules/dashboard/views/ReservationProfile.vue"),
-      },
-
-      // doctors experiences
-      {
-        path: "doctors-experiences",
-        name: "DoctorsExperiences",
-        component: () =>
-          import("@/modules/dashboard/views/DoctorsExperiences.vue"),
-      },
-      // doctors educations
-      {
-        path: "doctors-educations",
-        name: "DoctorsEducations",
-        component: () =>
-          import("@/modules/dashboard/views/DoctorsEducations.vue"),
-      },
-
-      // invoices
-      {
-        path: "invoices",
-        name: "Invoices",
-        component: () => import("@/modules/dashboard/views/Invoices.vue"),
       },
     ],
   },
