@@ -35,8 +35,3 @@ export default {
   name: "ReservationsType",
 };
 </script>
-
-<style lang="scss" scoped>
-.reservations-type {
-}
-</style>

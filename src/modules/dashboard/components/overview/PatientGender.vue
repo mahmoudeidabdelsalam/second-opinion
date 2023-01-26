@@ -35,8 +35,3 @@ export default {
   name: "PatientGender",
 };
 </script>
-
-<style lang="scss" scoped>
-.patient-gender {
-}
-</style>
