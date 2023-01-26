@@ -1,102 +1,61 @@
 <template>
   <v-card flat>
-    <span class="d-block primary--text text-h6 font-weight-bold mb-5">
+    <span class="d-block black--text text-h6 font-weight-bold mb-5">
       مواعيد العمل
     </span>
 
     <v-form ref="form" :v-model="valid" style="max-width: 600px">
       <v-container>
-        <v-row v-for="(day, index) in weekDays" :key="index">
+        <v-row v-for="(day, index) in days" :key="index">
           <v-col cols="12">
-            <div class="day-box d-flex justify-space-between align-center">
-              <span class="font-weight-bold secondary--text">
-                {{ day.name }}
-              </span>
-              <v-switch v-model="day.value" inset></v-switch>
-            </div>
-            <div
-              class="appointment-box pa-5 rounded-lg primary_bg"
-              v-if="day.value"
-            >
+            <span class="d-block mb-3 font-weight-bold secondary--text">
+              {{ day.day }}
+            </span>
+
+            <div class="appointment-box pa-5 rounded-lg primary_bg">
               <v-row>
-                <v-col cols="12" md="6">
+                <div
+                  class="d-flex justify-space-between align-center"
+                  style="width: 100%"
+                >
+                  <span class="font-weight-medium secondary--text">الحالة</span>
+                  <v-switch
+                    v-model="form[index].status"
+                    color="primary"
+                    inset
+                    @change="updateDayStatus(day.id, index, $event)"
+                  ></v-switch>
+                </div>
+                <v-col cols="12" md="6" v-if="form[index].status == true">
                   <!-- date picker -->
-                  <v-menu
-                    ref="menuFrom"
-                    v-model="menuFrom"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    :return-value.sync="form.from"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="form.from"
-                        label="من"
-                        prepend-icon="mdi-clock-time-four-outline"
-                        readonly
-                        outlined
-                        dense
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-time-picker
-                      v-if="menuFrom"
-                      v-model="form.from"
-                      full-width
-                      @click:minute="$refs.menuFrom.save(form.from)"
-                    ></v-time-picker>
-                  </v-menu>
-                </v-col>
-
-                <v-col cols="12" md="6">
-                  <!-- date picker -->
-                  <v-menu
-                    ref="menuTo"
-                    v-model="menuTo"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    :return-value.sync="form.to"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="form.to"
-                        label="الى"
-                        prepend-icon="mdi-clock-time-four-outline"
-                        readonly
-                        outlined
-                        dense
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-time-picker
-                      v-if="menuTo"
-                      v-model="form.to"
-                      full-width
-                      @click:minute="$refs.menuTo.save(form.to)"
-                    ></v-time-picker>
-                  </v-menu>
-                </v-col>
-
-                <v-col cols="12">
                   <v-text-field
-                    v-model="form.duration"
-                    :rules="numberRules"
-                    type="number"
-                    label="مدة الكشف (بالدقائق)"
-                    prepend-icon="mdi-clock-time-four-outline"
+                    label="من الساعة"
+                    v-model="form[index].start_time"
+                    type="time"
                     outlined
-                    dense
+                    hide-details="true"
                   ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="6" v-if="form[index].status == true">
+                  <!-- date picker -->
+                  <v-text-field
+                    label="حتى الساعة"
+                    v-model="form[index].end_time"
+                    type="time"
+                    outlined
+                    hide-details="true"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" v-if="form[index].status == true">
+                  <v-btn
+                    color="primary"
+                    class="white--text"
+                    @click="updateDayStatus(day.id, index)"
+                  >
+                    حفظ
+                  </v-btn>
                 </v-col>
               </v-row>
             </div>
@@ -108,41 +67,53 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Appointments",
 
   data: () => ({
-    // week days array
-    weekDays: [
-      { name: "السبت", value: "saturday" },
-      { name: "الأحد", value: "sunday" },
-      { name: "الاثنين", value: "monday" },
-      { name: "الثلاثاء", value: "tuesday" },
-      { name: "الأربعاء", value: "wednesday" },
-      { name: "الخميس", value: "thursday" },
-      { name: "الجمعة", value: "friday" },
+    // days
+    days: [],
+
+    // form data dynamic
+    form: [
+      {
+        start_time: "",
+        end_time: "",
+        status: false,
+      },
+      {
+        start_time: "",
+        end_time: "",
+        status: false,
+      },
+      {
+        start_time: "",
+        end_time: "",
+        status: false,
+      },
+      {
+        start_time: "",
+        end_time: "",
+        status: false,
+      },
+      {
+        start_time: "",
+        end_time: "",
+        status: false,
+      },
+      {
+        start_time: "",
+        end_time: "",
+        status: false,
+      },
+      {
+        start_time: "",
+        end_time: "",
+        status: false,
+      },
     ],
-
-    // form data
-    form: {
-      saturday: false,
-      sunday: false,
-      monday: false,
-      tuesday: false,
-      wednesday: false,
-      thursday: false,
-      friday: false,
-
-      from: "",
-      to: "",
-      duration: "",
-    },
-
-    // date picker
-    menuFrom: false,
-    menuTo: false,
   }),
 
   computed: {
@@ -151,7 +122,95 @@ export default {
       numberRules: "validationRules/numberRules",
     }),
   },
+
+  created() {
+    // init data
+    this.initData();
+  },
+
+  methods: {
+    ...mapActions({
+      handleResponse: "responseHandler/handleResponse",
+    }),
+
+    initData() {
+      // get doctor time management
+      this.axios
+        .get(`dashboard/doctors/${this.$route.params.id}/time-management`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // set data
+          this.days = response.data.data;
+
+          // set form data to every day
+          this.days.forEach((day, index) => {
+            this.form[index].start_time = day.start_time;
+            this.form[index].end_time = day.end_time;
+            this.form[index].status = day.status;
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
+    },
+
+    // update day status
+    updateDayStatus(id, index, event) {
+      if (event == false) {
+        let data = new URLSearchParams();
+        data.append("schedule_time_id", id);
+        data.append("status", 0);
+
+        this.axios
+          .put(
+            `dashboard/doctors/${this.$route.params.id}/time-management`,
+            data,
+            {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            }
+          )
+          .then((response) => {
+            this.handleResponse(response);
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
+      } else {
+        let data = new URLSearchParams();
+        data.append("schedule_time_id", id);
+        // start time to H:1 format
+        data.append(
+          "start_time",
+          this.form[index].start_time.split(":")[0] +
+            ":" +
+            this.form[index].start_time.split(":")[1]
+        );
+        // end time to H:1 format
+        data.append(
+          "end_time",
+          this.form[index].end_time.split(":")[0] +
+            ":" +
+            this.form[index].end_time.split(":")[1]
+        );
+        data.append("status", +this.form[index].status);
+
+        this.axios
+          .put(
+            `dashboard/doctors/${this.$route.params.id}/time-management`,
+            data,
+            {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            }
+          )
+          .then((response) => {
+            this.handleResponse(response);
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
+      }
+    },
+  },
 };
 </script>
-
-<style></style>

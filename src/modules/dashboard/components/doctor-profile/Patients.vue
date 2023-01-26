@@ -1,5 +1,5 @@
 <template>
-  <section class="data-table-page white rounded-lg pa-5">
+  <v-card flat>
     <v-data-table
       :headers="headers"
       :items="patients"
@@ -56,7 +56,7 @@
         <span class="d-block"> العمر: {{ item.age }} </span>
       </template>
     </v-data-table>
-  </section>
+  </v-card>
 </template>
 
 <script>
