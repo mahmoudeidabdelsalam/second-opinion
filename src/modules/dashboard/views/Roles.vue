@@ -118,7 +118,7 @@
       </template>
 
       <template v-slot:[`item.name`]="{ item }">
-        <span class="d-block font-weight-bold">
+        <span class="d-block font-weight-medium">
           {{ item.name }}
         </span>
       </template>

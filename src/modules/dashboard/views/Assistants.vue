@@ -41,6 +41,7 @@
                           label="الاسم"
                           outlined
                           dense
+                          autofocus
                         ></v-text-field>
                       </v-col>
 
@@ -63,6 +64,7 @@
                           label="الطبيب"
                           multiple
                           small-chips
+                          deletable-chips
                           outlined
                           dense
                         ></v-autocomplete>
@@ -196,7 +198,7 @@
 
       <template v-slot:[`item.full_name`]="{ item }">
         <div class="d-flex justify-start align-center">
-          <span class="d-block black--text font-weight-bold">
+          <span class="d-block font-weight-medium">
             {{ item.full_name }}
           </span>
         </div>
@@ -255,13 +257,11 @@ export default {
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
+    // items
     desserts: [],
 
     // doctors
     doctors: [],
-
-    // search
-    search: "",
 
     // genders
     genders: [
@@ -269,8 +269,13 @@ export default {
       { text: "انثى", value: "f" },
     ],
 
+    // search
+    search: "",
+
+    // edited item
     editedIndex: -1,
 
+    // edited item
     editedItem: {
       id: "",
       full_name: "",
@@ -290,10 +295,8 @@ export default {
     ...mapGetters({
       valid: "validationRules/valid",
       nameRules: "validationRules/nameRules",
-      descriptionRules: "validationRules/descriptionRules",
       emailRules: "validationRules/emailRules",
       phoneRules: "validationRules/phoneRules",
-      numberRules: "validationRules/numberRules",
       selectRules: "validationRules/selectRules",
       nationalIdRules: "validationRules/nationalIdRules",
     }),
@@ -376,34 +379,49 @@ export default {
       }
 
       // get doctors
-      this.getData("dashboard/doctors").then((res) => {
-        this.doctors = res.map((item) => {
-          return {
-            text: item.full_name,
-            value: item.id,
-          };
+      this.axios
+        .get(`dashboard/doctors`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // set data
+          this.doctors = response.data.data.map((item) => {
+            return {
+              text: item.full_name,
+              value: item.id,
+            };
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
         });
-      });
     },
 
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
       // get single item data from show api
-      this.getData(`dashboard/assistants/${item.id}`).then((res) => {
-        this.editedItem = Object.assign(
-          {},
-          {
-            id: res.id,
-            full_name: res.full_name,
-            email: res.email,
-            doctors_id: res.doctors.map((item) => item.id),
-            phone_number: res.phone_number,
-            national_id: res.national_id,
-            gender: res.gender,
-          }
-        );
-      });
+      this.axios
+        .get(`dashboard/assistants/${item.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.editedItem = Object.assign(
+            {},
+            {
+              id: response.data.data.id,
+              full_name: response.data.data.full_name,
+              email: response.data.data.email,
+              doctors_id: response.data.data.doctors.map((item) => item.id),
+              phone_number: response.data.data.phone_number,
+              national_id: response.data.data.national_id,
+              gender: response.data.data.gender,
+            }
+          );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
 
       this.dialog = true;
     },
@@ -415,13 +433,18 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.deleteData({
-        url: "dashboard/assistants",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeDelete();
-      });
+      this.axios
+        .delete(`dashboard/assistants/${this.editedItem.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeDelete();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     restoreItem(item) {
@@ -430,14 +453,23 @@ export default {
       this.dialogRestore = true;
     },
 
-    restoreItemConfirm() {
-      this.restoreData({
-        url: "dashboard/assistants",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeRestore();
-      });
+    async restoreItemConfirm() {
+      await this.axios
+        .put(
+          `dashboard/assistants/${this.editedItem.id}/restore`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeRestore();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     close() {
@@ -470,7 +502,6 @@ export default {
       if (this.editedIndex > -1) {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-
           data.append("full_name", this.editedItem.full_name);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
@@ -479,21 +510,27 @@ export default {
           }
           data.append("gender", this.editedItem.gender);
           data.append("national_id", this.editedItem.national_id);
-
           data.append("_method", "PUT");
 
-          await this.updateData({
-            url: `dashboard/assistants/${this.editedItem.id}`,
-            data: data,
-          }).then((res) => {
-            Object.assign(this.desserts[this.editedIndex], res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/assistants/${this.editedItem.id}`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              Object.assign(
+                this.desserts[this.editedIndex],
+                response.data.data
+              );
+              this.handleResponse(response);
+              this.close();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-
           data.append("full_name", this.editedItem.full_name);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
@@ -503,13 +540,18 @@ export default {
           data.append("gender", this.editedItem.gender);
           data.append("national_id", this.editedItem.national_id);
 
-          this.addData({
-            url: "dashboard/assistants",
-            data: data,
-          }).then((res) => {
-            this.desserts.unshift(res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/assistants`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              this.desserts.unshift(response.data.data);
+              this.handleResponse(response);
+              this.close();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       }
     },
