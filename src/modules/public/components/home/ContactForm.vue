@@ -11,7 +11,7 @@
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="form.first_name"
+                  v-model="form.input_1"
                   :rules="nameRules"
                   label="الاسم الاول"
                   outlined
@@ -25,7 +25,7 @@
 
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="form.last_name"
+                  v-model="form.input_2"
                   :rules="nameRules"
                   label="الاسم الاخير"
                   outlined
@@ -38,7 +38,7 @@
 
               <v-col cols="12">
                 <v-text-field
-                  v-model="form.email"
+                  v-model="form.input_3"
                   :rules="emailRules"
                   label="البريد الالكتروني"
                   type="email"
@@ -52,7 +52,7 @@
 
               <v-col cols="12">
                 <v-textarea
-                  v-model="form.message"
+                  v-model="form.input_4"
                   :rules="messageRules"
                   label="الرسالة"
                   outlined
@@ -135,10 +135,10 @@ export default {
 
   data: () => ({
     form: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      message: "",
+      input_1: "",
+      input_2: "",
+      input_3: "",
+      input_4: "",
     },
   }),
 
@@ -153,24 +153,36 @@ export default {
 
   methods: {
     ...mapActions({
-      sendMessageAction: "contactUs/sendMessage",
+      handleResponse: "responseHandler/handleResponse",
     }),
+
+    resetFormFields() {
+      this.form.input_1 = "";
+      this.form.input_2 = "";
+      this.form.input_3 = "";
+      this.form.input_4 = "";
+    },
 
     async sendMessage() {
       if (this.$refs.form.validate()) {
         let data = new FormData();
-        data.append("first_name", this.form.first_name);
-        data.append("last_name", this.form.last_name);
-        data.append("email", this.form.email);
-        data.append("message", this.form.message);
+        data.append("input_1", this.form.input_1);
+        data.append("input_2", this.form.input_2);
+        data.append("input_5", this.form.input_3);
+        data.append("input_4", this.form.input_4);
 
-        this.sendMessageAction({
-          url: "dashboard/roles",
-          data: data,
-        }).then((res) => {
-          console.log(res);
-          this.desserts.unshift(res);
-        });
+        this.axios
+          .post(
+            `https://blog.secondopinion.sa/wp-json/gf/v2/forms/1/submissions`,
+            data
+          )
+          .then((response) => {
+            this.handleResponse(response);
+            this.resetFormFields();
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
       }
     },
   },
