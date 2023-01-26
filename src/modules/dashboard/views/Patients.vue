@@ -41,6 +41,7 @@
                           label="الاسم بالكامل"
                           outlined
                           dense
+                          autofocus
                         ></v-text-field>
                       </v-col>
 
@@ -165,26 +166,26 @@
       </template>
 
       <template v-slot:[`item.name`]="{ item }">
-        <span class="d-block black--text font-weight-bold">
+        <span class="d-block font-weight-medium">
           {{ item.name }}
         </span>
       </template>
 
       <template v-slot:[`item.email`]="{ item }">
-        <span class="d-block black--text">
+        <span class="d-block">
           {{ item.email }}
         </span>
       </template>
 
       <template v-slot:[`item.phone_number`]="{ item }">
-        <span class="d-block black--text">
+        <span class="d-block">
           {{ item.phone_number }}
         </span>
       </template>
 
       <template v-slot:[`item.info`]="{ item }">
-        <span class="d-block black--text"> النوع: {{ item.gender.text }} </span>
-        <span class="d-block black--text"> العمر: {{ item.age }} </span>
+        <span class="d-block"> النوع: {{ item.gender.text }} </span>
+        <span class="d-block"> العمر: {{ item.age }} </span>
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
@@ -226,10 +227,8 @@ export default {
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
+    // items
     desserts: [],
-
-    // search
-    search: "",
 
     // genders
     genders: [
@@ -237,8 +236,13 @@ export default {
       { text: "انثى", value: "f" },
     ],
 
+    // search
+    search: "",
+
+    // edited item
     editedIndex: -1,
 
+    // edited item
     editedItem: {
       id: "",
       name: "",
@@ -264,7 +268,6 @@ export default {
       emailRules: "validationRules/emailRules",
       phoneRules: "validationRules/phoneRules",
       selectRules: "validationRules/selectRules",
-      numberRules: "validationRules/numberRules",
       nationalIdRules: "validationRules/nationalIdRules",
     }),
   },
@@ -286,10 +289,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
-      addData: "crudOperations/addData",
-      updateData: "crudOperations/updateData",
-      deleteData: "crudOperations/deleteData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
@@ -297,32 +297,44 @@ export default {
       // loading data
       this.loadingData = true;
       // get patients
-      this.getData("dashboard/patients").then((res) => {
-        // hide loading
-        this.loadingData = false;
-        // set data
-        this.desserts = res;
-      });
+      this.axios
+        .get(`dashboard/patients`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts = response.data.data;
+          this.loadingData = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
       // get single item data from show api
-      this.getData(`dashboard/patients/${item.id}`).then((res) => {
-        this.editedItem = Object.assign(
-          {},
-          {
-            id: res.id,
-            name: res.name,
-            email: res.email,
-            phone_number: res.phone_number,
-            national_id: res.national_id,
-            gender: res.gender.value,
-            birthday: res.birthday,
-          }
-        );
-      });
+      this.axios
+        .get(`dashboard/patients/${item.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.editedItem = Object.assign(
+            {},
+            {
+              id: response.data.data.id,
+              name: response.data.data.name,
+              email: response.data.data.email,
+              phone_number: response.data.data.phone_number,
+              national_id: response.data.data.national_id,
+              gender: response.data.data.gender.value,
+              birthday: response.data.data.birthday,
+            }
+          );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
 
       this.dialog = true;
     },
@@ -334,13 +346,18 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.deleteData({
-        url: "dashboard/patients",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeDelete();
-      });
+      this.axios
+        .delete(`dashboard/patients/${this.editedItem.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeDelete();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     close() {
@@ -365,28 +382,33 @@ export default {
       if (this.editedIndex > -1) {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-
           data.append("name", this.editedItem.name);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
           data.append("birthday", this.editedItem.birthday);
           data.append("gender", this.editedItem.gender);
           data.append("national_id", this.editedItem.national_id);
-
           data.append("_method", "PUT");
 
-          await this.updateData({
-            url: `dashboard/patients/${this.editedItem.id}`,
-            data: data,
-          }).then((res) => {
-            Object.assign(this.desserts[this.editedIndex], res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/patients/${this.editedItem.id}`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              Object.assign(
+                this.desserts[this.editedIndex],
+                response.data.data
+              );
+              this.handleResponse(response);
+              this.close();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-
           data.append("name", this.editedItem.name);
           data.append("email", this.editedItem.email);
           data.append("phone_number", this.editedItem.phone_number);
@@ -394,13 +416,18 @@ export default {
           data.append("gender", this.editedItem.gender);
           data.append("national_id", this.editedItem.national_id);
 
-          this.addData({
-            url: "dashboard/patients",
-            data: data,
-          }).then((res) => {
-            this.desserts.unshift(res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/patients`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              this.desserts.unshift(response.data.data);
+              this.handleResponse(response);
+              this.close();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       }
     },

@@ -71,6 +71,7 @@
                           </template>
                           <v-date-picker
                             v-model="editedItem.reservation_day"
+                            :min="minDate"
                             @input="menu = false"
                           ></v-date-picker>
                         </v-menu>
@@ -192,28 +193,16 @@
 
       <template v-slot:[`item.patient.full_name`]="{ item }">
         <span
-          class="d-block black--text font-weight-bold"
+          class="d-block font-weight-medium"
           v-if="item.patient && item.patient.full_name"
         >
           {{ item.patient.full_name }}
         </span>
-        <span
-          class="d-block black--text"
-          v-if="item.patient && item.patient.email"
-        >
+        <span class="d-block" v-if="item.patient && item.patient.email">
           {{ item.patient.email }}
         </span>
-        <span
-          class="d-block black--text"
-          v-if="item.patient && item.patient.phone_number"
-        >
+        <span class="d-block" v-if="item.patient && item.patient.phone_number">
           {{ item.patient.phone_number }}
-        </span>
-        <span
-          class="d-block black--text"
-          v-if="item.patient && item.patient.gender"
-        >
-          {{ item.patient.gender }}
         </span>
       </template>
 
@@ -232,21 +221,15 @@
           </v-avatar>
           <div class="px-4">
             <span
-              class="d-block black--text font-weight-bold"
+              class="d-block font-weight-medium"
               v-if="item.doctor && item.doctor.full_name"
             >
               {{ item.doctor.full_name }}
             </span>
-            <span
-              class="d-block black--text"
-              v-if="item.doctor && item.doctor.email"
-            >
+            <span class="d-block" v-if="item.doctor && item.doctor.email">
               {{ item.doctor.email }}
             </span>
-            <span
-              class="d-block black--text"
-              v-if="item.doctor && item.doctor.work_phone"
-            >
+            <span class="d-block" v-if="item.doctor && item.doctor.work_phone">
               {{ item.doctor.work_phone }}
             </span>
           </div>
@@ -254,7 +237,7 @@
       </template>
 
       <template v-slot:[`item.time`]="{ item }">
-        <span class="d-block black--text" v-if="item.reservation_date">
+        <span class="d-block" v-if="item.reservation_date">
           اليوم:
           {{
             item.reservation_date.day.label +
@@ -262,7 +245,7 @@
             item.reservation_date.day.value
           }}
         </span>
-        <span class="d-block black--text" v-if="item.reservation_date">
+        <span class="d-block" v-if="item.reservation_date">
           التوقيت: {{ item.reservation_date.time }}
         </span>
       </template>
@@ -329,10 +312,8 @@ export default {
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
+    // items
     desserts: [],
-
-    // search
-    search: "",
 
     // doctors
     doctors: [],
@@ -351,12 +332,10 @@ export default {
 
     // status
     status: [
-      { text: "فى الانتظار", value: 0 },
-      { text: "مؤكدة", value: 1 },
-      { text: "ملغية", value: 2 },
-      { text: "منتهية", value: 3 },
-      { text: "منتهية الصلاحية", value: 4 },
-      { text: "استعادة الاموال", value: 5 },
+      { text: "مفتوح", value: 1 },
+      { text: "ملغى", value: 2 },
+      { text: "مكتمل", value: 3 },
+      { text: "مبلغ مسترد", value: 5 },
     ],
 
     // reservationTypes
@@ -365,8 +344,13 @@ export default {
       { text: "استشارة كتابية", value: 2 },
     ],
 
+    // search
+    search: "",
+
+    // edited index
     editedIndex: -1,
 
+    // edited item
     editedItem: {
       id: "",
       doctor_id: "",
@@ -381,11 +365,14 @@ export default {
 
     // show inputs
     showInpust: false,
+
+    // min date
+    minDate: new Date().toISOString().substr(0, 10),
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Reservation" : "Edit Reservation";
+      return this.editedIndex === -1 ? "حجز جديد" : "تعديل الحجز";
     },
 
     ...mapGetters({
@@ -411,61 +398,60 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
-      addData: "crudOperations/addData",
-      updateData: "crudOperations/updateData",
-      deleteData: "crudOperations/deleteData",
-      updateStatus: "crudOperations/updateStatus",
-      checkAvailableDates: "crudOperations/checkAvailableDates",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       // loading data
       this.loadingData = true;
+
       // get reservations
-      this.getData("dashboard/reservations").then((res) => {
-        // hide loading
-        this.loadingData = false;
-        // set data
-        this.desserts = res;
-      });
+      this.axios
+        .get(`dashboard/reservations`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts = response.data.data;
+          this.loadingData = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
 
       // get doctors
-      this.getData("dashboard/doctors").then((res) => {
-        this.doctors = res.map((item) => {
-          return {
-            text: item.full_name,
-            value: item.id,
-          };
+      this.axios
+        .get(`dashboard/doctors`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.doctors = response.data.data.map((item) => {
+            return {
+              text: item.full_name,
+              value: item.id,
+            };
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
         });
-      });
 
       // get patients
-      this.getData("dashboard/patients").then((res) => {
-        this.patients = res.map((item) => {
-          return {
-            text: item.name,
-            value: item.id,
-          };
+      this.axios
+        .get(`dashboard/patients`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.patients = response.data.data.map((item) => {
+            return {
+              text: item.name,
+              value: item.id,
+            };
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
         });
-      });
-    },
-
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-
-      // get single item data from show api
-      this.getData(`dashboard/reservations/${item.id}`).then((res) => {
-        this.editedItem = Object.assign(
-          {},
-          {
-            id: res.id,
-          }
-        );
-      });
-
-      this.dialog = true;
     },
 
     deleteItem(item) {
@@ -475,13 +461,18 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.deleteData({
-        url: "dashboard/reservations",
-        id: this.editedItem.id,
-      }).then(() => {
-        this.desserts.splice(this.editedIndex, 1);
-        this.closeDelete();
-      });
+      this.axios
+        .delete(`dashboard/reservations/${this.editedItem.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeDelete();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     close() {
@@ -503,7 +494,7 @@ export default {
     },
 
     // change item status
-    changeStatus(item, event) {
+    async changeStatus(item, event) {
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
 
@@ -511,53 +502,52 @@ export default {
       data.append("status", event);
       data.append("_method", "PUT");
 
-      this.updateStatus({
-        url: "dashboard/reservations",
-        id: this.editedItem.id,
-        data: data,
-      }).then((res) => {
-        Object.assign(this.desserts[this.editedIndex], res);
-      });
+      await this.axios
+        .post(
+          `dashboard/reservations/${this.editedItem.id}/update-status`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          Object.assign(this.desserts[this.editedIndex], response.data.data);
+          this.handleResponse(response);
+          this.close();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     // get available dates
-    getAvailableDates() {
+    async getAvailableDates() {
       let data = new FormData();
-
       data.append("doctor_id", this.editedItem.doctor_id);
       data.append("reservation_day", this.editedItem.reservation_day);
 
-      this.addData({
-        url: "dashboard/reservations/get-available-dates",
-        data: data,
-      }).then((res) => {
-        this.availableTimes = res;
-        this.showInpust = true;
-      });
+      await this.axios
+        .post(`dashboard/reservations/get-available-dates`, data, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.availableTimes = response.data.data;
+          this.handleResponse(response);
+          this.showInpust = true;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     async save() {
       if (this.editedIndex > -1) {
         if (this.$refs.form.validate()) {
-          let data = new FormData();
-
-          data.append("name:en", this.editedItem.en_name);
-          data.append("name:ar", this.editedItem.ar_name);
-
-          data.append("_method", "PUT");
-
-          await this.updateData({
-            url: `dashboard/reservations/${this.editedItem.id}`,
-            data: data,
-          }).then((res) => {
-            Object.assign(this.desserts[this.editedIndex], res);
-            this.close();
-          });
+          console.log("save data");
         }
       } else {
         if (this.$refs.form.validate()) {
           let data = new FormData();
-
           data.append("doctor_id", this.editedItem.doctor_id);
           data.append("reservation_day", this.editedItem.reservation_day);
           data.append("patient_id", this.editedItem.patient_id);
@@ -567,13 +557,18 @@ export default {
           );
           data.append("type", this.editedItem.type);
 
-          this.addData({
-            url: "dashboard/reservations",
-            data: data,
-          }).then((res) => {
-            this.desserts.unshift(res);
-            this.close();
-          });
+          await this.axios
+            .post(`dashboard/reservations`, data, {
+              headers: { Authorization: `Bearer ${localStorage.token}` },
+            })
+            .then((response) => {
+              this.desserts.unshift(response.data.data);
+              this.handleResponse(response);
+              this.close();
+            })
+            .catch((error) => {
+              this.handleResponse(error.response);
+            });
         }
       }
     },

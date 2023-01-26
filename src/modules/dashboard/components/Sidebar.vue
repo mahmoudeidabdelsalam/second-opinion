@@ -4,7 +4,7 @@
       <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
     </router-link>
 
-    <span class="d-block pa-5 font-weight-bold black--text">القائمة</span>
+    <span class="d-block pa-5 font-weight-medium black--text">القائمة</span>
 
     <v-list>
       <!-- <v-list-item
@@ -16,7 +16,7 @@
           <v-icon>mdi-view-dashboard</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold"
+          <v-list-item-title class="font-weight-medium"
             >لوحة التحكم</v-list-item-title
           >
         </v-list-item-content>
@@ -31,22 +31,11 @@
           <v-icon>mdi-handshake</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
+          <v-list-item-title class="font-weight-medium">
             الاقسام
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-
-      <!-- <v-list-item link :to="{ name: 'Services' }" active-class="primary--text">
-        <v-list-item-icon>
-          <v-icon>mdi-playlist-check</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
-            الخدمات
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item> -->
 
       <v-list-item
         link
@@ -57,7 +46,7 @@
           <v-icon>mdi-account-multiple</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
+          <v-list-item-title class="font-weight-medium">
             الموظفين
           </v-list-item-title>
         </v-list-item-content>
@@ -68,7 +57,7 @@
           <v-icon>mdi-doctor</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
+          <v-list-item-title class="font-weight-medium">
             الاطباء
           </v-list-item-title>
         </v-list-item-content>
@@ -83,7 +72,7 @@
           <v-icon>mdi-clipboard-account</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
+          <v-list-item-title class="font-weight-medium">
             المساعدين
           </v-list-item-title>
         </v-list-item-content>
@@ -94,7 +83,7 @@
           <v-icon>mdi-shield</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
+          <v-list-item-title class="font-weight-medium">
             الصلاحيات
           </v-list-item-title>
         </v-list-item-content>
@@ -105,7 +94,7 @@
           <v-icon>mdi-account-group</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
+          <v-list-item-title class="font-weight-medium">
             المرضى
           </v-list-item-title>
         </v-list-item-content>
@@ -120,52 +109,11 @@
           <v-icon>mdi-timetable</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
+          <v-list-item-title class="font-weight-medium">
             الحجوزات
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-
-      <!-- <v-list-item
-        link
-        :to="{ name: 'DoctorsExperiences' }"
-        active-class="primary--text"
-      >
-        <v-list-item-icon>
-          <v-icon>mdi-expand-all</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
-            خبرة الاطباء
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item> -->
-
-      <!-- <v-list-item
-        link
-        :to="{ name: 'DoctorsEducations' }"
-        active-class="primary--text"
-      >
-        <v-list-item-icon>
-          <v-icon>mdi-school</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
-            شهادات الاطباء
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item> -->
-
-      <!-- <v-list-item link :to="{ name: 'Invoices' }" active-class="primary--text">
-        <v-list-item-icon>
-          <v-icon>mdi-receipt</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title class="font-weight-bold">
-            الفواتير
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item> -->
     </v-list>
   </aside>
 </template>
