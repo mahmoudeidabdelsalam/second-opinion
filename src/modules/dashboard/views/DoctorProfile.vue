@@ -1,8 +1,8 @@
 <template>
   <section class="white rounded-lg pa-3">
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="3">
+    <v-container fluid>
+      <v-row v-if="!waitingForData">
+        <v-col cols="12" md="2">
           <div class="doctor">
             <span class="d-block text-h6 font-weight-bold mb-5">
               بيانات الطبيب
@@ -93,7 +93,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="9">
+        <v-col cols="12" md="10">
           <v-tabs
             v-model="tabs"
             class="rounded-lg rounded-bl-0 rounded-br-0 elevation-3"
@@ -146,7 +146,9 @@
             class="pa-5 rounded-lg rounded-tl-0 rounded-tr-0 elevation-3"
           >
             <v-tab-item value="mobile-tabs-5-1">
-              <doctor-reservations></doctor-reservations>
+              <doctor-reservations
+                :reservations="doctor.reservations"
+              ></doctor-reservations>
             </v-tab-item>
 
             <v-tab-item value="mobile-tabs-5-2">
@@ -162,11 +164,18 @@
             </v-tab-item>
 
             <v-tab-item value="mobile-tabs-5-5">
-              <doctor-patients></doctor-patients>
+              <doctor-patients :patients="doctor.patients"></doctor-patients>
             </v-tab-item>
           </v-tabs-items>
         </v-col>
       </v-row>
+
+      <!-- waiting for data -->
+      <v-skeleton-loader
+        v-if="waitingForData"
+        max-width="300"
+        type="card"
+      ></v-skeleton-loader>
     </v-container>
   </section>
 </template>
@@ -178,7 +187,12 @@ export default {
   name: "DoctorProfile",
 
   data: () => ({
+    // waiting for data
+    waitingForData: false,
+
+    // tabs
     tabs: null,
+
     // doctor data
     doctor: [],
   }),
@@ -201,15 +215,27 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
+      this.waitingForData = true;
+
       // get doctor data
-      this.getData(`dashboard/doctors/${this.$route.params.id}`).then((res) => {
-        this.doctor = res;
-      });
+      this.axios
+        .get(`dashboard/doctors/${this.$route.params.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // hide waiting
+          this.waitingForData = false;
+          // set data
+          this.doctor = response.data.data;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };
