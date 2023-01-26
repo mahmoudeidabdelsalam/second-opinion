@@ -3,8 +3,8 @@ let routes = [
   // dashboard
   {
     path: "/dashboard",
-    name: "Dashboard",
-    component: () => import("@/modules/dashboard/views/Dashboard.vue"),
+    name: "DashboardLayout",
+    component: () => import("@/modules/dashboard/layout/DashboardLayout.vue"),
     children: [
       // overview
       {

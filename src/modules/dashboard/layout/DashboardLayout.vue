@@ -30,7 +30,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Dashboard",
+  name: "DashboardLayout",
 
   components: {
     DashboardHeader: () => import("../components/Header.vue"),
