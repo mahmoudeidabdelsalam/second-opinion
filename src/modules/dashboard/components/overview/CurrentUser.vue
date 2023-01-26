@@ -1,6 +1,6 @@
 <template>
   <section
-    class="current-user white pa-5 rounded-lg text-center"
+    class="current-user white pa-4 rounded-lg text-center"
     style="min-height: 100%"
   >
     <v-avatar class="mx-auto mb-5" size="120">

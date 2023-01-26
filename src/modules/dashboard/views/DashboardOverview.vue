@@ -7,6 +7,13 @@
       <v-col cols="12" md="3">
         <current-user />
       </v-col>
+
+      <v-col cols="12" md="3">
+        <patient-gender />
+      </v-col>
+      <v-col cols="12" md="3">
+        <reservations-type />
+      </v-col>
     </v-row>
   </section>
 </template>
@@ -18,6 +25,9 @@ export default {
   components: {
     Statistics: () => import("../components/overview/Statistics.vue"),
     CurrentUser: () => import("../components/overview/CurrentUser.vue"),
+    PatientGender: () => import("../components/overview/PatientGender.vue"),
+    ReservationsType: () =>
+      import("../components/overview/ReservationsType.vue"),
   },
 };
 </script>

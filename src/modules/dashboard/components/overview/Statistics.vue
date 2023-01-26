@@ -72,9 +72,15 @@ export default {
       },
       {
         id: 7,
-        icon: "mdi-timetable",
-        title: "الحجوزات",
-        count: 252,
+        icon: "mdi-video",
+        title: "الحجوزات المرئية",
+        count: 62,
+      },
+      {
+        id: 8,
+        icon: "mdi-file",
+        title: "الحجوزات الكتابية",
+        count: 25,
       },
     ],
   }),
