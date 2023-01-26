@@ -252,6 +252,7 @@
 
       <template v-slot:[`item.status`]="{ item }">
         <v-select
+          class="pt-5"
           :items="status"
           :value="item.status"
           outlined
