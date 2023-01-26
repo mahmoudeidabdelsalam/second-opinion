@@ -125,14 +125,6 @@
             </v-tab>
 
             <v-tab
-              href="#mobile-tabs-5-4"
-              class="font-weight-bold text-capitalize"
-              active-class="primary--text active-tab"
-            >
-              التكلفة
-            </v-tab>
-
-            <v-tab
               href="#mobile-tabs-5-5"
               class="font-weight-bold text-capitalize"
               active-class="primary--text active-tab"
@@ -156,11 +148,10 @@
             </v-tab-item>
 
             <v-tab-item value="mobile-tabs-5-3">
-              <doctor-details></doctor-details>
-            </v-tab-item>
-
-            <v-tab-item value="mobile-tabs-5-4">
-              <doctor-cost></doctor-cost>
+              <doctor-details
+                :doctor="doctor"
+                :department="doctor"
+              ></doctor-details>
             </v-tab-item>
 
             <v-tab-item value="mobile-tabs-5-5">
@@ -204,7 +195,6 @@ export default {
       import("../components/doctor-profile/Appointments.vue"),
     DoctorDetails: () =>
       import("../components/doctor-profile/DoctorDetails.vue"),
-    DoctorCost: () => import("../components/doctor-profile/Cost.vue"),
     DoctorPatients: () => import("../components/doctor-profile/Patients.vue"),
   },
 
