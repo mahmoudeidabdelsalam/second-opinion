@@ -7,7 +7,7 @@
     <span class="d-block pa-5 font-weight-medium black--text">القائمة</span>
 
     <v-list>
-      <!-- <v-list-item
+      <v-list-item
         link
         :to="{ name: 'DashboardOverview' }"
         active-class="primary--text"
@@ -16,11 +16,11 @@
           <v-icon>mdi-view-dashboard</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-medium"
-            >لوحة التحكم</v-list-item-title
-          >
+          <v-list-item-title class="font-weight-medium">
+            لوحة التحكم
+          </v-list-item-title>
         </v-list-item-content>
-      </v-list-item> -->
+      </v-list-item>
 
       <v-list-item
         link

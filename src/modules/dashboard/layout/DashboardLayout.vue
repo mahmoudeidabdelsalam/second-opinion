@@ -20,7 +20,7 @@
       <dashboard-header />
     </v-app-bar>
 
-    <v-main class="pa-4">
+    <v-main class="pa-5">
       <router-view />
     </v-main>
   </v-app>
