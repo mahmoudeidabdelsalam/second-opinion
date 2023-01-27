@@ -19,10 +19,10 @@ export default {
 
   components: {
     // loading component
-    Loading: () => import("./modules/loading/components/Loading"),
+    Loading: () => import("@/modules/loading/components/Loading"),
     // notification component
     Notification: () =>
-      import("./modules/notifications/components/Notification"),
+      import("@/modules/notifications/components/Notification"),
   },
 
   mounted() {
