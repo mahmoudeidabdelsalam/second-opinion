@@ -19,7 +19,7 @@ export default {
 
   components: {
     // loading component
-    Loading: () => import("@/modules/loading/components/loading.vue"),
+    Loading: () => import("@/modules/loading/components/Loading.vue"),
     // notification component
     Notification: () =>
       import("@/modules/notifications/components/notification.vue"),

@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "loading",
+  name: "Loading",
 
   data: () => ({
     show: true,
