@@ -4,8 +4,8 @@
       <v-col
         cols="12"
         md="6"
-        v-for="appointment in expired"
-        :key="appointment.id"
+        v-for="(appointment, index) in expired"
+        :key="index"
       >
         <div class="appointment rounded-lg overflow-hidden">
           <div class="head grey_dark pa-3">
@@ -47,12 +47,44 @@
                 </span>
               </div>
             </div>
-            <v-btn
-              block
-              class="white primary--text py-6 rounded-lg font-weight-bold"
+
+            <v-dialog
+              v-model="rateDialogs[index]"
+              persistent
+              transition="dialog-top-transition"
+              max-width="600"
             >
-              تقييم الخدمة
-            </v-btn>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  block
+                  class="white primary--text py-6 rounded-lg font-weight-bold"
+                >
+                  تقييم الخدمة
+                </v-btn>
+              </template>
+              <v-card>
+                <v-toolbar class="text-h6" elevation="0">
+                  <v-icon color="primary">mdi-star-outline</v-icon>
+                  <span class="mx-4">تقييم الخدمة</span>
+                  <v-spacer></v-spacer>
+                  <v-btn icon @click="closeDialog(index)">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-toolbar>
+                <v-card-text> بوكس التقييم </v-card-text>
+                <v-card-actions>
+                  <v-btn
+                    block
+                    class="primary py-6 rounded-lg"
+                    @click="rateService(appointment.id, index)"
+                  >
+                    تقييم الخدمة
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </div>
         </div>
       </v-col>
@@ -60,7 +92,7 @@
 
     <!-- waiting for data -->
     <v-skeleton-loader
-      v-if="waitingForData && expired.length"
+      v-if="waitingForData && expired.length == 0"
       max-width="300"
       type="card"
     ></v-skeleton-loader>
@@ -85,13 +117,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Expired",
 
   props: {
     expired: {
       type: Array,
-      default: () => null,
+      default: () => [],
     },
 
     waitingForData: {
@@ -101,27 +135,30 @@ export default {
   },
 
   data: () => ({
-    // changeAppointmentTimeDialog
-    changeAppointmentTimeDialog: false,
-
-    // date picker
-    menu: false,
-
-    // reservation day
-    reservation_day: null,
-    // availabl times
-    available_times: [],
-    // reservation time
-    reservation_time: null,
-    // row radio group
-    rowRadio: null,
-
-    // loading results
-    loading_resutls: false,
-
-    // min date
-    minDate: new Date().toISOString().substr(0, 10),
+    // dialogs
+    rateDialogs: [],
   }),
+
+  mounted() {
+    this.rateDialogs.forEach((dialog, index) => {
+      this.rateDialogs[index] = false;
+    });
+  },
+
+  methods: {
+    ...mapActions({
+      handleResponse: "responseHandler/handleResponse",
+    }),
+
+    closeDialog(index) {
+      this.rateDialogs[index] = false;
+    },
+
+    rateService(appointment_id, index) {
+      console.log(appointment_id, index);
+      this.rateDialogs[index] = false;
+    },
+  },
 };
 </script>
 
