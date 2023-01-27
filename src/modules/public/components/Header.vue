@@ -130,7 +130,7 @@
         depressed
         link
         :to="{ name: 'Register' }"
-        class="primary rounded-lg text-capitalize px-6 mx-2"
+        class="primary rounded-lg text-capitalize px-6 mx-2 hidden-md-and-down"
         style="border: 1px solid #3c87cd !important"
         v-if="!authenticated"
       >

@@ -45,7 +45,7 @@
       <v-dialog v-model="checkOtpModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
-            <v-toolbar-title>التحddقق من OTP</v-toolbar-title>
+            <v-toolbar-title>التحقق من OTP</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon @click="closeCheckOtpModal">
               <v-icon>mdi-close</v-icon>
