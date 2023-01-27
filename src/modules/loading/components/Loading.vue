@@ -41,19 +41,19 @@ export default {
 
   .v-avatar {
     .v-image__image {
-      animation: imageAnimation 1.5s infinite;
+      animation: imageAnimation 2s infinite;
     }
   }
 
   @keyframes imageAnimation {
     0% {
-      transform: scale(0.8);
+      transform: scale(0.9);
     }
     50% {
       transform: scale(1);
     }
     100% {
-      transform: scale(0.8);
+      transform: scale(0.9);
     }
   }
 }

@@ -294,7 +294,7 @@ export default {
             this.changeTimeDialogs[index] = false;
             this.reservation_day = "";
             // emit event
-            this.$emit("initData", index);
+            this.$emit("assignNewData", response.data.data);
           })
           .catch((error) => {
             console.log(error);

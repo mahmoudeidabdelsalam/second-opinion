@@ -1,7 +1,15 @@
 <template>
   <section class="statistics" style="min-height: 100%">
     <v-row>
-      <v-col cols="12" lg="3" md="4" sm="6" v-for="box in boxs" :key="box.id">
+      <v-col
+        cols="12"
+        xl="3"
+        lg="4"
+        md="4"
+        sm="6"
+        v-for="box in boxs"
+        :key="box.id"
+      >
         <router-link
           :to="{ name: 'Departments' }"
           class="box d-flex justify-start align-center pa-5 white rounded-lg"

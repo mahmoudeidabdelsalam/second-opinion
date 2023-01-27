@@ -13,7 +13,7 @@
         <upcoming
           :upcoming="upcoming"
           :waitingForData="waitingForData"
-          @initData="initData"
+          @assignNewData="assignData"
         />
       </div>
 
@@ -87,6 +87,17 @@ export default {
         this.canceled = res.filter((item) => item.status.value == 2);
 
         this.waitingForData = false;
+      });
+    },
+
+    // assign data
+    assignData(data) {
+      // loop on upcoming appointments to assign new data ti spacified appointment id
+      this.upcoming = this.upcoming.map((item) => {
+        if (item.id == data.id) {
+          item = data;
+        }
+        return item;
       });
     },
   },
