@@ -88,7 +88,7 @@ export default {
     reservation_day: "",
     reservation_time: "",
     available_times: [],
-    notAvailableMessage: "",
+    notAvailableMessage: null,
     loading_resutls: false,
     minDate: new Date().toISOString().substr(0, 10),
   }),

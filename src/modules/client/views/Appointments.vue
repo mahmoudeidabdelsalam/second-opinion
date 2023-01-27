@@ -10,7 +10,11 @@
           المواعيد القادمة
         </span>
 
-        <upcoming :upcoming="upcoming" :waitingForData="waitingForData" />
+        <upcoming
+          :upcoming="upcoming"
+          :waitingForData="waitingForData"
+          @initData="initData"
+        />
       </div>
 
       <div class="expired mb-10">

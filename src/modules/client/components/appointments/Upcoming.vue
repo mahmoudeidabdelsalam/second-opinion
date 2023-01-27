@@ -4,8 +4,8 @@
       <v-col
         cols="12"
         md="6"
-        v-for="appointment in upcoming"
-        :key="appointment.id"
+        v-for="(appointment, index) in upcoming"
+        :key="index"
       >
         <div class="appointment rounded-lg overflow-hidden">
           <div class="head primary_dark pa-3">
@@ -57,7 +57,8 @@
             </div>
 
             <v-dialog
-              v-model="changeAppointmentTimeDialog"
+              v-model="changeTimeDialogs[index]"
+              persistent
               transition="dialog-top-transition"
               max-width="600"
             >
@@ -72,16 +73,17 @@
                 </v-btn>
               </template>
               <v-card>
-                <v-toolbar
-                  class="text-h6 d-flex justify-start align-center"
-                  elevation="0"
-                >
+                <v-toolbar class="text-h6" elevation="0">
                   <v-icon color="primary">mdi-calendar</v-icon>
                   <span class="mx-4">المواعيد المتاحة</span>
+                  <v-spacer></v-spacer>
+                  <v-btn icon @click="closeDialog(index)">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
                 </v-toolbar>
                 <v-card-text>
                   <v-menu
-                    v-model="menu"
+                    v-model="menus[index]"
                     :close-on-content-click="false"
                     :nudge-right="40"
                     transition="scale-transition"
@@ -107,6 +109,7 @@
                       v-model="reservation_day"
                       :min="minDate"
                       @change="getAvailablTimes(appointment.doctor.id)"
+                      @input="menus[index] = false"
                     ></v-date-picker>
                   </v-menu>
 
@@ -117,6 +120,11 @@
                     color="primary"
                     class="mb-5"
                   ></v-progress-linear>
+
+                  <!-- no available times -->
+                  <v-alert v-if="notAvailableMessage" type="error" class="mb-5">
+                    {{ notAvailableMessage }}
+                  </v-alert>
 
                   <v-radio-group
                     v-model="reservation_time"
@@ -137,7 +145,7 @@
                   <v-btn
                     block
                     class="primary py-6 rounded-lg"
-                    @click="changeTime(appointment.id)"
+                    @click="changeTime(appointment.id, index)"
                   >
                     تاكيد الحجز
                   </v-btn>
@@ -203,11 +211,11 @@ export default {
   },
 
   data: () => ({
-    // changeAppointmentTimeDialog
-    changeAppointmentTimeDialog: false,
+    // changeTimeDialogs
+    changeTimeDialogs: [],
 
     // date picker
-    menu: false,
+    menus: [],
 
     // reservation day
     reservation_day: null,
@@ -223,49 +231,85 @@ export default {
 
     // min date
     minDate: new Date().toISOString().substr(0, 10),
+
+    // not available message
+    notAvailableMessage: null,
   }),
+
+  mounted() {
+    this.changeTimeDialogs.forEach((dialog, index) => {
+      this.changeTimeDialogs[index] = false;
+    });
+
+    this.menus.forEach((menu, index) => {
+      this.menus[index] = false;
+    });
+  },
 
   methods: {
     ...mapActions({
-      addData: "crudOperations/addData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // get available times
     getAvailablTimes(doctor_id) {
-      alert(doctor_id);
-      // this.available_times = [];
-      // this.loading_resutls = true;
-      // let data = new FormData();
-      // data.append("doctor_id", doctor_id);
-      // data.append("reservation_day", this.reservation_day);
-
-      // this.addData({
-      //   url: "patient/reservations/get-available-dates",
-      //   data: data,
-      // }).then((res) => {
-      //   this.loading_resutls = false;
-      //   res
-      //     ? (this.available_times = res)
-      //     : ((this.available_times = []), this.$refs.form.reset());
-      // });
-    },
-
-    // change appointment time
-    changeTime(appointment_id) {
+      this.loading_resutls = true;
       this.available_times = [];
 
       let data = new FormData();
+      data.append("doctor_id", doctor_id);
       data.append("reservation_day", this.reservation_day);
-      data.append("reservation_time_start", this.reservation_time);
-      data.append("_method", "PUT");
 
-      this.addData({
-        url: `patient/reservations/${appointment_id}`,
-        data: data,
-      }).then(() => {
-        this.changeAppointmentTimeDialog = false;
-        this.initData();
-      });
+      this.axios
+        .post(`patient/reservations/get-available-dates`, data)
+        .then((response) => {
+          this.loading_resutls = false;
+          this.notAvailableMessage = null;
+          response.data.data
+            ? (this.available_times = response.data.data)
+            : ((this.available_times = []), this.$refs.form.reset());
+        })
+        .catch((error) => {
+          this.loading_resutls = false;
+          this.notAvailableMessage = error.response.data.message;
+          this.available_times = [];
+        });
+    },
+
+    // change appointment time
+    changeTime(appointment_id, index) {
+      if (this.reservation_day) {
+        let data = new FormData();
+        data.append("reservation_day", this.reservation_day);
+        data.append("reservation_time_start", this.reservation_time);
+        data.append("_method", "PUT");
+
+        this.axios
+          .post(`patient/reservations/${appointment_id}`, data, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            this.handleResponse(response);
+            this.available_times = [];
+            this.changeTimeDialogs[index] = false;
+            this.reservation_day = "";
+            // emit event
+            this.$emit("initData", index);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        this.notAvailableMessage = "يجب اختيار تاريخ الحجز";
+      }
+    },
+
+    // close change time dialog
+    closeDialog(index) {
+      this.changeTimeDialogs[index] = false;
+      this.available_times = [];
+      this.notAvailableMessage = null;
+      this.reservation_day = "";
     },
   },
 };
