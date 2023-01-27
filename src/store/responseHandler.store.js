@@ -25,8 +25,8 @@ const actions = {
             message: "برجاء تسجيل الدخول",
             color: "red",
           });
-          // clear localStorage
-          localStorage.clear();
+          // remove token from local storage
+          localStorage.removeItem("token");
           // redirect to login page
           router.push({ name: "Login" });
           break;

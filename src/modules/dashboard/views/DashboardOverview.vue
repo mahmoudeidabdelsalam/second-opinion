@@ -9,10 +9,13 @@
       </v-col>
 
       <v-col cols="12" md="3">
-        <patient-gender />
+        <patient-gender style="height: 100%" />
       </v-col>
       <v-col cols="12" md="3">
-        <reservations-type />
+        <reservations-type style="height: 100%" />
+      </v-col>
+      <v-col cols="12" md="3">
+        <income-chart style="height: 100%" />
       </v-col>
     </v-row>
   </section>
@@ -28,6 +31,7 @@ export default {
     PatientGender: () => import("../components/overview/PatientGender.vue"),
     ReservationsType: () =>
       import("../components/overview/ReservationsType.vue"),
+    IncomeChart: () => import("../components/overview/IncomeChart.vue"),
   },
 };
 </script>

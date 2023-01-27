@@ -5,29 +5,6 @@ import router from "@/router";
 
 // actions
 const actions = {
-  // login
-  async login({ dispatch }, credentials) {
-    await axios
-      .post("auth/login", credentials)
-      .then((response) => {
-        // attempt to login and set token
-        dispatch("attemptLogin", response.data.data.token);
-
-        // show notification
-        this.dispatch("notifications/showNotification", {
-          message: response.data.message,
-          color: "green",
-        });
-      })
-      .catch((error) => {
-        // show error notification
-        this.dispatch("notifications/showNotification", {
-          message: error.response.data.message,
-          color: "red",
-        });
-      });
-  },
-
   // attempt to login
   async attemptLogin({ commit }, token) {
     if (token) {
@@ -44,8 +21,6 @@ const actions = {
       // set user
       commit("SET_USER", response.data.data);
 
-      // check if user is verified before redirecting
-      // if (response.data.data.verified) {
       // redirect user depending on his role
       switch (response.data.data.role.value) {
         case 4: // patient
@@ -56,13 +31,6 @@ const actions = {
           router.push({ name: "DashboardOverview" });
           break;
       }
-      // } else {
-      //   // redirect to verification page
-      //   router.push({
-      //     name: "Verify",
-      //     query: { email: response.data.data.email },
-      //   });
-      // }
     } catch (e) {
       // remove token
       commit("SET_TOKEN", null);

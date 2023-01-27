@@ -12,7 +12,7 @@ let routes = [
       {
         path: "login",
         name: "Login",
-        component: () => import("@/modules/auth/views/Login.vue"),
+        component: () => import("@/modules/auth/views/PatientLogin.vue"),
         beforeEnter: (to, from, next) => {
           // if user is authenticated, redirect to user depending on role
           store.getters["user/authenticated"] &&
@@ -20,7 +20,7 @@ let routes = [
             ? next({ name: "Home" })
             : store.getters["user/authenticated"] &&
               store.getters["user/userData"].role.value != 4
-            ? next({ name: "Departments" })
+            ? next({ name: "DashboardOverview" })
             : next();
         },
       },
@@ -37,7 +37,7 @@ let routes = [
             ? next({ name: "Home" })
             : store.getters["user/authenticated"] &&
               store.getters["user/userData"].role.value != 4
-            ? next({ name: "Departments" })
+            ? next({ name: "DashboardOverview" })
             : next();
         },
       },
@@ -54,7 +54,7 @@ let routes = [
             ? next({ name: "Home" })
             : store.getters["user/authenticated"] &&
               store.getters["user/userData"].role.value != 4
-            ? next({ name: "Departments" })
+            ? next({ name: "DashboardOverview" })
             : next();
         },
       },
