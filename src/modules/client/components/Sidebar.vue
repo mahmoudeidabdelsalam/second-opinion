@@ -174,10 +174,7 @@ export default {
 
   methods: {
     // map translate action
-    ...mapActions({
-      // logout
-      logoutAction: "logout/logout",
-    }),
+    ...mapActions({}),
 
     // logout method
     logout() {

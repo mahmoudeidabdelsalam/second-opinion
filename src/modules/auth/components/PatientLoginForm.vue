@@ -65,7 +65,7 @@
               ></v-otp-input>
 
               <v-btn
-                class="mt-3 white--text"
+                class="mt-3 py-6 white--text"
                 color="primary"
                 block
                 @click="checkOtp"
@@ -78,7 +78,7 @@
       </v-dialog>
 
       <!-- forgot password dialog -->
-      <!-- <v-dialog v-model="forgetPasswordModal" persistent max-width="400">
+      <v-dialog v-model="forgetPasswordModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>هل نسيت كلمة المرور؟</v-toolbar-title>
@@ -95,12 +95,11 @@
                 :rules="phoneRules"
                 label="ادخل رقم الهاتف"
                 outlined
-                dense
                 autofocus
               ></v-text-field>
 
               <v-btn
-                class="mt-3 white--text"
+                class="mt-3 py-6 white--text"
                 color="primary"
                 block
                 @click="forgetPassword"
@@ -110,15 +109,15 @@
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog> -->
+      </v-dialog>
 
       <!-- otp dialog -->
-      <!-- <v-dialog v-model="checkOtpModal" persistent max-width="400">
+      <v-dialog v-model="checkOtpForgetModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>التحقق من OTP</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn icon @click.stop="closeCheckOtpModal">
+            <v-btn icon @click.stop="closecheckOtpForgetModal">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-toolbar>
@@ -130,26 +129,26 @@
             <v-form ref="form" :v-model="valid">
               <v-otp-input
                 length="4"
-                v-model="checkOtpForm.code"
+                v-model="checkOtpForgetForm.code"
                 :rules="otpRules"
                 style="direction: ltr"
               ></v-otp-input>
 
               <v-btn
-                class="mt-3 white--text"
+                class="mt-3 py-6 white--text"
                 color="primary"
                 block
-                @click="checkOtp"
+                @click="checkOtpForget"
               >
                 تحقق
               </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog> -->
+      </v-dialog>
 
       <!-- reset password dialog -->
-      <!-- <v-dialog v-model="resetPasswordModal" persistent max-width="400">
+      <v-dialog v-model="resetPasswordModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>انشاء كلمة المرور</v-toolbar-title>
@@ -161,7 +160,7 @@
 
           <v-card-text>
             <span class="d-block body-2 mb-7">
-              كلمة السر يجب ان تحتوي على ٨ احرف، ارقام ورموز.
+              كلمة المرور يجب ان تحتوي على 6 احرف على الاقل
             </span>
 
             <v-form ref="form" :v-model="valid">
@@ -170,7 +169,6 @@
                 :rules="passwordRules"
                 label="ادخل كلمة المرور الجديدة"
                 outlined
-                dense
                 autofocus
               ></v-text-field>
 
@@ -184,11 +182,10 @@
                 ]"
                 label="تأكيد كلمة المرور"
                 outlined
-                dense
               ></v-text-field>
 
               <v-btn
-                class="mt-3 white--text"
+                class="mt-3 py-6 white--text"
                 color="primary"
                 block
                 @click="resetPassword"
@@ -198,7 +195,7 @@
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog> -->
+      </v-dialog>
     </div>
   </section>
 </template>
@@ -217,17 +214,27 @@ export default {
 
     // check otp modal
     checkOtpModal: false,
-
     // check otp form
     checkOtpForm: {
       otp: "",
     },
 
+    // forget password modal
+    forgetPasswordModal: false,
     // forget password form data
     forgetPasswordForm: {
       username: "",
     },
 
+    // check otp forget modal
+    checkOtpForgetModal: false,
+    // check otp forget form
+    checkOtpForgetForm: {
+      code: "",
+    },
+
+    // reset password modal
+    resetPasswordModal: false,
     // reset password form data
     resetPasswordForm: {
       password: "",
@@ -301,6 +308,98 @@ export default {
     // close check otp modal
     closeCheckOtpModal() {
       this.checkOtpModal = false;
+    },
+
+    // open forget password modal
+    openForgetPasswordModal() {
+      this.forgetPasswordModal = true;
+    },
+
+    // send forget password otp method
+    forgetPassword() {
+      // validate form
+      if (this.$refs.form.validate()) {
+        let data = new FormData();
+        data.append("username", this.forgetPasswordForm.username);
+
+        this.axios
+          .post(`auth/forget-password`, data)
+          .then((response) => {
+            this.handleResponse(response);
+            // close forget password modal
+            this.closeForgetPasswordModal();
+            // open check otp modal
+            this.checkOtpForgetModal = true;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
+      }
+    },
+
+    //close forget password modal
+    closeForgetPasswordModal() {
+      this.forgetPasswordModal = false;
+    },
+
+    // check otp forget method
+    checkOtpForget() {
+      // validate form
+      if (this.$refs.form.validate()) {
+        let data = new FormData();
+        data.append("username", this.forgetPasswordForm.username);
+        data.append("code", this.checkOtpForgetForm.code);
+
+        this.axios
+          .post(`auth/check-code`, data)
+          .then((response) => {
+            // set token in local storage
+            localStorage.setItem("temporary_token", response.data.data.token);
+            this.handleResponse(response);
+            // close check otp forget modal
+            this.closeCheckOtpForgetModal();
+            // open reset password modal
+            this.resetPasswordModal = true;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
+      }
+    },
+
+    // close check otp forget modal
+    closeCheckOtpForgetModal() {
+      this.checkOtpForgetModal = false;
+    },
+
+    // reset password method
+    resetPassword() {
+      // validate form
+      if (this.$refs.form.validate()) {
+        let data = new FormData();
+        data.append("password", this.resetPasswordForm.password);
+        data.append(
+          "password_confirmation",
+          this.resetPasswordForm.password_confirmation
+        );
+
+        this.axios
+          .post(`auth/reset-password`, data, {
+            headers: {
+              Authorization: `Bearer ${localStorage.temporary_token}`,
+            },
+          })
+          .then((response) => {
+            // remove temporary token from local storage
+            localStorage.removeItem("temporary_token");
+            // attempt login
+            this.attemptLogin(response.data.data.token);
+            this.handleResponse(response);
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+          });
+      }
     },
   },
 };

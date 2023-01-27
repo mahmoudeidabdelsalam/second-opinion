@@ -6,9 +6,9 @@ import router from "@/router";
 // actions
 const actions = {
   // logout
-  async logout({ commit }, credentials) {
+  async logout({ commit }) {
     await axios
-      .delete("auth/logout", credentials)
+      .delete("auth/logout")
       .then((response) => {
         // show notification
         this.dispatch("notifications/showNotification", {
