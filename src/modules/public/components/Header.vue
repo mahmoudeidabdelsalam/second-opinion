@@ -157,6 +157,8 @@ export default {
     ...mapActions({
       // translate action
       translateAction: "translate/setSystemLanguage",
+      // logout
+      logoutAction: "logout/logout",
     }),
 
     // translate method

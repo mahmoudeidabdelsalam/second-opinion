@@ -14,7 +14,7 @@
       <v-col cols="12" md="3">
         <reservations-type style="height: 100%" />
       </v-col>
-      <v-col cols="12" md="3">
+      <v-col cols="12" xl="3" lg="4" md="6">
         <income-chart style="height: 100%" />
       </v-col>
     </v-row>

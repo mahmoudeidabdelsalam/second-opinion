@@ -164,17 +164,8 @@
             ></v-img>
           </v-avatar>
           <span class="d-block mb-5 font-weight-bold primary--text">
-            ليس لديك تقارير حتى الان
+            ليس لديك مستلمة حتى الان
           </span>
-          <v-btn
-            class="px-10"
-            color="primary"
-            depressed
-            link
-            :to="{ name: 'PublicDoctors' }"
-          >
-            ابحث عن طبيب
-          </v-btn>
         </div>
       </div>
     </div>

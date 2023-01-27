@@ -17,7 +17,7 @@
         @click="drawer = !drawer"
         color="black"
         aria-label="drawer"
-        class="d-md-none d-inline"
+        class="hidden-lg-and-up"
       >
         <v-icon> mdi-apps </v-icon>
       </v-btn>
