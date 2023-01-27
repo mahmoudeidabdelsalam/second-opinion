@@ -1,6 +1,9 @@
 <template>
   <v-app>
     <v-main>
+      <!-- loading -->
+      <loading />
+      <!-- router view -->
       <router-view />
       <!-- notification -->
       <notification />
@@ -15,8 +18,11 @@ export default {
   name: "App",
 
   components: {
+    // loading component
+    Loading: () => import("@/modules/loading/components/loading.vue"),
+    // notification component
     Notification: () =>
-      import("./modules/notifications/components/notification.vue"),
+      import("@/modules/notifications/components/notification.vue"),
   },
 
   mounted() {
