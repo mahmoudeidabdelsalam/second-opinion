@@ -19,10 +19,10 @@ export default {
 
   components: {
     // loading component
-    Loading: () => import("@/modules/loading/components/Loading.vue"),
+    Loading: () => import("./modules/loading/components/Loading"),
     // notification component
     Notification: () =>
-      import("@/modules/notifications/components/Notification.vue"),
+      import("./modules/notifications/components/Notification"),
   },
 
   mounted() {
