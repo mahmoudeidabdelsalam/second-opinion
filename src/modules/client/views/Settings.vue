@@ -14,50 +14,52 @@
         <span class="secondary--text font-weight-bold">
           {{ user.full_name }}
         </span>
-        <v-btn
-          text
-          class="primary--text font-weight-bold"
-          @click="openUpdateNameModal"
-        >
-          تعديل
-        </v-btn>
-      </div>
-      <!-- update name dialog -->
-      <v-dialog v-model="updateNameModal" persistent max-width="400">
-        <v-card>
-          <v-toolbar class="mb-5" elevation="0">
-            <v-toolbar-title>تعديل اسم المستخدم</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn icon @click.stop="updateNameModal = false">
-              <v-icon>mdi-close</v-icon>
+
+        <!-- update name dialog -->
+        <v-dialog v-model="nameDialog" persistent max-width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              text
+              class="primary--text font-weight-bold"
+              @click="bindData"
+            >
+              تعديل
             </v-btn>
-          </v-toolbar>
-
-          <v-card-text>
-            <v-form ref="form" :v-model="valid">
-              <v-text-field
-                v-model="nameForm.name"
-                :rules="nameRules"
-                label="الاسم"
-                outlined
-                dense
-                autofocus
-              ></v-text-field>
-
-              <v-btn
-                class="mt-3 white--text"
-                color="primary"
-                block
-                :loading="updateNameLoading"
-                :disabled="updateNameLoading"
-                @click="updateName"
-              >
-                تعديل
+          </template>
+          <v-card>
+            <v-toolbar class="mb-5" elevation="0">
+              <v-toolbar-title>تعديل اسم المستخدم</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon @click.stop="nameDialog = false">
+                <v-icon>mdi-close</v-icon>
               </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
+            </v-toolbar>
+
+            <v-card-text>
+              <v-form ref="form" :v-model="valid">
+                <v-text-field
+                  v-model="form.name"
+                  :rules="nameRules"
+                  label="اسم المستخدم"
+                  outlined
+                  autofocus
+                ></v-text-field>
+
+                <v-btn
+                  class="mt-3 py-6 white--text"
+                  color="primary"
+                  block
+                  @click="updateUser"
+                >
+                  تعديل
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
 
       <!-- national id -->
       <div
@@ -68,51 +70,178 @@
         <span class="secondary--text font-weight-bold">
           {{ user.national_id }}
         </span>
-        <v-btn
-          text
-          class="primary--text font-weight-bold"
-          @click="openUpdateNationalIdModal"
-        >
-          تعديل
-        </v-btn>
-      </div>
-      <!-- update national id dialog -->
-      <v-dialog v-model="updateNationalIdModal" persistent max-width="400">
-        <v-card>
-          <v-toolbar class="mb-5" elevation="0">
-            <v-toolbar-title>تعديل رقم الهوية</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn icon @click.stop="updateNationalIdModal = false">
-              <v-icon>mdi-close</v-icon>
+
+        <!-- update national id dialog -->
+        <v-dialog v-model="nationalIdDialog" persistent max-width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              text
+              class="primary--text font-weight-bold"
+              @click="bindData"
+            >
+              تعديل
             </v-btn>
-          </v-toolbar>
-
-          <v-card-text>
-            <v-form ref="form" :v-model="valid">
-              <v-text-field
-                v-model="nationalIdForm.national_id"
-                :rules="nationalIdRules"
-                label="رقم الهوية"
-                type="number"
-                outlined
-                dense
-                autofocus
-              ></v-text-field>
-
-              <v-btn
-                class="mt-3 white--text"
-                color="primary"
-                block
-                :loading="updateNationalIdLoading"
-                :disabled="updateNationalIdLoading"
-                @click="updateNationalId"
-              >
-                تعديل
+          </template>
+          <v-card>
+            <v-toolbar class="mb-5" elevation="0">
+              <v-toolbar-title>تعديل رقم الهوية</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon @click.stop="nationalIdDialog = false">
+                <v-icon>mdi-close</v-icon>
               </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
+            </v-toolbar>
+
+            <v-card-text>
+              <v-form ref="form" :v-model="valid">
+                <v-text-field
+                  v-model="form.national_id"
+                  :rules="nationalIdRules"
+                  label="رقم الهوية"
+                  type="number"
+                  outlined
+                  autofocus
+                ></v-text-field>
+
+                <v-btn
+                  class="mt-3 py-6 white--text"
+                  color="primary"
+                  block
+                  @click="updateUser"
+                >
+                  تعديل
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
+
+      <!-- birthday -->
+      <div
+        class="setting mb-5 d-flex justify-space-between align-center"
+        style="max-width: 700px"
+      >
+        <span class="primary--text font-weight-bold">تاريخ الميلاد</span>
+        <span class="secondary--text font-weight-bold">
+          {{ user.birthday }}
+        </span>
+
+        <!-- update birthday dialog -->
+        <v-dialog v-model="birthdayDialog" persistent max-width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              text
+              class="primary--text font-weight-bold"
+              @click="bindData"
+            >
+              تعديل
+            </v-btn>
+          </template>
+          <v-card>
+            <v-toolbar class="mb-5" elevation="0">
+              <v-toolbar-title>تعديل تاريخ الميلاد</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon @click.stop="birthdayDialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+
+            <v-card-text>
+              <v-form ref="form" :v-model="valid">
+                <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="form.birthday"
+                      label="تاريخ الميلاد"
+                      append-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      clearable
+                      required
+                      outlined
+                      dense
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="form.birthday"
+                    :max="maxDate"
+                    @input="menu = false"
+                    @change="updateUser"
+                  ></v-date-picker>
+                </v-menu>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
+
+      <!-- gender -->
+      <div
+        class="setting mb-5 d-flex justify-space-between align-center"
+        style="max-width: 700px"
+      >
+        <span class="primary--text font-weight-bold">النوع</span>
+        <span class="secondary--text font-weight-bold">
+          {{ user.gender }}
+        </span>
+
+        <!-- update gender dialog -->
+        <v-dialog v-model="genderDialog" persistent max-width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              text
+              class="primary--text font-weight-bold"
+              @click="bindData"
+            >
+              تعديل
+            </v-btn>
+          </template>
+          <v-card>
+            <v-toolbar class="mb-5" elevation="0">
+              <v-toolbar-title>تعديل النوع</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon @click.stop="genderDialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+
+            <v-card-text>
+              <v-form ref="form" :v-model="valid">
+                <v-select
+                  v-model="form.gender"
+                  :items="genders"
+                  :rules="selectRules"
+                  label="النوع"
+                  outlined
+                ></v-select>
+
+                <v-btn
+                  class="mt-3 py-6 white--text"
+                  color="primary"
+                  block
+                  @click="updateUser"
+                >
+                  تعديل
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
     </div>
   </main>
 </template>
@@ -124,24 +253,32 @@ export default {
   name: "Settings",
 
   data: () => ({
-    // buttons loader
-    loader: null,
-    updateNameLoading: false,
-    updateNationalIdLoading: false,
-
     // update name dialog
-    updateNameModal: false,
+    nameDialog: false,
+
     // update national id dialog
-    updateNationalIdModal: false,
+    nationalIdDialog: false,
 
-    // name form
-    nameForm: {
+    // update birthday dialog
+    birthdayDialog: false,
+    // menu
+    menu: false,
+    // max date
+    maxDate: new Date().toISOString().substr(0, 10),
+
+    // update gender dialog
+    genderDialog: false,
+
+    genders: [
+      { text: "ذكر", value: "m" },
+      { text: "أنثى", value: "f" },
+    ],
+
+    // form
+    form: {
       name: "",
-    },
-
-    // national id form
-    nationalIdForm: {
       national_id: "",
+      birthday: "",
     },
   }),
 
@@ -150,6 +287,7 @@ export default {
       valid: "validationRules/valid",
       nameRules: "validationRules/nameRules",
       nationalIdRules: "validationRules/nationalIdRules",
+      selectRules: "validationRules/selectRules",
 
       user: "user/userData",
     }),
@@ -157,52 +295,49 @@ export default {
 
   methods: {
     ...mapActions({
-      updateNameAction: "settings/updateProfile",
-      updateNationalIdAction: "settings/updateProfile",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
-    // open update name dialog
-    openUpdateNameModal() {
-      this.updateNameModal = true;
-      this.nameForm.name = this.user.full_name;
+    // bind data
+    bindData() {
+      this.form.name = this.user.full_name;
+      this.form.national_id = this.user.national_id;
+      this.form.birthday = this.user.birthday;
+      this.form.gender = this.user.gender;
     },
 
-    // update name
-    updateName() {
+    // update user
+    updateUser() {
       // validate form
       if (this.$refs.form.validate()) {
-        this.updateNameLoading = true;
-        this.updateNameAction(this.nameForm)
-          .then(() => {
-            this.updateNameLoading = false;
-            this.updateNameModal = false;
+        let data = new URLSearchParams();
+        data.append("name", this.form.name);
+        data.append("national_id", this.form.national_id);
+        data.append("birthday", this.form.birthday);
+        data.append("gender", this.form.gender);
+
+        this.axios
+          .put(`patient/profile`, data, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
           })
-          .catch(() => {
-            this.updateNameLoading = false;
+          .then((response) => {
+            // commit the set user data mutation
+            this.$store.commit("login/SET_USER", response.data.data);
+            this.closeAllDialogs();
+            this.handleResponse(response);
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
           });
       }
     },
 
-    // open update national id dialog
-    openUpdateNationalIdModal() {
-      this.updateNationalIdModal = true;
-      this.nationalIdForm.national_id = this.user.national_id;
-    },
-
-    // update national id
-    updateNationalId() {
-      // validate form
-      if (this.$refs.form.validate()) {
-        this.updateNationalIdLoading = true;
-        this.updateNationalIdAction(this.nationalIdForm)
-          .then(() => {
-            this.updateNationalIdLoading = false;
-            this.updateNationalIdModal = false;
-          })
-          .catch(() => {
-            this.updateNationalIdLoading = false;
-          });
-      }
+    // close all dialogs
+    closeAllDialogs() {
+      this.nameDialog = false;
+      this.nationalIdDialog = false;
+      this.birthdayDialog = false;
+      this.menu = false;
     },
   },
 };
