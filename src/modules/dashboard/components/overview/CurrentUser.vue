@@ -15,7 +15,11 @@
     <span class="d-block subtitle-1 font-weight-bold black--text mb-1">
       {{ user.full_name }}
     </span>
-    <span class="d-block subtitle-2 font-weight-bold secondary--text">
+    <span
+      class="d-block subtitle-2 font-weight-bold secondary--text text-truncate"
+      dir="ltr"
+      :title="user.email"
+    >
       {{ user.email }}
     </span>
   </section>

@@ -37,6 +37,7 @@
         <v-date-picker
           v-model="reservation_day"
           :min="minDate"
+          :max="maxDate"
           @change="getAvailablTimes"
         ></v-date-picker>
       </v-menu>
@@ -90,7 +91,13 @@ export default {
     available_times: [],
     notAvailableMessage: null,
     loading_resutls: false,
+    // min date
     minDate: new Date().toISOString().substr(0, 10),
+
+    // max date 7 days
+    maxDate: new Date(new Date().setDate(new Date().getDate() + 7))
+      .toISOString()
+      .substr(0, 10),
   }),
 
   methods: {

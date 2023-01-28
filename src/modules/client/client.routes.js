@@ -1,3 +1,6 @@
+// vuex store
+import store from "@/store";
+
 // public routes
 let routes = [
   // public
@@ -5,6 +8,13 @@ let routes = [
     path: "/account",
     name: "AccountLayout",
     component: () => import("@/modules/client/layout/AccountLayout.vue"),
+    beforeEnter: (to, from, next) => {
+      // if user is authenticated and role has permission to access account
+      store.getters["user/authenticated"] &&
+      store.getters["user/userData"].role.value == 4
+        ? next()
+        : next({ name: "Login" });
+    },
     children: [
       // notifications
       {

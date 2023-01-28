@@ -1,11 +1,13 @@
 <template>
   <section class="patient-login-form">
-    <v-form ref="form" :v-model="valid">
+    <v-form ref="form" :v-model="valid" @submit.prevent>
       <v-text-field
         v-model="loginForm.phone_number"
         :rules="phoneRules"
         label="رقم الهاتف"
         outlined
+        autofocus
+        @keydown.enter="sendOtp"
       ></v-text-field>
 
       <!-- remember me -->

@@ -1,3 +1,6 @@
+// vuex store
+import store from "@/store";
+
 // dashboard routes
 let routes = [
   // dashboard
@@ -5,6 +8,13 @@ let routes = [
     path: "/dashboard",
     name: "DashboardLayout",
     component: () => import("@/modules/dashboard/layout/DashboardLayout.vue"),
+    beforeEnter: (to, from, next) => {
+      // if user is authenticated and role has permission to access dashboard
+      store.getters["user/authenticated"] &&
+      store.getters["user/userData"].role.value != 4
+        ? next()
+        : next({ name: "DoctorLogin" });
+    },
     children: [
       // overview
       {

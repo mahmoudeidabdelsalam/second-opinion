@@ -114,6 +114,8 @@
                           </template>
                           <v-date-picker
                             v-model="editedItem.birthday"
+                            :max="maxDate"
+                            :active-picker.sync="activePicker"
                             @input="menu = false"
                           ></v-date-picker>
                         </v-menu>
@@ -255,6 +257,12 @@ export default {
 
     // date picker
     menu: false,
+
+    // max date
+    maxDate: new Date().toISOString().substr(0, 10),
+
+    // active picker
+    activePicker: null,
   }),
 
   computed: {
@@ -279,6 +287,10 @@ export default {
 
     dialogDelete(val) {
       val || this.closeDelete();
+    },
+
+    menu(val) {
+      val && setTimeout(() => (this.activePicker = "YEAR"));
     },
   },
 

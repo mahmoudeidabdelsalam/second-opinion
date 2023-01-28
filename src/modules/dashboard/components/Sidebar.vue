@@ -24,8 +24,25 @@
 
       <v-list-item
         link
+        :to="{ name: 'DoctorProfile', params: { id: user.id } }"
+        active-class="primary--text"
+        v-if="user.role.name === 'doctor'"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-account-box</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="font-weight-medium">
+            الصفحة الشخصية
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        link
         :to="{ name: 'Departments' }"
         active-class="primary--text"
+        v-if="user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-handshake</v-icon>
@@ -41,6 +58,7 @@
         link
         :to="{ name: 'Employees' }"
         active-class="primary--text"
+        v-if="user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-account-multiple</v-icon>
@@ -52,7 +70,12 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link :to="{ name: 'Doctors' }" active-class="primary--text">
+      <v-list-item
+        link
+        :to="{ name: 'Doctors' }"
+        active-class="primary--text"
+        v-if="user.role.name === 'admin'"
+      >
         <v-list-item-icon>
           <v-icon>mdi-doctor</v-icon>
         </v-list-item-icon>
@@ -78,7 +101,12 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link :to="{ name: 'Roles' }" active-class="primary--text">
+      <v-list-item
+        link
+        :to="{ name: 'Roles' }"
+        active-class="primary--text"
+        v-if="user.role.name === 'admin'"
+      >
         <v-list-item-icon>
           <v-icon>mdi-shield</v-icon>
         </v-list-item-icon>
@@ -119,8 +147,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Sidebar",
+
+  computed: {
+    ...mapGetters({
+      user: "user/userData",
+      permissions: "user/permissions",
+    }),
+  },
 };
 </script>
 

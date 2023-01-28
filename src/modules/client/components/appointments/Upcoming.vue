@@ -93,7 +93,6 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
                         v-model="reservation_day"
-                        :min="minDate"
                         label="اختر اليوم"
                         append-icon="mdi-calendar"
                         readonly
@@ -108,6 +107,7 @@
                     <v-date-picker
                       v-model="reservation_day"
                       :min="minDate"
+                      :max="maxDate"
                       @change="getAvailablTimes(appointment.doctor.id)"
                       @input="menus[index] = false"
                     ></v-date-picker>
@@ -231,6 +231,11 @@ export default {
 
     // min date
     minDate: new Date().toISOString().substr(0, 10),
+
+    // max date 7 days
+    maxDate: new Date(new Date().setDate(new Date().getDate() + 7))
+      .toISOString()
+      .substr(0, 10),
 
     // not available message
     notAvailableMessage: null,

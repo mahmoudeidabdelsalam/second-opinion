@@ -16,9 +16,9 @@ const getters = {
     return state.user;
   },
 
-  // verified?
-  verified(state) {
-    return state.user && state.user.verified;
+  // permissions
+  permissions(state) {
+    return state.user.role.permissions;
   },
 };
 
