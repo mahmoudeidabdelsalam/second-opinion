@@ -6,7 +6,7 @@
 
     <v-row>
       <v-col cols="12" xl="4" lg="4" md="6" v-for="doctor in 3" :key="doctor">
-        <div class="doctor rounded-lg pa-4">
+        <div class="doctor rounded-lg pa-4" style="height: 100%">
           <div class="mb-5 d-flex justify-start align-center">
             <v-avatar size="100">
               <v-img

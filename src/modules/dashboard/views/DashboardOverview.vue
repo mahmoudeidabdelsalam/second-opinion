@@ -15,10 +15,10 @@
         <reservations-type style="height: 100%" />
       </v-col>
       <v-col cols="12" xl="3" lg="4" md="6">
-        <income-chart style="height: 100%" />
+        <reservations-chart style="height: 100%" />
       </v-col>
       <v-col cols="12" xl="3" lg="4" md="6">
-        <reservations-chart style="height: 100%" />
+        <income-chart style="height: 100%" />
       </v-col>
     </v-row>
 
@@ -40,9 +40,9 @@ export default {
     PatientGender: () => import("../components/overview/PatientGender.vue"),
     ReservationsType: () =>
       import("../components/overview/ReservationsType.vue"),
-    IncomeChart: () => import("../components/overview/IncomeChart.vue"),
     ReservationsChart: () =>
       import("../components/overview/ReservationsChart.vue"),
+    IncomeChart: () => import("../components/overview/IncomeChart.vue"),
     TopDoctors: () => import("../components/overview/TopDoctors.vue"),
   },
 };
