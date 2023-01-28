@@ -17,6 +17,15 @@
       <v-col cols="12" xl="3" lg="4" md="6">
         <income-chart style="height: 100%" />
       </v-col>
+      <v-col cols="12" xl="3" lg="4" md="6">
+        <reservations-chart style="height: 100%" />
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <top-doctors />
+      </v-col>
     </v-row>
   </section>
 </template>
@@ -32,6 +41,9 @@ export default {
     ReservationsType: () =>
       import("../components/overview/ReservationsType.vue"),
     IncomeChart: () => import("../components/overview/IncomeChart.vue"),
+    ReservationsChart: () =>
+      import("../components/overview/ReservationsChart.vue"),
+    TopDoctors: () => import("../components/overview/TopDoctors.vue"),
   },
 };
 </script>
