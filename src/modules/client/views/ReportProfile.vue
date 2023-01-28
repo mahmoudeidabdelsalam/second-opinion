@@ -180,7 +180,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
@@ -188,14 +188,19 @@ export default {
       this.waitingForData = true;
 
       // get report
-      this.getData(`patient/reservations/${this.$route.params.id}`).then(
-        (res) => {
+      this.axios
+        .get(`patient/reservations/${this.$route.params.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
           // report
-          this.report = res;
+          this.report = response.data.data;
 
           this.waitingForData = false;
-        }
-      );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

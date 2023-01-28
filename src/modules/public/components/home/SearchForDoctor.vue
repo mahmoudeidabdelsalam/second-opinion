@@ -158,20 +158,25 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       // get departments
-      this.getData("patient/departments").then((res) => {
-        this.departments = res.map((item) => {
-          return {
-            text: item.name,
-            value: item.id,
-          };
+      this.axios
+        .get(`patient/departments`)
+        .then((response) => {
+          this.departments = response.data.data.map((item) => {
+            return {
+              text: item.name,
+              value: item.id,
+            };
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
         });
-      });
     },
 
     // doctor search

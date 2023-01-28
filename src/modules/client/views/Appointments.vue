@@ -71,23 +71,37 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       this.waitingForData = true;
-      // get appointments
-      this.getData(`patient/reservations?type=1`).then((res) => {
-        // upcoming
-        this.upcoming = res.filter((item) => item.status.value == 0);
-        // expired
-        this.expired = res.filter((item) => item.status.value == 3);
-        // canceled
-        this.canceled = res.filter((item) => item.status.value == 2);
 
-        this.waitingForData = false;
-      });
+      // get appointments
+      this.axios
+        .get(`patient/reservations?type=1`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // upcoming
+          this.upcoming = response.data.data.filter(
+            (item) => item.status.value == 0
+          );
+          // expired
+          this.expired = response.data.data.filter(
+            (item) => item.status.value == 3
+          );
+          // canceled
+          this.canceled = response.data.data.filter(
+            (item) => item.status.value == 2
+          );
+
+          this.waitingForData = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     // assign data

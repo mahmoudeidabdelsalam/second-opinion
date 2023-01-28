@@ -21,7 +21,8 @@
       </v-btn>
     </v-form>
 
-    <div class="options d-flex justify-space-between" style="width: 100%">
+    <div class="options d-flex justify-center align-center" style="width: 100%">
+      <span>لا تمتلك حساب؟ </span>
       <v-btn
         class="text-capitalize"
         color="primary"
@@ -29,20 +30,20 @@
         link
         :to="{ name: 'Register' }"
       >
-        إنشاء حساب جديد
+        التسجيل الان
       </v-btn>
 
-      <v-btn
+      <!-- <v-btn
         class="text-capitalize"
         color="primary"
         text
         @click.stop="openForgetPasswordModal"
       >
         نسيت كلمة المرور؟
-      </v-btn>
+      </v-btn> -->
 
       <!-- otp dialog -->
-      <v-dialog v-model="checkOtpModal" persistent max-width="400">
+      <!-- <v-dialog v-model="checkOtpModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>التحقق من OTP</v-toolbar-title>
@@ -75,10 +76,10 @@
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog>
+      </v-dialog> -->
 
       <!-- forgot password dialog -->
-      <v-dialog v-model="forgetPasswordModal" persistent max-width="400">
+      <!-- <v-dialog v-model="forgetPasswordModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>هل نسيت كلمة المرور؟</v-toolbar-title>
@@ -109,10 +110,10 @@
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog>
+      </v-dialog> -->
 
       <!-- otp dialog -->
-      <v-dialog v-model="checkOtpForgetModal" persistent max-width="400">
+      <!-- <v-dialog v-model="checkOtpForgetModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>التحقق من OTP</v-toolbar-title>
@@ -145,10 +146,10 @@
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog>
+      </v-dialog> -->
 
       <!-- reset password dialog -->
-      <v-dialog v-model="resetPasswordModal" persistent max-width="400">
+      <!-- <v-dialog v-model="resetPasswordModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>انشاء كلمة المرور</v-toolbar-title>
@@ -195,7 +196,7 @@
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog>
+      </v-dialog> -->
     </div>
   </section>
 </template>

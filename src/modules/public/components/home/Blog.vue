@@ -79,17 +79,22 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       // get articles
-      this.getData(
-        `https://blog.secondopinion.sa/wp-json/wp/api/posts?page=1&per_page=4`
-      ).then((res) => {
-        this.articles = res;
-      });
+      this.axios
+        .get(
+          `https://blog.secondopinion.sa/wp-json/wp/api/posts?page=1&per_page=4`
+        )
+        .then((response) => {
+          this.articles = response.data.data;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

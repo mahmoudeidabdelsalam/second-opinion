@@ -48,7 +48,7 @@
               </div>
             </div>
 
-            <v-dialog
+            <!-- <v-dialog
               v-model="rateDialogs[index]"
               persistent
               transition="dialog-top-transition"
@@ -84,7 +84,7 @@
                   </v-btn>
                 </v-card-actions>
               </v-card>
-            </v-dialog>
+            </v-dialog> -->
           </div>
         </div>
       </v-col>

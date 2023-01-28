@@ -92,23 +92,28 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       // get doctors
-      this.getData(
-        `patient/${
-          this.$route.query.doctor_name
-            ? `doctors?search=${this.$route.query.doctor_name}`
-            : this.$route.query.department_id
-            ? `doctors?department_id=${this.$route.query.department_id}`
-            : `doctors`
-        }`
-      ).then((res) => {
-        this.doctors = res;
-      });
+      this.axios
+        .get(
+          `patient/${
+            this.$route.query.doctor_name
+              ? `doctors?search=${this.$route.query.doctor_name}`
+              : this.$route.query.department_id
+              ? `doctors?department_id=${this.$route.query.department_id}`
+              : `doctors`
+          }`
+        )
+        .then((response) => {
+          this.doctors = response.data.data;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

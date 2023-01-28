@@ -72,7 +72,7 @@
                           v-model="editedItem.national_id"
                           :rules="nationalIdRules"
                           type="number"
-                          label="الرقم الهوية"
+                          label="رقم الهوية"
                           outlined
                           dense
                         ></v-text-field>

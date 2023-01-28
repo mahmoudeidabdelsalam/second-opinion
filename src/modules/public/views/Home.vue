@@ -36,15 +36,20 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       // get doctors
-      this.getData(`patient/doctors`).then((res) => {
-        this.doctors = res;
-      });
+      this.axios
+        .get(`patient/doctors`)
+        .then((response) => {
+          this.doctors = response.data.data;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

@@ -196,22 +196,36 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       this.waitingForData = true;
+
       // get reports
-      this.getData(`patient/reservations?type=2`).then((res) => {
-        // sents
-        this.sents = res.filter((item) => item.status.value == 0);
+      this.axios
+        .get(`patient/reservations?type=2`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // sents
+          this.sents = response.data.data.filter(
+            (item) => item.status.value == 0
+          );
 
-        // received
-        this.received = res.filter((item) => item.status.value == 3);
+          // received
+          this.received = response.data.data.filter(
+            (item) => item.status.value == 3
+          );
 
-        this.waitingForData = false;
-      });
+          this.waitingForData = false;
+
+          this.waitingForData = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

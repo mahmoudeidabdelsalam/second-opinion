@@ -9,7 +9,7 @@
     </router-link>
 
     <div class="user-data d-flex flex-column align-center pa-5">
-      <span class="d-block font-weight-bold white--text text-h5">
+      <span class="d-block font-weight-medium white--text text-h5">
         {{ user.full_name }}
       </span>
       <span class="d-block mb-3 font-weight-light white--text">
@@ -29,7 +29,7 @@
             <v-icon color="white">mdi-home</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-subtitle-1 font-weight-bold">
+            <v-list-item-title class="text-subtitle-1 font-weight-medium">
               الرئيسية
             </v-list-item-title>
           </v-list-item-content>
@@ -45,7 +45,7 @@
             <v-icon color="white">mdi-bell-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-subtitle-1 font-weight-bold">
+            <v-list-item-title class="text-subtitle-1 font-weight-medium">
               الاشعارات
             </v-list-item-title>
           </v-list-item-content>
@@ -61,7 +61,7 @@
             <v-icon color="white">mdi-calendar</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-subtitle-1 font-weight-bold">
+            <v-list-item-title class="text-subtitle-1 font-weight-medium">
               حجوزاتى
             </v-list-item-title>
           </v-list-item-content>
@@ -77,7 +77,7 @@
             <v-icon color="white">mdi-file-document</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-subtitle-1 font-weight-bold">
+            <v-list-item-title class="text-subtitle-1 font-weight-medium">
               الاستشارات المكتوبة
             </v-list-item-title>
           </v-list-item-content>
@@ -93,7 +93,7 @@
             <v-icon color="white">mdi-credit-card-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-subtitle-1 font-weight-bold"
+            <v-list-item-title class="text-subtitle-1 font-weight-medium"
               >الدفع</v-list-item-title
             >
           </v-list-item-content>
@@ -109,7 +109,7 @@
             <v-icon color="white">mdi-cog</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-subtitle-1 font-weight-bold">
+            <v-list-item-title class="text-subtitle-1 font-weight-medium">
               الاعدادات
             </v-list-item-title>
           </v-list-item-content>
@@ -125,7 +125,7 @@
           <v-icon color="white">mdi-help-circle-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="text-subtitle-1 font-weight-bold">
+          <v-list-item-title class="text-subtitle-1 font-weight-medium">
             المساعدة
           </v-list-item-title>
         </v-list-item-content>
@@ -141,7 +141,7 @@
           <v-icon color="white">mdi-information-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="text-subtitle-1 font-weight-bold">
+          <v-list-item-title class="text-subtitle-1 font-weight-medium">
             عن الموقع
           </v-list-item-title>
         </v-list-item-content>

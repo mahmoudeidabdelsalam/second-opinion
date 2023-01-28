@@ -10,7 +10,11 @@
 
             <register-form style="width: 100%" />
 
-            <div class="options d-flex justify-space-between">
+            <div
+              class="options d-flex justify-center align-center"
+              style="width: 100%"
+            >
+              <span>تمتلك حساب </span>
               <v-btn
                 class="text-capitalize"
                 color="primary"

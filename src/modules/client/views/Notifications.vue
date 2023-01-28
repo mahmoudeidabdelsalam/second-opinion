@@ -67,17 +67,26 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
     initData() {
       this.waitingForData = true;
+
       // get notifications
-      this.getData(`notifications`).then((res) => {
-        this.notifications = res;
-        this.waitingForData = false;
-      });
+      this.axios
+        .get(`notifications`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.notifications = response.data.data;
+
+          this.waitingForData = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

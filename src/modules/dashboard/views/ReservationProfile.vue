@@ -254,8 +254,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getData: "crudOperations/getData",
-      addData: "crudOperations/addData",
+      handleResponse: "responseHandler/handleResponse",
     }),
 
     // init data
@@ -263,14 +262,20 @@ export default {
       this.waitingForData = true;
 
       // get reservation
-      this.getData(`dashboard/reservations/${this.$route.params.id}`).then(
-        (res) => {
+
+      this.axios
+        .get(`dashboard/reservations/${this.$route.params.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
           // reservation
-          this.reservation = res;
+          this.reservation = response.data.data;
 
           this.waitingForData = false;
-        }
-      );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
 
     // upload report
@@ -289,13 +294,13 @@ export default {
           )
           .then((response) => {
             this.uploadLoading = false;
+            this.handleResponse(response);
 
             // reservation
             this.reservation = response.data.data;
           })
           .catch((error) => {
-            // handle error by store action
-            this.handleError(error);
+            this.handleResponse(error.response);
           });
       }
     },
