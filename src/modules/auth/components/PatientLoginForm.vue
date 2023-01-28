@@ -43,7 +43,7 @@
       </v-btn> -->
 
       <!-- otp dialog -->
-      <!-- <v-dialog v-model="checkOtpModal" persistent max-width="400">
+      <v-dialog v-model="checkOtpModal" persistent max-width="400">
         <v-card>
           <v-toolbar class="mb-5" elevation="0">
             <v-toolbar-title>التحقق من OTP</v-toolbar-title>
@@ -76,7 +76,7 @@
             </v-form>
           </v-card-text>
         </v-card>
-      </v-dialog> -->
+      </v-dialog>
 
       <!-- forgot password dialog -->
       <!-- <v-dialog v-model="forgetPasswordModal" persistent max-width="400">
