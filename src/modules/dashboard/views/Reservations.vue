@@ -268,6 +268,27 @@
         </span>
       </template>
 
+      <template v-slot:[`item.session.start_url`]="{ item }">
+        <v-btn
+          v-if="item.session && item.session.start_url"
+          depressed
+          icon
+          class="primary_bg pa-6"
+          title="ابدا الاستشارة"
+          link
+          :href="item.session.start_url"
+          target="_blank"
+        >
+          <v-avatar size="30">
+            <v-img
+              :src="require('@/assets/images/zoom.webp')"
+              :lazy-src="require('@/assets/images/zoom.webp')"
+              cover
+            ></v-img>
+          </v-avatar>
+        </v-btn>
+      </template>
+
       <template v-slot:[`item.actions`]="{ item }">
         <!-- <v-btn class="primary--text primary_bg" icon @click="editItem(item)">
             <v-icon small color="success">mdi-pencil</v-icon>
@@ -311,6 +332,7 @@ export default {
         sortable: false,
       },
       { text: "طريقة الحجز", value: "created_by" },
+      { text: "بدا الاستشارة", value: "session.start_url", align: "center" },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
