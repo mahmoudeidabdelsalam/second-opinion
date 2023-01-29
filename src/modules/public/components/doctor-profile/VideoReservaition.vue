@@ -47,14 +47,6 @@
         ></v-date-picker>
       </v-menu>
 
-      <!-- loading -->
-      <v-progress-linear
-        v-if="loading_resutls"
-        indeterminate
-        color="primary"
-        class="mb-5"
-      ></v-progress-linear>
-
       <!-- no available times -->
       <v-alert v-if="notAvailableMessage" type="error" class="mb-5">
         {{ notAvailableMessage }}
@@ -102,7 +94,6 @@ export default {
     reservation_time: "",
     available_times: [],
     notAvailableMessage: null,
-    loading_resutls: false,
     // min date
     minDate: new Date().toISOString().substr(0, 10),
 
@@ -121,30 +112,37 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     // get available times
     getAvailablTimes() {
       if (this.$refs.form.validate()) {
-        this.loading_resutls = true;
-
         let data = new FormData();
         data.append("doctor_id", this.$route.params.id);
         data.append("reservation_day", this.reservation_day);
 
+        // show request loading
+        this.showRequsetLoading();
+
         this.axios
           .post(`patient/reservations/get-available-dates`, data)
           .then((response) => {
-            this.loading_resutls = false;
             this.notAvailableMessage = null;
             response.data.data
               ? (this.available_times = response.data.data)
               : ((this.available_times = []), this.$refs.form.reset());
+
+            // hide request loading
+            this.hideRequsetLoading();
           })
           .catch((error) => {
-            this.loading_resutls = false;
             this.notAvailableMessage = error.response.data.message;
             this.available_times = [];
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       }
     },
@@ -159,11 +157,17 @@ export default {
         data.append("type", 1);
         data.append("is_web", 1);
 
+        // show request loading
+        this.showRequsetLoading();
+
         this.axios
           .post(`patient/reservations-two`, data, {
             headers: { Authorization: `Bearer ${localStorage.token}` },
           })
           .then((response) => {
+            // hide request loading
+            this.hideRequsetLoading();
+
             // redirect to ClientNotifications page
             this.$router.push({
               name: "ClientNotifications",
@@ -173,6 +177,9 @@ export default {
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       }
     },

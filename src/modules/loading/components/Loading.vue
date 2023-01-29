@@ -1,8 +1,25 @@
 <template>
   <section class="loading d-flex justify-center align-center" v-if="show">
-    <v-avatar tile size="220">
-      <v-img :src="require('@/assets/images/logo.webp')" contain></v-img>
-    </v-avatar>
+    <div id="css3-spinner-svg-pulse-wrapper">
+      <svg
+        id="css3-spinner-svg-pulse"
+        version="1.2"
+        height="210"
+        width="550"
+        xmlns="http://www.w3.org/2000/svg"
+        viewport="0 0 60 60"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <path
+          id="css3-spinner-pulse"
+          stroke="#008ad0"
+          fill="none"
+          stroke-width="2"
+          stroke-linejoin="round"
+          d="M0,90L250,90Q257,60 262,87T267,95 270,88 273,92t6,35 7,-60T290,127 297,107s2,-11 10,-10 1,1 8,-10T319,95c6,4 8,-6 10,-17s2,10 9,11h210"
+        />
+      </svg>
+    </div>
   </section>
 </template>
 
@@ -37,23 +54,86 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #fff;
-  z-index: 99999;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-animation: bg 4s;
 
-  .v-avatar {
-    .v-image__image {
-      animation: imageAnimation 2s infinite;
+  /*bg animation*/
+  @-webkit-keyframes bg {
+    0% {
+      opacity: 1;
+    }
+
+    70% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
     }
   }
 
-  @keyframes imageAnimation {
+  @keyframes bg {
     0% {
-      transform: scale(0.95);
+      opacity: 1;
     }
-    50% {
-      transform: scale(1);
+
+    70% {
+      opacity: 1;
     }
+
     100% {
-      transform: scale(0.95);
+      opacity: 0;
+    }
+  }
+
+  #css3-spinner-svg-pulse-wrapper {
+    position: absolute;
+    overflow: hidden;
+    width: 260px;
+    height: 210px;
+    top: 50%;
+    left: 50%;
+    margin-top: -105px;
+    margin-left: -130px;
+    background-color: transparent;
+    animation: none;
+    -webkit-animation: none;
+  }
+
+  #css3-spinner-svg-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -105px;
+    margin-left: -275px;
+  }
+
+  #css3-spinner-pulse {
+    stroke-dasharray: 281;
+    -webkit-animation: dash 5s infinite linear forwards;
+  }
+
+  /*Animation*/
+  @-webkit-keyframes dash {
+    from {
+      stroke-dashoffset: 814;
+    }
+
+    to {
+      stroke-dashoffset: -814;
+    }
+  }
+
+  @keyframes dash {
+    from {
+      stroke-dashoffset: 814;
+    }
+
+    to {
+      stroke-dashoffset: -814;
     }
   }
 }

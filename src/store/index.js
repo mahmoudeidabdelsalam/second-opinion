@@ -23,7 +23,7 @@ import notifications from "@/modules/notifications/store/notifications.store";
 import responseHandler from "./responseHandler.store";
 
 // loading module
-import loading from "@/modules/loading/store/request.store";
+import loading from "@/modules/loading/store/loading.store";
 
 Vue.use(Vuex);
 

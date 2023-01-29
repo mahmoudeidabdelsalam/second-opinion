@@ -4,7 +4,12 @@
       مواعيد العمل
     </span>
 
-    <v-form ref="form" :v-model="valid" style="max-width: 600px">
+    <v-form
+      ref="form"
+      :v-model="valid"
+      v-if="!waitingForData"
+      style="max-width: 600px"
+    >
       <v-container>
         <v-row v-for="(day, index) in days" :key="index">
           <v-col cols="12">
@@ -63,6 +68,13 @@
         </v-row>
       </v-container>
     </v-form>
+
+    <!-- waiting for data -->
+    <v-skeleton-loader
+      v-if="waitingForData"
+      max-width="300"
+      type="card"
+    ></v-skeleton-loader>
   </v-card>
 </template>
 
@@ -73,6 +85,9 @@ export default {
   name: "Appointments",
 
   data: () => ({
+    // waiting for data
+    waitingForData: false,
+
     // days
     days: [],
 
@@ -131,9 +146,14 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     initData() {
+      // set waiting for data
+      this.waitingForData = true;
+
       // get doctor time management
       this.axios
         .get(`dashboard/doctors/${this.$route.params.id}/time-management`, {
@@ -149,9 +169,15 @@ export default {
             this.form[index].end_time = day.end_time;
             this.form[index].status = day.status;
           });
+
+          // hide waiting for data
+          this.waitingForData = false;
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide waiting for data
+          this.waitingForData = false;
         });
     },
 
@@ -161,6 +187,9 @@ export default {
         let data = new URLSearchParams();
         data.append("schedule_time_id", id);
         data.append("status", 0);
+
+        // show request loading
+        this.showRequsetLoading();
 
         this.axios
           .put(
@@ -172,9 +201,15 @@ export default {
           )
           .then((response) => {
             this.handleResponse(response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       } else {
         let data = new URLSearchParams();
@@ -195,6 +230,9 @@ export default {
         );
         data.append("status", +this.form[index].status);
 
+        // show request loading
+        this.showRequsetLoading();
+
         this.axios
           .put(
             `dashboard/doctors/${this.$route.params.id}/time-management`,
@@ -205,9 +243,15 @@ export default {
           )
           .then((response) => {
             this.handleResponse(response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       }
     },

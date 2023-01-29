@@ -265,6 +265,8 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     async save() {
@@ -286,15 +288,24 @@ export default {
         data.append("experiences:en", this.form.experiences_en);
         data.append("experiences:ar", this.form.experiences_ar);
 
+        // show request loading
+        this.showRequsetLoading();
+
         await this.axios
           .put(`dashboard/doctors/${this.$route.params.id}`, data, {
             headers: { Authorization: `Bearer ${localStorage.token}` },
           })
           .then((response) => {
             this.handleResponse(response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       }
     },

@@ -177,6 +177,7 @@
                   <v-date-picker
                     v-model="form.birthday"
                     :max="maxDate"
+                    :active-picker.sync="activePicker"
                     @input="menu = false"
                     @change="updateUser"
                   ></v-date-picker>
@@ -193,8 +194,11 @@
         style="max-width: 700px"
       >
         <span class="primary--text font-weight-bold">النوع</span>
-        <span class="secondary--text font-weight-bold">
-          {{ user.gender }}
+        <span
+          class="secondary--text font-weight-bold"
+          v-if="user.gender && user.gender.text"
+        >
+          {{ user.gender.text }}
         </span>
 
         <!-- update gender dialog -->
@@ -265,6 +269,8 @@ export default {
     menu: false,
     // max date
     maxDate: new Date().toISOString().substr(0, 10),
+    // active picker
+    activePicker: null,
 
     // update gender dialog
     genderDialog: false,
@@ -279,8 +285,15 @@ export default {
       name: "",
       national_id: "",
       birthday: "",
+      gender: "",
     },
   }),
+
+  watch: {
+    menu(val) {
+      val && setTimeout(() => (this.activePicker = "YEAR"));
+    },
+  },
 
   computed: {
     ...mapGetters({
@@ -296,6 +309,8 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     // bind data
@@ -303,7 +318,7 @@ export default {
       this.form.name = this.user.full_name;
       this.form.national_id = this.user.national_id;
       this.form.birthday = this.user.birthday;
-      this.form.gender = this.user.gender;
+      this.form.gender = this.user.gender.value;
     },
 
     // update user
@@ -311,10 +326,15 @@ export default {
       // validate form
       if (this.$refs.form.validate()) {
         let data = new URLSearchParams();
-        data.append("name", this.form.name);
-        data.append("national_id", this.form.national_id);
-        data.append("birthday", this.form.birthday);
-        data.append("gender", this.form.gender);
+        this.form.name ? data.append("name", this.form.name) : "";
+        this.form.national_id
+          ? data.append("national_id", this.form.national_id)
+          : "";
+        this.form.birthday ? data.append("birthday", this.form.birthday) : "";
+        this.form.gender ? data.append("gender", this.form.gender) : "";
+
+        // show request loading
+        this.showRequsetLoading();
 
         this.axios
           .put(`patient/profile`, data, {
@@ -325,9 +345,15 @@ export default {
             this.$store.commit("login/SET_USER", response.data.data);
             this.closeAllDialogs();
             this.handleResponse(response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       }
     },
@@ -338,6 +364,7 @@ export default {
       this.nationalIdDialog = false;
       this.birthdayDialog = false;
       this.menu = false;
+      this.genderDialog = false;
     },
   },
 };

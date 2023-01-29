@@ -11,22 +11,32 @@ const getters = {
 
 // actions
 const actions = {
-  // show notification
-  showNotification({ commit }) {
-    commit("SHOW_NOTIFICATION");
+  // show request loading
+  showRequestLoading({ commit }) {
+    commit("SHOW_REQUEST_LOADING");
+  },
+
+  // hide request loading
+  hideRequestLoading({ commit }) {
+    commit("HIDE_REQUEST_LOADING");
   },
 };
 
 // mutations
 const mutations = {
-  // show notification
-  SHOW_NOTIFICATION(state) {
+  // show request loading
+  SHOW_REQUEST_LOADING(state) {
     state.loading = true;
 
-    // hide notification after notification timeout
+    // hide request loading after 10 seconds
     setTimeout(() => {
       state.loading = false;
     }, 10000);
+  },
+
+  // hide request loading
+  HIDE_REQUEST_LOADING(state) {
+    state.loading = false;
   },
 };
 

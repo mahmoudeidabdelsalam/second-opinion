@@ -110,6 +110,8 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     askReport() {
@@ -128,11 +130,17 @@ export default {
         data.append("type", 2);
         data.append("is_web", 1);
 
+        // show request loading
+        this.showRequsetLoading();
+
         this.axios
           .post(`patient/reservations-two`, data, {
             headers: { Authorization: `Bearer ${localStorage.token}` },
           })
           .then((response) => {
+            // hide request loading
+            this.hideRequsetLoading();
+
             // redirect to ClientNotifications page
             this.$router.push({
               name: "ClientNotifications",
@@ -142,6 +150,9 @@ export default {
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       }
     },

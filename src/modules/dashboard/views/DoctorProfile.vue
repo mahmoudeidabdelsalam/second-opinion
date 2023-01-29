@@ -2,7 +2,7 @@
   <section class="white rounded-lg pa-3">
     <v-container fluid>
       <v-row v-if="!waitingForData">
-        <v-col cols="12" md="2">
+        <v-col cols="12" md="3">
           <div class="doctor">
             <span class="d-block text-h6 font-weight-bold mb-5">
               بيانات الطبيب
@@ -93,44 +93,44 @@
           </div>
         </v-col>
 
-        <v-col cols="12" md="10">
+        <v-col cols="12" md="9">
           <v-tabs
             v-model="tabs"
             class="rounded-lg rounded-bl-0 rounded-br-0 elevation-3"
             style="max-width: max-content"
           >
             <v-tabs-slider></v-tabs-slider>
-            <v-tab
+            <!-- <v-tab
               href="#mobile-tabs-5-1"
-              class="font-weight-bold text-capitalize"
+              class="font-weight-bold text-capitalize px-10"
               active-class="primary--text active-tab"
             >
               الحجوزات
-            </v-tab>
-
-            <v-tab
-              href="#mobile-tabs-5-2"
-              class="font-weight-bold text-capitalize"
-              active-class="primary--text active-tab"
-            >
-              المواعيد
-            </v-tab>
+            </v-tab> -->
 
             <v-tab
               href="#mobile-tabs-5-3"
-              class="font-weight-bold text-capitalize"
+              class="font-weight-bold text-capitalize px-10"
               active-class="primary--text active-tab"
             >
               التفاصيل
             </v-tab>
 
             <v-tab
+              href="#mobile-tabs-5-2"
+              class="font-weight-bold text-capitalize px-10"
+              active-class="primary--text active-tab"
+            >
+              المواعيد
+            </v-tab>
+
+            <!-- <v-tab
               href="#mobile-tabs-5-5"
-              class="font-weight-bold text-capitalize"
+              class="font-weight-bold text-capitalize px-10"
               active-class="primary--text active-tab"
             >
               المرضى
-            </v-tab>
+            </v-tab> -->
           </v-tabs>
 
           <v-tabs-items
@@ -143,15 +143,15 @@
               ></doctor-reservations>
             </v-tab-item>
 
-            <v-tab-item value="mobile-tabs-5-2">
-              <doctor-appointments></doctor-appointments>
-            </v-tab-item>
-
             <v-tab-item value="mobile-tabs-5-3">
               <doctor-details
                 :doctor="doctor"
                 :department="doctor"
               ></doctor-details>
+            </v-tab-item>
+
+            <v-tab-item value="mobile-tabs-5-2">
+              <doctor-appointments></doctor-appointments>
             </v-tab-item>
 
             <v-tab-item value="mobile-tabs-5-5">

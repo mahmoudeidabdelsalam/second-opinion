@@ -17,7 +17,7 @@
 
         <v-tab
           class="font-weight-bold secondary--text"
-          active-class="active"
+          :active-class="$route.name === 'Home' ? 'active' : ''"
           link
           to="/"
         >

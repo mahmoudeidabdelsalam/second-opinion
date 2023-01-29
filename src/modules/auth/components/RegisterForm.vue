@@ -6,6 +6,7 @@
         :rules="nameRules"
         label="الاسم"
         outlined
+        autofocus
       ></v-text-field>
 
       <v-text-field
@@ -34,6 +35,8 @@
         class="mb-3 white--text py-6"
         color="primary"
         block
+        :loading="loading1"
+        :disabled="loading1"
         @click="sendOtp"
       >
         انشاء حساب
@@ -64,9 +67,11 @@
             ></v-otp-input>
 
             <v-btn
-              class="mt-3 white--text"
+              class="mt-3 py-6 white--text"
               color="primary"
               block
+              :loading="loading2"
+              :disabled="loading2"
               @click="checkOtp"
             >
               تحقق
@@ -85,6 +90,10 @@ export default {
   name: "RegisterForm",
 
   data: () => ({
+    // buttons loading
+    loading1: false,
+    loading2: false,
+
     // register form data
     form: {
       name: "",
@@ -126,6 +135,9 @@ export default {
         data.append("email", this.form.email);
         data.append("phone_number", this.form.phone_number);
 
+        // show loading1
+        this.loading1 = true;
+
         this.axios
           .post(`auth/register`, data)
           .then((response) => {
@@ -133,9 +145,15 @@ export default {
             localStorage.setItem("temporary_token", response.data.data.token);
             this.handleResponse(response);
             this.checkOtpModal = true;
+
+            // hide loading1
+            this.loading1 = false;
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide loading1
+            this.loading1 = false;
           });
       }
     },
@@ -146,6 +164,9 @@ export default {
       if (this.$refs.form.validate()) {
         let data = new FormData();
         data.append("otp", this.checkOtpForm.otp);
+
+        // show loading2
+        this.loading2 = true;
 
         this.axios
           .post(`patient/auth/login`, data, {
@@ -159,9 +180,15 @@ export default {
             // attempt login
             this.attemptLogin(response.data.data.token);
             this.handleResponse(response);
+
+            // hide loading2
+            this.loading2 = false;
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide loading2
+            this.loading2 = false;
           });
       }
     },

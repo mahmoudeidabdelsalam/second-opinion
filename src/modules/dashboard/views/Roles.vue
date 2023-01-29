@@ -209,6 +209,8 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     // init data
@@ -245,6 +247,9 @@ export default {
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
+      // show request loading
+      this.showRequsetLoading();
+
       // get single item data from show api
       this.axios
         .get(`dashboard/roles/${item.id}`, {
@@ -262,9 +267,15 @@ export default {
               ),
             }
           );
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
 
       this.dialog = true;
@@ -320,6 +331,9 @@ export default {
           }
           data.append("_method", "PUT");
 
+          // show request loading
+          this.showRequsetLoading();
+
           await this.axios
             .post(`dashboard/roles/${this.editedItem.id}`, data, {
               headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -331,9 +345,15 @@ export default {
               );
               this.handleResponse(response);
               this.close();
+
+              // hide request loading
+              this.hideRequsetLoading();
             })
             .catch((error) => {
               this.handleResponse(error.response);
+
+              // hide request loading
+              this.hideRequsetLoading();
             });
         }
       } else {
@@ -345,6 +365,9 @@ export default {
             data.append("permissions[]", this.editedItem.permissions[i]);
           }
 
+          // show request loading
+          this.showRequsetLoading();
+
           await this.axios
             .post(`dashboard/roles`, data, {
               headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -353,9 +376,15 @@ export default {
               this.desserts.unshift(response.data.data);
               this.handleResponse(response);
               this.close();
+
+              // hide request loading
+              this.hideRequsetLoading();
             })
             .catch((error) => {
               this.handleResponse(error.response);
+
+              // hide request loading
+              this.hideRequsetLoading();
             });
         }
       }
@@ -363,5 +392,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss"></style>

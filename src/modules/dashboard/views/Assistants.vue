@@ -325,6 +325,8 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     // init data
@@ -400,6 +402,9 @@ export default {
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
+      // show request loading
+      this.showRequsetLoading();
+
       // get single item data from show api
       this.axios
         .get(`dashboard/assistants/${item.id}`, {
@@ -418,9 +423,15 @@ export default {
               gender: response.data.data.gender,
             }
           );
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
 
       this.dialog = true;
@@ -454,6 +465,9 @@ export default {
     },
 
     async restoreItemConfirm() {
+      // show request loading
+      this.showRequsetLoading();
+
       await this.axios
         .put(
           `dashboard/assistants/${this.editedItem.id}/restore`,
@@ -466,9 +480,15 @@ export default {
           this.desserts.splice(this.editedIndex, 1);
           this.handleResponse(response);
           this.closeRestore();
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
     },
 
@@ -512,6 +532,9 @@ export default {
           data.append("national_id", this.editedItem.national_id);
           data.append("_method", "PUT");
 
+          // show request loading
+          this.showRequsetLoading();
+
           await this.axios
             .post(`dashboard/assistants/${this.editedItem.id}`, data, {
               headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -523,9 +546,15 @@ export default {
               );
               this.handleResponse(response);
               this.close();
+
+              // hide request loading
+              this.hideRequsetLoading();
             })
             .catch((error) => {
               this.handleResponse(error.response);
+
+              // hide request loading
+              this.hideRequsetLoading();
             });
         }
       } else {
@@ -540,6 +569,9 @@ export default {
           data.append("gender", this.editedItem.gender);
           data.append("national_id", this.editedItem.national_id);
 
+          // show request loading
+          this.showRequsetLoading();
+
           await this.axios
             .post(`dashboard/assistants`, data, {
               headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -548,9 +580,15 @@ export default {
               this.desserts.unshift(response.data.data);
               this.handleResponse(response);
               this.close();
+
+              // hide request loading
+              this.hideRequsetLoading();
             })
             .catch((error) => {
               this.handleResponse(error.response);
+
+              // hide request loading
+              this.hideRequsetLoading();
             });
         }
       }

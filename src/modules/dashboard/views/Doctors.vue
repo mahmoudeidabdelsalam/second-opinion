@@ -542,6 +542,8 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     // init data
@@ -627,6 +629,9 @@ export default {
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
+      // show request loading
+      this.showRequsetLoading();
+
       // get single item data from show api
       this.axios
         .get(`dashboard/doctors/${item.id}`, {
@@ -655,9 +660,15 @@ export default {
               job_id: response.data.data.job_id,
             }
           );
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
 
       this.dialog = true;
@@ -691,6 +702,9 @@ export default {
     },
 
     async restoreItemConfirm() {
+      // show request loading
+      this.showRequsetLoading();
+
       await this.axios
         .put(
           `dashboard/doctors/${this.editedItem.id}/restore`,
@@ -703,9 +717,15 @@ export default {
           this.desserts.splice(this.editedIndex, 1);
           this.handleResponse(response);
           this.closeRestore();
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
     },
 
@@ -762,6 +782,9 @@ export default {
         data.append("experiences:ar", this.editedItem.experiences_ar);
         data.append("_method", "PUT");
 
+        // hide request loading
+        this.hideRequsetLoading();
+
         await this.axios
           .post(`dashboard/doctors/${this.editedItem.id}`, data, {
             headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -771,9 +794,15 @@ export default {
             this.handleResponse(response);
             this.close();
             this.$refs.pond.removeFiles();
+
+            // hide request loading
+            this.hideRequsetLoading();
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
           });
       } else {
         if (this.$refs.form.validate()) {
@@ -797,6 +826,9 @@ export default {
           data.append("experiences:en", this.editedItem.experiences_en);
           data.append("experiences:ar", this.editedItem.experiences_ar);
 
+          // show request loading
+          this.showRequsetLoading();
+
           await this.axios
             .post(`dashboard/doctors`, data, {
               headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -806,9 +838,15 @@ export default {
               this.handleResponse(response);
               this.close();
               this.$refs.pond.removeFiles();
+
+              // hide request loading
+              this.hideRequsetLoading();
             })
             .catch((error) => {
               this.handleResponse(error.response);
+
+              // hide request loading
+              this.hideRequsetLoading();
             });
         }
       }

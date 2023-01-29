@@ -6,6 +6,7 @@
         :rules="emailRules"
         label="ادخل البريد الالكتروني"
         outlined
+        autofocus
       ></v-text-field>
 
       <v-text-field
@@ -20,7 +21,14 @@
       <!-- remember me -->
       <v-checkbox label="تذكرني"></v-checkbox>
 
-      <v-btn class="mb-3 white--text py-6" color="primary" block @click="login">
+      <v-btn
+        class="mb-3 white--text py-6"
+        color="primary"
+        block
+        :loading="loading1"
+        :disabled="loading1"
+        @click="login"
+      >
         تسجيل الدخول
       </v-btn>
     </v-form>
@@ -34,6 +42,9 @@ export default {
   name: "DoctorLoginForm",
 
   data: () => ({
+    // buttons loading
+    loading1: false,
+
     // login form
     loginForm: {
       email: "",
@@ -63,15 +74,24 @@ export default {
         data.append("email", this.loginForm.email);
         data.append("password", this.loginForm.password);
 
+        // show loading1
+        this.loading1 = true;
+
         this.axios
           .post(`auth/login`, data)
           .then((response) => {
             // attempt login
             this.attemptLogin(response.data.data.token);
             this.handleResponse(response);
+
+            // hide loading1
+            this.loading1 = false;
           })
           .catch((error) => {
             this.handleResponse(error.response);
+
+            // hide loading1
+            this.loading1 = false;
           });
       }
     },
