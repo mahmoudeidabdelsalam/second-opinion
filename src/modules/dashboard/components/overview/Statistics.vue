@@ -1,10 +1,10 @@
 <template>
-  <section class="statistics" style="min-height: 100%">
+  <section class="statistics" style="height: 100%">
     <v-row>
       <v-col
         cols="12"
         xl="3"
-        lg="4"
+        lg="3"
         md="4"
         sm="6"
         v-for="box in boxs"
@@ -99,6 +99,7 @@ export default {
 .statistics {
   .box {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    height: 100%;
 
     &:hover {
       box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);

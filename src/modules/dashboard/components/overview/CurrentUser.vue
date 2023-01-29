@@ -16,7 +16,7 @@
       {{ user.full_name }}
     </span>
     <span
-      class="d-block subtitle-2 font-weight-bold secondary--text text-truncate"
+      class="d-block subtitle-2 font-weight-bold secondary--text"
       dir="ltr"
       :title="user.email"
     >

@@ -26,7 +26,7 @@
           </div>
         </v-col> -->
 
-        <v-col cols="12" xl="3" lg="4" md="6" sm="6">
+        <v-col cols="12" xl="3" lg="2" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               روابط مساعدة
@@ -52,7 +52,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" xl="2" lg="4" md="6" sm="6">
+        <v-col cols="12" xl="2" lg="2" md="6" sm="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               انضم الينا
@@ -66,7 +66,7 @@
           </div>
         </v-col>
 
-        <v-col cols="12" xl="4" lg="4" md="6">
+        <v-col cols="12" xl="4" lg="3" md="6">
           <div class="regular-column column">
             <span class="column-title d-block primary--text mb-6">
               تواصل معنا
@@ -89,7 +89,7 @@
               <v-icon class="mx-2">mdi-map-marker</v-icon>
               7064، سالم بن معقل، حي النخيل، 4092
             </span>
-            <div class="social-links mb-5">
+            <!-- <div class="social-links mb-5">
               <a href="#" target="_blank" class="box" aria-label="twitter">
                 <v-icon color="white">mdi-twitter</v-icon>
               </a>
@@ -99,31 +99,31 @@
               <a href="#" target="_blank" class="box" aria-label="instagram">
                 <v-icon color="white">mdi-instagram</v-icon>
               </a>
-            </div>
+            </div> -->
           </div>
         </v-col>
 
-        <v-col cols="12" xl="3" lg="4" md="6">
+        <v-col cols="12" xl="3" lg="3" md="6">
           <div
             class="regular-column column d-flex flex-column flex-md-row justify-start align-center"
           >
             <div class="stores d-flex flex-column ml-8">
               <v-btn
-                class="white rounded-lg py-7 mb-4 d-flex justify-start align-center"
+                class="white rounded-lg py-6 mb-4 d-flex justify-start align-center"
                 style="border: 1px solid #000 !important"
               >
                 <div class="text d-flex flex-column align-end px-2">
                   <span
-                    class="font-weight-medium text-capitalize"
-                    style="margin-bottom: -8px"
+                    class="font-weight-regular text-capitalize"
+                    style="margin-bottom: -7px"
                   >
                     Get it on
                   </span>
-                  <span class="text-capitalize font-weight-bold text-h6">
+                  <span class="text-capitalize font-weight-bold subtitle-1">
                     App Store
                   </span>
                 </div>
-                <v-avatar size="32">
+                <v-avatar size="28">
                   <v-img
                     :src="require('@/assets/images/apple.webp')"
                     :lazy-src="require('@/assets/images/apple.webp')"
@@ -133,21 +133,21 @@
               </v-btn>
 
               <v-btn
-                class="white rounded-lg py-7 d-flex justify-start align-center"
+                class="white rounded-lg py-6 d-flex justify-start align-center"
                 style="border: 1px solid #000 !important"
               >
                 <div class="text d-flex flex-column align-end px-2">
                   <span
-                    class="font-weight-medium text-uppercase"
-                    style="margin-bottom: -8px"
+                    class="font-weight-regular text-uppercase"
+                    style="margin-bottom: -7px"
                   >
                     Get it on
                   </span>
-                  <span class="text-capitalize font-weight-bold text-h6">
+                  <span class="text-capitalize font-weight-bold subtitle-1">
                     Google Play
                   </span>
                 </div>
-                <v-avatar size="32">
+                <v-avatar size="25">
                   <v-img
                     :src="require('@/assets/images/google-play.webp')"
                     :lazy-src="require('@/assets/images/google-play.webp')"
@@ -156,7 +156,7 @@
                 </v-avatar>
               </v-btn>
             </div>
-            <v-avatar tile class="mb-5" size="222">
+            <v-avatar tile class="mb-5" size="200">
               <v-img
                 :src="require('@/assets/images/logo.webp')"
                 :lazy-src="require('@/assets/images/logo.webp')"

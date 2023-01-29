@@ -1,10 +1,10 @@
 <template>
   <section>
     <v-row>
-      <v-col cols="12" xl="9" lg="9" md="9">
+      <v-col cols="12" xl="9" lg="10" md="9">
         <statistics />
       </v-col>
-      <v-col cols="12" xl="3" lg="3" md="3">
+      <v-col cols="12" xl="3" lg="2" md="3">
         <current-user />
       </v-col>
 
@@ -14,10 +14,10 @@
       <v-col cols="12" xl="3" lg="3" md="3" sm="6">
         <reservations-type style="height: 100%" />
       </v-col>
-      <v-col cols="12" xl="3" lg="4" md="6">
+      <v-col cols="12" xl="3" lg="3" md="6">
         <reservations-chart style="height: 100%" />
       </v-col>
-      <v-col cols="12" xl="3" lg="4" md="6">
+      <v-col cols="12" xl="3" lg="3" md="6">
         <income-chart style="height: 100%" />
       </v-col>
     </v-row>

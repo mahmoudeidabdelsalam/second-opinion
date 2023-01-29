@@ -7,10 +7,12 @@
             class="text-content d-flex flex-column justify-center text-center text-md-start"
             style="height: 100%"
           >
-            <span class="d-block mb-10 white--text font-weight-bold text-h4">
+            <span
+              class="d-block mb-10 mt-5 white--text font-weight-bold text-h4"
+            >
               حمّل التطبيق
             </span>
-            <p class="white--text text-h5 mb-10">
+            <p class="white--text text-h5 mb-10" style="line-height: 1.8">
               لتجربة افضل
               <br />
               و للاستفادة من جميع الخدمات

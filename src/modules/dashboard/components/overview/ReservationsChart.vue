@@ -9,7 +9,7 @@
         <v-sheet color="primary">
           <v-sparkline
             :value="value"
-            label-size="10"
+            label-size="12"
             color="white"
             height="145"
             padding="20"
