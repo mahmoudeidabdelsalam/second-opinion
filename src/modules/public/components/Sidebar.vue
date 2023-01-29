@@ -1,7 +1,14 @@
 <template>
   <aside class="sidebar white">
     <router-link :to="{ name: 'Home' }" class="brand d-block pa-5 text-center">
-      <img src="../../../assets/images/logo.webp" alt="Top Doctors logo" />
+      <v-avatar tile size="80">
+        <v-img
+          :src="require('@/assets/images/logo.webp')"
+          :lazy-src="require('@/assets/images/logo.webp')"
+          contain
+          alt="Top Doctors logo"
+        ></v-img>
+      </v-avatar>
     </router-link>
 
     <span class="d-block pa-5 font-weight-medium black--text">القائمة</span>
