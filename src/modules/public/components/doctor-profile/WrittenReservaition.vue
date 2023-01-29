@@ -13,7 +13,12 @@
       </span>
     </v-btn>
 
-    <v-form ref="form" :v-model="valid" class="mb-10" v-if="showReportForm">
+    <v-form
+      ref="form"
+      :v-model="valid"
+      class="mb-10"
+      v-if="showReportForm && authenticated"
+    >
       <!-- <v-textarea
                 v-model="notes"
                 label="اكتب ملاحظاتك ..."
@@ -50,11 +55,18 @@
         ادفع لتاكيد الحجز
       </v-btn>
     </v-form>
+
+    <v-alert v-if="showReportForm && !authenticated" type="error">
+      <span class="d-block mb-2">برجاء تسجيل الدخول لحجز استشارة</span>
+      <v-btn color="primary" depressed link :to="{ name: 'Login' }">
+        تسجيل الدخول
+      </v-btn>
+    </v-alert>
   </section>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 // Import Vue FilePond
 import vueFilePond from "vue-filepond";
@@ -88,6 +100,12 @@ export default {
     report_files: [],
     image: null,
   }),
+
+  computed: {
+    ...mapGetters({
+      authenticated: "user/authenticated",
+    }),
+  },
 
   methods: {
     ...mapActions({

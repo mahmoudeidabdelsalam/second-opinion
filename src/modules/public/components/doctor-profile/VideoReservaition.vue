@@ -11,7 +11,12 @@
       </span>
     </v-btn>
 
-    <v-form ref="form" v-model="valid" class="mb-10" v-if="showDatePicker">
+    <v-form
+      ref="form"
+      v-model="valid"
+      class="mb-10"
+      v-if="showDatePicker && authenticated"
+    >
       <v-menu
         v-model="menu"
         :close-on-content-click="true"
@@ -74,11 +79,18 @@
         ادفع لتاكيد الحجز
       </v-btn>
     </v-form>
+
+    <v-alert v-if="showDatePicker && !authenticated" type="error">
+      <span class="d-block mb-2">برجاء تسجيل الدخول لحجز استشارة</span>
+      <v-btn color="primary" depressed link :to="{ name: 'Login' }">
+        تسجيل الدخول
+      </v-btn>
+    </v-alert>
   </section>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "VideoReservaition",
 
@@ -99,6 +111,12 @@ export default {
       .toISOString()
       .substr(0, 10),
   }),
+
+  computed: {
+    ...mapGetters({
+      authenticated: "user/authenticated",
+    }),
+  },
 
   methods: {
     ...mapActions({
