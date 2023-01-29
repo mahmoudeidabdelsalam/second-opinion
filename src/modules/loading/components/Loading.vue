@@ -1,6 +1,6 @@
 <template>
   <section class="loading d-flex justify-center align-center" v-if="show">
-    <v-avatar tile size="250">
+    <v-avatar tile size="220">
       <v-img :src="require('@/assets/images/logo.webp')" contain></v-img>
     </v-avatar>
   </section>
@@ -47,13 +47,13 @@ export default {
 
   @keyframes imageAnimation {
     0% {
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
     50% {
       transform: scale(1);
     }
     100% {
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
   }
 }

@@ -22,6 +22,9 @@ import notifications from "@/modules/notifications/store/notifications.store";
 // responseHandler module
 import responseHandler from "./responseHandler.store";
 
+// loading module
+import loading from "@/modules/loading/store/request.store";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -33,5 +36,6 @@ export default new Vuex.Store({
     translate,
     notifications,
     responseHandler,
+    loading,
   },
 });

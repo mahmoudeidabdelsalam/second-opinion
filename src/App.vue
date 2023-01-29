@@ -2,7 +2,9 @@
   <v-app>
     <v-main>
       <!-- loading -->
-      <loading />
+      <!-- <loading /> -->
+      <!-- request loading -->
+      <request-loading />
       <!-- router view -->
       <router-view />
       <!-- notification -->
@@ -19,7 +21,10 @@ export default {
 
   components: {
     // loading component
-    Loading: () => import("@/modules/loading/components/Loading.vue"),
+    // Loading: () => import("@/modules/loading/components/Loading.vue"),
+    // request loading component
+    RequestLoading: () =>
+      import("@/modules/loading/components/RequestLoading.vue"),
     // notification component
     Notification: () =>
       import("@/modules/notifications/components/notification.vue"),
