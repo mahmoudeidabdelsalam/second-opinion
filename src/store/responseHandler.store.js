@@ -27,6 +27,10 @@ const actions = {
           });
           // remove token from local storage
           localStorage.removeItem("token");
+          // set token to null in vuex login module
+          this.commit("login/SET_TOKEN", null);
+          // set user to null in vuex login module
+          this.commit("login/SET_USER", null);
           // redirect to login page
           router.push({ name: "Login" });
           break;
