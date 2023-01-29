@@ -15,32 +15,41 @@
       <v-tabs>
         <v-tabs-slider></v-tabs-slider>
 
-        <v-tab class="font-weight-bold primary--text" link to="/">
+        <v-tab
+          class="font-weight-bold secondary--text"
+          active-class="active"
+          link
+          to="/"
+        >
           الرئيسية
         </v-tab>
         <v-tab
-          class="font-weight-bold primary--text"
+          class="font-weight-bold secondary--text"
+          active-class="active"
           link
           :to="{ name: 'PublicAbout' }"
         >
           من نحن؟
         </v-tab>
         <v-tab
-          class="font-weight-bold primary--text"
+          class="font-weight-bold secondary--text"
+          active-class="active"
           link
           :to="{ name: 'PublicServices' }"
         >
           خدماتنا
         </v-tab>
         <v-tab
-          class="font-weight-bold primary--text"
+          class="font-weight-bold secondary--text"
+          active-class="active"
           link
           :to="{ name: 'PublicDoctors' }"
         >
           اطبائنا
         </v-tab>
         <v-tab
-          class="font-weight-bold primary--text"
+          class="font-weight-bold secondary--text"
+          active-class="active"
           link
           href="https://blog.secondopinion.sa"
         >
@@ -186,5 +195,9 @@ export default {
 <style lang="scss" scoped>
 .v-tabs-slider {
   color: transparent !important;
+}
+
+.active {
+  color: #008ad0 !important;
 }
 </style>
