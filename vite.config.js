@@ -1,3 +1,5 @@
+import { splitVendorChunkPlugin } from "vite";
+
 import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
@@ -12,6 +14,7 @@ export default defineConfig({
       targets: ["ie >= 11"],
       additionalLegacyPolyfills: ["regenerator-runtime/runtime"],
     }),
+    splitVendorChunkPlugin(),
   ],
   resolve: {
     alias: {
@@ -20,5 +23,14 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 1600,
+    // sourcemap: true,
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: "[name].js",
+        chunkFileNames: "[name].js",
+        assetFileNames: "[name].[ext]",
+      },
+    },
   },
 });

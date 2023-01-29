@@ -102,10 +102,12 @@ export default {
 
 <style lang="scss">
 .carousel-3d-slide {
-  img {
-    width: 100%;
-    max-height: 270px;
-    object-fit: contain;
+  .v-responsive__sizer {
+    padding-bottom: 67% !important;
+  }
+
+  .v-image__image {
+    background-position: top !important;
   }
 
   &.left-1,

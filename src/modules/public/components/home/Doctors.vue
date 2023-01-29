@@ -41,6 +41,7 @@
             :lazy-src="doctor.profile"
             :alt="doctor.full_name"
             class="rounded-lg mb-5"
+            style="height: 311px; object-fit: cover; object-position: top"
           />
           <h1 class="text-center primary--text mb-2">
             {{ doctor.full_name }}
@@ -107,5 +108,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

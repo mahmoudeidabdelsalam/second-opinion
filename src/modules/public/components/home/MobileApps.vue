@@ -79,7 +79,7 @@
             <img
               src="@/assets/images/mobile-apps.webp"
               alt="Mobile Apps"
-              width="100%"
+              style="width: 100%; height: auto; object-fit: cover"
             />
           </div>
         </v-col>
