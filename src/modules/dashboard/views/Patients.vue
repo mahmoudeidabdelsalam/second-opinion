@@ -370,6 +370,9 @@ export default {
     },
 
     deleteItemConfirm() {
+      // show request loading
+      this.showRequsetLoading();
+
       this.axios
         .delete(`dashboard/patients/${this.editedItem.id}`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -378,9 +381,15 @@ export default {
           this.desserts.splice(this.editedIndex, 1);
           this.handleResponse(response);
           this.closeDelete();
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
     },
 

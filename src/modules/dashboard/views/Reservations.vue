@@ -449,6 +449,8 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
     }),
 
     // init data
@@ -511,6 +513,9 @@ export default {
     },
 
     deleteItemConfirm() {
+      // show request loading
+      this.showRequsetLoading();
+
       this.axios
         .delete(`dashboard/reservations/${this.editedItem.id}`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -519,9 +524,15 @@ export default {
           this.desserts.splice(this.editedIndex, 1);
           this.handleResponse(response);
           this.closeDelete();
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
     },
 
@@ -552,6 +563,9 @@ export default {
       data.append("status", event);
       data.append("_method", "PUT");
 
+      // show request loading
+      this.showRequsetLoading();
+
       await this.axios
         .post(
           `dashboard/reservations/${this.editedItem.id}/update-status`,
@@ -564,9 +578,15 @@ export default {
           Object.assign(this.desserts[this.editedIndex], response.data.data);
           this.handleResponse(response);
           this.close();
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
     },
 
@@ -576,6 +596,9 @@ export default {
       data.append("doctor_id", this.editedItem.doctor_id);
       data.append("reservation_day", this.editedItem.reservation_day);
 
+      // show request loading
+      this.showRequsetLoading();
+
       await this.axios
         .post(`dashboard/reservations/get-available-dates`, data, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -584,9 +607,15 @@ export default {
           this.availableTimes = response.data.data;
           this.handleResponse(response);
           this.showInpust = true;
+
+          // hide request loading
+          this.hideRequsetLoading();
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
     },
 
@@ -607,6 +636,9 @@ export default {
           );
           data.append("type", this.editedItem.type);
 
+          // show request loading
+          this.showRequsetLoading();
+
           await this.axios
             .post(`dashboard/reservations`, data, {
               headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -615,9 +647,15 @@ export default {
               this.desserts.unshift(response.data.data);
               this.handleResponse(response);
               this.close();
+
+              // hide request loading
+              this.hideRequsetLoading();
             })
             .catch((error) => {
               this.handleResponse(error.response);
+
+              // hide request loading
+              this.hideRequsetLoading();
             });
         }
       }

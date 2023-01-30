@@ -9,10 +9,16 @@
     </router-link>
 
     <div class="user-data d-flex flex-column align-center pa-5">
-      <span class="d-block font-weight-medium white--text text-h5">
+      <span
+        class="d-block font-weight-medium white--text text-h5"
+        v-if="user && user.full_name"
+      >
         {{ user.full_name }}
       </span>
-      <span class="d-block mb-3 font-weight-light white--text">
+      <span
+        class="d-block mb-3 font-weight-light white--text"
+        v-if="user && user.phone_number"
+      >
         {{ user.phone_number }}
       </span>
     </div>
