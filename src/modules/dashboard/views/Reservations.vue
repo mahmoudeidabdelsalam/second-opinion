@@ -273,11 +273,14 @@
           v-if="item.session && item.session.start_url"
           depressed
           icon
-          class="primary_bg pa-6"
+          :class="
+            'primary_bg pa-6' + (item.session.start_url ? '' : ' grey-disabled')
+          "
           title="ابدا الاستشارة"
           link
           :href="item.session.start_url"
           target="_blank"
+          :disabled="!item.session.start_url"
         >
           <v-avatar size="30">
             <v-img
@@ -423,6 +426,23 @@ export default {
   created() {
     // init data
     this.initData();
+  },
+
+  mounted() {
+    setTimeout(() => {
+      // get reservations
+      this.axios
+        .get(`dashboard/reservations`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts = response.data.data;
+          this.loadingData = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
+    }, 300000);
   },
 
   methods: {
@@ -613,4 +633,9 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.grey-disabled {
+  // grey scale
+  filter: grayscale(100%) !important;
+}
+</style>

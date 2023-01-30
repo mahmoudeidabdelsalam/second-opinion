@@ -31,7 +31,13 @@
         <v-col cols="12" md="6" class="img-column hidden-sm-and-down">
           <div class="image-side">
             <div class="image mx-auto">
-              <img src="@/assets/images/women-doctor.webp" alt="women doctor" />
+              <img
+                src="@/assets/images/women-doctor.webp"
+                alt="women doctor"
+                width="100%"
+                height="auto"
+                style="object-fit: cover"
+              />
             </div>
           </div>
         </v-col>
