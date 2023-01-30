@@ -14,6 +14,7 @@
           <v-col cols="12" md="6" v-for="doctor in doctors" :key="doctor.id">
             <div
               class="doctor primary pa-5 rounded-lg d-flex flex-column flex-md-row justify-start align-start"
+              style="max-height: 224px"
             >
               <v-avatar class="rounded-lg mb-4" size="150">
                 <v-img
@@ -33,7 +34,10 @@
                 <span class="d-block mb-2 white--text">
                   {{ doctor.department.name }}
                 </span>
-                <p class="white--text body-2">
+                <p
+                  class="white--text body-2 description"
+                  style="max-height: 60px"
+                >
                   {{ doctor.description }}
                 </p>
                 <v-btn

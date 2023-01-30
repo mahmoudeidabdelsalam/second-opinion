@@ -80,7 +80,7 @@
             ليس لديك تقارير حتى الان
           </span>
           <v-btn
-            class="px-10"
+            class="px-10 py-6"
             color="primary"
             depressed
             link
@@ -164,7 +164,7 @@
             ></v-img>
           </v-avatar>
           <span class="d-block mb-5 font-weight-bold primary--text">
-            ليس لديك مستلمة حتى الان
+            ليس لديك تقارير مستلمة
           </span>
         </div>
       </div>

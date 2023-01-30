@@ -186,7 +186,7 @@
         ليس لديك مواعيد حتى الان
       </span>
       <v-btn
-        class="px-10"
+        class="px-10 py-6"
         color="primary"
         depressed
         link

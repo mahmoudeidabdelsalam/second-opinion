@@ -4,4 +4,9 @@
     background-size: cover;
     height: 220px;
   }
+
+  .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
