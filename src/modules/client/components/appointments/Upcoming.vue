@@ -25,7 +25,9 @@
             </div>
           </div>
           <div class="body primary py-5 px-3">
-            <div class="top d-flex justify-space-between align-start">
+            <div
+              class="top d-flex flex-column flex-lg-row justify-space-between align-start"
+            >
               <div class="doctor d-flex justify-start align-center mb-4">
                 <v-avatar class="mx-2 rounded-lg" size="91">
                   <v-img
@@ -42,18 +44,29 @@
                     {{ appointment.doctor.name }}
                   </span>
                   <span
-                    class="d-block mb-2 font-weight-regular body-2 white--text text-truncate"
+                    class="d-block mb-2 font-weight-regular body-2 white--text"
                   >
                     {{ appointment.doctor.title }}
                   </span>
                 </div>
               </div>
 
-              <span
-                class="white rounded-lg pa-3 primary--text font-weight-bold text-h6"
+              <v-btn
+                v-if="appointment.session && appointment.session.join_url"
+                link
+                :href="appointment.session.join_url"
+                target="_blank"
+                class="white rounded-lg primary--text font-weight-medium mx-auto mx-lg-0 mb-4 mb-lg-0"
               >
-                zoom
-              </span>
+                <span class="ml-2">ZOOM</span>
+                <v-avatar size="20">
+                  <v-img
+                    :src="require('@/assets/images/zoom.webp')"
+                    :lazy-src="require('@/assets/images/zoom.webp')"
+                    cover
+                  ></v-img>
+                </v-avatar>
+              </v-btn>
             </div>
 
             <v-dialog

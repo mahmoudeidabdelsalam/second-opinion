@@ -83,7 +83,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item
+        <!-- <v-list-item
           link
           :to="{ name: 'ClientPaymentMethods' }"
           active-class="white active"
@@ -97,7 +97,7 @@
               >الدفع</v-list-item-title
             >
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
 
         <v-list-item
           link
