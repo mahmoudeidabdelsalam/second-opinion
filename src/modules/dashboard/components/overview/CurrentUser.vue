@@ -12,12 +12,16 @@
       ></v-img>
     </v-avatar>
 
-    <span class="d-block subtitle-1 font-weight-bold black--text mb-1">
+    <span
+      class="d-block subtitle-1 font-weight-bold black--text mb-1"
+      v-if="user && user.full_name"
+    >
       {{ user.full_name }}
     </span>
     <span
       class="d-block subtitle-2 font-weight-bold secondary--text"
       dir="ltr"
+      v-if="user && user.email"
       :title="user.email"
     >
       {{ user.email }}

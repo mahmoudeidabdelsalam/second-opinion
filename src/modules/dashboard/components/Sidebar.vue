@@ -26,7 +26,7 @@
         link
         :to="{ name: 'DoctorProfile', params: { id: user.id } }"
         active-class="primary--text"
-        v-if="user.role.name === 'doctor'"
+        v-if="user && user.role.name === 'doctor'"
       >
         <v-list-item-icon>
           <v-icon>mdi-account-box</v-icon>
@@ -49,7 +49,10 @@
         <v-list-item-content>
           <v-list-item-title class="font-weight-medium">
             الاشعارات
-            <span v-if="notificationsCount > 0" class="mr-3 primary--text">
+            <span
+              v-if="notificationsCount && notificationsCount > 0"
+              class="mr-3 primary--text"
+            >
               ( {{ notificationsCount }} )
             </span>
           </v-list-item-title>
@@ -60,7 +63,7 @@
         link
         :to="{ name: 'Departments' }"
         active-class="primary--text"
-        v-if="user.role.name === 'admin'"
+        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-handshake</v-icon>
@@ -76,7 +79,7 @@
         link
         :to="{ name: 'Employees' }"
         active-class="primary--text"
-        v-if="user.role.name === 'admin'"
+        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-account-multiple</v-icon>
@@ -92,7 +95,7 @@
         link
         :to="{ name: 'Doctors' }"
         active-class="primary--text"
-        v-if="user.role.name === 'admin'"
+        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-doctor</v-icon>
@@ -123,7 +126,7 @@
         link
         :to="{ name: 'Roles' }"
         active-class="primary--text"
-        v-if="user.role.name === 'admin'"
+        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-shield</v-icon>
