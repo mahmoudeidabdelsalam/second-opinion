@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Sidebar",
@@ -176,6 +176,36 @@ export default {
       permissions: "user/permissions",
       notificationsCount: "notifications/notificationsCount",
     }),
+  },
+
+  created() {
+    // get notifications
+    this.getNotifications();
+  },
+
+  methods: {
+    ...mapActions({
+      handleResponse: "responseHandler/handleResponse",
+      setNotificationsCount: "notifications/setNotificationsCount",
+    }),
+
+    // get notifications
+    getNotifications() {
+      this.axios
+        .get(`notifications`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.setNotificationsCount(
+            response.data.data.filter(
+              (notification) => notification.read_at == null
+            ).length
+          );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
+    },
   },
 };
 </script>
