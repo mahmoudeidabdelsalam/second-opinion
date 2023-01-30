@@ -67,7 +67,12 @@
         ></v-radio>
       </v-radio-group>
 
-      <v-btn color="primary" depressed @click="bookVideoAppointment">
+      <v-btn
+        :disabled="bookAppointment"
+        color="primary"
+        depressed
+        @click="bookVideoAppointment"
+      >
         ادفع لتاكيد الحجز
       </v-btn>
     </v-form>
@@ -101,6 +106,8 @@ export default {
     maxDate: new Date(new Date().setDate(new Date().getDate() + 7))
       .toISOString()
       .substr(0, 10),
+
+    bookAppointment: false,
   }),
 
   computed: {
@@ -157,6 +164,8 @@ export default {
         data.append("type", 1);
         data.append("is_web", 1);
 
+        this.bookAppointment = true;
+
         // show request loading
         this.showRequsetLoading();
 
@@ -176,6 +185,8 @@ export default {
             window.open(response.data.data.invoice.payment_url, "_blank");
           })
           .catch((error) => {
+            this.bookAppointment = false;
+
             this.handleResponse(error.response);
 
             // hide request loading
