@@ -49,6 +49,9 @@
         <v-list-item-content>
           <v-list-item-title class="font-weight-medium">
             الاشعارات
+            <span v-if="notificationsCount > 0" class="mr-3 primary--text">
+              ( {{ notificationsCount }} )
+            </span>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -171,6 +174,7 @@ export default {
     ...mapGetters({
       user: "user/userData",
       permissions: "user/permissions",
+      notificationsCount: "notifications/notificationsCount",
     }),
   },
 };

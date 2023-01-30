@@ -6,12 +6,18 @@ const state = () => ({
     color: "",
     timeout: 3000,
   },
+
+  // notifications count
+  notificationsCount: 0,
 });
 
 // getters
 const getters = {
   // notification
   notification: (state) => state.notification,
+
+  // notifications count
+  notificationsCount: (state) => state.notificationsCount,
 };
 
 // actions
@@ -19,6 +25,11 @@ const actions = {
   // show notification
   showNotification({ commit }, payload) {
     commit("SHOW_NOTIFICATION", payload);
+  },
+
+  // set notifications count
+  setNotificationsCount({ commit }, payload) {
+    commit("SET_NOTIFICATIONS_COUNT", payload);
   },
 };
 
@@ -33,6 +44,11 @@ const mutations = {
     setTimeout(() => {
       state.notification.show = false;
     }, state.notification.timeout);
+  },
+
+  // set notifications count
+  SET_NOTIFICATIONS_COUNT(state, payload) {
+    state.notificationsCount = payload;
   },
 };
 
