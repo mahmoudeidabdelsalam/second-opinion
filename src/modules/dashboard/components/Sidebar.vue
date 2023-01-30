@@ -40,6 +40,21 @@
 
       <v-list-item
         link
+        :to="{ name: 'DoctorNotifications' }"
+        active-class="primary--text"
+      >
+        <v-list-item-icon>
+          <v-icon> mdi-bell </v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="font-weight-medium">
+            الاشعارات
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        link
         :to="{ name: 'Departments' }"
         active-class="primary--text"
         v-if="user.role.name === 'admin'"

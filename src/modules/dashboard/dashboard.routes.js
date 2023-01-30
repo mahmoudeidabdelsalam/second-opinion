@@ -58,6 +58,13 @@ let routes = [
         component: () => import("@/modules/dashboard/views/Assistants.vue"),
       },
 
+      // notifications
+      {
+        path: "notifications",
+        name: "DoctorNotifications",
+        component: () => import("@/modules/dashboard/views/Notifications.vue"),
+      },
+
       // roles
       {
         path: "roles",
