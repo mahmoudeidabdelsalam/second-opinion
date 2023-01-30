@@ -318,6 +318,8 @@ export default {
           .then((response) => {
             // remove temporary token from local storage
             localStorage.removeItem("temporary_token");
+            // set status == 1 to local storage
+            localStorage.setItem("status", 1);
             // attempt login
             this.attemptLogin(response.data.data.token);
             this.handleResponse(response);

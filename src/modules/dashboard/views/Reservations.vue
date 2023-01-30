@@ -73,6 +73,7 @@
                             v-model="editedItem.reservation_day"
                             :min="minDate"
                             :max="maxDate"
+                            scrollable
                             @input="menu = false"
                           ></v-date-picker>
                         </v-menu>

@@ -115,6 +115,7 @@
                           <v-date-picker
                             v-model="editedItem.birthday"
                             :max="maxDate"
+                            scrollable
                             :active-picker.sync="activePicker"
                             @input="menu = false"
                           ></v-date-picker>

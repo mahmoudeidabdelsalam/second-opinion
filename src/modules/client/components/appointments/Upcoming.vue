@@ -121,6 +121,7 @@
                       v-model="reservation_day"
                       :min="minDate"
                       :max="maxDate"
+                      scrollable
                       @change="getAvailablTimes(appointment.doctor.id)"
                       @input="menus[index] = false"
                     ></v-date-picker>

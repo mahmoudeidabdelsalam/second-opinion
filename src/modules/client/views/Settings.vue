@@ -11,7 +11,10 @@
         style="max-width: 700px"
       >
         <span class="primary--text font-weight-bold">الاسم</span>
-        <span class="secondary--text font-weight-bold">
+        <span
+          class="secondary--text font-weight-bold"
+          v-if="user && user.full_name"
+        >
           {{ user.full_name }}
         </span>
 
@@ -67,7 +70,10 @@
         style="max-width: 700px"
       >
         <span class="primary--text font-weight-bold">رقم الهوية</span>
-        <span class="secondary--text font-weight-bold">
+        <span
+          class="secondary--text font-weight-bold"
+          v-if="user && user.national_id"
+        >
           {{ user.national_id }}
         </span>
 
@@ -124,7 +130,10 @@
         style="max-width: 700px"
       >
         <span class="primary--text font-weight-bold">تاريخ الميلاد</span>
-        <span class="secondary--text font-weight-bold">
+        <span
+          class="secondary--text font-weight-bold"
+          v-if="user && user.birthday"
+        >
           {{ user.birthday }}
         </span>
 
@@ -177,6 +186,7 @@
                   <v-date-picker
                     v-model="form.birthday"
                     :max="maxDate"
+                    scrollable
                     :active-picker.sync="activePicker"
                     @input="menu = false"
                     @change="updateUser"

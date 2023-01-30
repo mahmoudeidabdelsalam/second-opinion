@@ -50,6 +50,32 @@
         </v-col>
 
         <v-col cols="12" md="6">
+          <v-textarea
+            v-model="form.description_en"
+            :rules="descriptionRules"
+            label="الوصف باللغة الانجليزية"
+            outlined
+            dense
+            auto-grow
+            rows="2"
+            dir="ltr"
+          ></v-textarea>
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-textarea
+            v-model="form.description_ar"
+            :rules="descriptionRules"
+            label="الوصف باللغة العربية"
+            outlined
+            dense
+            auto-grow
+            rows="2"
+            dir="rtl"
+          ></v-textarea>
+        </v-col>
+
+        <v-col cols="12" md="6">
           <v-text-field
             v-model="form.email"
             :rules="emailRules"
@@ -210,6 +236,8 @@ export default {
       full_name_ar: "",
       title_en: "",
       title_ar: "",
+      description_en: "",
+      description_ar: "",
       email: "",
       phone_number: "",
       gender: "",
@@ -249,6 +277,8 @@ export default {
     this.form.full_name_ar = this.doctor.ar.full_name;
     this.form.title_en = this.doctor.en.title;
     this.form.title_ar = this.doctor.ar.title;
+    this.form.description_en = this.doctor.en.description;
+    this.form.description_ar = this.doctor.ar.description;
     this.form.email = this.doctor.email;
     this.form.phone_number = this.doctor.phone_number;
     this.form.gender = this.doctor.gender;
@@ -279,6 +309,8 @@ export default {
         data.append("phone_number", this.form.phone_number);
         data.append("title:en", this.form.title_en);
         data.append("title:ar", this.form.title_ar);
+        data.append("description:en", this.form.description_en);
+        data.append("description:ar", this.form.description_ar);
         data.append("session_price", this.form.session_price);
         data.append("session_duration", this.form.session_duration);
         data.append("consultation_price", this.form.consultation_price);

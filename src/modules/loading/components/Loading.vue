@@ -66,7 +66,7 @@ export default {
       opacity: 1;
     }
 
-    70% {
+    50% {
       opacity: 1;
     }
 
@@ -80,7 +80,7 @@ export default {
       opacity: 1;
     }
 
-    70% {
+    50% {
       opacity: 1;
     }
 

@@ -9,13 +9,14 @@
             </span>
 
             <div class="doctor-card">
-              <v-avatar size="70" class="d-block mx-auto mb-3" rounded="circle">
-                <img
+              <v-avatar size="80" class="d-block mx-auto mb-3" rounded="circle">
+                <v-img
                   :src="doctor.profile"
                   :lazy-src="doctor.profile"
-                  alt="doctor"
-                  style="object-fit: cover"
-                />
+                  :alt="doctor.full_name"
+                  :title="doctor.full_name"
+                  cover
+                ></v-img>
               </v-avatar>
               <span
                 class="doctor-name d-block text-center font-weight-bold mb-1"
@@ -35,7 +36,9 @@
 
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
-                  <span class="font-weight-bold white--text"> عن الطبيب </span>
+                  <span class="font-weight-medium white--text">
+                    عن الطبيب
+                  </span>
                 </div>
                 <div class="body pa-3">
                   <p class="body-1 font-weight-regular secondary--text">
@@ -44,20 +47,25 @@
                 </div>
               </div>
 
-              <div class="details-part session rounded-lg mb-5 overflow-hidden">
+              <div class="details-part session rounded-lg mb-5">
                 <div class="head secondary pa-3">
-                  <span class="font-weight-bold white--text">
+                  <span class="font-weight-medium white--text">
                     تفاصيل الجلسة
                   </span>
                 </div>
                 <div class="body pa-3">
                   <span
-                    class="session-price d-block font-weight-bold secondary--text mb-2"
+                    class="d-block body-1 font-weight-regular secondary--text mb-2"
                   >
                     سعر الحجز: {{ doctor.session_price }} ريال
                   </span>
                   <span
-                    class="session-price d-block font-weight-bold secondary--text"
+                    class="d-block body-1 font-weight-regular secondary--text mb-2"
+                  >
+                    سعر الاستشارة: {{ doctor.consultation_price }} ريال
+                  </span>
+                  <span
+                    class="d-block body-1 font-weight-regular secondary--text"
                   >
                     مدة الحجز: {{ doctor.session_duration }} دقيقة
                   </span>
@@ -66,7 +74,7 @@
 
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
-                  <span class="font-weight-bold white--text">
+                  <span class="font-weight-medium white--text">
                     الشهادات العلمية
                   </span>
                 </div>
@@ -79,7 +87,7 @@
 
               <div class="details-part session rounded-lg mb-5 overflow-hidden">
                 <div class="head secondary pa-3">
-                  <span class="font-weight-bold white--text">
+                  <span class="font-weight-medium white--text">
                     الخبرة العملية
                   </span>
                 </div>

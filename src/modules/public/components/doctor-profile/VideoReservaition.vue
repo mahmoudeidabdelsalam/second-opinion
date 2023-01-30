@@ -1,7 +1,7 @@
 <template>
   <section>
     <v-btn
-      class="head primary white--text pa-7 mb-3 d-flex justify-start align-center rounded-lg"
+      class="head primary white--text pa-7 mb-5 d-flex justify-start align-center rounded-lg"
       block
       @click.prevent="showDatePicker = !showDatePicker"
     >
@@ -43,6 +43,7 @@
           v-model="reservation_day"
           :min="minDate"
           :max="maxDate"
+          scrollable
           @change="getAvailablTimes"
         ></v-date-picker>
       </v-menu>
@@ -83,6 +84,29 @@
         تسجيل الدخول
       </v-btn>
     </v-alert>
+
+    <!-- redirect dialog after book appointment -->
+    <v-dialog v-model="redirectDialog" persistent max-width="400">
+      <v-card>
+        <v-toolbar class="mb-5" elevation="0">
+          <v-toolbar-title>الذهاب لصفحة الحجوزات</v-toolbar-title>
+        </v-toolbar>
+        <v-card-actions>
+          <v-btn
+            class="primary py-6"
+            depressed
+            link
+            :to="{ name: 'ClientAppointments' }"
+          >
+            الذهاب لصفحة الحجوزات
+          </v-btn>
+
+          <v-btn class="primary py-6" depressed @click="redirectDialog = false">
+            البقاء فى الصفحة
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
@@ -108,6 +132,9 @@ export default {
       .substr(0, 10),
 
     bookAppointment: false,
+
+    // redirect dialog
+    redirectDialog: false,
   }),
 
   computed: {
@@ -132,6 +159,8 @@ export default {
 
         // show request loading
         this.showRequsetLoading();
+
+        this.bookAppointment = false;
 
         this.axios
           .post(`patient/reservations/get-available-dates`, data)
@@ -174,15 +203,23 @@ export default {
             headers: { Authorization: `Bearer ${localStorage.token}` },
           })
           .then((response) => {
+            // open payment url
+            window.open(response.data.data.invoice.payment_url, "_blank");
+
             // hide request loading
             this.hideRequsetLoading();
 
-            // redirect to ClientNotifications page
-            this.$router.push({
-              name: "ClientNotifications",
-            });
-            // open payment url
-            window.open(response.data.data.invoice.payment_url, "_blank");
+            // reset form
+            this.$refs.form.reset();
+
+            // empty available times
+            this.available_times = [];
+
+            // hise date picker
+            this.showDatePicker = false;
+
+            // open redirect dialog
+            this.redirectDialog = true;
           })
           .catch((error) => {
             this.bookAppointment = false;

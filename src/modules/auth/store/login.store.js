@@ -15,28 +15,30 @@ const actions = {
       return;
     }
 
-    try {
-      // try to fetch user
-      let response = await axios.get("auth/profile");
-      // set user
-      commit("SET_USER", response.data.data);
+    // try to fetch user
+    await axios
+      .get("auth/profile")
+      .then((response) => {
+        // set user
+        commit("SET_USER", response.data.data);
 
-      // redirect user depending on his role
-      switch (response.data.data.role.value) {
-        case 4: // patient
-          router.push({ name: "Home" });
-          break;
+        // redirect user depending on his role
+        switch (response.data.data.role.value) {
+          case 4: // patient
+            router.push({ name: "Home" });
+            break;
 
-        default:
-          router.push({ name: "DashboardOverview" });
-          break;
-      }
-    } catch (e) {
-      // remove token
-      commit("SET_TOKEN", null);
-      // remove user
-      commit("SET_USER", null);
-    }
+          default:
+            router.push({ name: "DashboardOverview" });
+            break;
+        }
+      })
+      .catch(() => {
+        // remove token
+        commit("SET_TOKEN", null);
+        // remove user
+        commit("SET_USER", null);
+      });
   },
 
   // check if user is logged in

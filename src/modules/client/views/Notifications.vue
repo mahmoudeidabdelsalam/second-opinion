@@ -4,11 +4,14 @@
       الاشعارات
     </span>
 
-    <div class="content pa-5 elevation-3 rounded-lg" v-if="!waitingForData">
+    <div v-if="!waitingForData">
       <div
-        class="notification pa-5 rounded-lg white mb-5"
         v-for="notification in notifications"
         :key="notification.id"
+        :class="
+          'notification pa-5 mb-5 rounded-lg' +
+          (notification.read_at ? ' borderd' : ' primary_bg')
+        "
       >
         <span class="d-block font-weight-bold mb-2 black--text text-h6">
           {{ notification.title }}
@@ -16,7 +19,7 @@
         <p class="secondary--text mb-5">
           {{ notification.body }}
         </p>
-        <span class="secondary--text body-2">
+        <span class="d-block mb-3 secondary--text body-2">
           {{
             notification.created_at.day +
             " " +
@@ -27,6 +30,15 @@
             notification.created_at.time
           }}
         </span>
+        <v-btn
+          v-if="!notification.read_at"
+          class="primary--text"
+          text
+          small
+          @click="markAsRead(notification.id)"
+        >
+          تحديد كمقروء
+        </v-btn>
       </div>
 
       <!-- no data -->
@@ -88,10 +100,39 @@ export default {
           this.handleResponse(error.response);
         });
     },
+
+    // mark as read
+    markAsRead(id) {
+      this.axios
+        .put(
+          `notifications/${id}/read`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          this.handleResponse(response);
+
+          // update notifications
+          this.notifications = this.notifications.map((notification) => {
+            if (notification.id == id) {
+              notification.read_at = new Date();
+            }
+
+            return notification;
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../style/notifications.scss";
+.notification {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
 </style>

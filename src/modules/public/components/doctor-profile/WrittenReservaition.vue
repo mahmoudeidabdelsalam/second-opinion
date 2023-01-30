@@ -51,7 +51,13 @@
         @addfile="onAddFile"
       />
 
-      <v-btn class="mt-3" color="primary" depressed @click="askReport">
+      <v-btn
+        :disabled="bookAppointment"
+        class="mt-3"
+        color="primary"
+        depressed
+        @click="askReport"
+      >
         ادفع لتاكيد الحجز
       </v-btn>
     </v-form>
@@ -62,6 +68,29 @@
         تسجيل الدخول
       </v-btn>
     </v-alert>
+
+    <!-- redirect dialog after book appointment -->
+    <v-dialog v-model="redirectDialog" persistent max-width="400">
+      <v-card>
+        <v-toolbar class="mb-5" elevation="0">
+          <v-toolbar-title>الذهاب لصفحة التقارير</v-toolbar-title>
+        </v-toolbar>
+        <v-card-actions>
+          <v-btn
+            class="primary py-6"
+            depressed
+            link
+            :to="{ name: 'ClientMedicalReports' }"
+          >
+            الذهاب لصفحة التقارير
+          </v-btn>
+
+          <v-btn class="primary py-6" depressed @click="redirectDialog = false">
+            البقاء فى الصفحة
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
@@ -99,6 +128,11 @@ export default {
     notes: "",
     report_files: [],
     image: null,
+
+    bookAppointment: false,
+
+    // redirect dialog
+    redirectDialog: false,
   }),
 
   computed: {
@@ -133,22 +167,37 @@ export default {
         // show request loading
         this.showRequsetLoading();
 
+        this.bookAppointment = false;
+
         this.axios
           .post(`patient/reservations-two`, data, {
             headers: { Authorization: `Bearer ${localStorage.token}` },
           })
           .then((response) => {
+            // open payment url
+            window.open(response.data.data.invoice.payment_url, "_blank");
+
             // hide request loading
             this.hideRequsetLoading();
 
-            // redirect to ClientNotifications page
-            this.$router.push({
-              name: "ClientNotifications",
-            });
-            // open payment url
-            window.open(response.data.data.invoice.payment_url, "_blank");
+            // reset form
+            this.$refs.form.reset();
+
+            // reset file pond files
+            this.$refs.pond.removeFiles();
+
+            // empty available times
+            this.available_times = [];
+
+            // hise showReportForm
+            this.showReportForm = false;
+
+            // open redirect dialog
+            this.redirectDialog = true;
           })
           .catch((error) => {
+            this.bookAppointment = false;
+
             this.handleResponse(error.response);
 
             // hide request loading
