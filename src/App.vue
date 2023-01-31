@@ -59,6 +59,14 @@ export default {
     this.subscribe();
   },
 
+  // make watch on authenticated
+  watch: {
+    authenticated() {
+      // subscribe to pusher
+      this.subscribe();
+    },
+  },
+
   mounted() {
     // set language if local storage has it and if not set it to ar by default and set direction to rtl
     if (localStorage.lang) {
@@ -73,6 +81,11 @@ export default {
     ...mapActions({
       // translate action
       translateAction: "translate/setSystemLanguage",
+      // increment notifications count
+      incrementNotificationsCount: "notifications/incrementNotificationsCount",
+
+      // show alert
+      showAlert: "notifications/showAlert",
     }),
 
     // translate method
@@ -95,14 +108,13 @@ export default {
           },
         });
         pusher.subscribe(`private-user.${this.user.account_id}.notifications`);
+        console.log(pusher.allChannels());
         pusher.bind("new-notification", (data) => {
-          console.log(data);
-
           // increment notifications count
-          this.$store.dispatch("notifications/incrementNotificationsCount");
+          this.incrementNotificationsCount();
 
           // show alert
-          this.$store.dispatch("notifications/showAlert", {
+          this.showAlert({
             title: data.title,
             message: data.body,
             color: "primary",
@@ -111,6 +123,20 @@ export default {
           // play notification sound
           this.$refs.audio.play();
         });
+      } else {
+        let pusher = new Pusher("a88e81fc7da12f099bbb", {
+          cluster: "eu",
+          channelAuthorization: {
+            endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
+            headers: {
+              Authorization: `Bearer 0000`,
+              Accept: "application/json",
+            },
+          },
+        });
+        pusher.subscribe(`private-user.00.notifications`);
+
+        console.log(pusher.allChannels());
       }
     },
   },
