@@ -2,6 +2,8 @@
 import axios from "axios";
 // router
 import router from "@/router";
+// pusher
+// import Pusher from "pusher-js";
 
 // actions
 const actions = {
@@ -10,6 +12,21 @@ const actions = {
     await axios
       .delete("auth/logout")
       .then((response) => {
+        // unbind pusher
+        // let pusher = new Pusher("a88e81fc7da12f099bbb", {
+        //   cluster: "eu",
+        //   channelAuthorization: {
+        //     endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
+        //     headers: {
+        //       Authorization: `Bearer ${localStorage.token}`,
+        //       Accept: "application/json",
+        //     },
+        //   },
+        // });
+        // pusher.unbind("new-notification");
+
+        //--------------------//
+
         // show notification
         this.dispatch("notifications/showNotification", {
           message: response.data.message,
@@ -41,7 +58,6 @@ const actions = {
 const mutations = {
   // set token in user module
   SET_TOKEN(_, token) {
-    console.log(token);
     this.state.user.token = token;
   },
 

@@ -14,7 +14,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import Pusher from "pusher-js"; // import Pusher
+
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -28,6 +30,19 @@ export default {
     // notification component
     Notification: () =>
       import("@/modules/notifications/components/notification.vue"),
+  },
+
+  created() {
+    // subscribe to pusher
+    this.subscribe();
+  },
+
+  computed: {
+    // map getters
+    ...mapGetters({
+      authenticated: "user/authenticated",
+      user: "user/userData",
+    }),
   },
 
   mounted() {
@@ -50,6 +65,26 @@ export default {
     translate(lang) {
       // call translate action
       this.translateAction(lang);
+    },
+
+    // subscribe to pusher
+    subscribe() {
+      if (this.authenticated) {
+        let pusher = new Pusher("a88e81fc7da12f099bbb", {
+          cluster: "eu",
+          channelAuthorization: {
+            endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
+            headers: {
+              Authorization: `Bearer ${localStorage.token}`,
+              Accept: "application/json",
+            },
+          },
+        });
+        pusher.subscribe(`private-user.${this.user.account_id}.notifications`);
+        pusher.bind("new-notification", (data) => {
+          console.log(data);
+        });
+      }
     },
   },
 };
