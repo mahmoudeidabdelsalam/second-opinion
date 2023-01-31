@@ -2,8 +2,6 @@
 import axios from "axios";
 // router
 import router from "@/router";
-// pusher
-// import Pusher from "pusher-js";
 
 // actions
 const actions = {
@@ -12,27 +10,6 @@ const actions = {
     await axios
       .delete("auth/logout")
       .then((response) => {
-        // unbind pusher
-        // let pusher = new Pusher("a88e81fc7da12f099bbb", {
-        //   cluster: "eu",
-        //   channelAuthorization: {
-        //     endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
-        //     headers: {
-        //       Authorization: `Bearer ${localStorage.token}`,
-        //       Accept: "application/json",
-        //     },
-        //   },
-        // });
-        // pusher.unbind("new-notification");
-
-        //--------------------//
-
-        // show notification
-        this.dispatch("notifications/showNotification", {
-          message: response.data.message,
-          color: "green",
-        });
-
         // remove token from local storage
         localStorage.removeItem("token");
 
@@ -40,6 +17,12 @@ const actions = {
         commit("SET_TOKEN", null);
         // remove user
         commit("SET_USER", null);
+
+        // show notification
+        this.dispatch("notifications/showNotification", {
+          message: response.data.message,
+          color: "green",
+        });
 
         // redirect user to home page
         router.push({ name: "Home" });

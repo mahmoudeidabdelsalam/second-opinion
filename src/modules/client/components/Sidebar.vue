@@ -53,6 +53,13 @@
           <v-list-item-content>
             <v-list-item-title class="text-subtitle-1 font-weight-medium">
               الاشعارات
+              <span
+                v-if="notificationsCount && notificationsCount > 0"
+                class="py-1 px-2 mr-3 d-inline-block primary_bg primary--text body-2"
+                style="border-radius: 2000px"
+              >
+                {{ notificationsCount }}
+              </span>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -175,7 +182,13 @@ export default {
   computed: {
     ...mapGetters({
       user: "user/userData",
+      notificationsCount: "notifications/notificationsCount",
     }),
+  },
+
+  created() {
+    // get notifications
+    this.getNotifications();
   },
 
   methods: {
@@ -183,12 +196,34 @@ export default {
     ...mapActions({
       // logout
       logoutAction: "logout/logout",
+
+      handleResponse: "responseHandler/handleResponse",
+
+      setNotificationsCount: "notifications/setNotificationsCount",
     }),
 
     // logout method
     logout() {
       // call loogut action
       this.logoutAction();
+    },
+
+    // get notifications
+    getNotifications() {
+      this.axios
+        .get(`notifications`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.setNotificationsCount(
+            response.data.data.filter(
+              (notification) => notification.read_at == null
+            ).length
+          );
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

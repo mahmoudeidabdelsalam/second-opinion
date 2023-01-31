@@ -51,9 +51,10 @@
             الاشعارات
             <span
               v-if="notificationsCount && notificationsCount > 0"
-              class="mr-3 primary--text"
+              class="py-1 px-2 mr-3 d-inline-block primary_bg primary--text body-2"
+              style="border-radius: 2000px"
             >
-              ( {{ notificationsCount }} )
+              {{ notificationsCount }}
             </span>
           </v-list-item-title>
         </v-list-item-content>

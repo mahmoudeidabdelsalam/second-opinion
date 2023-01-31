@@ -13,9 +13,18 @@
           (notification.read_at ? ' borderd' : ' primary_bg')
         "
       >
-        <span class="d-block font-weight-bold mb-2 black--text text-h6">
-          {{ notification.title }}
-        </span>
+        <div class="head mb-3 d-flex justify-space-between align-center">
+          <span class="d-block font-weight-bold black--text text-h6">
+            {{ notification.title }}
+          </span>
+          <v-btn
+            class="white error--text"
+            icon
+            @click="deleteNotification(notification)"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </div>
         <p class="secondary--text mb-5">
           {{ notification.body }}
         </p>
@@ -80,6 +89,9 @@ export default {
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
+      showRequsetLoading: "loading/showRequestLoading",
+      hideRequsetLoading: "loading/hideRequestLoading",
+      decrementNotificationsCount: "notifications/decrementNotificationsCount",
     }),
 
     // init data
@@ -125,6 +137,40 @@ export default {
         })
         .catch((error) => {
           this.handleResponse(error.response);
+        });
+    },
+
+    // delete notification
+    deleteNotification(notify) {
+      // show request loading
+      this.showRequsetLoading();
+
+      this.axios
+        .delete(`notifications/${notify.id}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // if notification is not read
+          if (!notify.read_at) {
+            // decrement notifications count
+            this.decrementNotificationsCount();
+          }
+
+          this.handleResponse(response);
+
+          // update notifications
+          this.notifications = this.notifications.filter(
+            (notification) => notification.id != notify.id
+          );
+
+          // hide request loading
+          this.hideRequsetLoading();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
         });
     },
   },

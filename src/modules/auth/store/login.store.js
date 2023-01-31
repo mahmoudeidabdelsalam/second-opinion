@@ -51,17 +51,19 @@ const actions = {
       return;
     }
 
-    try {
-      // try to fetch user
-      let response = await axios.get("auth/profile");
-      // set user
-      commit("SET_USER", response.data.data);
-    } catch (e) {
-      // remove token
-      commit("SET_TOKEN", null);
-      // remove user
-      commit("SET_USER", null);
-    }
+    // try to fetch user
+    await axios
+      .get("auth/profile")
+      .then((response) => {
+        // set user
+        commit("SET_USER", response.data.data);
+      })
+      .catch(() => {
+        // remove token
+        commit("SET_TOKEN", null);
+        // remove user
+        commit("SET_USER", null);
+      });
   },
 };
 

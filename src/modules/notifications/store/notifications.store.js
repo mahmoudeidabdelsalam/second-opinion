@@ -1,5 +1,6 @@
 // state
 const state = () => ({
+  // notification
   notification: {
     show: false,
     message: "",
@@ -9,6 +10,15 @@ const state = () => ({
 
   // notifications count
   notificationsCount: 0,
+
+  // alert
+  alert: {
+    show: false,
+    title: "",
+    message: "",
+    color: "",
+    timeout: 5000,
+  },
 });
 
 // getters
@@ -18,6 +28,9 @@ const getters = {
 
   // notifications count
   notificationsCount: (state) => state.notificationsCount,
+
+  // alert
+  alert: (state) => state.alert,
 };
 
 // actions
@@ -30,6 +43,21 @@ const actions = {
   // set notifications count
   setNotificationsCount({ commit }, payload) {
     commit("SET_NOTIFICATIONS_COUNT", payload);
+  },
+
+  // increment notifications count
+  incrementNotificationsCount({ commit }) {
+    commit("INCREMENT_NOTIFICATIONS_COUNT");
+  },
+
+  // decrement notifications count
+  decrementNotificationsCount({ commit }) {
+    commit("DECREMENT_NOTIFICATIONS_COUNT");
+  },
+
+  // show alert
+  showAlert({ commit }, payload) {
+    commit("SHOW_ALERT", payload);
   },
 };
 
@@ -49,6 +77,28 @@ const mutations = {
   // set notifications count
   SET_NOTIFICATIONS_COUNT(state, payload) {
     state.notificationsCount = payload;
+  },
+
+  // increment notifications count
+  INCREMENT_NOTIFICATIONS_COUNT(state) {
+    state.notificationsCount++;
+  },
+
+  // decrement notifications count
+  DECREMENT_NOTIFICATIONS_COUNT(state) {
+    state.notificationsCount--;
+  },
+
+  // show alert
+  SHOW_ALERT(state, payload) {
+    state.alert.show = true;
+    state.alert.title = payload.title;
+    state.alert.message = payload.message;
+    state.alert.color = payload.color;
+    // hide alert after alert timeout
+    setTimeout(() => {
+      state.alert.show = false;
+    }, state.alert.timeout);
   },
 };
 

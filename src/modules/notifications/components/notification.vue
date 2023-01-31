@@ -15,7 +15,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "notification",
+  name: "Notification",
 
   computed: {
     ...mapGetters({
@@ -24,5 +24,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

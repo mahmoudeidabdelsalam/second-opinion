@@ -9,6 +9,18 @@
       <router-view />
       <!-- notification -->
       <notification />
+      <!-- alert -->
+      <alert />
+      <audio ref="audio" muted style="display: none">
+        <source
+          src="https://dev.secondopinion.sa/sounds/alert-sound.wav"
+          type="audio/ogg"
+        />
+        <source
+          src="https://dev.secondopinion.sa/sounds/alert-sound.wav"
+          type="audio/mpeg"
+        />
+      </audio>
     </v-main>
   </v-app>
 </template>
@@ -30,11 +42,8 @@ export default {
     // notification component
     Notification: () =>
       import("@/modules/notifications/components/notification.vue"),
-  },
-
-  created() {
-    // subscribe to pusher
-    this.subscribe();
+    // alert component
+    Alert: () => import("@/modules/notifications/components/Alert.vue"),
   },
 
   computed: {
@@ -43,6 +52,11 @@ export default {
       authenticated: "user/authenticated",
       user: "user/userData",
     }),
+  },
+
+  created() {
+    // subscribe to pusher
+    this.subscribe();
   },
 
   mounted() {
@@ -83,6 +97,19 @@ export default {
         pusher.subscribe(`private-user.${this.user.account_id}.notifications`);
         pusher.bind("new-notification", (data) => {
           console.log(data);
+
+          // increment notifications count
+          this.$store.dispatch("notifications/incrementNotificationsCount");
+
+          // show alert
+          this.$store.dispatch("notifications/showAlert", {
+            title: data.title,
+            message: data.body,
+            color: "primary",
+          });
+
+          // play notification sound
+          this.$refs.audio.play();
         });
       }
     },
