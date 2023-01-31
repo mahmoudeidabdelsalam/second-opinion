@@ -316,16 +316,13 @@ export default {
             },
           })
           .then((response) => {
+            // hide check otp modal
+            this.checkOtpModal = false;
             // remove temporary token from local storage
             localStorage.removeItem("temporary_token");
-            // set status == 1 to local storage
-            localStorage.setItem("status", 1);
+            this.handleResponse(response);
             // attempt login
             this.attemptLogin(response.data.data.token);
-            this.handleResponse(response);
-
-            // hide loading2
-            this.loading2 = false;
           })
           .catch((error) => {
             this.handleResponse(error.response);

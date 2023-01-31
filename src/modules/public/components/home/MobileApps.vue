@@ -75,15 +75,16 @@
           cols="12"
           md="6"
           class="pa-0 order-0 order-md-1"
-          style="margin-bottom: -8px"
+          style="margin-top: -51px; margin-bottom: -51px"
         >
-          <div class="image">
-            <img
-              src="@/assets/images/mobile-apps.webp"
+          <v-avatar tile size="620">
+            <v-img
+              :src="require('@/assets/images/mobile-apps.webp')"
+              :lazy-src="require('@/assets/images/mobile-apps.webp')"
               alt="Mobile Apps"
-              style="width: 100%; height: auto; object-fit: cover"
-            />
-          </div>
+              contain
+            ></v-img>
+          </v-avatar>
         </v-col>
       </v-row>
     </v-container>
