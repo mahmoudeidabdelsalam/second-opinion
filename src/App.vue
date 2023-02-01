@@ -13,11 +13,11 @@
       <alert />
       <audio ref="audio" muted style="display: none">
         <source
-          src="https://dev.secondopinion.sa/sounds/alert-sound.wav"
+          src="https://staging.drhealthclinics.com/uploads/admin/images/alert-sound.wav"
           type="audio/ogg"
         />
         <source
-          src="https://dev.secondopinion.sa/sounds/alert-sound.wav"
+          src="https://staging.drhealthclinics.com/uploads/admin/images/alert-sound.wav"
           type="audio/mpeg"
         />
       </audio>
