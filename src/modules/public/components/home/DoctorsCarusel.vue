@@ -1,11 +1,11 @@
 <template>
   <section class="doctors-carusel mb-16 pt-10">
-    <v-container style="max-width: 1220px">
+    <v-container style="max-width: 1220px; min-height: 536px">
       <carousel-3d
         :perspective="340"
         :space="530"
         :display="3"
-        :height="545"
+        :height="536"
         :width="492"
         :border="0"
         :inverse-scaling="150"
@@ -42,26 +42,26 @@
               </span>
               <div class="actions-butto d-flex justify-center align-center">
                 <v-btn
-                  class="primary rounded-lg pa-6 ma-1"
+                  class="primary rounded-lg pa-6"
                   link
                   :to="{
                     name: 'PublicDoctorsProfile',
                     params: { id: doctor.id },
                   }"
                 >
-                  <v-icon>mdi-file-multiple</v-icon>
-                  <span class="px-2">طلب تقرير طبي</span>
+                  <v-icon class="ml-1">mdi-video</v-icon>
+                  <span>استشارة مرئية</span>
                 </v-btn>
                 <v-btn
-                  class="primary rounded-lg pa-6 ma-1"
+                  class="primary rounded-lg pa-6 mr-2"
                   link
                   :to="{
                     name: 'PublicDoctorsProfile',
                     params: { id: doctor.id },
                   }"
                 >
-                  <v-icon>mdi-video</v-icon>
-                  <span class="px-2">استشارة صوتية/مرئية</span>
+                  <v-icon class="ml-1">mdi-file-multiple</v-icon>
+                  <span>طلب تقرير طبي</span>
                 </v-btn>
               </div>
             </div>

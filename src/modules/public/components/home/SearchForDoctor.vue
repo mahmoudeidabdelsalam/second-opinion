@@ -102,7 +102,7 @@
 
       <div
         class="departments-tags mx-auto text-center"
-        style="max-width: 1000px"
+        style="max-width: 1000px; min-height: 128px"
       >
         <v-btn
           v-for="department in departments.slice(0, 9)"

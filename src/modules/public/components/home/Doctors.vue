@@ -10,10 +10,10 @@
         style="max-width: 1400px"
         :nav="false"
         :dots="false"
-        :stagePadding="50"
         :margin="20"
-        :autoplay="true"
         :autoplayTimeout="5000"
+        :loop="true"
+        :stagePadding="20"
         :responsive="{
           0: {
             items: 1,
@@ -43,11 +43,19 @@
             class="rounded-lg mb-5"
             style="height: 311px; object-fit: cover; object-position: top"
           />
-          <h1 class="text-center primary--text mb-2">
-            {{ doctor.full_name }}
-          </h1>
           <span
-            class="d-block text-center font-weight-bold text--secondary mb-3 text-truncate"
+            class="d-block text-center primary--text mb-2 font-weight-bold text-h6"
+          >
+            {{ doctor.full_name }}
+          </span>
+          <span
+            class="d-block text-center font-weight-medium text--secondary mb-3"
+            style="
+              min-height: 48px;
+              max-height: 48px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
           >
             {{ doctor.title }}
           </span>
