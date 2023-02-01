@@ -114,7 +114,6 @@ export default {
 
       if (this.authenticated) {
         pusher.subscribe(`private-user.${this.user.account_id}.notifications`);
-        console.log(pusher.allChannels());
         pusher.bind("new-notification", (data) => {
           if (this.authenticated) {
             // assign account id
@@ -140,7 +139,6 @@ export default {
       } else {
         // unbind all events
         pusher.unbind_all();
-        console.log(pusher.allChannels());
       }
     },
   },

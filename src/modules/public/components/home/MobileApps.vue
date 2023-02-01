@@ -71,13 +71,8 @@
           </div>
         </v-col>
 
-        <v-col
-          cols="12"
-          md="6"
-          class="pa-0 order-0 order-md-1"
-          style="margin-top: -51px; margin-bottom: -51px"
-        >
-          <v-avatar tile size="620">
+        <v-col cols="12" md="6" class="pa-0 order-0 order-md-1" style="">
+          <v-avatar tile style="height: 100%; width: 100%">
             <v-img
               :src="require('@/assets/images/mobile-apps.webp')"
               :lazy-src="require('@/assets/images/mobile-apps.webp')"
