@@ -46,6 +46,11 @@ export default {
     Alert: () => import("@/modules/notifications/components/Alert.vue"),
   },
 
+  data: () => ({
+    // account id
+    account_id: null,
+  }),
+
   computed: {
     // map getters
     ...mapGetters({
@@ -96,46 +101,45 @@ export default {
 
     // subscribe to pusher
     subscribe() {
-      if (this.authenticated) {
-        let pusher = new Pusher("a88e81fc7da12f099bbb", {
-          cluster: "eu",
-          channelAuthorization: {
-            endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
-            headers: {
-              Authorization: `Bearer ${localStorage.token}`,
-              Accept: "application/json",
-            },
+      const pusher = new Pusher("a88e81fc7da12f099bbb", {
+        cluster: "eu",
+        channelAuthorization: {
+          endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+            Accept: "application/json",
           },
-        });
+        },
+      });
+
+      if (this.authenticated) {
         pusher.subscribe(`private-user.${this.user.account_id}.notifications`);
         console.log(pusher.allChannels());
         pusher.bind("new-notification", (data) => {
-          // increment notifications count
-          this.incrementNotificationsCount();
+          if (this.authenticated) {
+            // assign account id
+            this.account_id = this.user.account_id;
 
-          // show alert
-          this.showAlert({
-            title: data.title,
-            message: data.body,
-            color: "primary",
-          });
+            // increment notifications count
+            this.incrementNotificationsCount();
 
-          // play notification sound
-          this.$refs.audio.play();
+            // show alert
+            this.showAlert({
+              title: data.title,
+              message: data.body,
+              color: "primary",
+            });
+
+            // play notification sound
+            this.$refs.audio.play();
+          } else {
+            // unsubscribe from pusher
+            pusher.unsubscribe(`private-user.${this.account_id}.notifications`);
+          }
         });
       } else {
-        let pusher = new Pusher("a88e81fc7da12f099bbb", {
-          cluster: "eu",
-          channelAuthorization: {
-            endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
-            headers: {
-              Authorization: `Bearer 0000`,
-              Accept: "application/json",
-            },
-          },
-        });
-        pusher.subscribe(`private-user.00.notifications`);
-
+        // unbind all events
+        pusher.unbind_all();
         console.log(pusher.allChannels());
       }
     },
