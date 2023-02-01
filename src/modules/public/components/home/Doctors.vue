@@ -11,6 +11,7 @@
         :nav="false"
         :dots="false"
         :margin="20"
+        :autoplay="true"
         :autoplayTimeout="5000"
         :loop="true"
         :stagePadding="20"
