@@ -14,9 +14,4 @@ axios.defaults.baseURL = "https://staging.drhealthclinics.com/api/";
 axios.defaults.headers.common["Accept-Language"] = i18n.locale;
 Vue.use(VueAxios, axios);
 
-// axios progress bar
-import "axios-progress-bar/dist/nprogress.css";
-import { loadProgressBar } from "axios-progress-bar";
-loadProgressBar();
-
 export default axios;

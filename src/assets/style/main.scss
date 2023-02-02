@@ -55,21 +55,3 @@ html[lang="ar"] {
     margin: 0;
   }
 }
-
-// axios progress bar
-#nprogress {
-  z-index: 999999;
-  .bar {
-    background-color: #008ad0 !important;
-    height: 3px !important;
-  }
-
-  .peg {
-    box-shadow: 0 0 10px #008ad0, 0 0 5px #008ad0 !important;
-  }
-
-  .spinner-icon {
-    border-top-color: transparent;
-    border-left-color: transparent;
-  }
-}
