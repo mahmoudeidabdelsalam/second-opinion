@@ -1,7 +1,9 @@
 <template>
   <section class="blog mb-16">
     <v-container style="max-width: 1400px">
-      <h1 class="primary--text text-center mb-10 text-h4 font-weight-bold">
+      <h1
+        class="primary--text text-center mb-10 text-h5 text-md-h4 font-weight-bold"
+      >
         معلومات أفضل .. لصحة أفضل
       </h1>
 

@@ -1,7 +1,9 @@
 <template>
   <section class="mb-16" style="direction: ltr">
     <v-container>
-      <h1 class="primary--text text-center mb-10 text-h4 font-weight-bold">
+      <h1
+        class="primary--text text-center mb-10 text-h5 text-md-h4 font-weight-bold"
+      >
         الاطباء
       </h1>
 
