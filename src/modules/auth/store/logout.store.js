@@ -10,22 +10,20 @@ const actions = {
     await axios
       .delete("auth/logout")
       .then((response) => {
-        // remove token from local storage
-        localStorage.removeItem("token");
-
-        // remove token
+        // set token to null in user module
         commit("SET_TOKEN", null);
-        // remove user
+
+        // set user to null in user module
         commit("SET_USER", null);
+
+        // redirect user to home page
+        router.push({ name: "Home" });
 
         // show notification
         this.dispatch("notifications/showNotification", {
           message: response.data.message,
           color: "green",
         });
-
-        // redirect user to home page
-        router.push({ name: "Home" });
       })
       .catch((error) => {
         // show error notification

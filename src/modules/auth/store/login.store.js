@@ -8,21 +8,23 @@ const actions = {
   // attempt to login
   async attemptLogin({ commit }, token) {
     if (token) {
+      // set token in user module if token is provided
       commit("SET_TOKEN", token);
     }
 
+    // check if token is set in user module
     if (!this.state.user.token) {
       return;
     }
 
-    // try to fetch user
+    // try to fetch user profile
     await axios
       .get("auth/profile")
       .then((response) => {
-        // set user
+        // set user in user module
         commit("SET_USER", response.data.data);
 
-        // redirect user depending on his role
+        // redirect user depending on role
         switch (response.data.data.role.value) {
           case 4: // patient
             router.push({ name: "Home" });
@@ -34,9 +36,10 @@ const actions = {
         }
       })
       .catch(() => {
-        // remove token
+        // remove token from user module
         commit("SET_TOKEN", null);
-        // remove user
+
+        // remove user from user module
         commit("SET_USER", null);
       });
   },
@@ -44,24 +47,27 @@ const actions = {
   // check if user is logged in
   async checkIsLogin({ commit }, token) {
     if (token) {
+      // set token in user module if token is provided
       commit("SET_TOKEN", token);
     }
 
+    // check if token is set in user module
     if (!this.state.user.token) {
       return;
     }
 
-    // try to fetch user
+    // try to fetch user profile
     await axios
       .get("auth/profile")
       .then((response) => {
-        // set user
+        // set user in user module
         commit("SET_USER", response.data.data);
       })
       .catch(() => {
-        // remove token
+        // remove token from user module
         commit("SET_TOKEN", null);
-        // remove user
+
+        // remove user from user module
         commit("SET_USER", null);
       });
   },
