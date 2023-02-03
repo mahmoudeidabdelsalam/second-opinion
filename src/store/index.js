@@ -1,29 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-// login module
-import login from "@/modules/auth/store/login.store";
+// import modules
+import login from "./modules/auth/login.store";
+import logout from "./modules/auth/logout.store";
+import user from "./modules/user/user.store";
 
-// logout module
-import logout from "@/modules/auth/store/logout.store";
-
-// user module
-import user from "@/modules/auth/store/user.store";
-
-// validation rules module
-import validationRules from "./validationRules.store";
-
-// translate module
-import translate from "@/modules/translate/translate.store";
-
-// notifications module
-import notifications from "@/modules/notifications/store/notifications.store";
-
-// responseHandler module
-import responseHandler from "./responseHandler.store";
-
-// loading module
-import loading from "@/modules/loading/store/loading.store";
+// mixins
+import responseHandler from "./modules/mixins/responseHandler.store";
+import validationRules from "./modules/mixins/validationRules.store";
+import loading from "./modules/mixins/loading.store";
+import notifications from "./modules/mixins/notifications.store";
+import translate from "./modules/mixins/translate.store";
 
 Vue.use(Vuex);
 
@@ -32,10 +20,11 @@ export default new Vuex.Store({
     login,
     logout,
     user,
-    validationRules,
-    translate,
-    notifications,
+
     responseHandler,
+    validationRules,
     loading,
+    notifications,
+    translate,
   },
 });

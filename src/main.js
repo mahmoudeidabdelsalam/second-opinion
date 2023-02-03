@@ -7,7 +7,7 @@ import router from "./router";
 // vuex
 import store from "./store";
 // subscriber for store
-import "./modules/auth/store/subscriber";
+import "./store/modules/auth/subscriber";
 
 // vuetify
 import vuetify from "./plugins/vuetify";
