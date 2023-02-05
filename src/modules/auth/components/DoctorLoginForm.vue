@@ -83,9 +83,6 @@ export default {
             // attempt login
             this.attemptLogin(response.data.data.token);
             this.handleResponse(response);
-
-            // hide loading1
-            this.loading1 = false;
           })
           .catch((error) => {
             this.handleResponse(error.response);

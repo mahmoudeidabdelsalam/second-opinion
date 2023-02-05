@@ -8,7 +8,7 @@
       <v-card-text>
         <v-sheet color="primary">
           <v-sparkline
-            :value="value"
+            :value="reservations"
             label-size="12"
             color="white"
             height="145"
@@ -34,8 +34,11 @@
 export default {
   name: "ReservationsChart",
 
-  data: () => ({
-    value: [214, 320, 73, 326, 450, 120, 540],
-  }),
+  props: {
+    reservations: {
+      type: Array,
+      default: () => [],
+    },
+  },
 };
 </script>

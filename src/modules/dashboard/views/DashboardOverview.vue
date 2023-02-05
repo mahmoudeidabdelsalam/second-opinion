@@ -30,10 +30,13 @@
           />
         </v-col>
         <v-col cols="12" xl="3" lg="3" md="6">
-          <reservations-chart style="height: 100%" />
+          <reservations-chart
+            :reservations="dashboardData.reservations.last"
+            style="height: 100%"
+          />
         </v-col>
         <v-col cols="12" xl="3" lg="3" md="6">
-          <income-chart style="height: 100%" />
+          <income-chart :invoices="roundedInvoices" style="height: 100%" />
         </v-col>
       </v-row>
 
@@ -76,6 +79,9 @@ export default {
 
     //dashboard data
     dashboardData: {},
+
+    // rounded invoices
+    roundedInvoices: [],
   }),
 
   created() {
@@ -98,6 +104,29 @@ export default {
         })
         .then((response) => {
           this.dashboardData = response.data.data;
+
+          // ser rounded invoices
+          this.roundedInvoices = response.data.data.invoices.last.map(
+            (invoice) => {
+              // round invoice depending on digits
+              if (invoice >= 1000 && invoice < 1000000) {
+                return {
+                  value: Math.round(invoice) / 1000,
+                  suffix: "K",
+                };
+              } else if (invoice >= 1000000) {
+                return {
+                  value: Math.round(invoice) / 1000000,
+                  suffix: "M",
+                };
+              } else {
+                return {
+                  value: Math.round(invoice),
+                  suffix: "",
+                };
+              }
+            }
+          );
 
           // hide loading
           this.waitingForData = false;

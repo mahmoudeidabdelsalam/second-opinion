@@ -8,7 +8,8 @@
       <v-card-text>
         <v-sheet color="primary">
           <v-sparkline
-            :value="value"
+            :labels="chartLabels"
+            :value="chartValues"
             label-size="12"
             color="white"
             height="145"
@@ -16,7 +17,9 @@
             stroke-linecap="round"
             smooth
           >
-            <template v-slot:label="item"> {{ item.value }} </template>
+            <template v-slot:label="item">
+              {{ item.value }}
+            </template>
           </v-sparkline>
         </v-sheet>
       </v-card-text>
@@ -34,8 +37,43 @@
 export default {
   name: "IncomeChart",
 
+  props: {
+    invoices: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   data: () => ({
-    value: [423, 446, 675, 510, 590, 610, 760],
+    chartLabels: ["", "", "", "", "", "", ""],
+    chartValues: [0, 0, 0, 0, 0, 0, 0],
   }),
+
+  mounted() {
+    console.log(this.invoices);
+
+    // set chart labels to  day invoice.value + suffix
+    this.chartLabels = this.invoices.map((invoice) => {
+      return invoice.value + invoice.suffix;
+    });
+
+    // set chart values to day invoice.value
+    this.chartValues = this.invoices.map((invoice) => {
+      // if invoice suffix is M return value * 1000000
+      if (invoice.suffix === "M") {
+        return invoice.value * 1000000;
+      }
+
+      // if invoice suffix is K return value * 1000
+      else if (invoice.suffix === "K") {
+        return invoice.value * 1000;
+      }
+
+      // else return value
+      else {
+        return invoice.value;
+      }
+    });
+  },
 };
 </script>

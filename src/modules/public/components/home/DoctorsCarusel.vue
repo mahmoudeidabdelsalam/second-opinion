@@ -112,6 +112,7 @@ export default {
 
   &.left-1,
   &.right-1 {
+    height: auto !important;
     .hide {
       display: none;
     }
