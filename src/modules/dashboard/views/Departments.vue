@@ -4,7 +4,6 @@
       :headers="headers"
       :items="desserts"
       :loading="loadingData"
-      :search="search"
       loading-text="جاري تحميل البيانات"
       no-data-text="لا توجد بيانات حتى الان"
       no-results-text="لا توجد نتائج مطابقة للبحث"
@@ -194,6 +193,7 @@
 
         <v-text-field
           v-model="search"
+          @keydown.enter="searchData"
           append-icon="mdi-magnify"
           label="بحث"
           single-line
@@ -443,6 +443,33 @@ export default {
           })
           .catch(() => {});
       }
+    },
+
+    // search data
+    searchData() {
+      // show loading
+      this.loadingData = true;
+
+      this.axios
+        .get(`dashboard/departments?search=${this.search}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          // hide loading
+          this.loadingData = false;
+
+          //set last page
+          this.lastPage = response.data.meta.last_page;
+
+          // set data
+          this.desserts = response.data.data;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          // hide loading
+          this.loadingData = false;
+        });
     },
 
     // handle image
