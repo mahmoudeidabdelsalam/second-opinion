@@ -15,7 +15,10 @@
             height="145"
             padding="20"
             stroke-linecap="round"
+            auto-draw
+            auto-draw-duration="2000"
             smooth
+            type="bar"
           >
             <template v-slot:label="item">
               {{ item.value }}

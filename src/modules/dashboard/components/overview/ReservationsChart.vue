@@ -15,6 +15,8 @@
             padding="20"
             stroke-linecap="round"
             smooth
+            auto-draw
+            auto-draw-duration="2000"
           >
             <template v-slot:label="item"> {{ item.value }} </template>
           </v-sparkline>
