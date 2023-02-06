@@ -10,10 +10,12 @@
       :size="200"
       :width="30"
       :value="
-        (
-          (reservations.call / (reservations.call + reservations.chat)) *
-          100
-        ).toFixed(1)
+        reservations.call > 0
+          ? (
+              (reservations.call / (reservations.call + reservations.chat)) *
+              100
+            ).toFixed(1)
+          : 0
       "
       color="primary"
     >
@@ -26,10 +28,13 @@
           <!-- percentage -->
           %
           {{
-            (
-              (reservations.call / (reservations.call + reservations.chat)) *
-              100
-            ).toFixed(1)
+            reservations.call > 0
+              ? (
+                  (reservations.call /
+                    (reservations.call + reservations.chat)) *
+                  100
+                ).toFixed(1)
+              : 0
           }}
         </span>
         <span class="subtitle-1 font-weight-medium">مرئية</span>
@@ -41,10 +46,13 @@
           ><!-- percentage -->
           %
           {{
-            (
-              (reservations.chat / (reservations.call + reservations.chat)) *
-              100
-            ).toFixed(1)
+            reservations.chat > 0
+              ? (
+                  (reservations.chat /
+                    (reservations.call + reservations.chat)) *
+                  100
+                ).toFixed(1)
+              : 0
           }}</span
         >
         <span class="subtitle-1 font-weight-medium">كتابية</span>

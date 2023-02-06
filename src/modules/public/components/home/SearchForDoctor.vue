@@ -44,11 +44,14 @@
                       })
                     "
                     label="بحث بالطبيب"
+                    :loading="doctorsLoading"
                     outlined
                     hide-details="true"
                     color="primary"
                     background-color="#ecf6fc"
                     class="rounded-lg"
+                    @update:search-input="getDoctor($event)"
+                    @keydown.enter.prevent
                   ></v-autocomplete>
                 </v-col>
 
@@ -134,16 +137,13 @@ export default {
     doctor_name: "",
     department_id: "",
 
+    // doctors
+    doctors: [],
+    doctorsLoading: false,
+
     // departments
     departments: [],
   }),
-
-  props: {
-    doctors: {
-      type: Array,
-      default: () => [],
-    },
-  },
 
   created() {
     // init data
@@ -176,6 +176,27 @@ export default {
         })
         .catch((error) => {
           this.handleResponse(error.response);
+        });
+    },
+
+    // get doctor
+    getDoctor(event) {
+      // show loading
+      this.doctorsLoading = true;
+
+      this.axios
+        .get(`patient/doctors?search=${event ? event : ""}`)
+        .then((response) => {
+          this.doctors = response.data.data;
+
+          // hide loading
+          this.doctorsLoading = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          // hide loading
+          this.doctorsLoading = false;
         });
     },
 

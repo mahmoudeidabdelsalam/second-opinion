@@ -10,7 +10,11 @@
       :size="200"
       :width="30"
       :value="
-        ((patients.male / (patients.male + patients.female)) * 100).toFixed(1)
+        patients.male > 0
+          ? ((patients.male / (patients.male + patients.female)) * 100).toFixed(
+              1
+            )
+          : 0
       "
       color="primary"
     >
@@ -23,9 +27,12 @@
           <!-- percentage -->
           %
           {{
-            ((patients.male / (patients.male + patients.female)) * 100).toFixed(
-              1
-            )
+            patients.male > 0
+              ? (
+                  (patients.male / (patients.male + patients.female)) *
+                  100
+                ).toFixed(1)
+              : 0
           }}
         </span>
         <span class="subtitle-1 font-weight-medium">ذكور</span>
@@ -37,10 +44,12 @@
           <!-- percentage -->
           %
           {{
-            (
-              (patients.female / (patients.male + patients.female)) *
-              100
-            ).toFixed(1)
+            patients.female > 0
+              ? (
+                  (patients.female / (patients.male + patients.female)) *
+                  100
+                ).toFixed(1)
+              : 0
           }}
         </span>
         <span class="subtitle-1 font-weight-medium">اناث</span>
