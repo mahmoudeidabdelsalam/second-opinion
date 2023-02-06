@@ -15,10 +15,9 @@
             height="145"
             padding="20"
             stroke-linecap="round"
-            auto-draw
-            auto-draw-duration="2000"
             smooth
-            type="bar"
+            auto-draw
+            :auto-draw-duration="2000"
           >
             <template v-slot:label="item">
               {{ item.value }}
@@ -53,8 +52,6 @@ export default {
   }),
 
   mounted() {
-    console.log(this.invoices);
-
     // set chart labels to  day invoice.value + suffix
     this.chartLabels = this.invoices.map((invoice) => {
       return invoice.value + invoice.suffix;

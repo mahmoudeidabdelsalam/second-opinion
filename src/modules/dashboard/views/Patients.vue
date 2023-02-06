@@ -7,10 +7,8 @@
       :search="search"
       loading-text="جاري تحميل البيانات"
       no-data-text="لا توجد بيانات حتى الان"
-      :footer-props="{
-        'items-per-page-all-text': 'الكل',
-        'items-per-page-text': 'عدد الصفوف في الصفحة',
-      }"
+      no-results-text="لا توجد نتائج مطابقة للبحث"
+      hide-default-footer
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -205,6 +203,16 @@
         </v-btn>
       </template>
     </v-data-table>
+
+    <!-- pagination -->
+    <div class="text-center py-10" v-if="desserts.length">
+      <v-pagination
+        v-model="pageNumber"
+        :length="lastPage"
+        :total-visible="5"
+        @input="initData"
+      ></v-pagination>
+    </div>
   </section>
 </template>
 
@@ -232,6 +240,12 @@ export default {
 
     // items
     desserts: [],
+
+    // page number
+    pageNumber: 1,
+
+    // last page
+    lastPage: 1,
 
     // genders
     genders: [
@@ -313,15 +327,24 @@ export default {
       this.loadingData = true;
       // get patients
       this.axios
-        .get(`dashboard/patients`, {
+        .get(`dashboard/patients?page=${this.pageNumber}`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         })
         .then((response) => {
-          this.desserts = response.data.data;
+          // hide loading
           this.loadingData = false;
+
+          //set last page
+          this.lastPage = response.data.meta.last_page;
+
+          // set data
+          this.desserts = response.data.data;
         })
         .catch((error) => {
           this.handleResponse(error.response);
+
+          // hide loading
+          this.loadingData = false;
         });
     },
 
