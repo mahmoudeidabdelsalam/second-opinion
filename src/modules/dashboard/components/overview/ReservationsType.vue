@@ -10,11 +10,8 @@
       :size="200"
       :width="30"
       :value="
-        reservations.call > 0
-          ? (
-              (reservations.call / (reservations.call + reservations.chat)) *
-              100
-            ).toFixed(1)
+        value.call > 0
+          ? ((value.call / (value.call + value.chat)) * 100).toFixed(1)
           : 0
       "
       color="primary"
@@ -70,6 +67,17 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+
+  data: () => ({
+    interval: {},
+    value: 0,
+  }),
+
+  mounted() {
+    this.interval = setInterval(() => {
+      this.value = this.reservations;
+    }, 1000);
   },
 };
 </script>

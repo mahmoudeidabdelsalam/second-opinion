@@ -204,7 +204,7 @@
                         ></v-textarea>
                       </v-col>
 
-                      <v-col cols="12">
+                      <v-col cols="12" md="6">
                         <v-text-field
                           v-model="editedItem.job_id"
                           :rules="numberRules"
@@ -213,6 +213,14 @@
                           outlined
                           dense
                         ></v-text-field>
+                      </v-col>
+
+                      <v-col cols="12" md="6">
+                        <v-checkbox
+                          v-model="editedItem.featured"
+                          label="طبيب مميز"
+                          class="mt-1"
+                        ></v-checkbox>
                       </v-col>
 
                       <v-col cols="12" md="6">
@@ -510,6 +518,7 @@ export default {
       image: "",
       signature: "",
       job_id: "",
+      featured: false,
       educations_en: "",
       educations_ar: "",
       experiences_en: "",
@@ -719,6 +728,7 @@ export default {
               experiences_en: response.data.data.en.experiences,
               experiences_ar: response.data.data.ar.experiences,
               job_id: response.data.data.job_id,
+              featured: response.data.data.featured,
             }
           );
 
@@ -846,6 +856,11 @@ export default {
           data.append("signature", this.editedItem.signature);
         }
         data.append("job_id", this.editedItem.job_id);
+        if (this.editedItem.featured) {
+          data.append("featured", 1);
+        } else {
+          data.append("featured", 0);
+        }
         data.append("educations:en", this.editedItem.educations_en);
         data.append("educations:ar", this.editedItem.educations_ar);
         data.append("experiences:en", this.editedItem.experiences_en);
@@ -891,6 +906,11 @@ export default {
           data.append("consultation_price", this.editedItem.consultation_price);
           data.append("signature", this.editedItem.signature);
           data.append("job_id", this.editedItem.job_id);
+          if (this.editedItem.featured) {
+            data.append("featured", 1);
+          } else {
+            data.append("featured", 0);
+          }
           data.append("educations:en", this.editedItem.educations_en);
           data.append("educations:ar", this.editedItem.educations_ar);
           data.append("experiences:en", this.editedItem.experiences_en);
@@ -932,5 +952,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss"></style>

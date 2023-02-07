@@ -10,10 +10,8 @@
       :size="200"
       :width="30"
       :value="
-        patients.male > 0
-          ? ((patients.male / (patients.male + patients.female)) * 100).toFixed(
-              1
-            )
+        value.male > 0
+          ? ((value.male / (value.male + value.female)) * 100).toFixed(1)
           : 0
       "
       color="primary"
@@ -67,6 +65,17 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+
+  data: () => ({
+    interval: {},
+    value: 0,
+  }),
+
+  mounted() {
+    this.interval = setInterval(() => {
+      this.value = this.patients;
+    }, 1000);
   },
 };
 </script>

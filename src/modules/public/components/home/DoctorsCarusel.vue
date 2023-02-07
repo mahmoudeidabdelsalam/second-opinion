@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { Carousel3d, Slide } from "vue-carousel-3d";
 
 export default {
@@ -91,10 +92,31 @@ export default {
     Slide,
   },
 
-  props: {
-    doctors: {
-      type: Array,
-      default: () => [],
+  data: () => ({
+    doctors: [],
+  }),
+
+  created() {
+    // init data
+    this.initData();
+  },
+
+  methods: {
+    ...mapActions({
+      handleResponse: "responseHandler/handleResponse",
+    }),
+
+    // init data
+    initData() {
+      // get doctors
+      this.axios
+        .get(`patient/doctors?is_featured=1`)
+        .then((response) => {
+          this.doctors = response.data.data;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+        });
     },
   },
 };

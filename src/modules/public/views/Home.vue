@@ -1,6 +1,6 @@
 <template>
   <main class="home" style="background-color: #f8fbff">
-    <doctors-carusel :doctors="doctors" />
+    <doctors-carusel />
     <search-for-doctor :doctors="doctors" />
     <doctors :doctors="doctors" />
     <mobile-apps />
