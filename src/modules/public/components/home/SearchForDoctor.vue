@@ -79,11 +79,14 @@
                     v-model="department_id"
                     :items="departments"
                     label="بحث بالتخصص"
+                    :loading="departmentsLoading"
                     outlined
                     hide-details="true"
                     color="primary"
                     background-color="#ecf6fc"
                     class="rounded-lg"
+                    @update:search-input="getDepartment($event)"
+                    @keydown.enter.prevent
                   ></v-autocomplete>
                 </v-col>
 
@@ -143,6 +146,7 @@ export default {
 
     // departments
     departments: [],
+    departmentsLoading: false,
   }),
 
   created() {
@@ -197,6 +201,32 @@ export default {
 
           // hide loading
           this.doctorsLoading = false;
+        });
+    },
+
+    // get department
+    getDepartment(event) {
+      // show loading
+      this.departmentsLoading = true;
+
+      this.axios
+        .get(`patient/departments?search=${event ? event : ""}`)
+        .then((response) => {
+          this.departments = response.data.data.map((item) => {
+            return {
+              text: item.name,
+              value: item.id,
+            };
+          });
+
+          // hide loading
+          this.departmentsLoading = false;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          // hide loading
+          this.departmentsLoading = false;
         });
     },
 
