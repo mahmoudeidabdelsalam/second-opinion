@@ -4,7 +4,6 @@
       :headers="headers"
       :items="desserts"
       :loading="loadingData"
-      :search="search"
       loading-text="جاري تحميل البيانات"
       no-data-text="لا توجد بيانات حتى الان"
       no-results-text="لا توجد نتائج مطابقة للبحث"
@@ -316,6 +315,7 @@
 
         <v-text-field
           v-model="search"
+          @keyup="searchData"
           append-icon="mdi-magnify"
           label="بحث"
           single-line
@@ -488,6 +488,7 @@ export default {
 
     // search
     search: "",
+    searchTimeout: null,
 
     // edited item
     editedIndex: -1,
@@ -564,6 +565,7 @@ export default {
     initData(dataType) {
       // loading data
       this.loadingData = true;
+
       // check data type
       if (dataType === "trashed") {
         this.axios
@@ -652,6 +654,37 @@ export default {
     // handle signature
     onAddDoctorSignature(_, file) {
       this.editedItem.signature = file.file;
+    },
+
+    // search data
+    searchData() {
+      clearTimeout(this.searchTimeout);
+
+      this.searchTimeout = setTimeout(() => {
+        // show loading
+        this.loadingData = true;
+
+        this.axios
+          .get(`dashboard/doctors?search=${this.search}`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
+
+            //set last page
+            this.lastPage = response.data.meta.last_page;
+
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+
+            // hide loading
+            this.loadingData = false;
+          });
+      }, 1000);
     },
 
     editItem(item) {

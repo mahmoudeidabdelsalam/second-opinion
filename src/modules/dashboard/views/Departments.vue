@@ -193,7 +193,7 @@
 
         <v-text-field
           v-model="search"
-          @keydown.enter="searchData"
+          @keyup="searchData"
           append-icon="mdi-magnify"
           label="بحث"
           single-line
@@ -320,6 +320,7 @@ export default {
 
     // search
     search: "",
+    searchTimeout: null,
 
     // edited item
     editedIndex: -1,
@@ -447,29 +448,33 @@ export default {
 
     // search data
     searchData() {
-      // show loading
-      this.loadingData = true;
+      clearTimeout(this.searchTimeout);
 
-      this.axios
-        .get(`dashboard/departments?search=${this.search}`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          // hide loading
-          this.loadingData = false;
+      this.searchTimeout = setTimeout(() => {
+        // show loading
+        this.loadingData = true;
 
-          //set last page
-          this.lastPage = response.data.meta.last_page;
+        this.axios
+          .get(`dashboard/departments?search=${this.search}`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.loadingData = false;
 
-          // set data
-          this.desserts = response.data.data;
-        })
-        .catch((error) => {
-          this.handleResponse(error.response);
+            //set last page
+            this.lastPage = response.data.meta.last_page;
 
-          // hide loading
-          this.loadingData = false;
-        });
+            // set data
+            this.desserts = response.data.data;
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+
+            // hide loading
+            this.loadingData = false;
+          });
+      }, 1000);
     },
 
     // handle image
