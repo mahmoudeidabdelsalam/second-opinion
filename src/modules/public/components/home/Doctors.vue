@@ -39,6 +39,9 @@
           v-for="doctor in doctors"
           :key="doctor.id"
         >
+          <router-link
+            :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
+          >
           <img
             :src="doctor.profile"
             :lazy-src="doctor.profile"
@@ -46,6 +49,7 @@
             class="rounded-lg mb-5"
             style="height: 311px; object-fit: cover; object-position: top"
           />
+        </router-link>
           <span
             class="d-block text-center primary--text mb-2 font-weight-bold text-h6"
           >

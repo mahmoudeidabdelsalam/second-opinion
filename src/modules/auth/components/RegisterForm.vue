@@ -9,13 +9,13 @@
         autofocus
       ></v-text-field>
 
-      <v-text-field
+      <!-- <v-text-field
         v-model="form.email"
         :rules="emailRules"
         type="email"
         label="البريد الإلكتروني"
         outlined
-      ></v-text-field>
+      ></v-text-field> -->
 
       <v-text-field
         v-model="form.phone_number"
@@ -132,7 +132,7 @@ export default {
       if (this.$refs.form.validate()) {
         let data = new FormData();
         data.append("name", this.form.name);
-        data.append("email", this.form.email);
+        // data.append("email", this.form.email);
         data.append("phone_number", this.form.phone_number);
 
         // show loading1

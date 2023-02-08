@@ -22,13 +22,20 @@
           style="background-color: #f8fbff"
         >
           <div class="text-center">
-            <v-avatar class="mb-5 rounded-lg" size="100%" max-height="328">
+            <router-link
+              :to="{
+                name: 'PublicDoctorsProfile',
+                params: { id: doctor.id },
+              }"
+            >
+              <v-avatar class="mb-5 rounded-lg" size="100%" max-height="328">
               <v-img
                 :src="doctor.profile"
                 :lazy-src="doctor.profile"
                 cover
               ></v-img>
             </v-avatar>
+            </router-link>
             <div class="hide">
               <span
                 class="d-block text-center primary--text mb-1 text-h6 font-weight-bold"
