@@ -275,7 +275,7 @@
           depressed
           icon
           :class="
-            'primary_bg pa-6' + (item.session.start_url ? '' : ' grey-disabled')
+            'primary_bg pa-6 bounce' + (item.session.start_url ? '' : ' grey-disabled')
           "
           title="ابدا الاستشارة"
           link
@@ -730,6 +730,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bounce {
+  animation: bounce 1s infinite alternate;
+
+  @keyframes bounce {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+  }
+}
 .grey-disabled {
   // grey scale
   filter: grayscale(100%) !important;
