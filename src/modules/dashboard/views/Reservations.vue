@@ -191,20 +191,25 @@
       </template>
 
       <template v-slot:[`item.patient.full_name`]="{ item }">
-        <div class="py-1 px-5 rounded-xl clickable-row-item" @click="goToReservationProfile(item.id)"
+        <div
+          class="py-1 px-5 rounded-xl clickable-row-item"
+          @click="goToReservationProfile(item.id)"
         >
           <span
-          class="d-block font-weight-medium"
-          v-if="item.patient && item.patient.full_name"
-        >
-          {{ item.patient.full_name }}
-        </span>
-        <span class="d-block" v-if="item.patient && item.patient.email">
-          {{ item.patient.email }}
-        </span>
-        <span class="d-block" v-if="item.patient && item.patient.phone_number">
-          {{ item.patient.phone_number }}
-        </span>
+            class="d-block font-weight-medium"
+            v-if="item.patient && item.patient.full_name"
+          >
+            {{ item.patient.full_name }}
+          </span>
+          <span class="d-block" v-if="item.patient && item.patient.email">
+            {{ item.patient.email }}
+          </span>
+          <span
+            class="d-block"
+            v-if="item.patient && item.patient.phone_number"
+          >
+            {{ item.patient.phone_number }}
+          </span>
         </div>
       </template>
 
@@ -255,8 +260,8 @@
       <template v-slot:[`item.status`]="{ item }">
         <v-select
           class="pt-5"
-          :items="status"
-          :value="item.status"
+          :items="item.type.value == 1 ? videoStatus : writtenConsultation"
+          :value="item.status.value"
           outlined
           dense
           @change="changeStatus(item, $event)"
@@ -275,7 +280,8 @@
           depressed
           icon
           :class="
-            'primary_bg pa-6 bounce' + (item.session.start_url ? '' : ' grey-disabled')
+            'primary_bg pa-6 bounce' +
+            (item.session.start_url ? '' : ' grey-disabled')
           "
           title="ابدا الاستشارة"
           link
@@ -375,11 +381,18 @@ export default {
     ],
 
     // status
-    status: [
+    videoStatus: [
       { text: "مفتوح", value: 1 },
-      { text: "ملغى", value: 2 },
-      { text: "مكتمل", value: 3 },
-      { text: "مبلغ مسترد", value: 5 },
+      { text: "مكتمل", value: 2 },
+      { text: "ملغى", value: 3 },
+      { text: "مبلغ مسترد", value: 4 },
+    ],
+    // written consultation
+    writtenConsultation: [
+      { text: "ملغى", value: 3 },
+      { text: "مبلغ مسترد", value: 4 },
+      { text: "تم الرد", value: 5 },
+      { text: "بانتظار الرد", value: 6 },
     ],
 
     // reservationTypes
@@ -719,7 +732,7 @@ export default {
     },
 
     // go to reservations profile
-    goToReservationProfile( itemId ) {
+    goToReservationProfile(itemId) {
       this.$router.push({
         name: "ReservationProfile",
         params: { id: itemId },
