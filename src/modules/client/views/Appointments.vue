@@ -86,15 +86,15 @@ export default {
         .then((response) => {
           // upcoming
           this.upcoming = response.data.data.filter(
-            (item) => item.status.value == 0
+            (item) => item.status.value == 1
           );
           // expired
           this.expired = response.data.data.filter(
-            (item) => item.status.value == 3
+            (item) => item.status.value == 2
           );
           // canceled
           this.canceled = response.data.data.filter(
-            (item) => item.status.value == 2
+            (item) => item.status.value == 3
           );
 
           this.waitingForData = false;
