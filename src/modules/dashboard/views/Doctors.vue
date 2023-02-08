@@ -8,7 +8,6 @@
       no-data-text="لا توجد بيانات حتى الان"
       no-results-text="لا توجد نتائج مطابقة للبحث"
       hide-default-footer
-      @dblclick:row="goToDoctorProfile"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -207,7 +206,7 @@
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="editedItem.job_id"
-                          :rules="numberRules"
+                          :rules="jobIdRules"
                           type="number"
                           label="الرقم الوظيفي"
                           outlined
@@ -336,7 +335,8 @@
       </template>
 
       <template v-slot:[`item.full_name`]="{ item }">
-        <div class="d-flex justify-start align-center">
+        <div class="d-flex justify-start align-center rounded-pill clickable-row-item" @click="goToDoctorProfile(item.id)"
+        >
           <v-avatar size="50">
             <v-img
               cover
@@ -540,6 +540,7 @@ export default {
       numberRules: "validationRules/numberRules",
       selectRules: "validationRules/selectRules",
       durationRules: "validationRules/durationRules",
+      jobIdRules: "validationRules/jobIdRules",
     }),
 
     // route qquery for trashed
@@ -943,10 +944,10 @@ export default {
     },
 
     // go to doctor profile
-    goToDoctorProfile(event, { item }) {
+    goToDoctorProfile(doctorId) {
       this.$router.push({
         name: "DoctorProfile",
-        params: { id: item.id },
+        params: { id: doctorId },
       });
     },
   },

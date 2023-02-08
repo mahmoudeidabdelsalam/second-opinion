@@ -195,7 +195,7 @@
         <v-col cols="12">
           <v-text-field
             v-model="form.job_id"
-            :rules="numberRules"
+            :rules="jobIdRules"
             type="number"
             label="الرقم الوظيفي"
             outlined
@@ -268,6 +268,7 @@ export default {
       numberRules: "validationRules/numberRules",
       selectRules: "validationRules/selectRules",
       durationRules: "validationRules/durationRules",
+      jobIdRules: "validationRules/jobIdRules",
     }),
   },
 

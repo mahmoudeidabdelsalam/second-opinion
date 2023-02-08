@@ -112,6 +112,11 @@ export default {
 
     // select file rules
     selectFileRules: [(v) => !!v || "برجاء اختيار الملف"],
+
+    // job id rules accept letters and numbers
+    jobIdRules: [
+      (v) => !!v || "حقل الرقم الوظيفى مطلوب",
+    ],
   }),
 
   // getters

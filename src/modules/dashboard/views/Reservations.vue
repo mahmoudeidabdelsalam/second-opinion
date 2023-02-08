@@ -8,7 +8,6 @@
       no-data-text="لا توجد بيانات حتى الان"
       no-results-text="لا توجد نتائج مطابقة للبحث"
       hide-default-footer
-      @dblclick:row="goToReservationProfile"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -192,7 +191,9 @@
       </template>
 
       <template v-slot:[`item.patient.full_name`]="{ item }">
-        <span
+        <div class="py-1 px-5 rounded-xl clickable-row-item" @click="goToReservationProfile(item.id)"
+        >
+          <span
           class="d-block font-weight-medium"
           v-if="item.patient && item.patient.full_name"
         >
@@ -204,6 +205,7 @@
         <span class="d-block" v-if="item.patient && item.patient.phone_number">
           {{ item.patient.phone_number }}
         </span>
+        </div>
       </template>
 
       <template v-slot:[`item.doctor.full_name`]="{ item }">
@@ -717,10 +719,10 @@ export default {
     },
 
     // go to reservations profile
-    goToReservationProfile(event, { item }) {
+    goToReservationProfile( itemId ) {
       this.$router.push({
         name: "ReservationProfile",
-        params: { id: item.id },
+        params: { id: itemId },
       });
     },
   },
