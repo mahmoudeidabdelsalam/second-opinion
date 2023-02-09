@@ -15,7 +15,14 @@ import clientRoutes from "@/modules/client/client.routes";
 
 Vue.use(VueRouter);
 
-const baseRoutes = [];
+const baseRoutes = [
+  // 404 not found
+  // {
+  //   path: "/:catchAll(.*)",
+  //   name: "PublicNotFound",
+  //   component: () => import("@/modules/public/views/NotFound.vue"),
+  // },
+];
 const routes = baseRoutes.concat(
   authRoutes,
   dashboardRoutes,
