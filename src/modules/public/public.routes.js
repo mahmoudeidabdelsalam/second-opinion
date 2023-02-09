@@ -57,7 +57,7 @@ let routes = [
 
       // 404 not found
       {
-        path: "*",
+        path: "/:catchAll(.*)",
         name: "PublicNotFound",
         component: () => import("@/modules/public/views/NotFound.vue"),
       },
