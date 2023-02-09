@@ -56,9 +56,12 @@
                 link
                 :href="appointment.session.join_url"
                 target="_blank"
-                class="white rounded-lg primary--text font-weight-medium mx-auto mx-lg-0 mb-4 mb-lg-0"
+                class="white rounded-lg primary--text font-weight-medium py-6 mx-auto mx-lg-0 mb-4 mb-lg-0"
               >
-                <span class="ml-2">ZOOM</span>
+                <div class="d-flex flex-column align-center ml-3">
+                  <span>بدأ الموعد</span>
+                  <span>ZOOM</span>
+                </div>
                 <v-avatar size="20">
                   <v-img
                     :src="require('@/assets/images/zoom.webp')"

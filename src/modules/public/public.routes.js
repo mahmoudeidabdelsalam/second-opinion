@@ -54,6 +54,13 @@ let routes = [
         component: () =>
           import("@/modules/public/views/TermsAndConditions.vue"),
       },
+
+      // 404 not found
+      {
+        path: "*",
+        name: "PublicNotFound",
+        component: () => import("@/modules/public/views/NotFound.vue"),
+      },
     ],
   },
 ];

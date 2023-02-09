@@ -254,9 +254,15 @@
             </v-card>
           </v-dialog>
 
-          <!-- export btn -->
-          <v-menu offset-y open-on-hover>
+          <!-- doctor statment -->
+          <v-dialog
+            persistent
+            scrollable
+            v-model="dialogStatment"
+            max-width="800px"
+          >
             <template v-slot:activator="{ on, attrs }">
+              <!-- new item btn -->
               <v-btn
                 color="primary"
                 class="mx-2"
@@ -265,6 +271,110 @@
                 v-bind="attrs"
                 v-on="on"
               >
+                <v-icon left>mdi-file-account</v-icon>
+                كشف حساب
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="elevation-2">
+                <span class="text-h5">استخراج كشف حساب</span>
+              </v-card-title>
+              <v-card-text class="py-4">
+                <v-form ref="form" :v-model="valid">
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-autocomplete
+                          v-model="statementForm.doctor"
+                          :items="doctors"
+                          label="بحث بالطبيب"
+                          :rules="selectRules"
+                          :loading="doctorsLoading"
+                          outlined
+                          hide-details="true"
+                          class="rounded-lg"
+                          @update:search-input="getDoctor($event)"
+                          @keydown.enter.prevent
+                        ></v-autocomplete>
+                      </v-col>
+
+                      <v-col cols="12" md="6">
+                        <v-menu
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="auto"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="statementForm.fromDate"
+                              :rules="dateRules"
+                              label="من تاريخ"
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              outlined
+                              v-bind="attrs"
+                              v-on="on"
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="statementForm.fromDate"
+                            @input="menu = false"
+                          ></v-date-picker>
+                        </v-menu>
+                      </v-col>
+
+                      <v-col cols="12" md="6">
+                        <v-menu
+                          v-model="menu2"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="auto"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="statementForm.toDate"
+                              :rules="dateRules"
+                              label="حتى تاريخ"
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              outlined
+                              v-bind="attrs"
+                              v-on="on"
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="statementForm.toDate"
+                            :rules="dateRules"
+                            @input="menu2 = false"
+                          ></v-date-picker>
+                        </v-menu>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" depressed @click="closeStatmentDialog">
+                  الغاء
+                </v-btn>
+                <v-btn color="primary" depressed @click="downloadStatment">
+                  تنزيل
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+          <!-- filter btn -->
+          <v-menu offset-y open-on-hover>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="primary" dark depressed v-bind="attrs" v-on="on">
                 تصفية
               </v-btn>
             </template>
@@ -335,7 +445,9 @@
       </template>
 
       <template v-slot:[`item.full_name`]="{ item }">
-        <div class="d-flex justify-start align-center rounded-pill clickable-row-item" @click="goToDoctorProfile(item.id)"
+        <div
+          class="d-flex justify-start align-center rounded-pill clickable-row-item"
+          @click="goToDoctorProfile(item.id)"
         >
           <v-avatar size="50">
             <v-img
@@ -464,6 +576,7 @@ export default {
 
     // dialog
     dialog: false,
+    dialogStatment: false,
     dialogDelete: false,
     dialogRestore: false,
 
@@ -478,6 +591,19 @@ export default {
 
     // items
     desserts: [],
+
+    // doctors
+    doctors: [],
+    // loading doctors
+    doctorsLoading: false,
+
+    // statement form
+    statementForm: {
+      doctor: "",
+      fromDate: "",
+      toDate: "",
+    },
+    getDoctorTimeout: null,
 
     // page number
     pageNumber: 1,
@@ -524,6 +650,13 @@ export default {
       experiences_en: "",
       experiences_ar: "",
     },
+
+    // time picker
+    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
+    menu: false,
+    menu2: false,
   }),
 
   computed: {
@@ -541,6 +674,7 @@ export default {
       selectRules: "validationRules/selectRules",
       durationRules: "validationRules/durationRules",
       jobIdRules: "validationRules/jobIdRules",
+      dateRules: "validationRules/dateRules",
     }),
 
     // route qquery for trashed
@@ -697,6 +831,39 @@ export default {
       }, 1000);
     },
 
+    // get doctor
+    getDoctor(event) {
+      clearTimeout(this.getDoctorTimeout);
+
+      this.getDoctorTimeout = setTimeout(() => {
+        // show loading
+        this.doctorsLoading = true;
+
+        this.axios
+          .get(`dashboard/doctors?search=${event ? event : ""}`, {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          })
+          .then((response) => {
+            // hide loading
+            this.doctorsLoading = false;
+
+            // set data
+            this.doctors = response.data.data.map((item) => {
+              return {
+                text: item.full_name,
+                value: item.id,
+              };
+            });
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+
+            // hide loading
+            this.doctorsLoading = false;
+          });
+      }, 1000);
+    },
+
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
 
@@ -836,6 +1003,10 @@ export default {
       });
     },
 
+    closeStatmentDialog() {
+      this.dialogStatment = false;
+    },
+
     async save() {
       if (this.editedIndex > -1) {
         let data = new FormData();
@@ -949,6 +1120,13 @@ export default {
         name: "DoctorProfile",
         params: { id: doctorId },
       });
+    },
+
+    // download doctor statment
+    downloadStatment() {
+      if (this.$refs.form.validate()) {
+        console.log(this.statementForm.doctor);
+      }
     },
   },
 };
