@@ -2,6 +2,7 @@
   <main class="home" style="background-color: #f8fbff">
     <doctors-carusel />
     <search-for-doctor :doctors="doctors" />
+    <departments />
     <doctors :doctors="doctors" />
     <mobile-apps />
     <blog />
@@ -18,6 +19,7 @@ export default {
   components: {
     DoctorsCarusel: () => import("../components/home/DoctorsCarusel.vue"),
     SearchForDoctor: () => import("../components/home/SearchForDoctor.vue"),
+    Departments: () => import("../components/home/Departments.vue"),
     Doctors: () => import("../components/home/Doctors.vue"),
     MobileApps: () => import("../components/home/MobileApps.vue"),
     Blog: () => import("../components/home/Blog.vue"),

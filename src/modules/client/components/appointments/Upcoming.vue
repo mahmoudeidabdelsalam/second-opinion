@@ -72,95 +72,135 @@
               </v-btn>
             </div>
 
-            <v-dialog
-              v-model="changeTimeDialogs[index]"
-              persistent
-              transition="dialog-top-transition"
-              max-width="600"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  block
-                  class="white primary--text py-6 rounded-lg font-weight-bold"
-                >
-                  اعادة جدولة
-                </v-btn>
-              </template>
-              <v-card>
-                <v-toolbar class="text-h6" elevation="0">
-                  <v-icon color="primary">mdi-calendar</v-icon>
-                  <span class="mx-4">المواعيد المتاحة</span>
-                  <v-spacer></v-spacer>
-                  <v-btn icon @click="closeDialog(index)">
-                    <v-icon>mdi-close</v-icon>
+            <div class="actions">
+              <!-- <v-dialog v-model="dialog" width="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
+                    Click Me
                   </v-btn>
-                </v-toolbar>
-                <v-card-text>
-                  <v-menu
-                    v-model="menus[index]"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="reservation_day"
-                        label="اختر اليوم"
-                        append-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                        clearable
-                        required
-                        outlined
-                        dense
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="reservation_day"
-                      :min="minDate"
-                      :max="maxDate"
-                      scrollable
-                      @change="getAvailablTimes(appointment.doctor.id)"
-                      @input="menus[index] = false"
-                    ></v-date-picker>
-                  </v-menu>
+                </template>
 
-                  <!-- no available times -->
-                  <v-alert v-if="notAvailableMessage" type="error" class="mb-5">
-                    {{ notAvailableMessage }}
-                  </v-alert>
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2">
+                    Privacy Policy
+                  </v-card-title>
 
-                  <v-radio-group
-                    v-model="reservation_time"
-                    row
-                    v-if="available_times.length"
-                    class="font-weight-bold"
-                  >
-                    <v-radio
-                      v-for="item in available_times"
-                      :key="item"
-                      :label="item"
-                      :value="item"
-                      class="mb-2"
-                    ></v-radio>
-                  </v-radio-group>
-                </v-card-text>
-                <v-card-actions>
+                  <v-card-text>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="dialog = false">
+                      I accept
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog> -->
+
+              <v-dialog
+                v-model="changeTimeDialogs[index]"
+                persistent
+                transition="dialog-top-transition"
+                max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
                   <v-btn
+                    v-bind="attrs"
+                    v-on="on"
                     block
-                    class="primary py-6 rounded-lg"
-                    @click="changeTime(appointment.id, index)"
+                    class="white primary--text py-6 rounded-lg font-weight-bold"
                   >
-                    تاكيد الحجز
+                    اعادة جدولة
                   </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+                </template>
+                <v-card>
+                  <v-toolbar class="text-h6" elevation="0">
+                    <v-icon color="primary">mdi-calendar</v-icon>
+                    <span class="mx-4">المواعيد المتاحة</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="closeDialog(index)">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-toolbar>
+                  <v-card-text>
+                    <v-menu
+                      v-model="menus[index]"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="reservation_day"
+                          label="اختر اليوم"
+                          append-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                          clearable
+                          required
+                          outlined
+                          dense
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker
+                        v-model="reservation_day"
+                        :min="minDate"
+                        :max="maxDate"
+                        scrollable
+                        @change="getAvailablTimes(appointment.doctor.id)"
+                        @input="menus[index] = false"
+                      ></v-date-picker>
+                    </v-menu>
+
+                    <!-- no available times -->
+                    <v-alert
+                      v-if="notAvailableMessage"
+                      type="error"
+                      class="mb-5"
+                    >
+                      {{ notAvailableMessage }}
+                    </v-alert>
+
+                    <v-radio-group
+                      v-model="reservation_time"
+                      row
+                      v-if="available_times.length"
+                      class="font-weight-bold"
+                    >
+                      <v-radio
+                        v-for="item in available_times"
+                        :key="item"
+                        :label="item"
+                        :value="item"
+                        class="mb-2"
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn
+                      block
+                      class="primary py-6 rounded-lg"
+                      @click="changeTime(appointment.id, index)"
+                    >
+                      تاكيد الحجز
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </div>
           </div>
         </div>
       </v-col>
