@@ -100,14 +100,20 @@ export default {
   },
 
   data: () => ({
-    doctors: JSON.parse(localStorage.doctors)
-      ? JSON.parse(localStorage.doctors)
-      : [],
+    doctors: [],
   }),
 
   created() {
-    // init data
-    this.initData();
+    if (JSON.parse(localStorage.doctors)) {
+      this.doctors = JSON.parse(localStorage.doctors);
+      setTimeout(() => {
+        // init data
+        this.initData();
+      }, 2000);
+    } else {
+      // init data
+      this.initData();
+    }
   },
 
   methods: {
