@@ -104,12 +104,10 @@ export default {
   }),
 
   created() {
-    if (JSON.parse(localStorage.doctors)) {
+    if (JSON.parse(localStorage.doctors).length) {
       this.doctors = JSON.parse(localStorage.doctors);
-      setTimeout(() => {
-        // init data
-        this.initData();
-      }, 2000);
+      // init data
+      this.initData();
     } else {
       // init data
       this.initData();
