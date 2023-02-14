@@ -29,12 +29,12 @@
               }"
             >
               <v-avatar class="mb-5 rounded-lg" size="100%" max-height="328">
-              <v-img
-                :src="doctor.profile"
-                :lazy-src="doctor.profile"
-                cover
-              ></v-img>
-            </v-avatar>
+                <v-img
+                  :src="doctor.profile"
+                  :lazy-src="doctor.profile"
+                  cover
+                ></v-img>
+              </v-avatar>
             </router-link>
             <div class="hide">
               <span
@@ -100,7 +100,7 @@ export default {
   },
 
   data: () => ({
-    doctors: [],
+    doctors: JSON.parse(localStorage.doctors) || [],
   }),
 
   created() {
@@ -119,6 +119,7 @@ export default {
       this.axios
         .get(`patient/doctors?is_featured=1`)
         .then((response) => {
+          localStorage.setItem("doctors", JSON.stringify(response.data.data));
           this.doctors = response.data.data;
         })
         .catch((error) => {
