@@ -104,14 +104,8 @@ export default {
   }),
 
   created() {
-    if (JSON.parse(localStorage.doctors).length) {
-      this.doctors = JSON.parse(localStorage.doctors);
-      // init data
-      this.initData();
-    } else {
-      // init data
-      this.initData();
-    }
+    // init data
+    this.initData();
   },
 
   methods: {
@@ -125,7 +119,6 @@ export default {
       this.axios
         .get(`patient/doctors?is_featured=1`)
         .then((response) => {
-          localStorage.setItem("doctors", JSON.stringify(response.data.data));
           this.doctors = response.data.data;
         })
         .catch((error) => {
