@@ -100,7 +100,9 @@ export default {
   },
 
   data: () => ({
-    doctors: JSON.parse(localStorage.doctors) || [],
+    doctors: JSON.parse(localStorage.doctors)
+      ? JSON.parse(localStorage.doctors)
+      : [],
   }),
 
   created() {
