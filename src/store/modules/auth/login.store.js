@@ -27,7 +27,14 @@ const actions = {
         // redirect user depending on role
         switch (response.data.data.role.value) {
           case 4: // patient
-            router.push({ name: "Home" });
+            if (router.history.current.query.doctor) {
+              router.push({
+                name: "PublicDoctorsProfile",
+                params: { id: router.history.current.query.doctor },
+              });
+            } else {
+              router.push({ name: "Home" });
+            }
             break;
 
           default:

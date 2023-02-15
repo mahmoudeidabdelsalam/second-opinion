@@ -79,11 +79,11 @@
               info@secondopinion.sa
             </a>
             <a
-              href="tel:+966595620000"
+              href="tel:+920066019"
               class="contact-link d-flex align-center mb-4"
             >
               <v-icon class="mx-2">mdi-phone</v-icon>
-              966595620000
+              920066019
             </a>
             <span class="company-address d-flex align-center mb-4">
               <v-icon class="mx-2">mdi-map-marker</v-icon>

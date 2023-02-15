@@ -80,7 +80,12 @@
 
     <v-alert v-if="showDatePicker && !authenticated" type="error">
       <span class="d-block mb-2">برجاء تسجيل الدخول لحجز استشارة</span>
-      <v-btn color="primary" depressed link :to="{ name: 'Login' }">
+      <v-btn
+        color="primary"
+        depressed
+        link
+        :to="{ name: 'Login', query: { doctor: $route.params.id } }"
+      >
         تسجيل الدخول
       </v-btn>
     </v-alert>
