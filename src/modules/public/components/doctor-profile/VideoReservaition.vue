@@ -64,7 +64,8 @@
           :key="item"
           :label="item"
           :value="item"
-          class="mb-2"
+          class="avilable-date-radio py-2 pl-3 pr-2 mb-2 rounded-xl"
+          style="min-width: 110px; border: 1px solid #ddd"
         ></v-radio>
       </v-radio-group>
 
@@ -240,4 +241,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.avilable-date-radio {
+  &.v-item--active {
+    background-color: #008ad0 !important;
+
+    .v-label {
+      color: #fff !important;
+    }
+  }
+}
+</style>

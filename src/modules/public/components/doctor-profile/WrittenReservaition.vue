@@ -19,14 +19,14 @@
       class="mb-10"
       v-if="showReportForm && authenticated"
     >
-      <!-- <v-textarea
-                v-model="notes"
-                label="اكتب ملاحظاتك ..."
-                outlined
-                dense
-                auto-grow
-                rows="4"
-              ></v-textarea> -->
+      <v-textarea
+        v-model="notes"
+        label="اكتب ملاحظاتك ..."
+        outlined
+        dense
+        auto-grow
+        rows="4"
+      ></v-textarea>
 
       <v-file-input
         v-model="report_files"
