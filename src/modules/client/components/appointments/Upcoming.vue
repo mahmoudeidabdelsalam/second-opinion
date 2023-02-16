@@ -73,41 +73,74 @@
             </div>
 
             <div class="actions">
-              <!-- <v-dialog v-model="dialog" width="500">
+              <v-dialog v-model="helpDialog" width="500">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
-                    Click Me
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    block
+                    class="white primary--text py-6 rounded-lg font-weight-bold"
+                  >
+                    المساعدة لتغيير الموعد
                   </v-btn>
                 </template>
 
                 <v-card>
-                  <v-card-title class="text-h5 grey lighten-2">
-                    Privacy Policy
+                  <v-card-title
+                    class="text-h5 primary--text d-flex flex-column align-start"
+                  >
+                    <span class="d-block mb-2">المساعدة</span>
+                    <span class="d-block title black--text mb-2">
+                      تواصل معنا عن طريق:
+                    </span>
                   </v-card-title>
 
                   <v-card-text>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
+                    <a
+                      href="https://wa.me/920066019"
+                      target="_blank"
+                      class="d-block mb-5"
+                    >
+                      <v-icon
+                        class="success pa-2 rounded-circle white--text"
+                        small
+                      >
+                        mdi-whatsapp
+                      </v-icon>
+                      <span
+                        class="black--text font-weight-medium text-subtitle-1 mx-2"
+                      >
+                        920066019+
+                      </span>
+                    </a>
+
+                    <a href="tel:+920066019">
+                      <v-icon
+                        class="primary pa-2 rounded-circle white--text"
+                        small
+                      >
+                        mdi-phone
+                      </v-icon>
+                      <span
+                        class="black--text font-weight-medium text-subtitle-1 mx-2"
+                      >
+                        920066019+
+                      </span>
+                    </a>
                   </v-card-text>
 
                   <v-divider></v-divider>
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="dialog = false">
-                      I accept
+                    <v-btn color="primary" @click="helpDialog = false">
+                      الغاء
                     </v-btn>
                   </v-card-actions>
                 </v-card>
-              </v-dialog> -->
+              </v-dialog>
 
-              <v-dialog
+              <!-- <v-dialog
                 v-model="changeTimeDialogs[index]"
                 persistent
                 transition="dialog-top-transition"
@@ -165,7 +198,7 @@
                       ></v-date-picker>
                     </v-menu>
 
-                    <!-- no available times -->
+                    
                     <v-alert
                       v-if="notAvailableMessage"
                       type="error"
@@ -199,7 +232,7 @@
                     </v-btn>
                   </v-card-actions>
                 </v-card>
-              </v-dialog>
+              </v-dialog> -->
             </div>
           </div>
         </div>
@@ -262,6 +295,9 @@ export default {
   data: () => ({
     // changeTimeDialogs
     changeTimeDialogs: [],
+
+    // help dialog
+    helpDialog: false,
 
     // date picker
     menus: [],
