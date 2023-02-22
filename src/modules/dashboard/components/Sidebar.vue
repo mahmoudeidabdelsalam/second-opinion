@@ -61,10 +61,10 @@
       </v-list-item>
 
       <v-list-item
+        v-if="myPermission.includes('list-departments')"
         link
         :to="{ name: 'Departments' }"
         active-class="primary--text"
-        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-handshake</v-icon>
@@ -77,10 +77,10 @@
       </v-list-item>
 
       <v-list-item
+        v-if="myPermission.includes('list-employees')"
         link
         :to="{ name: 'Employees' }"
         active-class="primary--text"
-        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-account-multiple</v-icon>
@@ -93,10 +93,10 @@
       </v-list-item>
 
       <v-list-item
+        v-if="myPermission.includes('list-doctors')"
         link
         :to="{ name: 'Doctors' }"
         active-class="primary--text"
-        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-doctor</v-icon>
@@ -109,6 +109,7 @@
       </v-list-item>
 
       <v-list-item
+        v-if="myPermission.includes('list-assistants')"
         link
         :to="{ name: 'Assistants' }"
         active-class="primary--text"
@@ -124,10 +125,10 @@
       </v-list-item>
 
       <v-list-item
+        v-if="myPermission.includes('list-roles')"
         link
         :to="{ name: 'Roles' }"
         active-class="primary--text"
-        v-if="user && user.role.name === 'admin'"
       >
         <v-list-item-icon>
           <v-icon>mdi-shield</v-icon>
@@ -139,7 +140,12 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link :to="{ name: 'Patients' }" active-class="primary--text">
+      <v-list-item
+        v-if="myPermission.includes('list-patients')"
+        link
+        :to="{ name: 'Patients' }"
+        active-class="primary--text"
+      >
         <v-list-item-icon>
           <v-icon>mdi-account-group</v-icon>
         </v-list-item-icon>
@@ -151,6 +157,7 @@
       </v-list-item>
 
       <v-list-item
+        v-if="myPermission.includes('list-reservations')"
         link
         :to="{ name: 'Reservations' }"
         active-class="primary--text"
@@ -180,6 +187,10 @@ export default {
       permissions: "user/permissions",
       notificationsCount: "notifications/notificationsCount",
     }),
+
+    myPermission() {
+      return this.permissions.map((permission) => permission.name);
+    },
   },
 
   created() {
