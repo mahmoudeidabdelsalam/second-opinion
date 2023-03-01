@@ -12,6 +12,11 @@ import "./store/modules/auth/subscriber";
 // vuetify
 import vuetify from "./plugins/vuetify";
 
+import mavonEditor from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
+// use
+Vue.use(mavonEditor);
+
 // i18n
 import i18n from "./plugins/i18n";
 

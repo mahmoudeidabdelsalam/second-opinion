@@ -142,44 +142,24 @@
               التقارير المرفقة من قبل الطبيب
             </span>
 
-            <v-form
-              ref="form"
-              :v-model="valid"
-              style="max-width: 500px"
-              v-if="!reservation.files.report"
+            <div class="mavonEditor">
+              <mavon-editor
+                :toolbars="markdownOption"
+                v-model="handbook"
+                language="en"
+                placeholder="اكتب هنا"
+                style="height: 600px"
+              />
+            </div>
+
+            <v-btn
+              block
+              color="primary"
+              class="white--text py-6"
+              @click="uploadReport"
             >
-              <v-file-input
-                v-model="reportForm.report_file"
-                :rules="selectFileRules"
-                label="ارفق ملف"
-                placeholder="اختر الملفات"
-                prepend-icon="mdi-paperclip"
-                outlined
-              >
-                <template v-slot:selection="{ text }">
-                  <v-chip color="primary" dark label small>
-                    {{ text }}
-                  </v-chip>
-                </template>
-              </v-file-input>
-
-              <!-- uploading -->
-              <v-progress-linear
-                v-if="uploadLoading"
-                indeterminate
-                color="primary"
-                class="mb-5"
-              ></v-progress-linear>
-
-              <v-btn
-                block
-                color="primary"
-                class="white--text py-6"
-                @click="uploadReport"
-              >
-                ارفق التقرير
-              </v-btn>
-            </v-form>
+              ارسال التقرير
+            </v-btn>
           </div>
 
           <v-row v-if="reservation.files.report">
@@ -228,12 +208,27 @@ export default {
     // waiting for data
     waitingForData: false,
 
+    markdownOption: {
+      bold: true, // 粗体
+      header: true, // 标题
+      underline: true, // 下划线
+      ol: true, // 有序列表
+      ul: true, // 无序列表
+      link: true, // 链接
+      table: true, // 表格
+      fullscreen: true, // 全屏编辑
+      readmodel: true, // 沉浸式阅读
+      alignleft: true, // 左对齐
+      aligncenter: true, // 居中
+      alignright: true, // 右对齐
+      subfield: true, // 单双栏模式
+      preview: true, // 预览
+      htmlcode: true, // 展示html源码
+    },
+    handbook: "",
+
     // upload loading
     uploadLoading: false,
-
-    reportForm: {
-      report_file: null,
-    },
 
     // reservation
     reservation: {},
@@ -280,30 +275,39 @@ export default {
 
     // upload report
     uploadReport() {
-      if (this.$refs.form.validate()) {
-        this.uploadLoading = true;
+      this.uploadLoading = true;
 
-        let data = new FormData();
-        data.append("report", this.reportForm.report_file);
+      let data = new FormData();
+      data.append("report", this.handbook);
 
-        this.axios
-          .post(
-            `dashboard/reservations/${this.$route.params.id}/upload-report`,
-            data,
-            { headers: { Authorization: `Bearer ${localStorage.token}` } }
-          )
-          .then((response) => {
-            this.uploadLoading = false;
-            this.handleResponse(response);
+      this.axios
+        .post(
+          `dashboard/reservations/${this.$route.params.id}/upload-report`,
+          data,
+          { headers: { Authorization: `Bearer ${localStorage.token}` } }
+        )
+        .then((response) => {
+          this.uploadLoading = false;
+          this.handleResponse(response);
 
-            // reservation
-            this.reservation = response.data.data;
-          })
-          .catch((error) => {
-            this.handleResponse(error.response);
-          });
-      }
+          // reservation
+          this.reservation = response.data.data;
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          this.uploadLoading = false;
+        });
     },
   },
 };
 </script>
+
+<style lang="scss">
+.v-note-op {
+  background-color: #e6eff7 !important;
+  * {
+    color: #161616 !important;
+  }
+}
+</style>
