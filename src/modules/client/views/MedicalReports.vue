@@ -211,12 +211,12 @@ export default {
         .then((response) => {
           // sents
           this.sents = response.data.data.filter(
-            (item) => item.status.value == 1
+            (item) => item.status.value == 6
           );
 
           // received
           this.received = response.data.data.filter(
-            (item) => item.status.value == 2
+            (item) => item.status.value == 5
           );
 
           this.waitingForData = false;
