@@ -101,7 +101,7 @@ export default {
 
     // subscribe to pusher
     subscribe() {
-      const pusher = new Pusher("a88e81fc7da12f099bbb", {
+      const pusher = new Pusher("a2d11edf144481ac364b", {
         cluster: "eu",
         channelAuthorization: {
           endpoint: "https://staging.drhealthclinics.com/broadcasting/auth",
