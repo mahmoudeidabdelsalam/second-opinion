@@ -126,12 +126,41 @@
                 small
                 color="primary"
                 @click="openModal(date)"
+                v-if="date >= today"
               >
                 <v-icon dark> mdi-plus </v-icon>
               </v-btn>
             </div>
           </template>
         </v-calendar>
+
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          offset-x
+        >
+          <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-toolbar :color="selectedEvent.color" dark>
+              <v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+            <v-card-text>
+              <span class="d-block mb-1"
+                >يبدا فى: {{ selectedEvent.start }}</span
+              >
+              <span class="d-block">ينتهى فى: {{ selectedEvent.end }}</span>
+            </v-card-text>
+            <v-card-actions class="d-flex justify-center">
+              <v-btn color="error" @click="deleteEvent(selectedEvent)">
+                Delete
+              </v-btn>
+              <v-btn color="secondary" @click="selectedOpen = false">
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
       </v-sheet>
     </v-col>
 
@@ -147,6 +176,7 @@
               <v-time-picker
                 v-model="timeFrom.start"
                 :allowed-minutes="[0, 30]"
+                scrollable
               ></v-time-picker>
             </v-col>
             <v-col style="width: 350px; flex: 0 1 auto">
@@ -154,6 +184,7 @@
               <v-time-picker
                 v-model="timeFrom.end"
                 :allowed-minutes="[0, 30]"
+                scrollable
                 readonly
               ></v-time-picker>
             </v-col>
@@ -211,6 +242,9 @@ export default {
   data: () => ({
     // waiting for data
     waitingForData: false,
+
+    // today date format 2020-12-12
+    today: new Date().toISOString().substr(0, 10),
 
     dialog: false,
 
@@ -382,6 +416,7 @@ export default {
           // set events
           this.events = response.data.data.map((item) => {
             return {
+              id: item.id,
               name: item.reserved ? "محجوز" : "متاح",
               start: item.appointment_date + " " + item.start_time,
               end: item.appointment_date + " " + item.end_time,
@@ -433,6 +468,7 @@ export default {
 
           // add event
           this.events.push({
+            id: response.data.data.id,
             name: "متاح",
             start: this.timeFrom.date + " " + this.timeFrom.start,
             end: this.timeFrom.date + " " + this.timeFrom.end,
@@ -456,6 +492,39 @@ export default {
       this.timeFrom.date = "";
       this.timeFrom.start = "";
       this.timeFrom.end = "";
+    },
+
+    deleteEvent(selectedEvent) {
+      // show request loading
+      this.showRequsetLoading();
+
+      this.axios
+        .delete(
+          `dashboard/doctors/${this.$route.params.id}/time-management/${selectedEvent.id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          this.handleResponse(response);
+
+          // hide request loading
+          this.hideRequsetLoading();
+
+          // close modal
+          this.selectedOpen = false;
+
+          // remove event
+          this.events = this.events.filter((event) => {
+            return event.id != selectedEvent.id;
+          });
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
+        });
     },
     /*-----------------------*/
 
