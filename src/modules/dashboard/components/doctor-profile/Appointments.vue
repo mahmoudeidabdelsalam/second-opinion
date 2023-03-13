@@ -67,17 +67,17 @@
       </v-container>
     </v-form> -->
 
-    <v-col style="direction: ltr">
+    <v-col style="direction: rtl" v-if="!waitingForData">
       <v-sheet height="64">
         <v-toolbar flat>
           <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
             اليوم
           </v-btn>
           <v-btn fab text small color="grey darken-2" @click="prev">
-            <v-icon small> mdi-chevron-left </v-icon>
+            <v-icon small> mdi-chevron-right </v-icon>
           </v-btn>
           <v-btn fab text small color="grey darken-2" @click="next">
-            <v-icon small> mdi-chevron-right </v-icon>
+            <v-icon small> mdi-chevron-left </v-icon>
           </v-btn>
           <v-toolbar-title v-if="$refs.calendar">
             {{ $refs.calendar.title }}
@@ -86,8 +86,8 @@
           <v-menu bottom right>
             <template v-slot:activator="{ on, attrs }">
               <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
-                <v-icon right> mdi-menu-down </v-icon>
                 <span>{{ typeToLabel[type] }}</span>
+                <v-icon right> mdi-menu-down </v-icon>
               </v-btn>
             </template>
             <v-list>
@@ -115,9 +115,60 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-        ></v-calendar>
+        >
+          <!-- day header slot -->
+          <template v-slot:day="{ date }">
+            <div class="day-box d-flex justify-center mt-5">
+              <v-btn
+                class="mx-2"
+                fab
+                dark
+                small
+                color="primary"
+                @click="openModal(date)"
+              >
+                <v-icon dark> mdi-plus </v-icon>
+              </v-btn>
+            </div>
+          </template>
+        </v-calendar>
       </v-sheet>
     </v-col>
+
+    <!-- dialog -->
+    <v-dialog v-model="dialog" persistent width="750">
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2"> اضافة موعد </v-card-title>
+
+        <v-card-text class="py-5">
+          <v-row justify="space-around" align="center">
+            <v-col style="width: 350px; flex: 0 1 auto">
+              <h2>من:</h2>
+              <v-time-picker
+                v-model="timeFrom.start"
+                :allowed-minutes="[0, 30]"
+              ></v-time-picker>
+            </v-col>
+            <v-col style="width: 350px; flex: 0 1 auto">
+              <h2>الى:</h2>
+              <v-time-picker
+                v-model="timeFrom.end"
+                :allowed-minutes="[0, 30]"
+                readonly
+              ></v-time-picker>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="addAvailableTime"> حفظ </v-btn>
+          <v-btn color="primary" text @click="closeModal"> الغاء </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- waiting for data -->
     <v-skeleton-loader
@@ -134,9 +185,40 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Appointments",
 
+  // watvhers
+  watch: {
+    // waiting for timeFrom.start to increase timeFrom.end by 30 minutes
+    "timeFrom.start": function (val) {
+      if (val) {
+        let time = val.split(":");
+        let hour = parseInt(time[0]);
+        let minutes = parseInt(time[1]);
+
+        if (minutes == 0) {
+          minutes = 30;
+        } else {
+          hour++;
+          minutes = 0;
+        }
+        // this.timeFrom.end in format 00:00
+        this.timeFrom.end = `${hour < 10 ? "0" + hour : hour}:${
+          minutes < 10 ? "0" + minutes : minutes
+        }`;
+      }
+    },
+  },
+
   data: () => ({
     // waiting for data
     waitingForData: false,
+
+    dialog: false,
+
+    timeFrom: {
+      date: "",
+      start: "",
+      end: "",
+    },
 
     /*-----------------------*/
 
@@ -151,76 +233,76 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [
-      {
-        name: "حجز",
-        start: new Date(),
-        end: new Date(),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 1)),
-        end: new Date(new Date().setDate(new Date().getDate() + 1)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 2)),
-        end: new Date(new Date().setDate(new Date().getDate() + 2)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 3)),
-        end: new Date(new Date().setDate(new Date().getDate() + 3)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 4)),
-        end: new Date(new Date().setDate(new Date().getDate() + 4)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 5)),
-        end: new Date(new Date().setDate(new Date().getDate() + 5)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 6)),
-        end: new Date(new Date().setDate(new Date().getDate() + 6)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 7)),
-        end: new Date(new Date().setDate(new Date().getDate() + 7)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 8)),
-        end: new Date(new Date().setDate(new Date().getDate() + 8)),
-        color: "primary",
-        timed: true,
-      },
-      {
-        name: "حجز",
-        start: new Date(new Date().setDate(new Date().getDate() + 9)),
-        end: new Date(new Date().setDate(new Date().getDate() + 9)),
-        color: "primary",
-        timed: true,
-      },
+      // {
+      //   name: "حجز",
+      //   start: new Date(),
+      //   end: new Date(),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 1)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 1)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 2)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 2)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 3)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 3)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 4)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 4)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 5)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 5)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 6)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 6)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 7)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 7)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 8)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 8)),
+      //   color: "primary",
+      //   timed: true,
+      // },
+      // {
+      //   name: "حجز",
+      //   start: new Date(new Date().setDate(new Date().getDate() + 9)),
+      //   end: new Date(new Date().setDate(new Date().getDate() + 9)),
+      //   color: "primary",
+      //   timed: true,
+      // },
     ],
 
     /*-----------------------*/
@@ -280,10 +362,6 @@ export default {
     this.initData();
   },
 
-  mounted() {
-    this.$refs.calendar.checkChange();
-  },
-
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
@@ -301,14 +379,15 @@ export default {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         })
         .then((response) => {
-          // set data
-          this.days = response.data.data;
-
-          // set form data to every day
-          this.days.forEach((day, index) => {
-            this.form[index].start_time = day.start_time;
-            this.form[index].end_time = day.end_time;
-            this.form[index].status = day.status;
+          // set events
+          this.events = response.data.data.map((item) => {
+            return {
+              name: item.reserved ? "محجوز" : "متاح",
+              start: item.appointment_date + " " + item.start_time,
+              end: item.appointment_date + " " + item.end_time,
+              color: item.reserved ? "success" : "primary",
+              timed: true,
+            };
           });
 
           // hide waiting for data
@@ -321,6 +400,64 @@ export default {
           this.waitingForData = false;
         });
     },
+
+    /*-----------------------*/
+    openModal(date) {
+      this.timeFrom.date = date;
+      console.log(this.timeFrom.date);
+      this.dialog = true;
+    },
+
+    addAvailableTime() {
+      let data = new FormData();
+      data.append("appointment_date", this.timeFrom.date);
+      data.append("start_time", this.timeFrom.start);
+      data.append("end_time", this.timeFrom.end);
+
+      // show request loading
+      this.showRequsetLoading();
+
+      this.axios
+        .post(
+          `dashboard/doctors/${this.$route.params.id}/time-management`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          this.handleResponse(response);
+
+          // hide request loading
+          this.hideRequsetLoading();
+
+          // add event
+          this.events.push({
+            name: "متاح",
+            start: this.timeFrom.date + " " + this.timeFrom.start,
+            end: this.timeFrom.date + " " + this.timeFrom.end,
+            color: "primary",
+            timed: true,
+          });
+
+          // close modal
+          this.closeModal();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
+        });
+    },
+
+    closeModal() {
+      this.dialog = false;
+      this.timeFrom.date = "";
+      this.timeFrom.start = "";
+      this.timeFrom.end = "";
+    },
+    /*-----------------------*/
 
     // update day status
     updateDayStatus(id, index, event) {
@@ -438,3 +575,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.day-box {
+  min-height: 100%;
+
+  &:hover {
+    .v-btn {
+      display: block;
+    }
+  }
+
+  .v-btn {
+    display: none;
+  }
+}
+</style>
