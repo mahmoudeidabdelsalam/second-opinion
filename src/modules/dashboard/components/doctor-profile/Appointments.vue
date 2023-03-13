@@ -4,7 +4,7 @@
       مواعيد العمل
     </span>
 
-    <v-form
+    <!-- <v-form
       ref="form"
       :v-model="valid"
       v-if="!waitingForData"
@@ -32,7 +32,6 @@
                   ></v-switch>
                 </div>
                 <v-col cols="12" md="6" v-if="form[index].status == true">
-                  <!-- date picker -->
                   <v-text-field
                     label="من الساعة"
                     v-model="form[index].start_time"
@@ -43,7 +42,6 @@
                 </v-col>
 
                 <v-col cols="12" md="6" v-if="form[index].status == true">
-                  <!-- date picker -->
                   <v-text-field
                     label="حتى الساعة"
                     v-model="form[index].end_time"
@@ -67,7 +65,59 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-form>
+    </v-form> -->
+
+    <v-col style="direction: ltr">
+      <v-sheet height="64">
+        <v-toolbar flat>
+          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
+            اليوم
+          </v-btn>
+          <v-btn fab text small color="grey darken-2" @click="prev">
+            <v-icon small> mdi-chevron-left </v-icon>
+          </v-btn>
+          <v-btn fab text small color="grey darken-2" @click="next">
+            <v-icon small> mdi-chevron-right </v-icon>
+          </v-btn>
+          <v-toolbar-title v-if="$refs.calendar">
+            {{ $refs.calendar.title }}
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-menu bottom right>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
+                <v-icon right> mdi-menu-down </v-icon>
+                <span>{{ typeToLabel[type] }}</span>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item @click="type = 'day'">
+                <v-list-item-title>يوم</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'week'">
+                <v-list-item-title>اسبوع</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'month'">
+                <v-list-item-title>شهر</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-toolbar>
+      </v-sheet>
+      <v-sheet height="800">
+        <v-calendar
+          ref="calendar"
+          v-model="focus"
+          color="primary"
+          :events="events"
+          :event-color="getEventColor"
+          :type="type"
+          @click:event="showEvent"
+          @click:more="viewDay"
+          @click:date="viewDay"
+        ></v-calendar>
+      </v-sheet>
+    </v-col>
 
     <!-- waiting for data -->
     <v-skeleton-loader
@@ -87,6 +137,93 @@ export default {
   data: () => ({
     // waiting for data
     waitingForData: false,
+
+    /*-----------------------*/
+
+    focus: "",
+    type: "month",
+    typeToLabel: {
+      month: "شهر",
+      week: "اسبوع",
+      day: "يوم",
+    },
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false,
+    events: [
+      {
+        name: "حجز",
+        start: new Date(),
+        end: new Date(),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 1)),
+        end: new Date(new Date().setDate(new Date().getDate() + 1)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 2)),
+        end: new Date(new Date().setDate(new Date().getDate() + 2)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 3)),
+        end: new Date(new Date().setDate(new Date().getDate() + 3)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 4)),
+        end: new Date(new Date().setDate(new Date().getDate() + 4)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 5)),
+        end: new Date(new Date().setDate(new Date().getDate() + 5)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 6)),
+        end: new Date(new Date().setDate(new Date().getDate() + 6)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 7)),
+        end: new Date(new Date().setDate(new Date().getDate() + 7)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 8)),
+        end: new Date(new Date().setDate(new Date().getDate() + 8)),
+        color: "primary",
+        timed: true,
+      },
+      {
+        name: "حجز",
+        start: new Date(new Date().setDate(new Date().getDate() + 9)),
+        end: new Date(new Date().setDate(new Date().getDate() + 9)),
+        color: "primary",
+        timed: true,
+      },
+    ],
+
+    /*-----------------------*/
 
     // days
     days: [],
@@ -141,6 +278,10 @@ export default {
   created() {
     // init data
     this.initData();
+  },
+
+  mounted() {
+    this.$refs.calendar.checkChange();
   },
 
   methods: {
@@ -254,6 +395,45 @@ export default {
             this.hideRequsetLoading();
           });
       }
+    },
+
+    viewDay({ date }) {
+      this.focus = date;
+      this.type = "day";
+    },
+    getEventColor(event) {
+      return event.color;
+    },
+    setToday() {
+      this.focus = "";
+    },
+    prev() {
+      this.$refs.calendar.prev();
+    },
+    next() {
+      this.$refs.calendar.next();
+    },
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => (this.selectedOpen = true))
+        );
+      };
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => open()));
+      } else {
+        open();
+      }
+
+      nativeEvent.stopPropagation();
+    },
+
+    rnd(a, b) {
+      return Math.floor((b - a + 1) * Math.random()) + a;
     },
   },
 };

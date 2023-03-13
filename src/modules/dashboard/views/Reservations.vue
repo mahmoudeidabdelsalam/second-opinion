@@ -343,8 +343,9 @@ export default {
     headers: [
       { text: "المريض", value: "patient.full_name", width: "250" },
       { text: "الطبيب", value: "doctor.full_name", width: "250" },
-      { text: "تاريخ الحجز", value: "time", sortable: false },
+      { text: "موعد الحجز", value: "time", sortable: false },
       { text: "نوع الحجز", value: "type.text" },
+      { text: "تاريخ انشاء الحجز", value: "created_at", sortable: false },
       {
         text: "الحالة",
         value: "status",
