@@ -48,78 +48,248 @@
               </div>
             </div>
 
-            <v-dialog
-              v-model="dialog"
-              persistent
-              transition="dialog-top-transition"
-              max-width="600"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  block
-                  class="white primary--text py-6 rounded-lg font-weight-bold"
-                  @click="rateService(appointment)"
-                >
-                  تقييم الخدمة
-                </v-btn>
-              </template>
-              <v-card>
-                <v-toolbar class="text-h6" elevation="0">
-                  <v-icon color="primary">mdi-star-outline</v-icon>
-                  <span class="mx-4">تقييم الخدمة</span>
-                  <v-spacer></v-spacer>
-                  <v-btn icon @click="close">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-toolbar>
-                <v-card-text>
-                  <v-form ref="form" :v-model="valid">
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" class="text-center">
-                          <v-rating
-                            v-model="rateForm.rating"
-                            color="yellow darken-3"
-                            background-color="grey darken-1"
-                            empty-icon="$ratingFull"
-                            half-increments
-                            hover
-                            large
-                            dir="rtl"
-                          ></v-rating>
-                        </v-col>
-
-                        <v-col cols="12">
-                          <v-textarea
-                            v-model="rateForm.comment"
-                            :rules="descriptionRules"
-                            label="ملاحظات"
-                            outlined
-                            dense
-                            auto-grow
-                            rows="4"
-                            hide-details="true"
-                          ></v-textarea>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-form>
-                </v-card-text>
-                <v-card-actions>
+            <div class="actions d-flex justify-center align-center">
+              <v-dialog
+                v-model="invoiceDialog"
+                persistent
+                transition="dialog-top-transition"
+                max-width="800"
+              >
+                <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    block
-                    class="primary py-6 rounded-lg"
-                    :loading="loading1"
-                    :disabled="loading1"
-                    @click="confirmRate"
+                    v-bind="attrs"
+                    v-on="on"
+                    class="white primary--text py-6 rounded-lg font-weight-bold ma-1"
+                    @click="bindInvoiceData(appointment)"
+                    style="width: 50%"
+                  >
+                    مشاهدة الفاتورة
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-toolbar class="text-h6" elevation="0">
+                    <v-icon color="primary">mdi-file</v-icon>
+                    <span class="mx-4">الفاتورة</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="close">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-toolbar>
+                  <v-card-text>
+                    <div
+                      class="head mb-8 d-flex justify-space-between align-start"
+                    >
+                      <div>
+                        <span
+                          class="d-block mb-1 font-weight-bold primary--text"
+                        >
+                          شركة الراى الثانى الطبية
+                        </span>
+                        <span
+                          class="d-block font-weight-bold primary--text text-capitalize"
+                        >
+                          Second opinion
+                        </span>
+                      </div>
+
+                      <div>
+                        <span
+                          class="d-block mb-1 font-weight-bold primary--text"
+                        >
+                          التاريخ:
+                        </span>
+                        <span
+                          class="d-block font-weight-bold black--text text-capitalize"
+                        >
+                          {{
+                            new Date(appointment.invoice.invoice_due)
+                              .toLocaleDateString()
+                              .replace(/\//g, "-")
+                          }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div
+                      class="body pb-4 d-flex justify-space-between align-start"
+                    >
+                      <div>
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            الطبيب:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.doctor.name }}
+                          </span>
+                        </div>
+
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            التخصص:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.doctor.department }}
+                          </span>
+                        </div>
+
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            ترخيص مزاولة المهنة:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.doctor.job_id }}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            الخدمة:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.type.text }}
+                          </span>
+                        </div>
+
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            رقم الفاتورة:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.id }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <v-divider class="mb-4 primary"></v-divider>
+
+                    <div
+                      class="body pb-4 d-flex justify-space-between align-start"
+                    >
+                      <div>
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            المبلغ:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.invoice.sub_total }} ريال
+                          </span>
+                        </div>
+
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            ضريبة القيمة المضافة:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.invoice.tax }} %
+                          </span>
+                        </div>
+
+                        <div class="mb-2">
+                          <span
+                            class="font-weight-bold subtitle-1 primary--text"
+                          >
+                            الاجمالى:
+                          </span>
+                          <span class="font-weight-regular subtitle-1">
+                            {{ appointment.invoice.total }} ريال
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialog"
+                persistent
+                transition="dialog-top-transition"
+                max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    class="white primary--text py-6 rounded-lg font-weight-bold ma-1"
+                    @click="rateService(appointment)"
+                    style="width: 50%"
                   >
                     تقييم الخدمة
                   </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+                </template>
+                <v-card>
+                  <v-toolbar class="text-h6" elevation="0">
+                    <v-icon color="primary">mdi-star-outline</v-icon>
+                    <span class="mx-4">تقييم الخدمة</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="close">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-toolbar>
+                  <v-card-text>
+                    <v-form ref="form" :v-model="valid">
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12" class="text-center">
+                            <v-rating
+                              v-model="rateForm.rating"
+                              color="yellow darken-3"
+                              background-color="grey darken-1"
+                              empty-icon="$ratingFull"
+                              half-increments
+                              hover
+                              large
+                              dir="rtl"
+                            ></v-rating>
+                          </v-col>
+
+                          <v-col cols="12">
+                            <v-textarea
+                              v-model="rateForm.comment"
+                              :rules="descriptionRules"
+                              label="ملاحظات"
+                              outlined
+                              dense
+                              auto-grow
+                              rows="4"
+                              hide-details="true"
+                            ></v-textarea>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-form>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn
+                      block
+                      class="primary py-6 rounded-lg"
+                      :loading="loading1"
+                      :disabled="loading1"
+                      @click="confirmRate"
+                    >
+                      تقييم الخدمة
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </div>
           </div>
         </div>
       </v-col>
@@ -175,6 +345,9 @@ export default {
 
     // dialogs
     dialog: false,
+
+    // invoice dialog
+    invoiceDialog: false,
 
     editedIndex: -1,
 
@@ -244,8 +417,15 @@ export default {
       }
     },
 
+    bindInvoiceData(item) {
+      this.editedIndex = item.id;
+      this.editedItem = Object.assign({}, { item });
+      this.invoiceDialog = true;
+    },
+
     close() {
       this.dialog = false;
+      this.invoiceDialog = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;

@@ -139,23 +139,35 @@
         <div class="files pa-5">
           <div>
             <span class="d-block mb-5 font-weight-regular text-h6">
-              التقارير المرفقة من قبل الطبيب
+              التقرير المرفق من قبل الطبيب
             </span>
 
-            <div class="mavonEditor">
-              <mavon-editor
+            <div class="mavonEditor mb-5">
+              <!-- <mavon-editor
                 :toolbars="markdownOption"
                 v-model="reportContent"
                 language="en"
                 placeholder="اكتب هنا"
                 style="height: 600px"
-              />
+              /> -->
+
+              <v-col cols="12" md="8">
+                <v-textarea
+                  v-model="reportContent"
+                  :rules="descriptionRules"
+                  label="اكتب التقرير هنا"
+                  outlined
+                  dense
+                  auto-grow
+                  rows="12"
+                  hide-details="true"
+                ></v-textarea>
+              </v-col>
             </div>
 
             <v-btn
-              block
               color="primary"
-              class="white--text py-6"
+              class="white--text py-6 px-10"
               @click="uploadReport"
             >
               ارسال التقرير
