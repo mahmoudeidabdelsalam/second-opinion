@@ -40,16 +40,16 @@
           :key="doctor.id"
         >
           <router-link
-            :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.id } }"
+            :to="{ name: 'PublicDoctorsProfile', params: { id: doctor.slug } }"
           >
-          <img
-            :src="doctor.profile"
-            :lazy-src="doctor.profile"
-            :alt="doctor.full_name"
-            class="rounded-lg mb-5"
-            style="height: 311px; object-fit: cover; object-position: top"
-          />
-        </router-link>
+            <img
+              :src="doctor.profile"
+              :lazy-src="doctor.profile"
+              :alt="doctor.full_name"
+              class="rounded-lg mb-5"
+              style="height: 311px; object-fit: cover; object-position: top"
+            />
+          </router-link>
           <span
             class="d-block text-center primary--text mb-2 font-weight-bold text-h6"
           >

@@ -46,7 +46,7 @@
                   link
                   :to="{
                     name: 'PublicDoctorsProfile',
-                    params: { id: doctor.id },
+                    params: { id: doctor.slug },
                   }"
                 >
                   طلب استشارة

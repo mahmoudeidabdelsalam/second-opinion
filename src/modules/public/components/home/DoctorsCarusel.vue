@@ -25,7 +25,7 @@
             <router-link
               :to="{
                 name: 'PublicDoctorsProfile',
-                params: { id: doctor.id },
+                params: { id: doctor.slug },
               }"
             >
               <v-avatar class="mb-5 rounded-lg" size="100%" max-height="328">
@@ -53,7 +53,7 @@
                   link
                   :to="{
                     name: 'PublicDoctorsProfile',
-                    params: { id: doctor.id },
+                    params: { id: doctor.slug },
                   }"
                 >
                   <v-icon class="ml-1">mdi-video</v-icon>
@@ -64,7 +64,7 @@
                   link
                   :to="{
                     name: 'PublicDoctorsProfile',
-                    params: { id: doctor.id },
+                    params: { id: doctor.slug },
                   }"
                 >
                   <v-icon class="ml-1">mdi-file-multiple</v-icon>
