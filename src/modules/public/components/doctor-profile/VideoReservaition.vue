@@ -149,6 +149,13 @@ export default {
     }),
   },
 
+  props: {
+    doctor_id: {
+      type: Number,
+      required: true
+    },
+  },
+
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
@@ -160,7 +167,9 @@ export default {
     getAvailablTimes() {
       if (this.$refs.form.validate()) {
         let data = new FormData();
-        data.append("doctor_id", this.$route.params.id);
+
+        console.log(this.doctor_id);
+        data.append("doctor_id", this.doctor_id);
         data.append("reservation_day", this.reservation_day);
 
         // show request loading

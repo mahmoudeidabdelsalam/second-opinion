@@ -146,6 +146,14 @@ export default {
     }),
   },
 
+
+  props: {
+    doctor_id: {
+      type: Number,
+      required: true
+    },
+  },
+
   methods: {
     ...mapActions({
       handleResponse: "responseHandler/handleResponse",
@@ -156,7 +164,7 @@ export default {
     askReport() {
       if (this.$refs.form.validate()) {
         let data = new FormData();
-        data.append("doctor_id", this.$route.params.id);
+        data.append("doctor_id", this.doctor_id);
         if (this.report_files) {
           for (let i = 0; i < this.report_files.length; i++) {
             data.append("attachments[]", this.report_files[i]);
@@ -165,7 +173,7 @@ export default {
         if (this.image) {
           data.append("rays[]", this.image);
         }
-        // data.append("notes", this.notes);
+        data.append("notes", this.notes);
         data.append("type", 2);
         data.append("is_web", 1);
 

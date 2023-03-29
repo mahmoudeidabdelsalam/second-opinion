@@ -97,10 +97,10 @@
             </div>
 
             <!-- video reservaition -->
-            <video-reservaition />
+            <video-reservaition :doctor_id='doctor.id'/>
 
             <!-- written reservaition -->
-            <written-reservaition />
+            <written-reservaition :doctor_id='doctor.id'/>
           </div>
         </v-col>
       </v-row>
