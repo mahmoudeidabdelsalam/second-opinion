@@ -133,6 +133,26 @@
             </v-col>
           </v-row>
         </div>
+
+        <v-divider></v-divider>
+
+        <div class="files pa-5">
+          <span class="d-block mb-5 font-weight-regular text-h6">
+            الملاحظات المرفقة من قبل المريض
+          </span>
+
+          <v-row>
+            <v-col cols="12" md="3">
+              <p>
+                {{
+                  reservation.files.notes
+                    ? reservation.files.notes
+                    : "لا توجد ملاحظات من المريض"
+                }}
+              </p>
+            </v-col>
+          </v-row>
+        </div>
       </div>
 
       <div class="body mb-5 rounded-lg" style="border: 1px solid #ddd">
