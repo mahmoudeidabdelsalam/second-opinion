@@ -70,6 +70,7 @@
       </v-radio-group>
 
       <v-btn
+        :class="!available_times.length || !reservation_time ? 'd-none' : ''"
         :disabled="bookAppointment"
         color="primary"
         depressed
@@ -152,7 +153,7 @@ export default {
   props: {
     doctor_id: {
       type: Number,
-      required: true
+      required: true,
     },
   },
 
@@ -181,9 +182,11 @@ export default {
           .post(`patient/reservations/get-available-dates`, data)
           .then((response) => {
             this.notAvailableMessage = null;
-            response.data.data
+            response.data.data.length
               ? (this.available_times = response.data.data)
-              : ((this.available_times = []), this.$refs.form.reset());
+              : ((this.available_times = []),
+                (this.notAvailableMessage =
+                  "لا توجد مواعيد متاحة فى هذا اليوم"));
 
             // hide request loading
             this.hideRequsetLoading();
@@ -201,7 +204,7 @@ export default {
     bookVideoAppointment() {
       if (this.reservation_time) {
         let data = new FormData();
-        data.append("doctor_id", this.$route.params.id);
+        data.append("doctor_id", this.doctor_id);
         data.append("reservation_day", this.reservation_day);
         data.append("reservation_time_start", this.reservation_time);
         data.append("notes", "Video/audio Appointment");
