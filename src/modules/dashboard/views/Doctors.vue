@@ -1126,6 +1126,27 @@ export default {
     downloadStatment() {
       if (this.$refs.form.validate()) {
         console.log(this.statementForm.doctor);
+
+        // show request loading
+        this.showRequsetLoading();
+
+        this.axios
+          .get(
+            `dashboard/account-statement/${this.statementForm.doctor}?created_at_from=${this.statementForm.fromDate}&created_at_to=${this.statementForm.toDate}&reservation_type=1`,
+            { headers: { Authorization: `Bearer ${localStorage.token}` } }
+          )
+          .then((response) => {
+            console.log(response.data);
+
+            // hide request loading
+            this.hideRequsetLoading();
+          })
+          .catch((error) => {
+            this.handleResponse(error.response);
+
+            // hide request loading
+            this.hideRequsetLoading();
+          });
       }
     },
   },
