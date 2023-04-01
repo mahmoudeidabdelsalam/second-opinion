@@ -63,7 +63,7 @@
 
         <div class="patient-files pa-5" v-else>
           <span class="d-block font-weight-bold mb-3 primary--text text-h6">
-            الملفات المرفقة
+            الملفات المرفقة من المريض
           </span>
 
           <v-row class="mb-6">
@@ -96,10 +96,10 @@
 
           <!-- rays -->
           <span class="d-block font-weight-bold mb-3 primary--text text-h6">
-            الاشعة و التحاليل
+            الاشعة و التحاليل المرفقة من المريض
           </span>
 
-          <v-row>
+          <v-row class="mb-6">
             <v-col
               cols="12"
               md="3"
@@ -118,6 +118,34 @@
                   large
                   class="mx-2 white primary--text"
                   :href="file.src"
+                  target="_blank"
+                  download
+                >
+                  <v-icon>mdi-download</v-icon>
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+
+          <!-- report -->
+          <span class="d-block font-weight-bold mb-3 primary--text text-h6">
+            التقرير المرفق من الطبيب
+          </span>
+
+          <v-row>
+            <v-col cols="12" md="3">
+              <div
+                class="file secondary pa-4 rounded-xl d-flex justify-space-between align-center"
+              >
+                <div>
+                  <v-icon size="40" color="white">mdi-file</v-icon>
+                  <span class="white--text">التقرير</span>
+                </div>
+                <v-btn
+                  icon
+                  large
+                  class="mx-2 white primary--text"
+                  :href="report.files.report.src"
                   target="_blank"
                   download
                 >

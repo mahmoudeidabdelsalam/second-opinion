@@ -151,7 +151,7 @@
                 style="height: 600px"
               /> -->
 
-              <v-col cols="12" md="8">
+              <v-col cols="12" md="8" v-if="!reservation.files.report">
                 <v-textarea
                   v-model="reportContent"
                   :rules="descriptionRules"
@@ -166,6 +166,7 @@
             </div>
 
             <v-btn
+              v-if="!reservation.files.report"
               color="primary"
               class="white--text py-6 px-10"
               @click="uploadReport"
