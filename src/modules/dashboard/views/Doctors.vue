@@ -310,7 +310,6 @@
                           <template v-slot:activator="{ on, attrs }">
                             <v-text-field
                               v-model="statementForm.fromDate"
-                              :rules="dateRules"
                               label="من تاريخ"
                               prepend-icon="mdi-calendar"
                               readonly
@@ -338,7 +337,6 @@
                           <template v-slot:activator="{ on, attrs }">
                             <v-text-field
                               v-model="statementForm.toDate"
-                              :rules="dateRules"
                               label="حتى تاريخ"
                               prepend-icon="mdi-calendar"
                               readonly
@@ -1132,11 +1130,25 @@ export default {
 
         this.axios
           .get(
-            `dashboard/account-statement/${this.statementForm.doctor}?created_at_from=${this.statementForm.fromDate}&created_at_to=${this.statementForm.toDate}`,
+            `dashboard/account-statement/${this.statementForm.doctor}?
+            ${
+              this.statementForm.fromDate
+                ? "created_at_from=" + this.statementForm.fromDate
+                : ""
+            }
+            ${
+              this.statementForm.toDate
+                ? "&created_at_to=" + this.statementForm.toDate
+                : ""
+            }`,
             { headers: { Authorization: `Bearer ${localStorage.token}` } }
           )
           .then((response) => {
-            console.log(response.data);
+            // open new tab
+            window.open(response.data.data.url, "_blank");
+
+            // hide dialog
+            this.dialogStatment = false;
 
             // hide request loading
             this.hideRequsetLoading();
