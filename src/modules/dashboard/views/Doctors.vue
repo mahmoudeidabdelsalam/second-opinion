@@ -1132,7 +1132,7 @@ export default {
 
         this.axios
           .get(
-            `dashboard/account-statement/${this.statementForm.doctor}?created_at_from=${this.statementForm.fromDate}&created_at_to=${this.statementForm.toDate}&reservation_type=1`,
+            `dashboard/account-statement/${this.statementForm.doctor}?created_at_from=${this.statementForm.fromDate}&created_at_to=${this.statementForm.toDate}`,
             { headers: { Authorization: `Bearer ${localStorage.token}` } }
           )
           .then((response) => {
