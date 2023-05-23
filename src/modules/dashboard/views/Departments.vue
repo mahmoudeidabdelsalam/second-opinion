@@ -103,34 +103,7 @@
             </v-card>
           </v-dialog>
 
-          <!-- export btn -->
-          <v-menu offset-y open-on-hover>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="primary"
-                class="mx-2"
-                dark
-                depressed
-                v-bind="attrs"
-                v-on="on"
-              >
-                تصفية
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item link @click.prevent="initData('normal')">
-                <v-list-item-content>
-                  <v-list-item-title>الاقسام</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item link @click.prevent="initData('trashed')">
-                <v-list-item-content>
-                  <v-list-item-title>الاقسام المحذوفة</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+         
 
           <!-- delete item -->
           <v-dialog persistent v-model="dialogDelete" max-width="600px">
