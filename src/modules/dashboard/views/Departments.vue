@@ -81,28 +81,6 @@
                       </v-col>
 
                       <v-col cols="12" md="6">
-                        <v-text-field
-                          v-model="editedItem.email"
-                          :rules="emailRules"
-                          type="email"
-                          label="البريد الالكتروني"
-                          outlined
-                          dense
-                        ></v-text-field>
-                      </v-col>
-
-                      <v-col cols="12" md="6">
-                        <v-text-field
-                          v-model="editedItem.telephone"
-                          :rules="phoneRules"
-                          type="tel"
-                          label="رقم الهاتف"
-                          outlined
-                          dense
-                        ></v-text-field>
-                      </v-col>
-
-                      <v-col cols="12" md="6">
                         <file-pond
                           ref="pond"
                           label-idle="ارفق صورة القسم"
@@ -171,6 +149,25 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+
+                    <!-- delete item -->
+          <v-dialog persistent v-model="dialogDeleteForce" max-width="600px">
+            <v-card>
+              <v-card-title class="text-h6">
+                هل انت متأكد من حذف هذا القسم؟
+              </v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" depressed @click="closeDeleteForce">
+                  الغاء
+                </v-btn>
+                <v-btn color="error" depressed @click="deleteItemConfirmForce">
+                  حذف
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
 
           <!-- restore item -->
           <v-dialog persistent v-model="dialogRestore" max-width="600px">
@@ -250,6 +247,16 @@
         >
           <v-icon small color="error">mdi-restore</v-icon>
         </v-btn>
+
+        <v-btn
+          class="primary--text primary_bg mx-2"
+          icon
+          @click="deleteItemForce(item)"
+          v-if="isTrashed"
+        >
+          <v-icon small color="error">mdi-trash-can</v-icon>
+        </v-btn>
+
       </template>
     </v-data-table>
 
@@ -304,8 +311,6 @@ export default {
 
     headers: [
       { text: "القسم", value: "name" },
-      { text: "البريد الالكترونى", value: "email" },
-      { text: "رقم الهاتف", value: "telephone" },
       { text: "الاجراءات", value: "actions", sortable: false },
     ],
 
@@ -332,8 +337,6 @@ export default {
       name_ar: "",
       description_en: "",
       description_ar: "",
-      email: "",
-      telephone: "",
       image: "",
     },
   }),
@@ -364,6 +367,10 @@ export default {
 
     dialogDelete(val) {
       val || this.closeDelete();
+    },
+
+    dialogDeleteForce(val) {
+      val || this.closeDeleteForce();
     },
   },
 
@@ -501,8 +508,6 @@ export default {
               name_ar: response.data.data.ar.name,
               description_en: response.data.data.en.description,
               description_ar: response.data.data.ar.description,
-              email: response.data.data.email,
-              telephone: response.data.data.telephone,
             }
           );
 
@@ -525,6 +530,12 @@ export default {
       this.dialogDelete = true;
     },
 
+    deleteItemForce(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDeleteForce = true;
+    },
+
     deleteItemConfirm() {
       // show request loading
       this.showRequsetLoading();
@@ -537,6 +548,30 @@ export default {
           this.desserts.splice(this.editedIndex, 1);
           this.handleResponse(response);
           this.closeDelete();
+
+          // hide request loading
+          this.hideRequsetLoading();
+        })
+        .catch((error) => {
+          this.handleResponse(error.response);
+
+          // hide request loading
+          this.hideRequsetLoading();
+        });
+    },
+
+    deleteItemConfirmForce() {
+      // show request loading
+      this.showRequsetLoading();
+
+      this.axios
+        .delete(`dashboard/departments/${this.editedItem.id}/force`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          this.desserts.splice(this.editedIndex, 1);
+          this.handleResponse(response);
+          this.closeDeleteForce();
 
           // hide request loading
           this.hideRequsetLoading();
@@ -601,6 +636,14 @@ export default {
       });
     },
 
+    closeDeleteForce() {
+      this.dialogDeleteForce = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
     closeRestore() {
       this.dialogRestore = false;
       this.$nextTick(() => {
@@ -617,8 +660,6 @@ export default {
           data.append("name:ar", this.editedItem.name_ar);
           data.append("description:en", this.editedItem.description_en);
           data.append("description:ar", this.editedItem.description_ar);
-          data.append("email", this.editedItem.email);
-          data.append("telephone", this.editedItem.telephone);
           this.editedItem.image
             ? data.append("image", this.editedItem.image)
             : "";
@@ -657,8 +698,6 @@ export default {
           data.append("name:ar", this.editedItem.name_ar);
           data.append("description:en", this.editedItem.description_en);
           data.append("description:ar", this.editedItem.description_ar);
-          data.append("email", this.editedItem.email);
-          data.append("telephone", this.editedItem.telephone);
           data.append("image", this.editedItem.image);
 
           // show request loading

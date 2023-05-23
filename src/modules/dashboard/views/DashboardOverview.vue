@@ -40,7 +40,7 @@
         </v-col>
       </v-row>
 
-      <v-row>
+      <v-row v-if="role == 'admin'">
         <v-col cols="12">
           <top-doctors :doctors="dashboardData.best_doctors" />
         </v-col>
@@ -82,6 +82,8 @@ export default {
 
     // rounded invoices
     roundedInvoices: [],
+
+    role: localStorage.getItem('role') ? localStorage.getItem('role') : null,
   }),
 
   created() {

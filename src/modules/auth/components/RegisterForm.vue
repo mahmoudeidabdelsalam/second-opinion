@@ -20,6 +20,7 @@
       <v-text-field
         v-model="form.phone_number"
         :rules="phoneRules"
+        suffix="966+"
         type="tel"
         label="رقم الهاتف"
         outlined
@@ -133,7 +134,7 @@ export default {
         let data = new FormData();
         data.append("name", this.form.name);
         // data.append("email", this.form.email);
-        data.append("phone_number", this.form.phone_number);
+        data.append("phone_number", '966' + this.form.phone_number);
 
         // show loading1
         this.loading1 = true;

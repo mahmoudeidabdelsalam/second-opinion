@@ -24,6 +24,8 @@ const actions = {
         // set user in user module
         commit("SET_USER", response.data.data);
 
+        localStorage.setItem("role", response.data.data.role.name);
+
         // redirect user depending on role
         switch (response.data.data.role.value) {
           case 4: // patient

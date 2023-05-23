@@ -118,7 +118,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "DoctorProfile",
-
+  
   components: {
     VideoReservaition: () =>
       import("../components/doctor-profile/VideoReservaition.vue"),

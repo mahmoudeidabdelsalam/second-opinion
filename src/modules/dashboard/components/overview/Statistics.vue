@@ -2,7 +2,7 @@
   <section class="statistics" style="height: 100%">
     <v-row>
       <!-- Departments -->
-      <v-col cols="12" xl="3" lg="3" md="4" sm="6">
+      <v-col cols="12" xl="3" lg="3" md="4" sm="6" v-if="role == 'admin'">
         <router-link
           :to="{ name: 'Departments' }"
           class="box d-flex justify-start align-center pa-5 white rounded-lg"
@@ -27,7 +27,7 @@
       </v-col>
 
       <!-- Users -->
-      <v-col cols="12" xl="3" lg="3" md="4" sm="6">
+      <v-col cols="12" xl="3" lg="3" md="4" sm="6" v-if="role == 'admin'">
         <router-link
           :to="{ name: 'Employees' }"
           class="box d-flex justify-start align-center pa-5 white rounded-lg"
@@ -52,7 +52,7 @@
       </v-col>
 
       <!-- Doctors -->
-      <v-col cols="12" xl="3" lg="3" md="4" sm="6">
+      <v-col cols="12" xl="3" lg="3" md="4" sm="6" v-if="role == 'admin'">
         <router-link
           :to="{ name: 'Doctors' }"
           class="box d-flex justify-start align-center pa-5 white rounded-lg"
@@ -102,7 +102,7 @@
       </v-col>
 
       <!-- Roles -->
-      <v-col cols="12" xl="3" lg="3" md="4" sm="6">
+      <v-col cols="12" xl="3" lg="3" md="4" sm="6" v-if="role == 'admin'">
         <router-link
           :to="{ name: 'Roles' }"
           class="box d-flex justify-start align-center pa-5 white rounded-lg"
@@ -207,6 +207,10 @@
 <script>
 export default {
   name: "Statistics",
+
+  data: () => ({
+    role: localStorage.getItem('role') ? localStorage.getItem('role') : null,
+  }),
 
   props: {
     departments: {
